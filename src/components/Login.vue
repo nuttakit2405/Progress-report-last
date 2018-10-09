@@ -3,7 +3,7 @@
     <div class="column"></div>
     <div class="container">
     <div class="columns is-mobile">
-    <div class="column column is-4 is-offset-4 hero is-light">
+    <div class="column is-4 is-offset-4 hero is-light">
         <div class="column">
         <div class="level-left">
             <div class="level-item">
@@ -13,7 +13,7 @@
             </div>
             <div class="level-item">
                 <p class="subtitle is-5">
-                    <input type="text" class="input" size="25px">
+                    <input type="text" class="input">
                 </p>
             </div>
         </div><br>
@@ -25,7 +25,7 @@
             </div>
             <div class="level-item">
                 <p class="subtitle is-5">
-                    <input type="text" class="input" size="25px" placeholder="********">
+                    <input type="text" class="input" placeholder="********">
                 </p>
             </div>
         </div><br>
