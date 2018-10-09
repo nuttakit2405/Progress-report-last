@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
+import Calendar from '@/components/Calendar'
 import HomeStudent from '@/components/HomeStudent'
 
 Vue.use(Router)
@@ -28,6 +29,11 @@ export default new Router({
       path: '/homestudent',
       name: 'HomeStudent',
       component: HomeStudent
+    },
+    {
+      path: '/calendar',
+      name: 'Calendar',
+      component: Calendar
     }
   ]
 })
