@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import 'vue2-event-calendar/default.css'
 import Calendar from 'vue2-event-calendar'
+import VueSweetalert2 from 'vue-sweetalert2'
 
+Vue.use(VueSweetalert2)
 Vue.component('Calendar', Calendar)
 Vue.config.productionTip = false
 

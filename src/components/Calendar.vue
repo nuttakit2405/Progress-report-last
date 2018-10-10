@@ -12,7 +12,7 @@
   >
     <div
       :class="['calendar-item-date']">
-      {{item.date.date}}
+      <Button v-on:click="showAlert(item.date)">{{item.date.date}}</Button>
     </div>
     <div class="calendar-item-name">{{item.data.title}}</div>
   </div>
@@ -39,6 +39,25 @@ export default {
       }, ['next'])
 
       return h('div', [prevButton, selectedDate, nextButton])
+    },
+    async showAlert (date) {
+    // Use sweetalert2
+      const {value: formValues} = await this.$swal({
+        title: 'Multiple inputs' + date.full,
+        html:
+      '<input id="swal-input1" class="swal2-input">' +
+      '<input id="swal-input2" class="swal2-input">',
+        focusConfirm: false,
+        preConfirm: () => {
+          return [
+            document.getElementById('swal-input1').value,
+            document.getElementById('swal-input2').value
+          ]
+        }
+      })
+      if (formValues) {
+        this.$swal(JSON.stringify(formValues))
+      }
     }
   }
 }
