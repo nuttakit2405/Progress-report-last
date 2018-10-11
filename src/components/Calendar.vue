@@ -43,10 +43,10 @@ export default {
     async showAlert (date) {
     // Use sweetalert2
       const {value: formValues} = await this.$swal({
-        title: 'Multiple inputs' + date.full,
-        html:
-      '<input id="swal-input1" class="swal2-input">' +
-      '<input id="swal-input2" class="swal2-input">',
+        title: 'การนัดหมาย',
+        html: (date.full) +
+      '<input id="swal-input1" class="swal2-input" placeholder="เรื่องในการนัดหมาย">' +
+      '<input id="swal-input2" class="swal2-input" placeholder="รายละเอียดในการนัดหมาย">',
         focusConfirm: false,
         preConfirm: () => {
           return [
@@ -56,9 +56,35 @@ export default {
         }
       })
       if (formValues) {
-        this.$swal(JSON.stringify(formValues))
+        await this.$swal(formValues[0] + ' \n' + formValues[1])
+        const toast = this.$swal.mixin({
+          toast: true,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 3000
+        })
+        await toast({
+          type: 'success',
+          title: 'Signed in successfully'
+        })
       }
     }
+    // aa
+    // async Alert (date) {
+    // // Use sweetalert2
+    //   const toast = this.swal.mixin({
+    //     toast: true,
+    //     position: 'top-end',
+    //     showConfirmButton: false,
+    //     timer: 3000
+    //   })
+
+    //   toast({
+    //     type: 'success',
+    //     title: 'Signed in successfully'
+    //   })
+    // }
+    // aa
   }
 }
 </script>
