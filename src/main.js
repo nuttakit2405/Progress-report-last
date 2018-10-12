@@ -6,10 +6,14 @@ import router from './router'
 import 'vue2-event-calendar/default.css'
 import Calendar from 'vue2-event-calendar'
 import VueSweetalert2 from 'vue-sweetalert2'
+import dayjs from 'dayjs'
+import 'dayjs/locale/th'
 
+dayjs.locale('th')
 Vue.use(VueSweetalert2)
 Vue.component('Calendar', Calendar)
 Vue.config.productionTip = false
+Vue.prototype.$dayjs = dayjs
 
 /* eslint-disable no-new */
 new Vue({
