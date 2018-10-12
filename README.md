@@ -1,6 +1,6 @@
 # progress-report
 
-> A Vue.js project
+> KMUTNB Project
 
 ## Build Setup
 
