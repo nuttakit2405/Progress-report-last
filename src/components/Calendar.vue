@@ -62,7 +62,7 @@ export default {
         title: 'การนัดหมาย',
         html: (date.full) +
       '<input id="swal-input1" class="swal2-input" placeholder="เรื่องในการนัดหมาย">' +
-      '<input id="swal-input2" class="swal2-input" placeholder="รายละเอียดในการนัดหมาย">',
+      '<textarea  id="swal-input2" class="swal2-input" placeholder="รายละเอียดในการนัดหมาย" />',
         focusConfirm: false,
         preConfirm: () => {
           return [
