@@ -14,9 +14,9 @@
         {{item.date.date}} <!--ตัวเลขวันที่ -->
       </Button>
       <ul v-if="events[item.date.full]">
-        <li class="events"
+        <li class="events " :class="[{ 'disable-events': !event.accept  }]"
           :key="key" v-for="(event, key) in events[item.date.full]"
-          @click="viewEvent(event)">
+          @click="viewEvent(event, true )">
         {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
       </ul>
     </div>
@@ -32,14 +32,15 @@ export default {
         '2018-10-03': [
           {
             title: 'event',
-            description: 'test test'
+            description: 'test test',
+            accept: true
           }
         ]
       }
     }
   },
   methods: {
-    viewEvent (event) {
+    viewEvent (event, accept) {
       this.$swal('หัวข้อเรื่อง : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
     },
     renderHeader ({ prev, next, selectedDate }) {
@@ -89,7 +90,8 @@ export default {
         const data = [
           {
             title: formValues[0],
-            description: formValues[1]
+            description: formValues[1],
+            accept: false
           }
         ]
         this.$set(this.events, date.full, data)
@@ -128,5 +130,8 @@ export default {
   margin-top: 5px;
   cursor: pointer;
   padding: 0 5px;
+}
+.disable-events {
+  background-color: lightgray;
 }
 </style>
