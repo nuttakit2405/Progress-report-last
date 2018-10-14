@@ -11,13 +11,13 @@
     <div class="calendar-item-date">
       <Button :class="['button', { 'is-otherMonth': !item.isCurMonth }]"
         @click="showAlert(item.date)">
-        {{item.date.date}}
+        {{item.date.date}} <!--ตัวเลขวันที่ -->
       </Button>
       <ul v-if="events[item.date.full]">
         <li class="events"
           :key="key" v-for="(event, key) in events[item.date.full]"
           @click="viewEvent(event)">
-        {{event.title}}</li>
+        {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
       </ul>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     viewEvent (event) {
-      this.$swal(JSON.stringify(event))
+      this.$swal('หัวข้อเรื่อง : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
     },
     renderHeader ({ prev, next, selectedDate }) {
       const h = this.$createElement
@@ -79,13 +79,13 @@ export default {
         focusConfirm: false,
         preConfirm: () => {
           return [
-            document.getElementById('swal-input1').value,
-            document.getElementById('swal-input2').value
+            document.getElementById('swal-input1').value, // ดึงค่าไปใช้ใน sweet
+            document.getElementById('swal-input2').value // ดึงค่าไปใช้ใน sweet
           ]
         }
       })
       if (formValues) {
-        await this.$swal(formValues[0] + ' \n' + formValues[1])
+        await this.$swal('หัวข้อเรื่อง : ' + formValues[0] + ' \n' + 'รายละเอียดการนัดหมาย : ' + formValues[1])
         const data = [
           {
             title: formValues[0],
