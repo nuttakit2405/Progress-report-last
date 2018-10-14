@@ -7,11 +7,17 @@
     <Button>month</Button>
   </div> -->
 
-  <div slot-scope="item">
-    <div :class="['calendar-item-date']">
-      <Button :class="[{ 'is-otherMonth': !item.isCurMonth }]" v-on:click="showAlert(item.date)">{{item.date.date}}</Button>
+  <div slot-scope="item" >
+    <div class="calendar-item-date">
+      <Button :class="['button', { 'is-otherMonth': !item.isCurMonth }]"
+        @click="showAlert(item.date)">
+        {{item.date.date}}
+      </Button>
       <ul v-if="events[item.date.full]">
-        <li :key="key" v-for="(event, key) in events[item.date.full]">{{event.title}} - {{event.description}}</li>
+        <li class="events"
+          :key="key" v-for="(event, key) in events[item.date.full]"
+          @click="viewEvent(event)">
+        {{event.title}}</li>
       </ul>
     </div>
   </div>
@@ -23,7 +29,7 @@ export default {
   data () {
     return {
       events: {
-        '2018-02-28': [
+        '2018-10-03': [
           {
             title: 'event',
             description: 'test test'
@@ -33,6 +39,9 @@ export default {
     }
   },
   methods: {
+    viewEvent (event) {
+      this.$swal(JSON.stringify(event))
+    },
     renderHeader ({ prev, next, selectedDate }) {
       const h = this.$createElement
       const styleButton = {
@@ -101,8 +110,23 @@ export default {
 }
 </script>
 
+<style>
+.vue-calendar-week-title-item {
+  text-align: center;
+}
+.vue-calendar-body-row {
+  height: 7em;
+}
+</style>
+
 <style scoped>
 .is-otherMonth {
   color: lightgray;
+}
+.events {
+  background-color: aquamarine;
+  margin-top: 5px;
+  cursor: pointer;
+  padding: 0 5px;
 }
 </style>
