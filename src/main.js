@@ -3,18 +3,23 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import 'vue2-event-calendar/default.css'
 import Calendar from 'vue2-event-calendar'
 import VueSweetalert2 from 'vue-sweetalert2'
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
+import Buefy from 'buefy'
 
-dayjs.locale('th')
+import 'buefy/dist/buefy.css'
+import 'vue2-event-calendar/default.css'
+
+Vue.use(Buefy)
 Vue.use(VueSweetalert2)
 Vue.component('Calendar', Calendar)
-Vue.config.productionTip = false
+
+dayjs.locale('th')
 Vue.prototype.$dayjs = dayjs
 
+Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

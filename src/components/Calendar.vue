@@ -3,28 +3,16 @@
     <!-- :dateData="data" -->
 
 <Calendar startDate="2018-10-13" :renderHeader="renderHeader">
-  {{events}}
-  <div slot="header-left">
+  <!-- <div slot="header-left">
     <Button>month</Button>
-    <Button>week</Button>
-    <!-- <div class="buttons has-addons is-centered">
-    <span class="button">Yes</span>
-    </div> -->
-  </div>
-    <!-- :class="['calendar-item', { 'is-otherMonth': !isCurMonth }]" -->
+  </div> -->
 
   <div slot-scope="item">
-    <div class="buttons has-addons is-centered">
-      <div :class="['calendar-item-date']">
-      <!-- <Button v-on:click="showAlert(item.date)">{{item.date.date}}</Button> -->
-        <span class="button" v-on:click="showAlert(item.date)">{{item.date.date}} </span>
-          <ul v-if="events[item.date.full]">
-            <!-- <li :key="key" v-for="(event, key) in events[item.date.full]">{{event.title}}  {{event.description}}</li> -->
-            <li :key="key" v-for="(event, key) in events[item.date.full]">{{event.title}} </li>
-            <li :key="key" v-for="(event, key) in events[item.date.full]">  {{event.description}}</li>
-          </ul>
-      </div>
-      <div class="calendar-item-name">{{item.data.title}}</div>
+    <div :class="['calendar-item-date']">
+      <Button :class="[{ 'is-otherMonth': !item.isCurMonth }]" v-on:click="showAlert(item.date)">{{item.date.date}}</Button>
+      <ul v-if="events[item.date.full]">
+        <li :key="key" v-for="(event, key) in events[item.date.full]">{{event.title}} - {{event.description}}</li>
+      </ul>
     </div>
   </div>
 </Calendar>
@@ -44,24 +32,33 @@ export default {
       }
     }
   },
-  // ...
   methods: {
     renderHeader ({ prev, next, selectedDate }) {
       const h = this.$createElement
+      const styleButton = {
+        margin: '0 5px',
+        cursor: 'pointer'
+      }
 
       const prevButton = h('div', {
         on: {
           click: prev
-        }
+        },
+        style: styleButton
       }, ['<'])
-      console.log(prevButton)
+
       const nextButton = h('div', {
         on: {
           click: next
-        }
+        },
+        style: styleButton
       }, ['>'])
       console.log(selectedDate)
-      return h('div', [prevButton, this.$dayjs(selectedDate).format('MMMM YYYY'), nextButton])
+      return h('div', {
+        style: {
+          display: 'flex'
+        }
+      }, [prevButton, this.$dayjs(selectedDate).format('MMMM YYYY'), nextButton])
     },
     async showAlert (date) {
     // Use sweetalert2
@@ -103,3 +100,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.is-otherMonth {
+  color: lightgray;
+}
+</style>
