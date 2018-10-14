@@ -7,18 +7,25 @@
   <div slot="header-left">
     <Button>month</Button>
     <Button>week</Button>
+    <!-- <div class="buttons has-addons is-centered">
+    <span class="button">Yes</span>
+    </div> -->
   </div>
-
     <!-- :class="['calendar-item', { 'is-otherMonth': !isCurMonth }]" -->
+
   <div slot-scope="item">
-    <div
-      :class="['calendar-item-date']">
-      <Button v-on:click="showAlert(item.date)">{{item.date.date}}</Button>
-      <ul v-if="events[item.date.full]">
-        <li :key="key" v-for="(event, key) in events[item.date.full]">{{event.title}} - {{event.description}}</li>
-      </ul>
+    <div class="buttons has-addons is-centered">
+      <div :class="['calendar-item-date']">
+      <!-- <Button v-on:click="showAlert(item.date)">{{item.date.date}}</Button> -->
+        <span class="button" v-on:click="showAlert(item.date)">{{item.date.date}} </span>
+          <ul v-if="events[item.date.full]">
+            <!-- <li :key="key" v-for="(event, key) in events[item.date.full]">{{event.title}}  {{event.description}}</li> -->
+            <li :key="key" v-for="(event, key) in events[item.date.full]">{{event.title}} </li>
+            <li :key="key" v-for="(event, key) in events[item.date.full]">  {{event.description}}</li>
+          </ul>
+      </div>
+      <div class="calendar-item-name">{{item.data.title}}</div>
     </div>
-    <div class="calendar-item-name">{{item.data.title}}</div>
   </div>
 </Calendar>
 </template>
@@ -46,13 +53,13 @@ export default {
         on: {
           click: prev
         }
-      }, ['prev'])
-
+      }, ['<'])
+      console.log(prevButton)
       const nextButton = h('div', {
         on: {
           click: next
         }
-      }, ['next'])
+      }, ['>'])
       console.log(selectedDate)
       return h('div', [prevButton, this.$dayjs(selectedDate).format('MMMM YYYY'), nextButton])
     },
@@ -62,7 +69,7 @@ export default {
         title: 'การนัดหมาย',
         html: (date.full) +
       '<input id="swal-input1" class="swal2-input" placeholder="เรื่องในการนัดหมาย">' +
-      '<textarea  id="swal-input2" class="swal2-input" placeholder="รายละเอียดในการนัดหมาย" />',
+      '<textarea id="swal-input2" class="swal2-input" placeholder="รายละเอียดในการนัดหมาย" />',
         focusConfirm: false,
         preConfirm: () => {
           return [
@@ -89,26 +96,10 @@ export default {
         })
         await toast({
           type: 'success',
-          title: 'Signed in successfully'
+          title: 'successfully'
         })
       }
     }
-    // aa
-    // async Alert (date) {
-    // // Use sweetalert2
-    //   const toast = this.swal.mixin({
-    //     toast: true,
-    //     position: 'top-end',
-    //     showConfirmButton: false,
-    //     timer: 3000
-    //   })
-
-    //   toast({
-    //     type: 'success',
-    //     title: 'Signed in successfully'
-    //   })
-    // }
-    // aa
   }
 }
 </script>
