@@ -14,9 +14,15 @@
         {{item.date.date}} <!--ตัวเลขวันที่ -->
       </Button>
       <ul v-if="events[item.date.full]">
-        <li class="events " :class="[{ 'disable-events': !event.accept  }]"
+        <li class="events " :class="[{ 'disable-events': ! event.waitaccept  }]"
           :key="key" v-for="(event, key) in events[item.date.full]"
-          @click="viewEvent(event, true )">
+          @click="viewEvent(event, true )" >
+        {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
+      </ul>
+      <ul v-if="events[item.date.full]">
+        <li class="events " :class="[{ 'disable-events': event.waitaccept  }]"
+          :key="key" v-for="(event, key) in events[item.date.full]"
+          @click="viewEvent2(event, false )" >
         {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
       </ul>
     </div>
@@ -33,15 +39,52 @@ export default {
           {
             title: 'event',
             description: 'test test',
-            accept: true
+            waitaccept: true
           }
         ]
       }
     }
   },
   methods: {
-    viewEvent (event, accept) {
-      this.$swal('หัวข้อเรื่อง : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
+    viewEvent (event, waitaccept) {
+      this.$swal('หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
+      // this.$swal({
+      //   title: 'หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description,
+      //   text: 'ตกลลงในการนัดหมายในครั้งนี้หรือไม่ ?',
+      //   // type: 'warning',
+      //   showCancelButton: true,
+      //   confirmButtonColor: '#3085d6',
+      //   cancelButtonColor: '#d33',
+      //   confirmButtonText: 'Accept'
+      // }).then((result) => {
+      //   if (result.value) {
+      //     this.$swal(
+      //       'นัดหมายสำเร็จ',
+      //       ' ',
+      //       'success'
+      //     )
+      //   }
+      // })
+    },
+    viewEvent2 (event2, waitaccept2) {
+      this.$swal('หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
+      this.$swal({
+        title: 'หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description,
+        text: 'ตกลงในการนัดหมายในครั้งนี้หรือไม่ ?',
+        // type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Accept'
+      }).then((result) => {
+        if (result.value) {
+          this.$swal(
+            'นัดหมายสำเร็จ',
+            ' ',
+            'success'
+          )
+        }
+      })
     },
     renderHeader ({ prev, next, selectedDate }) {
       const h = this.$createElement
@@ -86,13 +129,13 @@ export default {
         }
       })
       if (formValues) {
-        await this.$swal('หัวข้อเรื่อง : ' + formValues[0] + ' \n' + 'รายละเอียดการนัดหมาย : ' + formValues[1])
+        await this.$swal('หัวข้อเรื่องs : ' + formValues[0] + ' \n' + 'รายละเอียดการนัดหมาย : ' + formValues[1])
         const data = [
           {
             title: formValues[0],
             description: formValues[1],
-            accept: false
-          }
+            waitaccept: false
+          } // waitaccept: true ถ้าเป็นtrue เมื่อกรอกเสร็จจะเป็นสีเขียว
         ]
         this.$set(this.events, date.full, data)
         console.log(this.events)
