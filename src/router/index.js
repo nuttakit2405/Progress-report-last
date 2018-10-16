@@ -5,6 +5,7 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Calendar from '@/components/Calendar'
 import HomeStudent from '@/components/HomeStudent'
+import Progress from '@/components/Progress'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/calendar',
       name: 'Calendar',
       component: Calendar
+    },
+    {
+      path: '/progress',
+      name: ' Progress',
+      component: Progress
     }
   ]
 })
