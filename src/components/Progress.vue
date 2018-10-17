@@ -14,8 +14,7 @@
             </div>
             <div class="card-content">
                 <div class="content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                    <a>#buefy</a>.
+                    รายละเอียดความก้าวหน้า
                 </div>
             </div>
             <footer class="card-footer">
