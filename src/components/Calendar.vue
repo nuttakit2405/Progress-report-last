@@ -2,10 +2,22 @@
     <!-- template -->
     <!-- :dateData="data" -->
 
-<Calendar startDate="2018-10-13" :renderHeader="renderHeader">
-  <!-- <div slot="header-left">
-    <Button>month</Button>
-  </div> -->
+<Calendar startDate="2018-10-13"
+ :mode="mode">
+  <div slot="header-left" class="ui-calendar-header__left">
+    <button
+      :class="['ui-calendar-modeBtn' ,{ active: mode === 'month' }]"
+      @click="mode = 'month'"
+    >
+      Month
+    </button>
+    <button
+      :class="['ui-calendar-modeBtn', { active: mode === 'week' }]"
+      @click="mode = 'week'"
+    >
+      Week
+    </button>
+  </div>
 
   <div slot-scope="item" >
     <div class="calendar-item-date">
@@ -14,15 +26,9 @@
         {{item.date.date}} <!--ตัวเลขวันที่ -->
       </Button>
       <ul v-if="events[item.date.full]">
-        <li class="events " :class="[{ 'disable-events': ! event.waitaccept  }]"
-          :key="key" v-for="(event, key) in events[item.date.full]"
-          @click="viewEvent(event, true )" >
-        {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
-      </ul>
-      <ul v-if="events[item.date.full]">
         <li class="events " :class="[{ 'disable-events': event.waitaccept  }]"
           :key="key" v-for="(event, key) in events[item.date.full]"
-          @click="viewEvent2(event, false )" >
+          @click="viewEvent(event, true )" >
         {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
       </ul>
     </div>
@@ -34,6 +40,7 @@
 export default {
   data () {
     return {
+      mode: 'month',
       events: {
         '2018-10-03': [
           {
@@ -46,28 +53,8 @@ export default {
     }
   },
   methods: {
-    viewEvent (event, waitaccept) {
-      this.$swal('หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
-      // this.$swal({
-      //   title: 'หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description,
-      //   text: 'ตกลลงในการนัดหมายในครั้งนี้หรือไม่ ?',
-      //   // type: 'warning',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#3085d6',
-      //   cancelButtonColor: '#d33',
-      //   confirmButtonText: 'Accept'
-      // }).then((result) => {
-      //   if (result.value) {
-      //     this.$swal(
-      //       'นัดหมายสำเร็จ',
-      //       ' ',
-      //       'success'
-      //     )
-      //   }
-      // })
-    },
-    viewEvent2 (event2, waitaccept2) {
-      this.$swal('หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
+    viewEvent (event) {
+      // this.$swal('หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
       this.$swal({
         title: 'หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description,
         text: 'ตกลงในการนัดหมายในครั้งนี้หรือไม่ ?',
@@ -78,6 +65,7 @@ export default {
         confirmButtonText: 'Accept'
       }).then((result) => {
         if (result.value) {
+          event.waitaccept = false
           this.$swal(
             'นัดหมายสำเร็จ',
             ' ',
@@ -130,14 +118,18 @@ export default {
       })
       if (formValues) {
         await this.$swal('หัวข้อเรื่องs : ' + formValues[0] + ' \n' + 'รายละเอียดการนัดหมาย : ' + formValues[1])
-        const data = [
-          {
-            title: formValues[0],
-            description: formValues[1],
-            waitaccept: false
-          } // waitaccept: true ถ้าเป็นtrue เมื่อกรอกเสร็จจะเป็นสีเขียว
-        ]
-        this.$set(this.events, date.full, data)
+        const data = {
+          title: formValues[0],
+          description: formValues[1],
+          waitaccept: true
+        }
+
+        if (!this.events[date.full]) {
+          this.$set(this.events, date.full, [data])
+        } else {
+          this.events[date.full].push(data)
+        }
+        // waitaccept: true ถ้าเป็นtrue เมื่อกรอกเสร็จจะเป็นสีเขียว
         console.log(this.events)
         const toast = this.$swal.mixin({
           toast: true,
@@ -160,7 +152,7 @@ export default {
   text-align: center;
 }
 .vue-calendar-body-row {
-  height: 7em;
+  height: 8em;
 }
 </style>
 
