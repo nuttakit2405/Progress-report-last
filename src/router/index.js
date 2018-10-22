@@ -6,6 +6,7 @@ import Register from '@/components/Register'
 import Calendar from '@/components/Calendar'
 import HomeStudent from '@/components/HomeStudent'
 import Progress from '@/components/Progress'
+import Auth from '@/views/Auth'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/progress',
       name: ' Progress',
       component: Progress
+    },
+    {
+      path: '/auth',
+      name: ' Auth',
+      component: Auth
     }
   ]
 })

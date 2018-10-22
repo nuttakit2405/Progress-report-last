@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import {store} from '@/store'
+import auth from '@/auth'
 import Calendar from 'vue2-event-calendar'
 import VueSweetalert2 from 'vue-sweetalert2'
 import dayjs from 'dayjs'
@@ -24,6 +26,10 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
+  beforeCreate () {
+    auth.init(this)
+  },
   components: { App },
   template: '<App/>'
 })
