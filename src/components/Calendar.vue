@@ -1,45 +1,45 @@
 <template>
     <!-- template -->
     <!-- :dateData="data" -->
+    <div>
+      <Calendar startDate="2018-10-13" :mode="mode">
+          <div slot="header-left" class="ui-calendar-header__left">
+            <button
+              :class="['ui-calendar-modeBtn' ,{ active: mode === 'month' }]"
+              @click="mode = 'month'">
+              Month
+            </button>
+            <button
+              :class="['ui-calendar-modeBtn', { active: mode === 'week' }]"
+              @click="mode = 'week'">
+              Week
+            </button>
+          </div>
 
-<Calendar startDate="2018-10-13"
- :mode="mode">
-  <div slot="header-left" class="ui-calendar-header__left">
-    <button
-      :class="['ui-calendar-modeBtn' ,{ active: mode === 'month' }]"
-      @click="mode = 'month'"
-    >
-      Month
-    </button>
-    <button
-      :class="['ui-calendar-modeBtn', { active: mode === 'week' }]"
-      @click="mode = 'week'"
-    >
-      Week
-    </button>
-  </div>
-
-  <div slot-scope="item" >
-    <div class="calendar-item-date">
-      <Button :class="['button', { 'is-otherMonth': !item.isCurMonth }]"
-        @click="showAlert(item.date)">
-        {{item.date.date}} <!--ตัวเลขวันที่ -->
-      </Button>
-      <ul v-if="events[item.date.full]">
-        <li class="events " :class="[{ 'disable-events': event.waitaccept  }]"
-          :key="key" v-for="(event, key) in events[item.date.full]"
-          @click="viewEvent(event, true )" >
-        {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
-      </ul>
+          <div slot-scope="item" >
+            <div class="calendar-item-date">
+              <Button :class="['button', { 'is-otherMonth': !item.isCurMonth }]"
+                @click="showAlert(item.date)">
+                {{item.date.date}} <!--ตัวเลขวันที่ -->
+              </Button>
+              <ul v-if="events[item.date.full]">
+                <li class="events " :class="[{ 'disable-events': event.waitaccept  }]"
+                  :key="key" v-for="(event, key) in events[item.date.full]"
+                  @click="viewEvent(event, true )" >
+                {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
+              </ul>
+            </div>
+          </div>
+        </Calendar>
     </div>
-  </div>
-</Calendar>
 </template>
 
 <script>
+import AddEvent from './Events/AddEvent'
 export default {
   data () {
     return {
+      isAddEventModalActive: false,
       mode: 'month',
       events: {
         '2018-10-03': [
@@ -49,7 +49,8 @@ export default {
             waitaccept: true
           }
         ]
-      }
+      },
+      time: new Date()
     }
   },
   methods: {
@@ -103,21 +104,34 @@ export default {
     },
     async showAlert (date) {
     // Use sweetalert2
+      let timeOptions = ''
+      let time = this.$dayjs()
+      for (let i = 0; i < 24; i++) {
+        const time1 = time.set('hour', i).set('minute', 0).format('HH:mm')
+        timeOptions += `<option>${time1}</option>`
+        const time2 = time.set('hour', i).set('minute', 30).format('HH:mm')
+        timeOptions += `<option>${time2}</option>`
+      }
       const {value: formValues} = await this.$swal({
         title: 'การนัดหมาย',
         html: (date.full) +
       '<input id="swal-input1" class="swal2-input" placeholder="เรื่องในการนัดหมาย">' +
-      '<textarea id="swal-input2" class="swal2-input" placeholder="รายละเอียดในการนัดหมาย" />',
+      '<textarea id="swal-input2" class="swal2-input" placeholder="รายละเอียดในการนัดหมาย"></textarea>' +
+      'เวลา <select class="input" style="width: auto" id="swal-input3">' + timeOptions + '</select> ถึง ' +
+      '<select class="input" style="width: auto" id="swal-input4">' + timeOptions + '</select>',
         focusConfirm: false,
         preConfirm: () => {
+          alert('f')
           return [
             document.getElementById('swal-input1').value, // ดึงค่าไปใช้ใน sweet
-            document.getElementById('swal-input2').value // ดึงค่าไปใช้ใน sweet
+            document.getElementById('swal-input2').value, // ดึงค่าไปใช้ใน sweet
+            document.getElementById('swal-input3').value, // ดึงค่าไปใช้ใน sweet
+            document.getElementById('swal-input4').value // ดึงค่าไปใช้ใน sweet
           ]
         }
       })
       if (formValues) {
-        await this.$swal('หัวข้อเรื่องs : ' + formValues[0] + ' \n' + 'รายละเอียดการนัดหมาย : ' + formValues[1])
+        await this.$swal('หัวข้อเรื่องs : ' + formValues[0] + ' \n' + 'รายละเอียดการนัดหมาย : ' + formValues[1] + formValues[2])
         const data = {
           title: formValues[0],
           description: formValues[1],
@@ -143,6 +157,9 @@ export default {
         })
       }
     }
+  },
+  components: {
+    AddEvent
   }
 }
 </script>
