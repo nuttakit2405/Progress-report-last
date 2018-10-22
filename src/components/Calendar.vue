@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import AddEvent from './Events/AddEvent'
 export default {
   data () {
     return {
@@ -157,9 +156,6 @@ export default {
         })
       }
     }
-  },
-  components: {
-    AddEvent
   }
 }
 </script>
