@@ -8,6 +8,7 @@ import Progress from '@/components/Progress'
 import Auth from '@/views/Auth'
 import Dashboard from '@/views/Dashboard'
 import AddStudent from '@/views/AddStudent'
+import ScoreBoard from '@/views/ScoreBoard'
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path: '/addstudent',
       name: 'AddStudent',
       component: AddStudent
+    },
+    {
+      path: '/scoreboard',
+      name: 'ScoreBoard',
+      component: ScoreBoard
     }
   ]
 })
