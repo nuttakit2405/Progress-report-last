@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
 import Calendar from 'vue2-event-calendar'
 import VueSweetalert2 from 'vue-sweetalert2'
 import dayjs from 'dayjs'

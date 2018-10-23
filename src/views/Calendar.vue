@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   data () {
     return {
@@ -51,6 +52,11 @@ export default {
       },
       time: new Date()
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/user'
+    })
   },
   methods: {
     viewEvent (event) {
@@ -132,7 +138,6 @@ export default {
       '<select class="input" style="width: auto" id="swal-input4">' + timeOptions + '</select>',
         focusConfirm: false,
         preConfirm: () => {
-          alert('f')
           return [
             document.getElementById('swal-input1').value, // ดึงค่าไปใช้ใน sweet
             document.getElementById('swal-input2').value, // ดึงค่าไปใช้ใน sweet
@@ -154,8 +159,8 @@ export default {
         } else {
           this.events[date.full].push(data)
         }
+        this.$firebase.database().ref(`/events/${this.user.uid}/${date.full}`).push(data)
         // waitaccept: true ถ้าเป็นtrue เมื่อกรอกเสร็จจะเป็นสีเขียว
-        console.log(this.events)
         const toast = this.$swal.mixin({
           toast: true,
           position: 'top',
