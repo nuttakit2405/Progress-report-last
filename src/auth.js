@@ -2,12 +2,12 @@ import firebase from 'firebase'
 import firebaseui from 'firebaseui'
 
 const config = {
-  apiKey: 'AIzaSyCaJWbqpM9IfQEZwth3y8rszQ2OXZ40moA',
-  authDomain: 'project1-dad6a.firebaseapp.com',
-  databaseURL: 'https://project1-dad6a.firebaseio.com',
-  projectId: 'project1-dad6a',
-  storageBucket: 'project1-dad6a.appspot.com',
-  messagingSenderId: '742618895803'
+  apiKey: 'AIzaSyDtoQsBHpBAKl1nb3pie7pph2Pegr_pe_c',
+  authDomain: 'progress-report-4973f.firebaseapp.com',
+  databaseURL: 'https://progress-report-4973f.firebaseio.com',
+  projectId: 'progress-report-4973f',
+  storageBucket: 'progress-report-4973f.appspot.com',
+  messagingSenderId: '4915050050'
 }
 
 const auth = {
@@ -20,7 +20,7 @@ const auth = {
 
     firebase.initializeApp(config)
     this.uiConfig = {
-      signInSuccessUrl: 'dashboard',
+      signInSuccessUrl: '/#/dashboard',
       signInOptions: [
         // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
         firebase.auth.GoogleAuthProvider.PROVIDER_ID

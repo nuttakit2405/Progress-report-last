@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Login from '@/components/Login'
+// import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Calendar from '@/components/Calendar'
 import HomeStudent from '@/components/HomeStudent'
@@ -17,11 +17,11 @@ export default new Router({
       name: 'HelloWorld',
       component: HelloWorld
     },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
+    // {
+    //   path: '/login',
+    //   name: 'Login',
+    //   component: Login
+    // },
     {
       path: '/register',
       name: 'Register',
@@ -43,7 +43,7 @@ export default new Router({
       component: Progress
     },
     {
-      path: '/auth',
+      path: '/login',
       name: ' Auth',
       component: Auth
     }
