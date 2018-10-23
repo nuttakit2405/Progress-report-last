@@ -3,27 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import {store} from '@/store'
-import auth from '@/auth'
-import Calendar from 'vue2-event-calendar'
-import VueSweetalert2 from 'vue-sweetalert2'
-import dayjs from 'dayjs'
-import 'dayjs/locale/th'
-import Buefy from 'buefy'
+import { store } from './store'
 
-import 'buefy/dist/buefy.css'
-import 'vue2-event-calendar/default.css'
-
-Vue.use(Buefy, {
-  defaultIconPack: 'fas'
-})
-Vue.use(VueSweetalert2)
-Vue.component('Calendar', Calendar)
-
-dayjs.locale('th')
-Vue.prototype.$dayjs = dayjs
+import './plugin'
+import auth from './auth'
 
 Vue.config.productionTip = false
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
