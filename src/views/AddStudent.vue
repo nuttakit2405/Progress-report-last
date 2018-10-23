@@ -15,14 +15,17 @@
                 <b-input name="CaseStudy2" placeholder="ภาษาอังกฤษ" expanded></b-input>
             </b-field> <br>
 
-            <b-field horizontal label="ชื่อ-นามสกุล">
-                <b-input name="name" placeholder="ชื่อ" expanded></b-input>
-                <b-input name="lastname" placeholder="นามสกุล" expanded></b-input>
-            </b-field>
-            <b-field horizontal label="รหัสนักศึกษา">
-                <b-input name="id" type= "number" placeholder="รหัสนักศึกษา 13 หลัก" expanded></b-input>
-                <button class="button is-primary">เพิ่มชื่อผู้ทำโครงงาน</button>
-            </b-field><br>
+          <!-- <div class= "aa" v-for="(item, index) in items" > -->
+            <div  v-for="(n, i) in teams" :key="i">
+              <b-field horizontal :label="'ชื่อ-นามสกุล'+(i+1)">
+                  <b-input v-model="n.name" name="name" placeholder="ชื่อ" expanded></b-input>
+                  <b-input v-model="n.lastname" name="lastname" placeholder="นามสกุล" expanded></b-input>
+              </b-field>
+              <b-field horizontal label="รหัสนักศึกษา">
+                  <b-input v-model="n.id" name="id" type= "number" placeholder="รหัสนักศึกษา 13 หลัก" expanded></b-input>
+              </b-field>
+            </div>
+            <b-field  class="buttonAddteam"><button @click="Addteam" class ="button is-primary">เพิ่มชื่อผู้ทำโครงงาน</button></b-field>
 
             <b-field horizontal label="ชื่อที่ปรึกษา">
                 <b-input name="mentor1" placeholder="ชื่อ-นามสกุล อาจารย์ที่ปรึกษา" expanded></b-input>
@@ -49,10 +52,40 @@
         </section>
     </div>
 </template>
+<script>
+export default {
+  data () {
+    return {
+      teams: [{
+        name: '',
+        lastname: '',
+        id: ''
+      }],
+      favorited: false
+    }
+  },
+  methods: {
+    Addteam () {
+      this.teams.push({
+        name: '',
+        lastname: '',
+        id: ''
+      })
+    }
+  }
+}
+
+</script>
+
 <style>
 .layout{
-padding-top: 30px;
-margin: auto;
-width:20cm;
+  padding-top: 30px;
+  margin: auto;
+  width:20cm;
  }
+.buttonAddteam{
+  margin-top: 10px;
+   display: flex;
+    justify-content: flex-end;
+}
 </style>
