@@ -18,8 +18,11 @@
                         <span>{{user.email}}</span>
                         <b-icon  icon="caret-down"></b-icon>
                     </button>
-
+                    <b-dropdown-item @click="$router.push({name: 'Dashboard'})">Profile</b-dropdown-item>
+                    <hr class="dropdown-divider">
                     <b-dropdown-item @click="$router.push({name: 'Calendar'})">Calendar</b-dropdown-item>
+                    <b-dropdown-item @click="$router.push({name: 'ScoreBoard'})">Score Board</b-dropdown-item>
+                    <hr class="dropdown-divider">
                     <b-dropdown-item @click="logout">Log out</b-dropdown-item>
                 </b-dropdown>
 
