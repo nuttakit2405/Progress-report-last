@@ -1,35 +1,21 @@
-import firebase from 'firebase/app'
 import firebaseui from 'firebaseui'
-
-const config = {
-  apiKey: 'AIzaSyDtoQsBHpBAKl1nb3pie7pph2Pegr_pe_c',
-  authDomain: 'progress-report-4973f.firebaseapp.com',
-  databaseURL: 'https://progress-report-4973f.firebaseio.com',
-  projectId: 'progress-report-4973f',
-  storageBucket: 'progress-report-4973f.appspot.com',
-  messagingSenderId: '4915050050'
-}
 
 const auth = {
   context: null,
   uiConfig: null,
   ui: null,
+  firebase: null,
 
   init (context) {
+    this.firebase = context.$firebase
     this.context = context
-
-    firebase.initializeApp(config)
     this.uiConfig = {
       signInSuccessUrl: '/#/dashboard',
-      signInOptions: [
-        // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID
-        // firebase.auth.EmailAuthProvider.PROVIDER_ID
-      ]
+      signInOptions: [this.firebase.auth.GoogleAuthProvider.PROVIDER_ID]
     }
-    this.ui = new firebaseui.auth.AuthUI(firebase.auth())
+    this.ui = new firebaseui.auth.AuthUI(this.firebase.auth())
 
-    firebase.auth().onAuthStateChanged((user) => {
+    this.firebase.auth().onAuthStateChanged((user) => {
       this.context.$store.dispatch('user/setCurrentUser')
 
       let requireAuth = this.context.$route.matched.some(record => record.meta.requireAuth)
@@ -43,10 +29,10 @@ const auth = {
     this.ui.start(container, this.uiConfig)
   },
   user () {
-    return this.context ? firebase.auth().currentUser : null
+    return this.context ? this.firebase.auth().currentUser : null
   },
   logout () {
-    firebase.auth().signOut()
+    this.firebase.auth().signOut()
   }
 }
 

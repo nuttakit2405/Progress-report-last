@@ -25,7 +25,7 @@
               <ul v-if="events[item.date.full]">
                 <li class="events " :class="[{ 'disable-events': event.waitaccept  }]"
                   :key="key" v-for="(event, key) in events[item.date.full]"
-                  @click="viewEvent(event, true )" >
+                  @click="viewEvent(item.date.full, key, event)" >
                 {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
               </ul>
             </div>
@@ -35,25 +35,24 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+import database from '@/database'
 export default {
   data () {
     return {
       isAddEventModalActive: false,
       mode: 'month',
-      events: {
-        '2018-10-03': [
-          {
-            title: 'event',
-            description: 'test test',
-            waitaccept: true
-          }
-        ]
-      },
       time: new Date()
     }
   },
+  computed: {
+    ...mapGetters({
+      user: 'user/user',
+      events: 'events/events'
+    })
+  },
   methods: {
-    viewEvent (event) {
+    viewEvent (date, key, event) {
       // this.$swal('หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
       this.$swal({
         title: 'หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description,
@@ -66,6 +65,7 @@ export default {
       }).then((result) => {
         if (result.value) {
           event.waitaccept = false
+          database.database.ref(`/events/${this.user.uid}/${date}/${key}`).set(event)
           this.$swal(
             'นัดหมายสำเร็จ',
             ' ',
@@ -132,7 +132,6 @@ export default {
       '<select class="input" style="width: auto" id="swal-input4">' + timeOptions + '</select>',
         focusConfirm: false,
         preConfirm: () => {
-          alert('f')
           return [
             document.getElementById('swal-input1').value, // ดึงค่าไปใช้ใน sweet
             document.getElementById('swal-input2').value, // ดึงค่าไปใช้ใน sweet
@@ -154,8 +153,8 @@ export default {
         } else {
           this.events[date.full].push(data)
         }
+        database.database.ref(`/events/${this.user.uid}/${date.full}`).push(data)
         // waitaccept: true ถ้าเป็นtrue เมื่อกรอกเสร็จจะเป็นสีเขียว
-        console.log(this.events)
         const toast = this.$swal.mixin({
           toast: true,
           position: 'top',
