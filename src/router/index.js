@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-// import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Calendar from '@/views/Calendar'
 import HomeStudent from '@/components/HomeStudent'
@@ -15,14 +14,9 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
+      name: 'Home',
       component: HelloWorld
     },
-    // {
-    //   path: '/login',
-    //   name: 'Login',
-    //   component: Login
-    // },
     {
       path: '/register',
       name: 'Register',
@@ -40,17 +34,17 @@ export default new Router({
     },
     {
       path: '/progress',
-      name: ' Progress',
+      name: 'Progress',
       component: Progress
     },
     {
       path: '/login',
-      name: ' Auth',
+      name: 'Login',
       component: Auth
     },
     {
       path: '/dashboard',
-      name: ' Dashboard',
+      name: 'Dashboard',
       component: Dashboard
     }
   ]

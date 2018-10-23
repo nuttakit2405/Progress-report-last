@@ -2,15 +2,15 @@
     <!-- template -->
     <!-- :dateData="data" -->
     <div>
-      <Calendar startDate="2018-10-13" :mode="mode">
+      <Calendar startDate="2018-10-13" :mode="mode" :renderHeader="renderHeader">
           <div slot="header-left" class="ui-calendar-header__left">
             <button
-              :class="['ui-calendar-modeBtn' ,{ active: mode === 'month' }]"
+              :class="['button' ,{ 'is-info': mode === 'month' }]"
               @click="mode = 'month'">
               Month
             </button>
             <button
-              :class="['ui-calendar-modeBtn', { active: mode === 'week' }]"
+              :class="['button', { 'is-info': mode === 'week' }]"
               @click="mode = 'week'">
               Week
             </button>
@@ -81,25 +81,37 @@ export default {
         cursor: 'pointer'
       }
 
-      const prevButton = h('div', {
+      const prevButton = h('button', {
         on: {
           click: prev
         },
+        class: 'button',
         style: styleButton
       }, ['<'])
 
-      const nextButton = h('div', {
+      const nextButton = h('button', {
         on: {
           click: next
         },
+        class: 'button',
         style: styleButton
       }, ['>'])
-      console.log(selectedDate)
+      let header = this.$dayjs(selectedDate).format('MMMM YYYY')
+      if (this.mode === 'week') {
+        let [start, end] = selectedDate.split(' - ')
+        header = `${this.$dayjs(start).format('DD MMMM YYYY')} - ${this.$dayjs(end).format('DD MMMM YYYY')}`
+      }
       return h('div', {
         style: {
-          display: 'flex'
+          display: 'flex',
+          alignItems: 'center'
         }
-      }, [prevButton, this.$dayjs(selectedDate).format('MMMM YYYY'), nextButton])
+      },
+      [
+        prevButton,
+        header,
+        nextButton
+      ])
     },
     async showAlert (date) {
     // Use sweetalert2
