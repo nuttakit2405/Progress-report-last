@@ -19,8 +19,7 @@
                         <b-icon  icon="caret-down"></b-icon>
                     </button>
 
-                    <b-dropdown-item>Action</b-dropdown-item>
-                    <b-dropdown-item>Another action</b-dropdown-item>
+                    <b-dropdown-item @click="$router.push({name: 'Calendar'})">Calendar</b-dropdown-item>
                     <b-dropdown-item @click="logout">Log out</b-dropdown-item>
                 </b-dropdown>
 
@@ -42,6 +41,7 @@ export default {
   methods: {
     logout () {
       auth.logout()
+      this.$router.push('/')
     }
   },
   computed: {
