@@ -14,7 +14,9 @@ import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import 'vue2-event-calendar/default.css'
 
-Vue.use(Buefy)
+Vue.use(Buefy, {
+  defaultIconPack: 'fas'
+})
 Vue.use(VueSweetalert2)
 Vue.component('Calendar', Calendar)
 

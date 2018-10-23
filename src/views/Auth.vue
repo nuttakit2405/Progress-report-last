@@ -1,10 +1,10 @@
 <template>
-<div id="auth">
-  <!-- Login Google -->
+<div id="auth" style="margin-top: 20px;">
   <div class="container">
-    <div class="notification">
-      <h1>Sign in</h1>
-      <div id="firebaseui-auth-container"></div>
+    <div class="columns is-mobile">
+      <div class="column is-4 is-offset-4 hero is-light">
+        <div id="firebaseui-auth-container"></div>
+      </div>
     </div>
   </div>
 </div>
