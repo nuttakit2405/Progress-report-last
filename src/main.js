@@ -7,6 +7,7 @@ import { store } from './store'
 
 import './plugin'
 import auth from './auth'
+import database from './database'
 
 Vue.config.productionTip = false
 
@@ -17,6 +18,7 @@ new Vue({
   store,
   beforeCreate () {
     auth.init(this)
+    database.init(this)
   },
   components: { App },
   template: '<App/>'

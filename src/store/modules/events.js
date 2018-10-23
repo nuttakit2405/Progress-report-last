@@ -1,23 +1,26 @@
-import auth from '@/auth'
-
+import db from '@/database'
 const state = {
-  events: null
+  events: {}
 }
 
 const getters = {
-  user: state => state.user,
-  isLogged: state => (state.user !== null)
+  events: state => state.events
 }
 
 const mutations = {
-  setUser: (state, user) => {
-    state.user = user
+  setEvents: (state, events) => {
+    state.events = events
   }
 }
 
 const actions = {
-  setCurrentUser: ({ commit }) => {
-    commit('setUser', auth.user())
+  getEvents ({commit}, uid) {
+    db.database.ref(`/events/${uid}`).on('value', snapshot => {
+      commit('setEvents', snapshot.val())
+    })
+  },
+  addEvent ({commit}, {uid, date, data}) {
+    db.database.ref(`/events/${uid}/${date}`).push(data)
   }
 }
 

@@ -16,8 +16,10 @@ const mutations = {
 }
 
 const actions = {
-  setCurrentUser: ({ commit }) => {
-    commit('setUser', auth.user())
+  setCurrentUser: ({ commit, dispatch }) => {
+    const user = auth.user()
+    commit('setUser', user)
+    dispatch('events/getEvents', user.uid, {root: true})
   }
 }
 
