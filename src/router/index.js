@@ -7,6 +7,7 @@ import Calendar from '@/components/Calendar'
 import HomeStudent from '@/components/HomeStudent'
 import Progress from '@/components/Progress'
 import Auth from '@/views/Auth'
+import Dashboard from '@/views/Dashboard'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/login',
       name: ' Auth',
       component: Auth
+    },
+    {
+      path: '/dashboard',
+      name: ' Dashboard',
+      component: Dashboard
     }
   ]
 })
