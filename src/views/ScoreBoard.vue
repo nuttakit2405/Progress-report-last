@@ -18,7 +18,7 @@
                         <b-collapse class="card" :open="false" v-for="ind in 10" :key="ind">
                             <div slot="trigger" slot-scope="props" class="card-header">
                                 <div class="card-header-title">
-                                    สัปดาห์ที่ {{ind}}
+                                    สัปดาห์ที {{ind}}
                                 </div>
                                 <div class="card-header-title">
                                     หัวข้อที่1 {{ind}}
