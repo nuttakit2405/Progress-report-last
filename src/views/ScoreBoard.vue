@@ -21,7 +21,7 @@
                                     สัปดาห์ที่ {{ind}}
                                 </div>
                                 <div class="card-header-title">
-                                    หัวข้อที่ {{ind}}
+                                    หัวข้อที่1 {{ind}}
                                 </div>
                                 <div class="level">
                                     <div class="level-item">55%</div>
