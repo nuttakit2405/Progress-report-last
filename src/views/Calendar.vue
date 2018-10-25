@@ -1,7 +1,7 @@
 <template>
     <!-- template -->
     <!-- :dateData="data" -->
-    <div>
+    <div class="column">
       <Calendar startDate="2018-10-13" :mode="mode" :renderHeader="renderHeader">
           <div slot="header-left" class="ui-calendar-header__left">
             <button
@@ -15,6 +15,18 @@
               Week
             </button>
           </div>
+          <!-- <div slot="header-left" class="ui-calendar-header__left">
+            <button
+              :class="['button' ,{ 'is-info': mode === 'month' }]"
+              @click="mode = 'month'">
+              Month
+            </button>
+            <button
+              :class="['button', { 'is-info': mode === 'week' }]"
+              @click="mode = 'week'">
+              Week
+            </button>
+          </div> -->
 
           <div slot-scope="item" >
             <div class="calendar-item-date">
