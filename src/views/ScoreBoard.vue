@@ -15,20 +15,33 @@
 
                     <section>
                         <div>11111</div>
-                        <b-collapse class="card" :open="false" v-for="index in 10" :key="index">
+                        <b-collapse class="card" :open="false" v-for="ind in 10" :key="ind">
                             <div slot="trigger" slot-scope="props" class="card-header">
-                                <p class="card-header-title">
-                                    สัปดาห์ที่ {{index}}
-                                </p>
-                                <a class="card-header-icon">
-                                    <b-icon
-                                        :icon="props.open ? 'menu-down' : 'menu-up'">
-                                    </b-icon>
-                                </a>
+                                <div class="card-header-title">
+                                    สัปดาห์ที่ {{ind}}
+                                </div>
+                                <div class="card-header-title">
+                                    หัวข้อที่ {{ind}}
+                                </div>
+                                <div class="level">
+                                    <div class="level-item">55%</div>
+                                    <b-field>
+                                        <b-upload v-model="dropFiles"
+                                            multiple
+                                            drag-drop>
+                                                <div class="content has-text-centered">
+                                                    <b-icon
+                                                        icon="upload"
+                                                        size="is-large">
+                                                    </b-icon>
+                                                </div>
+                                        </b-upload>
+                                    </b-field>
+                                </div>
                             </div>
                             <div class="card-content">
                                 <div class="content">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                                    รายละเอียดเกี่ยวกับความก้าวหน้าของงาน
                                     <a>#buefy</a>.
                                 </div>
                             </div>
@@ -55,11 +68,19 @@ export default {
   computed: {
     user () {
       return this.$store.getters['user/user']
+    },
+    data () {
+      return {
+        dropFiles: []
+      }
     }
   },
   methods: {
     logOut () {
       auth.logout()
+    },
+    deleteDropFile (index) {
+      this.dropFiles.splice(index, 1)
     }
   }
 }
