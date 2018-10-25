@@ -55,7 +55,7 @@ export default {
     viewEvent (date, key, event) {
       // this.$swal('หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
       this.$swal({
-        title: 'หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description,
+        title: 'หัวข้อเรื่องaa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description,
         text: 'ตกลงในการนัดหมายในครั้งนี้หรือไม่ ?',
         // type: 'warning',
         showCancelButton: true,
