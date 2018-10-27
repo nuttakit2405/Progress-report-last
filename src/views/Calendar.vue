@@ -35,7 +35,7 @@
                 {{item.date.date}} <!--ตัวเลขวันที่ -->
               </Button>
               <ul v-if="events[item.date.full]">
-                <li class="events " :class="[{ 'disable-events': event.waitaccept  }]"
+                <li class="events " :class="[{ 'disable-events': event.waitaccept }]"
                   :key="key" v-for="(event, key) in events[item.date.full]"
                   @click="viewEvent(item.date.full, key, event)" >
                 {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->

@@ -1,18 +1,9 @@
 <template>
     <div class="auth-success">
         <div v-if="user">
-            <!-- <h1>Hello USER!</h1>
-            <img :src="user.photoURL" width="100"> <br>
-            <h3>{{user.displayName}}</h3>
-            <p>{{user.email}}</p>
-            <button @click="logOut">Log out</button>
-            <br><br><br> -->
-            <!-- Data User -->
-            <!-- <pre>{{user}}</pre> -->
             <div class="container">
                 <div class="column"></div>
                 <div class="notification">
-
                     <section>
                         <div>11111</div>
                         <b-collapse class="card" :open="false" v-for="ind in 10" :key="ind">
@@ -21,21 +12,35 @@
                                     สัปดาห์ที {{ind}}
                                 </div>
                                 <div class="card-header-title">
-                                    หัวข้อที่1 {{ind}}
+                                    หัวข้อที่ {{ind}}
                                 </div>
                                 <div class="level">
                                     <div class="level-item">55%</div>
                                     <b-field>
-                                        <b-upload v-model="dropFiles"
-                                            multiple
-                                            drag-drop>
-                                                <div class="content has-text-centered">
-                                                    <b-icon
-                                                        icon="upload"
-                                                        size="is-large">
-                                                    </b-icon>
-                                                </div>
-                                        </b-upload>
+                                        <b-tooltip label="ขอบเขต">
+                                            <b-upload v-model="dropFiles"
+                                                multiple
+                                                drag-drop>
+                                                    <div class="content has-text-centered">
+                                                        <b-icon
+                                                            icon="check"
+                                                            size="is-large">
+                                                        </b-icon>
+                                                    </div>
+                                            </b-upload>
+                                        </b-tooltip>
+                                        <b-tooltip label="Upload">
+                                            <b-upload v-model="dropFiles"
+                                                multiple
+                                                drag-drop>
+                                                    <div class="content has-text-centered">
+                                                        <b-icon
+                                                            icon="upload"
+                                                            size="is-large">
+                                                        </b-icon>
+                                                    </div>
+                                            </b-upload>
+                                        </b-tooltip>
                                     </b-field>
                                 </div>
                             </div>
