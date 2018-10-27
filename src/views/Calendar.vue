@@ -69,7 +69,8 @@ export default {
       }).then((result) => {
         if (result.value) {
           event.waitaccept = false
-          database.database.ref(`/events/${this.user.uid}/${date}/${key}`).set(event)
+          const year = this.$dayjs(date).year()
+          database.database.ref(`/allEvents/${year}/${key}`).set(event)
           this.$swal(
             'นัดหมายสำเร็จ',
             ' ',
