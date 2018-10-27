@@ -2,7 +2,9 @@
     <!-- template -->
     <!-- :dateData="data" -->
     <div>
-      <Calendar :mode="mode" :renderHeader="renderHeader">
+      <Calendar
+      :mode="mode"
+      :renderHeader="renderHeader">
           <div slot="header-left" class="ui-calendar-header__left">
             <button
               :class="['button' ,{ 'is-info': mode === 'month' }]"
@@ -18,15 +20,17 @@
 
           <div slot-scope="item" >
             <div class="calendar-item-date">
-              <Button :class="['button', { 'is-otherMonth': !item.isCurMonth }]"
+              <Button :class="['button', { 'is-otherMonth': !item.isCurMonth }, {'is-primary': item.isToday}]"
                 @click="showAlert(item.date)">
                 {{item.date.date}} <!--ตัวเลขวันที่ -->
               </Button>
               <ul v-if="events[item.date.full]">
-                <li class="events " :class="[{ 'disable-events': event.waitaccept  }]"
-                  :key="key" v-for="(event, key) in events[item.date.full]"
-                  @click="viewEvent(item.date.full, key, event)" >
-                {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
+                <li :key="key" v-for="(event, key) in events[item.date.full]" :class="['events', {'disable-events': event.waitaccept}]">
+                  <span @click="viewEvent(item.date.full, key, event)">{{event.title}}</span>
+                  <button class="button is-small" @click="removeEvent(item.date.full, key, event)">
+                    <b-icon size="is-small" type="is-danger" icon='times'/>
+                  </button>
+                </li> <!-- เอาหัวเรื่อง มาโชว์-->
               </ul>
             </div>
           </div>
@@ -111,6 +115,22 @@ export default {
         nextButton
       ])
     },
+    async removeEvent (date, eventKey, event) {
+      console.log({date, eventKey, event})
+      const { value } = await this.$swal({
+        type: 'error',
+        title: 'ยืนยันการลบนัดหมายนี้?',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'ลบ',
+        cancelButtonText: 'ยกเลิก'
+      })
+
+      if (value) {
+        await database.database.ref(`/events/${this.user.uid}/${date}`).child(eventKey).remove()
+        await this.$swal('ลบเสร็จสิ้น')
+      }
+    },
     async showAlert (date) {
     // Use sweetalert2
       let timeOptions = ''
@@ -143,7 +163,9 @@ export default {
         const data = {
           title: formValues[0],
           description: formValues[1],
-          waitaccept: true
+          waitaccept: true,
+          start: formValues[2],
+          end: formValues[3]
         }
         database.database.ref(`/events/${this.user.uid}/${date.full}`).push(data)
         // waitaccept: true ถ้าเป็นtrue เมื่อกรอกเสร็จจะเป็นสีเขียว
@@ -177,6 +199,9 @@ export default {
   color: lightgray;
 }
 .events {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: aquamarine;
   margin-top: 5px;
   cursor: pointer;
