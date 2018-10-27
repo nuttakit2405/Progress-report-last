@@ -62,7 +62,9 @@ export default {
       if (!event.waitaccept) {
         this.$swal({
           title: 'หัวข้อเรื่อง: ' + event.title,
-          text: 'รายละเอียดการนัดหมาย : ' + event.description
+          text: 'รายละเอียดการนัดหมาย : ' + event.description,
+          confirmButtonText: 'แก้ไข <i class="fas fa-edit"></i>',
+          showCloseButton: true
         })
         return
       }
@@ -147,11 +149,11 @@ export default {
         timeOptions += `<option>${time2}</option>`
       }
 
-      const fullDate = this.$dayjs(date.full).format('dddd DD MMMM YYYY')
+      const fullDate = this.$dayjs(date.full).format('ddddที่ D MMMM YYYY')
 
       const rawHtml = `
       <div>
-        <span>${fullDate}</span>
+        <span>วัน${fullDate}</span>
         <input id="swal-input1" class="swal2-input" placeholder="เรื่องในการนัดหมาย">
         <textarea id="swal-input2" class="swal2-textarea" placeholder="รายละเอียดในการนัดหมาย"></textarea>
         <div style="display: flex; flex-direction: row; justify-content: center;">
