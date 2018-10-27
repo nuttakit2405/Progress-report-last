@@ -55,7 +55,7 @@
                                     </b-select>
                                 </b-field>
 
-                                <!-- <b-field horizontal label="จัดทำโครงงานได้">
+                                <b-field horizontal label="จัดทำโครงงานได้">
                                   <b-radio v-model="radio"
                                       native-value="1">
                                       ตรงตามเป้าหมายที่ตั้งไว้
@@ -68,7 +68,7 @@
                                       native-value="3">
                                       มากกว่าเป้าหมาย
                                   </b-radio>
-                                </b-field> -->
+                                </b-field>
 
                                 <b-field label="ในกรณีทำได้น้อยกว่าเป้าหมาย">
                                     <b-input type="textarea" placeholder="เป้าหมายที่ทำให้ล่าช้า"></b-input>
@@ -78,14 +78,26 @@
                                     <b-input type="textarea"></b-input>
                                 </b-field>
 
-                                <div class="field">
-                                  <b-switch v-model="isSwitchedCustom"
-                                      type="is-success"
-                                      true-value="Yes"
-                                      false-value="No">
-                                      {{ isSwitchedCustom }}
-                                  </b-switch>
-                                </div>
+                                <button class="button is-medium is-success">
+                                  ยืนยัน
+                                </button>
+
+                                <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
+                                    <b-input type="textarea"></b-input>
+                                </b-field>
+                                <button class="button is-medium is-success">
+                                  เห็นด้วย
+                                </button>
+                                <button class="button is-medium is-warning" @click="condition">
+                                  เห็นด้วย(มีเงื่อนไข)
+                                </button>
+
+                                <b-field label="ความเห็นอาจารย์ประจำวิชา">
+                                    <b-input type="textarea"></b-input>
+                                </b-field>
+                                <button class="button is-medium is-success">
+                                  รับทราบ
+                                </button>
 
                             </div>
                             <footer class="card-footer">
@@ -108,17 +120,17 @@ import auth from '@/auth'
 
 export default {
   name: 'auth-success',
+  data () {
+    return {
+      dropFiles: [],
+      radio: [],
+      isSwitched: false,
+      isSwitchedCustom: 'Yes'
+    }
+  },
   computed: {
     user () {
       return this.$store.getters['user/user']
-    },
-    data () {
-      return {
-        dropFiles: [],
-        radio: [],
-        isSwitched: false,
-        isSwitchedCustom: 'Yes'
-      }
     }
   },
   methods: {
@@ -127,6 +139,33 @@ export default {
     },
     deleteDropFile (index) {
       this.dropFiles.splice(index, 1)
+    },
+    async condition () {
+      const {value: fruit} = await this.$swal({
+        title: 'Select field validation',
+        input: 'select',
+        inputOptions: {
+          'apples': 'Apples',
+          'bananas': 'Bananas',
+          'grapes': 'Grapes',
+          'oranges': 'Oranges'
+        },
+        inputPlaceholder: 'Select a fruit',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          return new Promise((resolve) => {
+            if (value === 'oranges') {
+              resolve()
+            } else {
+              resolve('You need to select oranges :)')
+            }
+          })
+        }
+      })
+
+      if (fruit) {
+        this.$swal('You selected: ' + fruit)
+      }
     }
   }
 }
