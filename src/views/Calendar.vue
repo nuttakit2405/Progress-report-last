@@ -25,19 +25,10 @@
                 {{item.date.date}} <!--ตัวเลขวันที่ -->
               </Button>
               <ul v-if="events[item.date.full]">
-<<<<<<< HEAD
                 <li class="events " :class="[{ 'disable-events': event.waitaccept }]"
                   :key="key" v-for="(event, key) in events[item.date.full]"
                   @click="viewEvent(item.date.full, key, event)" >
                 {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
-=======
-                <li :key="key" v-for="(event, key) in events[item.date.full]" :class="['events', {'disable-events': event.waitaccept}]">
-                  <span @click="viewEvent(item.date.full, key, event)">{{event.title}}</span>
-                  <button class="button is-small" @click="removeEvent(item.date.full, key, event)">
-                    <b-icon size="is-small" type="is-danger" icon='times'/>
-                  </button>
-                </li> <!-- เอาหัวเรื่อง มาโชว์-->
->>>>>>> 8876e73152a980773b6165e2bc756834c75bfa62
               </ul>
             </div>
           </div>
@@ -48,6 +39,7 @@
 <script>
 import {mapGetters} from 'vuex'
 import database from '@/database'
+
 export default {
   data () {
     return {

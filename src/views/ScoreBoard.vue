@@ -5,7 +5,7 @@
                 <div class="column"></div>
                 <div class="notification">
                     <section>
-                        <div>11111</div>
+                        <!-- <div>11111</div> -->
                         <b-collapse class="card" :open="false" v-for="ind in 10" :key="ind">
                             <div slot="trigger" slot-scope="props" class="card-header">
                                 <div class="card-header-title">
@@ -15,35 +15,6 @@
                                     หัวข้อที่ {{ind}}
                                 </div>
                                 <div class="level">
-<<<<<<< HEAD
-                                    <div class="level-item">55%</div>
-                                    <b-field>
-                                        <b-tooltip label="ขอบเขต">
-                                            <b-upload v-model="dropFiles"
-                                                multiple
-                                                drag-drop>
-                                                    <div class="content has-text-centered">
-                                                        <b-icon
-                                                            icon="check"
-                                                            size="is-large">
-                                                        </b-icon>
-                                                    </div>
-                                            </b-upload>
-                                        </b-tooltip>
-                                        <b-tooltip label="Upload">
-                                            <b-upload v-model="dropFiles"
-                                                multiple
-                                                drag-drop>
-                                                    <div class="content has-text-centered">
-                                                        <b-icon
-                                                            icon="upload"
-                                                            size="is-large">
-                                                        </b-icon>
-                                                    </div>
-                                            </b-upload>
-                                        </b-tooltip>
-                                    </b-field>
-=======
                                     <div class="level-item percent">55%</div>
                                     <div class ="double-down">
                                         <b-icon
@@ -51,7 +22,6 @@
                                             size="is-small">
                                         </b-icon>
                                     </div>
->>>>>>> 8876e73152a980773b6165e2bc756834c75bfa62
                                 </div>
                             </div>
                             <div class="card-content fieldSize">

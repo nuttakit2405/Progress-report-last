@@ -16,13 +16,15 @@
               </div>
               <div class="level-item has-text-centered">
                 <p class="title is-5">ประเภทผู้ใช้งาน: </p>
-                <b-field>
-                  <b-select placeholder="Please Select" v-model="User">
-                      <option value="User1">อาจารย์ประจำวิชา</option>
-                      <option value="User2">อาจารย์ที่ปรึกษา</option>
-                      <option value="User3">นักศึกษา</option>
+                <b-field v-if="User == ''">
+                  <b-select placeholder ="Please Select" v-model="User">
+                      <option value="User1">อาจารย์</option>
+                      <option value="User2">นักศึกษา</option>
                   </b-select>
               </b-field>
+              <p class="title" v-else-if="User == 'User1'">{{showpow}}</p>
+              <p class="title" v-else-if="User == 'User2'">{{showpow}}</p>
+              <button class="button" @click="EditUser()">X</button>
               </div>
               <div class="level-item has-text-centered">
                 <p class="title is-5">ความก้าวหน้าของงาน: </p>
@@ -46,14 +48,25 @@ import auth from '@/auth'
 
 export default {
   name: 'auth-success',
+  data () {
+    return {
+      User: ''
+    }
+  },
   computed: {
     user () {
       return this.$store.getters['user/user']
+    },
+    showpow () {
+      return this.User == 'User1' ? 'อาจารย์' : 'นักศึกษา'
     }
   },
   methods: {
     logOut () {
       auth.logout()
+    },
+    EditUser () {
+      this.User = ''
     }
   }
 }
