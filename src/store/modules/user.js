@@ -19,7 +19,8 @@ const actions = {
   setCurrentUser: ({ commit, dispatch }) => {
     const user = auth.user()
     commit('setUser', user)
-    dispatch('events/getEvents', user.uid, {root: true})
+    const thisYear = new Date().getFullYear()
+    dispatch('events/getEvents', {year: thisYear, uid: user.uid}, {root: true})
   }
 }
 

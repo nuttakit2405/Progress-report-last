@@ -14,10 +14,31 @@ const mutations = {
 }
 
 const actions = {
-  getEvents ({commit}, uid) {
-    db.database.ref(`/events/${uid}`).on('value', snapshot => {
-      commit('setEvents', snapshot.val())
-    })
+  getEvents ({commit}, {year, uid}) {
+    db.database
+      .ref(`allEvents/${year}`)
+      .on('value', (snap) => {
+        const val = snap.val()
+        if (val) {
+          const events = Object.keys(val).map(key => {
+            return {
+              key,
+              ...val[key]
+            }
+          }).filter(value => value.members.some(member => member === uid))
+
+          const filtedEvents = events.reduce((prev, curr) => {
+            if (!prev[curr.date]) {
+              const first = {}
+              first[curr.key] = curr
+              prev[curr.date] = first
+            }
+            prev[curr.date][curr.key] = curr
+            return prev
+          }, {})
+          commit('setEvents', filtedEvents)
+        }
+      })
   },
   addEvent ({commit}, {uid, date, data}) {
     db.database.ref(`/events/${uid}/${date}`).push(data)
