@@ -16,7 +16,10 @@ const mutations = {
 const actions = {
   getEvents ({commit}, uid) {
     db.database.ref(`/events/${uid}`).on('value', snapshot => {
-      commit('setEvents', snapshot.val())
+      const val = snapshot.val()
+      if (val !== null) {
+        commit('setEvents', val)
+      }
     })
   },
   addEvent ({commit}, {uid, date, data}) {

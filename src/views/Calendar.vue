@@ -2,7 +2,7 @@
     <!-- template -->
     <!-- :dateData="data" -->
     <div>
-      <Calendar startDate="2018-10-13" :mode="mode" :renderHeader="renderHeader">
+      <Calendar :mode="mode" :renderHeader="renderHeader">
           <div slot="header-left" class="ui-calendar-header__left">
             <button
               :class="['button' ,{ 'is-info': mode === 'month' }]"
