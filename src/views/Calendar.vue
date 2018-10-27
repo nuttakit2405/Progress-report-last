@@ -116,7 +116,6 @@ export default {
       ])
     },
     async removeEvent (date, eventKey, event) {
-      console.log({date, eventKey, event})
       const { value } = await this.$swal({
         type: 'error',
         title: 'ยืนยันการลบนัดหมายนี้?',
@@ -161,13 +160,15 @@ export default {
       if (formValues) {
         await this.$swal('หัวข้อเรื่องs : ' + formValues[0] + ' \n' + 'รายละเอียดการนัดหมาย : ' + formValues[1] + formValues[2])
         const data = {
+          date: date.full,
           title: formValues[0],
           description: formValues[1],
           waitaccept: true,
+          members: [this.user.uid],
           start: formValues[2],
           end: formValues[3]
         }
-        database.database.ref(`/events/${this.user.uid}/${date.full}`).push(data)
+        database.database.ref(`/allEvents/${date.year}`).push(data)
         // waitaccept: true ถ้าเป็นtrue เมื่อกรอกเสร็จจะเป็นสีเขียว
         const toast = this.$swal.mixin({
           toast: true,
@@ -181,6 +182,9 @@ export default {
         })
       }
     }
+  },
+  mounted () {
+    // tcTZz4y4dlTzevPyk2LVjtkG9as2
   }
 }
 </script>
