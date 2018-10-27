@@ -1,14 +1,6 @@
 <template>
     <div class="auth-success">
         <div v-if="user">
-            <!-- <h1>Hello USER!</h1>
-            <img :src="user.photoURL" width="100"> <br>
-            <h3>{{user.displayName}}</h3>
-            <p>{{user.email}}</p>
-            <button @click="logOut">Log out</button>
-            <br><br><br> -->
-            <!-- Data User -->
-            <!-- <pre>{{user}}</pre> -->
             <div class="container">
                 <div class="column"></div>
                 <div class="notification">
@@ -21,29 +13,49 @@
                                     สัปดาห์ที่ {{ind}}
                                 </div>
                                 <div class="card-header-title">
-                                    หัวข้อที่1 {{ind}}
+                                    หัวข้อที่ {{ind}}
                                 </div>
                                 <div class="level">
-                                    <div class="level-item">55%</div>
-                                    <b-field>
-                                        <b-upload v-model="dropFiles"
-                                            multiple
-                                            drag-drop>
-                                                <div class="content has-text-centered">
-                                                    <b-icon
-                                                        icon="upload"
-                                                        size="is-large">
-                                                    </b-icon>
-                                                </div>
-                                        </b-upload>
-                                    </b-field>
+                                    <div class="level-item percent">55%</div>
+                                    <div class ="double-down">
+                                        <b-icon v-on:click ="card"
+                                            icon="angle-double-down"
+                                            size="is-small">
+                                        </b-icon>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-content">
-                                <div class="content">
-                                    รายละเอียดเกี่ยวกับความก้าวหน้าของงาน
-                                    <a>#buefy</a>.
-                                </div>
+                            <div class="card-content fieldSize">
+                                <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
+                                    <b-input type="textarea"></b-input>
+                                </b-field>
+                                  <b-field horizontal label="คิดเป็นร้อยละ">
+                                      <b-select placeholder=" " style="width:auto">
+                                          <option> 5%  </option>
+                                          <option> 10% </option>
+                                          <option> 15% </option>
+                                          <option> 20% </option>
+                                          <option> 25%  </option>
+                                          <option> 30% </option>
+                                          <option> 35% </option>
+                                          <option> 40% </option>
+                                          <option> 45%  </option>
+                                          <option> 50% </option>
+                                          <option> 55% </option>
+                                          <option> 60% </option>
+                                          <option> 65%  </option>
+                                          <option> 70% </option>
+                                          <option> 75% </option>
+                                          <option> 80% </option>
+                                          <option> 85% </option>
+                                          <option> 90% </option>
+                                          <option> 95% </option>
+                                          <option> 100% </option>
+                                      </b-select>
+                                  </b-field>
+                                <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
+                                    <b-input type="textarea"></b-input>
+                                </b-field>
                             </div>
                             <footer class="card-footer">
                                 <a class="card-footer-item">Save</a>
@@ -85,21 +97,15 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-img {
-    border-radius: 50px;
+<style>
+.percent{
+    margin-right: 20px;
 }
-
-h3 {
-    margin-bottom: 0;
+.double-down{
+    margin-right: 20px;
 }
-
-p {
-    margin-top: 0;
-}
-
-pre {
-    text-align: left;
+.fieldSize{
+    margin-right: 80px;
+    margin-left: 80px;
 }
 </style>
