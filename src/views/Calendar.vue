@@ -1,8 +1,8 @@
 <template>
     <!-- template -->
     <!-- :dateData="data" -->
-    <div class="column">
-      <Calendar startDate="2018-10-13" :mode="mode" :renderHeader="renderHeader">
+    <div>
+      <Calendar :mode="mode" :renderHeader="renderHeader">
           <div slot="header-left" class="ui-calendar-header__left">
             <button
               :class="['button' ,{ 'is-info': mode === 'month' }]"
@@ -80,7 +80,6 @@ export default {
         margin: '0 5px',
         cursor: 'pointer'
       }
-
       const prevButton = h('button', {
         on: {
           click: prev
@@ -88,7 +87,6 @@ export default {
         class: 'button',
         style: styleButton
       }, ['<'])
-
       const nextButton = h('button', {
         on: {
           click: next
@@ -147,7 +145,6 @@ export default {
           description: formValues[1],
           waitaccept: true
         }
-
         if (!this.events[date.full]) {
           this.$set(this.events, date.full, [data])
         } else {
