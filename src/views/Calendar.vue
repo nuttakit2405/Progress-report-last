@@ -116,6 +116,7 @@ export default {
       ])
     },
     async removeEvent (date, eventKey, event) {
+      const year = this.$dayjs(date).year()
       const { value } = await this.$swal({
         type: 'error',
         title: 'ยืนยันการลบนัดหมายนี้?',
@@ -126,7 +127,7 @@ export default {
       })
 
       if (value) {
-        await database.database.ref(`/events/${this.user.uid}/${date}`).child(eventKey).remove()
+        await database.database.ref(`/allEvents/${year}`).child(eventKey).remove()
         await this.$swal('ลบเสร็จสิ้น')
       }
     },
