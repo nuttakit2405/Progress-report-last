@@ -145,11 +145,6 @@ export default {
           description: formValues[1],
           waitaccept: true
         }
-        if (!this.events[date.full]) {
-          this.$set(this.events, date.full, [data])
-        } else {
-          this.events[date.full].push(data)
-        }
         database.database.ref(`/events/${this.user.uid}/${date.full}`).push(data)
         // waitaccept: true ถ้าเป็นtrue เมื่อกรอกเสร็จจะเป็นสีเขียว
         const toast = this.$swal.mixin({
