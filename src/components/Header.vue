@@ -26,7 +26,6 @@
                     <hr class="dropdown-divider">
                     <b-dropdown-item @click="logout">Log out</b-dropdown-item>
                 </b-dropdown>
-
                 <router-link v-else :to="{name: 'Login'}" class="button ">Login</router-link>
               </div>
             </nav>
