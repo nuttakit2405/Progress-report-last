@@ -30,7 +30,7 @@
                   <router-link v-else :to="{name: 'Login'}" class="button ">Login</router-link>
                 </div>
               </nav>
-            </div> 
+            </div>
         </div>
     </div>
 </template>
