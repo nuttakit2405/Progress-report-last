@@ -38,7 +38,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import database from '@/database'
+import db from '@/database'
 
 export default {
   data () {
@@ -80,7 +80,7 @@ export default {
       if (value) {
         event.waitaccept = false
         const year = this.$dayjs(date).year()
-        database.database.ref(`/allEvents/${year}/${key}`).set(event)
+        db.database.ref(`/allEvents/${year}/${key}`).set(event)
         this.$swal('นัดหมายสำเร็จ', ' ', 'success')
       }
     },
@@ -133,7 +133,7 @@ export default {
       })
 
       if (value) {
-        await database.database.ref(`/allEvents/${year}`).child(eventKey).remove()
+        await db.database.ref(`/allEvents/${year}`).child(eventKey).remove()
         await this.$swal('ลบเสร็จสิ้น')
       }
     },
@@ -206,7 +206,7 @@ export default {
           start: formValues[2],
           end: formValues[3]
         }
-        database.database.ref(`/allEvents/${date.year}`).push(data)
+        db.database.ref(`/allEvents/${date.year}`).push(data)
 
         // waitaccept: true ถ้าเป็นtrue เมื่อกรอกเสร็จจะเป็นสีเขียว
         const toast = this.$swal.mixin({

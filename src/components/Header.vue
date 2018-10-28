@@ -7,7 +7,7 @@
               <div class="level-left">
                 <div class="level-item">
                   <p class="subtitle is-5">
-                    <router-link :to="{name: 'Home'}"><strong>Progress Project</strong></router-link>
+                    <a href="/"><strong>Progress Project</strong></a>
                   </p>
                 </div>
               </div>
@@ -18,7 +18,7 @@
                         <span>{{user.email}}</span>
                         <b-icon  icon="caret-down"></b-icon>
                     </button>
-                    <b-dropdown-item @click="$router.push({name: 'Dashboard'})">Profile</b-dropdown-item>
+                    <b-dropdown-item @click="$router.push({name: 'Profile'})">Profile</b-dropdown-item>
                     <b-dropdown-item @click="$router.push({name: 'AddStudent'})">addstudent</b-dropdown-item>
                     <hr class="dropdown-divider">
                     <b-dropdown-item @click="$router.push({name: 'Calendar'})">Calendar</b-dropdown-item>
@@ -38,6 +38,7 @@
 <script>
 import auth from '@/auth'
 import {mapGetters} from 'vuex'
+
 export default {
   data () {
     return {}
