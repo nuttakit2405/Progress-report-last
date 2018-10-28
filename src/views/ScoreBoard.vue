@@ -4,9 +4,8 @@
             <div class="container">
                 <div class="column"></div>
                 <div class="notification">
-
                     <section>
-                        <div>11111</div>
+                        <!-- <div>11111</div> -->
                         <b-collapse class="card" :open="false" v-for="ind in 10" :key="ind">
                             <div slot="trigger" slot-scope="props" class="card-header">
                                 <div class="card-header-title">
