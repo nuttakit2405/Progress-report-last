@@ -25,10 +25,10 @@
                 {{item.date.date}} <!--ตัวเลขวันที่ -->
               </Button>
               <ul v-if="events[item.date.full]">
-                <li class="events " :class="[{ 'disable-events': event.waitaccept }]"
-                  :key="key" v-for="(event, key) in events[item.date.full]"
-                  @click="viewEvent(item.date.full, key, event)" >
-                {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
+                <li class="events" :key="key" v-for="(event, key) in events[item.date.full]">
+                  <span :class="['event', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)">{{event.title}}</span>
+                  <button class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
+                </li> <!-- เอาหัวเรื่อง มาโชว์-->
               </ul>
             </div>
           </div>
@@ -263,10 +263,17 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: aquamarine;
-  margin-top: 5px;
+  margin: 2px 0;
+}
+.event {
+  display: flex;
+  width: 100%;
+  padding: 1px 5px;
+  margin: 0 3px;
   cursor: pointer;
-  padding: 0 5px;
+}
+.accept-events {
+  background-color: aquamarine;
 }
 .disable-events {
   background-color: lightgray;
