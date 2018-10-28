@@ -25,10 +25,10 @@
                 {{item.date.date}} <!--ตัวเลขวันที่ -->
               </Button>
               <ul v-if="events[item.date.full]">
-                <li class="events " :class="[{ 'disable-events': event.waitaccept }]"
-                  :key="key" v-for="(event, key) in events[item.date.full]"
-                  @click="viewEvent(item.date.full, key, event)" >
-                {{event.title}}</li> <!-- เอาหัวเรื่อง มาโชว์-->
+                <li class="events" :key="key" v-for="(event, key) in events[item.date.full]">
+                  <span :class="['event', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)">{{event.title}}</span>
+                  <button class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
+                </li> <!-- เอาหัวเรื่อง มาโชว์-->
               </ul>
             </div>
           </div>
@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import database from '@/database'
+import {mapGetters, mapActions} from 'vuex'
+import db from '@/database'
 
 export default {
   data () {
@@ -54,7 +54,25 @@ export default {
       events: 'events/events'
     })
   },
+  watch: {
+    user (user) {
+      this.initData(user)
+    }
+  },
+  created () {
+    this.initData(this.user)
+  },
   methods: {
+    ...mapActions({
+      getEvents: 'events/getEvents'
+    }),
+    initData (user) {
+      if (user && user.uid) {
+        const year = this.$dayjs().year()
+        const uid = user.uid
+        this.getEvents({year, uid})
+      }
+    },
     async viewEvent (date, key, event) {
       // this.$swal('หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
 
@@ -80,7 +98,7 @@ export default {
       if (value) {
         event.waitaccept = false
         const year = this.$dayjs(date).year()
-        database.database.ref(`/allEvents/${year}/${key}`).set(event)
+        db.database.ref(`/allEvents/${year}/${key}`).set(event)
         this.$swal('นัดหมายสำเร็จ', ' ', 'success')
       }
     },
@@ -133,7 +151,7 @@ export default {
       })
 
       if (value) {
-        await database.database.ref(`/allEvents/${year}`).child(eventKey).remove()
+        await db.database.ref(`/allEvents/${year}`).child(eventKey).remove()
         await this.$swal('ลบเสร็จสิ้น')
       }
     },
@@ -206,7 +224,7 @@ export default {
           start: formValues[2],
           end: formValues[3]
         }
-        database.database.ref(`/allEvents/${date.year}`).push(data)
+        db.database.ref(`/allEvents/${date.year}`).push(data)
 
         // waitaccept: true ถ้าเป็นtrue เมื่อกรอกเสร็จจะเป็นสีเขียว
         const toast = this.$swal.mixin({
@@ -245,10 +263,17 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: aquamarine;
-  margin-top: 5px;
+  margin: 2px 0;
+}
+.event {
+  display: flex;
+  width: 100%;
+  padding: 1px 5px;
+  margin: 0 3px;
   cursor: pointer;
-  padding: 0 5px;
+}
+.accept-events {
+  background-color: aquamarine;
 }
 .disable-events {
   background-color: lightgray;

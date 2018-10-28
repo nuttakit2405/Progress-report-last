@@ -39,9 +39,6 @@ const actions = {
           commit('setEvents', filtedEvents)
         }
       })
-  },
-  addEvent ({commit}, {uid, date, data}) {
-    db.database.ref(`/events/${uid}/${date}`).push(data)
   }
 }
 
