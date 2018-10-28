@@ -58,7 +58,7 @@ export default {
       return this.$store.getters['user/user']
     },
     showpow () {
-      return this.User == 'User1' ? 'อาจารย์' : 'นักศึกษา'
+      return this.User === 'User1' ? 'อาจารย์' : 'นักศึกษา'
     }
   },
   methods: {
