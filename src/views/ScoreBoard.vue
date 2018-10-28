@@ -1,10 +1,16 @@
 <template>
     <div class="auth-success">
         <div v-if="user">
-            <div class="container">
+            <div class="container ">
                 <div class="column"></div>
-                <div class="notification">
-                    <section>
+                <!-- <div class="column"></div> -->
+                <div class="columns">
+                    <div class="column">
+                        <div class="column box">
+                        <section>
+                            <div class="block">
+                                <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
+                            </div>
                         <!-- <div>11111</div> -->
                         <b-collapse class="card" :open="false" v-for="ind in 10" :key="ind">
                             <div slot="trigger" slot-scope="props" class="card-header">
@@ -89,10 +95,21 @@
                             </footer>
                         </b-collapse>
                     </section>
-
+                    </div>
+                    </div>
+                    <div class="column" v-if="showBooks == true">
+                        <div class="column box">
+                            <section>
+                            <b-tabs v-model="activeTab">
+                                <b-tab-item :visible="showBooks" label="Books">
+                                    ขอบเขตนะจ๊ะ
+                                </b-tab-item>
+                            </b-tabs>
+                            </section>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -109,7 +126,9 @@ export default {
       isSwitched: false,
       isSwitchedCustom: 'Yes',
       InputProgress: 0,
-      SumProgress: 0
+      SumProgress: 0,
+      activeTab: 0,
+      showBooks: false
     }
   },
   computed: {

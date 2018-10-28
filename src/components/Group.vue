@@ -1,6 +1,7 @@
 <template>
-  <div class="layout">
-    <div class="card">
+  <div class="container">
+    <div class="column">
+      <div class="card">
       <header class="card-header">
         <p class="card-header-title">
           Component
@@ -45,6 +46,7 @@
         </p>
       </footer>
 
+    </div>
     </div>
 </div>
 </template>

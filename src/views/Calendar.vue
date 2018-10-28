@@ -1,7 +1,7 @@
 <template>
     <!-- template -->
     <!-- :dateData="data" -->
-    <div>
+    <div class="container">
       <Calendar
       :mode="mode"
       :renderHeader="renderHeader">
