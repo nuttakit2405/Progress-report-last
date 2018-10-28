@@ -32,7 +32,8 @@ export default new Router({
     {
       path: '/calendar',
       name: 'Calendar',
-      component: Calendar
+      component: Calendar,
+      meta: { requireAuth: true }
     },
     {
       path: '/login',

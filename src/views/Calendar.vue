@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import db from '@/database'
 
 export default {
@@ -54,7 +54,25 @@ export default {
       events: 'events/events'
     })
   },
+  watch: {
+    user (user) {
+      this.initData(user)
+    }
+  },
+  created () {
+    this.initData(this.user)
+  },
   methods: {
+    ...mapActions({
+      getEvents: 'events/getEvents'
+    }),
+    initData (user) {
+      if (user && user.uid) {
+        const year = this.$dayjs().year()
+        const uid = user.uid
+        this.getEvents({year, uid})
+      }
+    },
     async viewEvent (date, key, event) {
       // this.$swal('หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
 
