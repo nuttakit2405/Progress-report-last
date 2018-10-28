@@ -15,7 +15,7 @@
                                     หัวข้อที่ {{ind}}
                                 </div>
                                 <div class="level">
-                                    <div class="level-item percent">55%</div>
+                                    <div class="level-item percent">{{showInput}}</div>
                                     <div class ="double-down">
                                         <b-icon
                                             icon="angle-double-down"
@@ -30,9 +30,9 @@
                                 </b-field>
 
                                 <b-field horizontal label="คิดเป็นร้อยละ">
-                                    <b-input type="number" maxlength="3" style="width:70px"></b-input>
+                                    <b-input type="number" maxlength="3" style="width:70px" min="0" max="100" v-model="InputProgress"></b-input>
+                                    {{showInput}}
                                 </b-field>
-
                                 <b-field horizontal label="จัดทำโครงงานได้">
                                   <b-radio v-model="radio"
                                       native-value="1">
@@ -103,12 +103,16 @@ export default {
       dropFiles: [],
       radio: [],
       isSwitched: false,
-      isSwitchedCustom: 'Yes'
+      isSwitchedCustom: 'Yes',
+      InputProgress: ''
     }
   },
   computed: {
     user () {
       return this.$store.getters['user/user']
+    },
+    showInput () {
+      return this.InputProgress
     }
   },
   methods: {
