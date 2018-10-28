@@ -9,13 +9,19 @@
                         <b-collapse class="card" :open="false" v-for="ind in 10" :key="ind">
                             <div slot="trigger" slot-scope="props" class="card-header">
                                 <div class="card-header-title">
-                                    สัปดาห์ที {{ind}}
-                                </div>
-                                <div class="card-header-title">
-                                    หัวข้อที่ {{ind}}
+                                    <div class="level">
+                                        <div class="level-item ">
+                                            <div class="">
+                                                <p class="title is-5">สัปดาห์ที {{ind}} </p>
+                                            </div>
+                                            <div>
+                                                หัวข้อที่ {{ind}}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="level">
-                                    <div class="level-item percent">{{showInput}}</div>
+                                    <div class="level-item percent">{{showInput}}%</div>
                                     <div class ="double-down">
                                         <b-icon
                                             icon="angle-double-down"
@@ -24,14 +30,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-content fieldSize">
+                            <div class="card-content">
                                 <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
                                     <b-input type="textarea"></b-input>
                                 </b-field>
 
                                 <b-field horizontal label="คิดเป็นร้อยละ">
-                                    <b-input type="number" maxlength="3" style="width:70px" min="0" max="100" v-model="InputProgress"></b-input>
-                                    {{showInput}}
+                                    <b-input type="number" maxlength="3" style="width:95px" min="0" max="100" v-model="InputProgress"></b-input>
                                 </b-field>
                                 <b-field horizontal label="จัดทำโครงงานได้">
                                   <b-radio v-model="radio"
@@ -56,27 +61,26 @@
                                     <b-input type="textarea"></b-input>
                                 </b-field>
 
-                                <button class="button is-medium is-success" style="font-family: 'Kanit', sans-serif" >
+                                <button class="button is-success" style="font-family: 'Kanit', sans-serif" >
                                   ยืนยัน
                                 </button>
 
                                 <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
                                     <b-input type="textarea"></b-input>
                                 </b-field>
-                                <button class="button is-medium is-success" style="font-family: 'Kanit', sans-serif">
+                                <button class="button is-success" style="font-family: 'Kanit', sans-serif">
                                   เห็นด้วย
                                 </button>
-                                <button class="button is-medium is-warning" @click="condition" style="font-family: 'Kanit', sans-serif">
-                                  เห็นด้วย(มีเงื่อนไข)
+                                <button class="button is-warning" @click="condition" style="font-family: 'Kanit', sans-serif">
+                                  (มีเงื่อนไข)
                                 </button>
 
                                 <b-field label="ความเห็นอาจารย์ประจำวิชา">
                                     <b-input type="textarea"></b-input>
                                 </b-field>
-                                <button class="button is-medium is-success" style="font-family: 'Kanit', sans-serif">
+                                <button class="button is-success" style="font-family: 'Kanit', sans-serif">
                                   รับทราบ
                                 </button>
-
                             </div>
                             <footer class="card-footer">
                                 <a class="card-footer-item">Save</a>
@@ -104,7 +108,8 @@ export default {
       radio: [],
       isSwitched: false,
       isSwitchedCustom: 'Yes',
-      InputProgress: ''
+      InputProgress: 0,
+      SumProgress: 0
     }
   },
   computed: {
