@@ -10,7 +10,7 @@ const auth = {
     this.firebase = context.$firebase
     this.context = context
     this.uiConfig = {
-      signInSuccessUrl: '/#/dashboard',
+      signInSuccessUrl: '/#/profile',
       signInOptions: [this.firebase.auth.GoogleAuthProvider.PROVIDER_ID]
     }
     this.ui = new firebaseui.auth.AuthUI(this.firebase.auth())
@@ -22,7 +22,7 @@ const auth = {
       let guestOnly = this.context.$route.matched.some(record => record.meta.guestOnly)
 
       if (requireAuth && !user) this.context.$router.push('auth')
-      else if (guestOnly && user) this.context.$router.push('dashboard')
+      else if (guestOnly && user) this.context.$router.push('profile')
     })
   },
   authForm (container) {

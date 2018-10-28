@@ -6,7 +6,7 @@ import Calendar from '@/views/Calendar'
 import HomeStudent from '@/components/HomeStudent'
 import Progress from '@/components/Progress'
 import Auth from '@/views/Auth'
-import Dashboard from '@/views/Dashboard'
+import Profile from '@/views/Profile'
 import AddStudent from '@/views/AddStudent'
 import ScoreBoard from '@/views/ScoreBoard'
 
@@ -45,9 +45,9 @@ export default new Router({
       component: Auth
     },
     {
-      path: '/dashboard',
-      name: 'Dashboard',
-      component: Dashboard
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
     },
     {
       path: '/addstudent',
