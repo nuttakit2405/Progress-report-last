@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Home from '@/components/Home'
 import Register from '@/components/Register'
 import Calendar from '@/views/Calendar'
 import HomeStudent from '@/components/HomeStudent'
 import Progress from '@/components/Progress'
-import Auth from '@/views/Auth'
+import Login from '@/views/Login'
 import Profile from '@/views/Profile'
 import AddStudent from '@/views/AddStudent'
 import ScoreBoard from '@/views/ScoreBoard'
@@ -17,7 +17,7 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: HelloWorld
+      component: Home
     },
     {
       path: '/register',
@@ -42,12 +42,13 @@ export default new Router({
     {
       path: '/login',
       name: 'Login',
-      component: Auth
+      component: Login
     },
     {
       path: '/profile',
       name: 'Profile',
-      component: Profile
+      component: Profile,
+      meta: { requireAuth: true }
     },
     {
       path: '/addstudent',

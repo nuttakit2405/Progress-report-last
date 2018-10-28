@@ -7,7 +7,7 @@
               <div class="level-left">
                 <div class="level-item">
                   <p class="subtitle is-5">
-                    <router-link :to="{name: 'Home'}"><strong>Progress Project</strong></router-link>
+                    <a href="/"><strong>Progress Project</strong></a>
                   </p>
                 </div>
               </div>
@@ -38,6 +38,7 @@
 <script>
 import auth from '@/auth'
 import {mapGetters} from 'vuex'
+
 export default {
   data () {
     return {}
