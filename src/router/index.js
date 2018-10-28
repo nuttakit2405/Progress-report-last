@@ -7,6 +7,7 @@ import Auth from '@/views/Auth'
 import Dashboard from '@/views/Dashboard'
 import AddStudent from '@/views/AddStudent'
 import ScoreBoard from '@/views/ScoreBoard'
+import Group from '@/components/Group'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/scoreboard',
       name: 'ScoreBoard',
       component: ScoreBoard
+    },
+    {
+      path: '/group',
+      name: 'Group',
+      component: Group
     }
 
   ]
