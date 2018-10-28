@@ -4,11 +4,11 @@ import Home from '@/components/Home'
 import Register from '@/components/Register'
 import Calendar from '@/views/Calendar'
 import HomeStudent from '@/components/HomeStudent'
-import Progress from '@/components/Progress'
 import Login from '@/views/Login'
 import Profile from '@/views/Profile'
 import AddStudent from '@/views/AddStudent'
 import ScoreBoard from '@/views/ScoreBoard'
+import Group from '@/components/Group'
 
 Vue.use(Router)
 
@@ -35,11 +35,6 @@ export default new Router({
       component: Calendar
     },
     {
-      path: '/progress',
-      name: 'Progress',
-      component: Progress
-    },
-    {
       path: '/login',
       name: 'Login',
       component: Login
@@ -59,6 +54,12 @@ export default new Router({
       path: '/scoreboard',
       name: 'ScoreBoard',
       component: ScoreBoard
+    },
+    {
+      path: '/group',
+      name: 'Group',
+      component: Group
     }
+
   ]
 })

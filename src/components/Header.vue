@@ -23,6 +23,7 @@
                     <hr class="dropdown-divider">
                     <b-dropdown-item @click="$router.push({name: 'Calendar'})">Calendar</b-dropdown-item>
                     <b-dropdown-item @click="$router.push({name: 'ScoreBoard'})">Score Board</b-dropdown-item>
+                    <b-dropdown-item @click="$router.push({name: 'Group'})">Group</b-dropdown-item>
                     <hr class="dropdown-divider">
                     <b-dropdown-item @click="logout">Log out</b-dropdown-item>
                 </b-dropdown>
