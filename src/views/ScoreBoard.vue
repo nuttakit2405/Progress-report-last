@@ -31,28 +31,7 @@
                                 </b-field>
 
                                 <b-field horizontal label="คิดเป็นร้อยละ">
-                                    <b-select placeholder=" " style="width:auto">
-                                        <option> 5%  </option>
-                                        <option> 10% </option>
-                                        <option> 15% </option>
-                                        <option> 20% </option>
-                                        <option> 25%  </option>
-                                        <option> 30% </option>
-                                        <option> 35% </option>
-                                        <option> 40% </option>
-                                        <option> 45%  </option>
-                                        <option> 50% </option>
-                                        <option> 55% </option>
-                                        <option> 60% </option>
-                                        <option> 65%  </option>
-                                        <option> 70% </option>
-                                        <option> 75% </option>
-                                        <option> 80% </option>
-                                        <option> 85% </option>
-                                        <option> 90% </option>
-                                        <option> 95% </option>
-                                        <option> 100% </option>
-                                    </b-select>
+                                    <b-input type="number" maxlength="3" style="width:70px"></b-input>
                                 </b-field>
 
                                 <b-field horizontal label="จัดทำโครงงานได้">
@@ -78,24 +57,24 @@
                                     <b-input type="textarea"></b-input>
                                 </b-field>
 
-                                <button class="button is-medium is-success">
+                                <button class="button is-medium is-success" style="font-family: 'Kanit', sans-serif" >
                                   ยืนยัน
                                 </button>
 
                                 <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
                                     <b-input type="textarea"></b-input>
                                 </b-field>
-                                <button class="button is-medium is-success">
+                                <button class="button is-medium is-success" style="font-family: 'Kanit', sans-serif">
                                   เห็นด้วย
                                 </button>
-                                <button class="button is-medium is-warning" @click="condition">
+                                <button class="button is-medium is-warning" @click="condition" style="font-family: 'Kanit', sans-serif">
                                   เห็นด้วย(มีเงื่อนไข)
                                 </button>
 
                                 <b-field label="ความเห็นอาจารย์ประจำวิชา">
                                     <b-input type="textarea"></b-input>
                                 </b-field>
-                                <button class="button is-medium is-success">
+                                <button class="button is-medium is-success" style="font-family: 'Kanit', sans-serif">
                                   รับทราบ
                                 </button>
 
@@ -141,30 +120,22 @@ export default {
       this.dropFiles.splice(index, 1)
     },
     async condition () {
-      const {value: fruit} = await this.$swal({
-        title: 'Select field validation',
-        input: 'select',
-        inputOptions: {
-          'apples': 'Apples',
-          'bananas': 'Bananas',
-          'grapes': 'Grapes',
-          'oranges': 'Oranges'
-        },
-        inputPlaceholder: 'Select a fruit',
-        showCancelButton: true,
-        inputValidator: (value) => {
-          return new Promise((resolve) => {
-            if (value === 'oranges') {
-              resolve()
-            } else {
-              resolve('You need to select oranges :)')
-            }
-          })
-        }
+      const {value: percent} = await this.$swal({
+        title: 'เปอร์เซนต์การทำงานที่เหมาะสม',
+        html: `<div> 
+            คิดเป็นร้อยละ <input id="swal-input1" class="swal2-input" style="width:90px" ><br>
+            ความคิดเห็นอาจารย์ที่ปรึกษา 
+            <textarea id="swal-input2" class="swal2-textarea"></textarea>
+            </div> `
       })
 
-      if (fruit) {
-        this.$swal('You selected: ' + fruit)
+      if (percent) {
+        this.$swal({
+          title: 'เปอร์เซนต์การทำงานถูกเปลี่ยนแปลงแล้ว',
+          // text: 'Do you want to continue',
+          type: 'success'
+          // confirmButtonText: 'Cool'
+        })
       }
     }
   }
