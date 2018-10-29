@@ -5,7 +5,7 @@
                 <div class="column"></div>
                 <!-- <div class="column"></div> -->
                 <div class="columns">
-                    <div class="column ">
+                    <div class="column">
                         <div class="column box">
                             <section>
                                 <div class="block">
