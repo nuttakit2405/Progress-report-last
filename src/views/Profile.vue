@@ -1,92 +1,99 @@
 <template>
-    <div class="auth-success">
-      <div class="container">
-        <div class="column"></div>
-        <div class="notification">
-          <div v-if="loading || fetchProfile">
-              Loading
+  <div class="container">
+    <div class="column">
+      <div class="columns">
+        <div class="column">
+          <div>
+            <div v-if="loading || fetchProfile">
+              <section>
+                <b-notification :closable="false">
+                  <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading>
+                </b-notification>
+              </section>
             </div>
-          <div v-else>
-            <div v-if="isLogged && hasProfile">
-              <div class="level">
+            <div v-else class="column box hero is-light">
+              <div v-if="isLogged && hasProfile">
+                <div class="level">
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <img :src="user.photoURL" width="100">
+                      <h3>{{profile.fullName}}</h3>
+                      <p>{{user.email}}</p>
+                    </div>
+                  </div>
+                </div>
                 <div class="level-item has-text-centered">
-                  <div>
-                    <img :src="user.photoURL" width="100">
-                    <h3>{{profile.fullName}}</h3>
-                    <p>{{user.email}}</p>
-                  </div>
+                  <!-- {{profile}} -->
+                  <span class="title is-5">ประเภทผู้ใช้งาน: </span>
+                  <span>{{stringUserType(profile.userType)}}</span>
                 </div>
+                <div class="level-item has-text-centered">
+                  <p class="title is-5">ความก้าวหน้าของงาน: </p>
+                  <p>55%</p>
+                </div>
+                <div class="level-item has-text-centered">
+                  <button class="button">ไปยังหน้าปฏิทิน</button>
+                </div>
+                <!-- <button @click="logOut">Log out</button> -->
+                <!-- Data User -->
+                <!-- <pre>{{user}}</pre> -->
               </div>
-              <div class="level-item has-text-centered">
-                {{profile}}
-                <span class="title is-5">ประเภทผู้ใช้งาน: </span>
-                <span>{{stringUserType(profile.userType)}}</span>
-              </div>
-              <div class="level-item has-text-centered">
-                <p class="title is-5">ความก้าวหน้าของงาน: </p>
-                <p>55%</p>
-              </div>
-              <div class="level-item has-text-centered">
-                <button class="button">ไปยังหน้าปฏิทิน</button>
-              </div>
-              <!-- <button @click="logOut">Log out</button> -->
-              <!-- Data User -->
-              <!-- <pre>{{user}}</pre> -->
-            </div>
-            <div class="has-text-centered" v-else-if="isLogged && !hasProfile">
-                <span class="title is-4">ตั้งค่าข้อมูลส่วนตัว</span>
-                <div class="columns is-centered has-text-left" style="margin-top: 20px">
-                  <div class="column" style="flex: none; width: fit-content;">
-                      <img :src="user.photoURL" width="100" style="border-radius: 50%; margin-top: 30px">
-                  </div>
-                  <div class="column is-4">
-                    <b-field grouped>
-                      <b-field label="ชื่อ-นามสกุล" expanded>
-                        <b-input v-model="fullName" placeholder="ชื่อ-นามสกุล"></b-input>
+              <div class="has-text-centered" v-else-if="isLogged && !hasProfile">
+                  <span class="title is-4">ตั้งค่าข้อมูลส่วนตัว</span>
+                  <div class="columns is-centered has-text-left" style="margin-top: 20px">
+                    <div class="column" style="flex: none; width: fit-content;">
+                        <img :src="user.photoURL" width="100" style="border-radius: 50%; margin-top: 30px">
+                    </div>
+                    <div class="column is-4">
+                      <b-field grouped>
+                        <b-field label="ชื่อ-นามสกุล" expanded>
+                          <b-input v-model="fullName" placeholder="ชื่อ-นามสกุล"></b-input>
+                        </b-field>
+                        <b-field label="ประเภทผู้ใช้">
+                          <b-select placeholder="เลือกประเภทผู้ใช้" v-model="userType">
+                              <option value="student">นักศึกษา</option>
+                              <option value="teacher">อาจารย์</option>
+                          </b-select>
+                        </b-field>
                       </b-field>
-                      <b-field label="ประเภทผู้ใช้">
-                        <b-select placeholder="เลือกประเภทผู้ใช้" v-model="userType">
-                            <option value="student">นักศึกษา</option>
-                            <option value="teacher">อาจารย์</option>
-                        </b-select>
+                      <b-field v-if="userType === 'student'" label="รหัสนักศึกษา">
+                        <b-input v-model="sid" placeholder="รหัสนักศึกษา"></b-input>
                       </b-field>
-                    </b-field>
-                    <b-field v-if="userType === 'student'" label="รหัสนักศึกษา">
-                      <b-input v-model="sid" placeholder="รหัสนักศึกษา"></b-input>
-                    </b-field>
-                    <b-field v-if="userType === 'teacher'" label="ประเภทอาจารย์">
-                      <section>
-                        <div class="block">
-                            <b-checkbox v-model="teacherGroup"
-                                native-value="subject">
-                                อาจารย์ประจำวิชา
-                            </b-checkbox>
-                            <b-checkbox v-model="teacherGroup"
-                                native-value="mentor">
-                                อาจารย์ที่ปรึกษา
-                            </b-checkbox>
-                        </div>
-                      </section>
-                    </b-field>
+                      <b-field v-if="userType === 'teacher'" label="ประเภทอาจารย์">
+                        <section>
+                          <div class="block">
+                              <b-checkbox v-model="teacherGroup"
+                                  native-value="subject">
+                                  อาจารย์ประจำวิชา
+                              </b-checkbox>
+                              <b-checkbox v-model="teacherGroup"
+                                  native-value="mentor">
+                                  อาจารย์ที่ปรึกษา
+                              </b-checkbox>
+                          </div>
+                        </section>
+                      </b-field>
+                    </div>
                   </div>
-                </div>
-                <div class="columns is-centered" style="margin-top: 10px;">
-                  <div class="column" style="flex: none; width: fit-content;" >
-                    <button class="button is-info" @click="saveProfile()">
-                      <b-icon icon="edit"></b-icon>
-                      <span>บันทึก</span>
-                    </button>
-                    <button v-if="edit" class="button">
-                      <b-icon icon="times"></b-icon>
-                      <span>ยกเลิก</span>
-                    </button>
+                  <div class="columns is-centered" style="margin-top: 10px;">
+                    <div class="column" style="flex: none; width: fit-content;" >
+                      <button class="button is-info" @click="saveProfile()">
+                        <b-icon icon="edit"></b-icon>
+                        <span>บันทึก</span>
+                      </button>
+                      <button v-if="edit" class="button">
+                        <b-icon icon="times"></b-icon>
+                        <span>ยกเลิก</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
+              </div>
             </div>
           </div>
-      </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -103,7 +110,9 @@ export default {
       userType: null,
       teacherGroup: [],
       edit: false,
-      fetchProfile: false
+      fetchProfile: false,
+      isLoading: true,
+      isFullPage: true
     }
   },
   computed: {
@@ -185,6 +194,12 @@ export default {
       }
       await db.database.ref('users').child(this.user.uid).set(profileData)
       await this.setProfile(this.user.uid)
+    },
+    openLoading () {
+      this.isLoading = true
+      setTimeout(() => {
+        this.isLoading = false
+      }, 10 * 1000)
     }
   }
 }

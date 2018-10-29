@@ -1,10 +1,14 @@
 <template>
-<div id="auth" style="margin-top: 30px;">
+<div id="auth">
   <div class="container">
-    <div class="columns is-mobile is-centered">
-      <div class="column is-3 hero is-light">
-        <span style="margin: 10px" class="title is-4 has-text-centered">เข้าสู่ระบบ</span>
-        <div id="firebaseui-auth-container"></div>
+    <div class="column">
+      <div class="columns is-mobile is-centered">
+        <div class="column">
+          <div class="column is-4 is-offset-4 box hero is-light">
+            <span style="margin: 10px" class="title is-4 has-text-centered">เข้าสู่ระบบ</span>
+            <div id="firebaseui-auth-container"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
