@@ -73,35 +73,6 @@ export default {
         this.getEvents({year, uid})
       }
     },
-    async viewEvent (date, key, event) {
-      // this.$swal('หัวข้อเรื่องa : ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description)
-
-      if (!event.waitaccept) {
-        this.$swal({
-          title: 'หัวข้อเรื่อง: ' + event.title,
-          text: 'รายละเอียดการนัดหมาย : ' + event.description,
-          confirmButtonText: 'แก้ไข <i class="fas fa-edit"></i>',
-          showCloseButton: true
-        })
-        return
-      }
-
-      const { value } = await this.$swal({
-        title: 'หัวข้อเรื่อง: ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description,
-        text: 'ตกลงในการนัดหมายในครั้งนี้หรือไม่ ?',
-        // type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Accept'
-      })
-      if (value) {
-        event.waitaccept = false
-        const year = this.$dayjs(date).year()
-        db.database.ref(`/allEvents/${year}/${key}`).set(event)
-        this.$swal('นัดหมายสำเร็จ', ' ', 'success')
-      }
-    },
     renderHeader ({ prev, next, selectedDate }) {
       const h = this.$createElement
       const styleButton = {
@@ -139,6 +110,51 @@ export default {
         nextButton
       ])
     },
+    async viewEvent (date, key, event) {
+      const year = this.$dayjs(date).year()
+      if (!event.waitaccept) {
+        const {value} = await this.$swal({
+          title: 'หัวข้อเรื่อง: ' + event.title,
+          text: 'รายละเอียดการนัดหมาย : ' + event.description,
+          confirmButtonText: 'แก้ไข <i class="fas fa-edit"></i>',
+          showCloseButton: true
+        })
+
+        if (value) {
+          const data = await this.eventForm(date, event)
+          if (data) {
+            db.database.ref(`/allEvents/${year}`).child(key).set(data)
+            const toast = this.$swal.mixin({
+              toast: true,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 3000
+            })
+            await toast({
+              type: 'success',
+              title: 'successfully'
+            })
+          }
+        }
+        return
+      }
+
+      const { value } = await this.$swal({
+        title: 'หัวข้อเรื่อง: ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description,
+        text: 'ตกลงในการนัดหมายในครั้งนี้หรือไม่ ?',
+        // type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Accept'
+      })
+      if (value) {
+        event.waitaccept = false
+        const year = this.$dayjs(date).year()
+        db.database.ref(`/allEvents/${year}/${key}`).set(event)
+        this.$swal('นัดหมายสำเร็จ', ' ', 'success')
+      }
+    },
     async removeEvent (date, eventKey, event) {
       const year = this.$dayjs(date).year()
       const { value } = await this.$swal({
@@ -156,29 +172,48 @@ export default {
       }
     },
     async addEvent (date) {
-    // Use sweetalert2
+      const data = await this.eventForm(date.full)
+      if (data) {
+        db.database.ref(`/allEvents/${date.year}`).push(data)
+        const toast = this.$swal.mixin({
+          toast: true,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 3000
+        })
+        await toast({
+          type: 'success',
+          title: 'successfully'
+        })
+      }
+    },
+    createTimeOptions (select = null) {
       let timeOptions = ''
       let time = this.$dayjs()
       for (let i = 0; i < 24; i++) {
         const time1 = time.set('hour', i).set('minute', 0).format('HH:mm')
-        timeOptions += `<option>${time1}</option>`
         const time2 = time.set('hour', i).set('minute', 30).format('HH:mm')
-        timeOptions += `<option>${time2}</option>`
+        timeOptions = timeOptions + (select === time1 ? `<option selected>${time1}</option>` : `<option>${time1}</option>`)
+        timeOptions = timeOptions + (select === time2 ? `<option selected>${time2}</option>` : `<option>${time2}</option>`)
       }
-
-      const fullDate = this.$dayjs(date.full).format('ddddที่ D MMMM YYYY')
-
-      const rawHtml = `
-      <div>
+      return timeOptions
+    },
+    async eventForm (date, defaultData = null) {
+      const fullDate = this.$dayjs(date).format('ddddที่ D MMMM YYYY')
+      const titileValue = defaultData && defaultData.title ? `value="${defaultData.title}"` : ''
+      const descriptionValue = defaultData && defaultData.description ? defaultData.description : ''
+      const startTimeOption = defaultData && defaultData.start ? this.createTimeOptions(defaultData.start) : this.createTimeOptions()
+      const endTimeOption = defaultData && defaultData.end ? this.createTimeOptions(defaultData.end) : this.createTimeOptions()
+      const rawHtml = `<div>
         <span>วัน${fullDate}</span>
-        <input id="swal-input1" class="swal2-input" placeholder="เรื่องในการนัดหมาย">
-        <textarea id="swal-input2" class="swal2-textarea" placeholder="รายละเอียดในการนัดหมาย"></textarea>
+        <input id="swal-input1" class="swal2-input" ${titileValue} placeholder="เรื่องในการนัดหมาย">
+        <textarea id="swal-input2" class="swal2-textarea" placeholder="รายละเอียดในการนัดหมาย">${descriptionValue}</textarea>
         <div style="display: flex; flex-direction: row; justify-content: center;">
           <span style="display: flex; align-items: center; margin: 0px 5px;">
             เวลา:
             <span class="select" style="width: auto; margin: 0px 5px;">
               <select id="swal-input3">
-                ${timeOptions}
+                ${startTimeOption}
               </select>
             </span>
           </span>
@@ -186,7 +221,7 @@ export default {
             ถึงเวลา:
             <span class="select" style="width: auto; margin: 0px 5px;">
               <select id="swal-input4">
-                ${timeOptions}
+                ${endTimeOption}
               </select>
             </span>
           </span>
@@ -206,7 +241,6 @@ export default {
         }
       })
       if (formValues) {
-        // `หัวข้อเรื่อง : formValues[0] + ' \n' + 'รายละเอียดการนัดหมาย : ' + formValues[1] + formValues[2]
         await this.$swal({
           title: `หัวข้อเรื่อง: ${formValues[0]}`,
           html: `<div style="display: flex; flex-direction: column;">
@@ -215,29 +249,20 @@ export default {
             <span>วัน${fullDate}</span>
           </div>`
         })
+        const waitaccept = defaultData && defaultData.waitaccept !== null ? defaultData.waitaccept : true
+        const members = defaultData && defaultData.members !== null ? defaultData.members : [this.user.uid]
         const data = {
-          date: date.full,
+          date: date,
           title: formValues[0],
           description: formValues[1],
-          waitaccept: true,
-          members: [this.user.uid],
+          waitaccept: waitaccept,
+          members: members,
           start: formValues[2],
           end: formValues[3]
         }
-        db.database.ref(`/allEvents/${date.year}`).push(data)
-
-        // waitaccept: true ถ้าเป็นtrue เมื่อกรอกเสร็จจะเป็นสีเขียว
-        const toast = this.$swal.mixin({
-          toast: true,
-          position: 'top',
-          showConfirmButton: false,
-          timer: 3000
-        })
-        await toast({
-          type: 'success',
-          title: 'successfully'
-        })
+        return data
       }
+      return null
     }
   },
   mounted () {
