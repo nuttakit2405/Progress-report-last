@@ -276,7 +276,7 @@ export default {
   text-align: center;
 }
 .vue-calendar-body-row {
-  height: 8em;
+  height: 6em;
 }
 </style>
 
