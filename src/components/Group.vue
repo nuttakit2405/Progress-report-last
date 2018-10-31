@@ -1,8 +1,8 @@
 <template>
-  <div class="layout">
+  <div class="layoutcalendar">
     <div class="card">
       <header class="card-header">
-        <p class="card-header-title space">
+        <p class="card-header-title iconcalendar" @click="$router.push({name: 'Calendar'})">
           Component
           <b-icon
               icon="calendar-alt"
@@ -35,7 +35,7 @@
             </b-icon>
           </span>
         </p>
-        <p class="card-footer-item">
+        <p class="card-footer-item" @click="$router.push({name: 'ScoreBoard'})">
           <span>
             <b-icon
               icon="file-alt"
@@ -55,13 +55,14 @@
      </div>
 </div>
 </template>
-<style>
-.layout{
-  margin-top: 100px;
-  margin-right: 550px;
-  margin-left: 550px;
+<style scooped>
+.layoutcalendar{
+  margin-top:50px;
+  margin-left: auto;
+  margin-right: auto;
+  width:450px;
 }
-.space{
+.iconcalendar{
   justify-content: space-between;
   display: flex;
 }

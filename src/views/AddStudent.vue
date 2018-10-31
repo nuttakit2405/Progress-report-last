@@ -56,7 +56,7 @@
                                 <b-input name="year" type= "number" min="2500" max="3000" minlength="4" maxlength="4" placeholder="ปีการศึกษา" expanded></b-input>
                             </b-field>
                         </b-field><br>
-                        <center><button class="button is-success">ยืนยัน</button></center>
+                        <center><button class="button is-success" @click="$router.push({name: 'Group'})">ยืนยัน</button></center>
                     </section></div>
                 </div>
             </div>
