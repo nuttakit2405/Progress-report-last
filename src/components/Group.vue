@@ -19,9 +19,9 @@
                         <p class="card-header-title iconcalendar" @click="$router.push({name: 'Calendar'})">
                           อ.ประจำวิชา
                           <b-icon
-                            icon="calendar-alt"
-                            size="is-large">
-                          </b-icon>
+                              icon="calendar-alt"
+                              size="is-large">
+                            </b-icon>
                         </p>
                       </header>
                       <div class="card-content">

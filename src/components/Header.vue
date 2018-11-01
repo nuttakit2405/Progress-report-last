@@ -29,6 +29,10 @@
                       <b-dropdown-item @click="logout">Log out</b-dropdown-item>
                     </b-dropdown>
                   </div>
+                  <div>
+
+                  </div>
+                  <!-- <router-link v-else :to="{name: 'Login'}" class="button ">Login</router-link> -->
                 </div>
               </nav>
             </div>
