@@ -72,7 +72,6 @@
                 <div v-else >
                   <div class="level-item has-text-centered" >
                     <div>
-                      
                     </div>
                     <div class="card" v-for="ind in 5" :key="ind">
                       <header class="card-header">
@@ -129,9 +128,7 @@
                     </div>
                   </div>
                 </div>
-                
               </div>
-              
             </section>
           </div>
         </div>
