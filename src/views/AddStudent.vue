@@ -36,8 +36,31 @@
                         </b-field>
 
                         <b-field horizontal label="ชื่อที่ปรึกษา">
-                            <b-input name="mentor1" placeholder="ชื่อ-นามสกุล อาจารย์ที่ปรึกษา" expanded></b-input>
+                            <b-select placeholder="เลือกอาจารย์ที่ปรึกษา" required>
+                                <option value="teacher1">ผู้ช่วยศาสตราจารย์ ดร. ขนิษฐา นามี</option>
+                                <option value="teacher2">ผู้ช่วยศาสตราจารย์ ดร. พาฝัน ดวงไพศาล</option>
+                                <option value="teacher3">ผู้ช่วยศาสตราจารย์ ดร. ยุพิน สรรพคุณ</option>
+                                <option value="teacher4">ผู้ช่วยศาสตราจารย์ ดร. วันทนี ประจวบศุภกิจ</option>
+                                <option value="teacher5">ผู้ช่วยศาสตราจารย์ อรบุษป์ วุฒิกมลชัย</option>
+                                <option value="teacher6">ผู้ช่วยศาสตราจารย์ ดร. อนิราช มิ่งขวัญ</option>
+                                <option value="teacher7">ผู้ช่วยศาสตราจารย์ สุปีติ กุลจันทร์</option>
+                                <option value="teacher8">ผู้ช่วยศาสตราจารย์ สุพาภรณ์ ซิ้มเจริญ</option>
+                                <option value="teacher9">อาจารย์ ดร. ประดิษฐ์ พิทักษ์เสถียรกุล</option>
+                                <option value="teacher10">อาจารย์ ดร. วิชญา รุ่นสุวรรณ์</option>
+                                <option value="teacher11">อาจารย์ ดร. สมพัตร์ เบ็ญจชัยพร</option>
+                                <option value="teacher12">อาจารย์ นัฎฐพันธ์ นาคพงษ์</option>
+                                <option value="teacher13">อาจารย์ นิติการ นาคเจือทอง</option>
+                                <option value="teacher14">อาจารย์ นพดล บูรณ์กุศล</option>
+                                <option value="teacher15">อาจารย์ นพเก้า ทองใบ</option>
+                                <option value="teacher16">อาจารย์ นิมิต ศรีคำทา</option>
+                                <option value="teacher17">อาจารย์ บีสุดา ดาวเรือง</option>
+                                <option value="teacher18">อาจารย์ ปองพล สพันธุ์พงศ์</option>
+                                <option value="teacher19">อาจารย์ วัชรชัย คงศิริวัฒนา</option>
+                                <option value="teacher20">อาจารย์ สมชัย เชียงพงศ์พันธุ์</option>
+                                <option value="teacher21">อาจารย์ สิวาลัย จินเจือ</option>
+                            </b-select>
                         </b-field>
+
                         <b-field horizontal label="ชื่อที่ปรึกษาร่วม">
                             <b-input name="mentor2" placeholder="ชื่อ-นามสกุล อาจารย์ที่ปรึกษาร่วม" expanded></b-input>
                         </b-field>
