@@ -29,10 +29,10 @@
                             <b-field horizontal label="รหัสนักศึกษา">
                                 <b-input v-model="n.id" name="id" type="number" maxlength="13" min="0" placeholder="รหัสนักศึกษา 13 หลัก" expanded></b-input>
                             </b-field> <br>
-                            <!-- <button v-if="i > 0" @click="Removeteam">1</button> -->
+                            <button v-if="i > 0" :v-model="statusDelteam" @click="Delteam" class="button is-info">1</button>
                         </div>
                         <b-field  class="buttonAddteam">
-                            <button @click="Addteam" class ="button is-primary">+</button>
+                            <button @click="Addteam" class ="button is-primary" icon="times">+</button>
                         </b-field>
 
                         <b-field horizontal label="ชื่อที่ปรึกษา">
@@ -72,7 +72,8 @@ export default {
         lastname: '',
         id: ''
       }],
-      favorited: false
+      favorited: false,
+      statusDelteam: true
     }
   },
   methods: {
@@ -82,6 +83,9 @@ export default {
         lastname: '',
         id: ''
       })
+    },
+    Delteam (i) {
+      this.teams.splice(i, 1)
     }
   }
 }
