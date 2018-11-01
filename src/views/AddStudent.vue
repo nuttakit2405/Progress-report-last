@@ -28,7 +28,7 @@
                             </b-field>
                             <b-field horizontal label="รหัสนักศึกษา">
                                 <b-input v-model="n.id" name="id" type="number" maxlength="13" min="0" placeholder="รหัสนักศึกษา 13 หลัก" expanded></b-input>
-                            </b-field>
+                            </b-field> <br>
                             <!-- <button v-if="i > 0" @click="Removeteam">1</button> -->
                         </div>
                         <b-field  class="buttonAddteam">
@@ -118,7 +118,7 @@ export default {
  }
 .buttonAddteam{
   margin-top: 10px;
-   display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
