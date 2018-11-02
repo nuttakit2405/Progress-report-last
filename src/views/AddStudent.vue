@@ -67,24 +67,43 @@
                                     <option value="teacher21">อาจารย์ สิวาลัย จินเจือ</option>
                                 </b-select>
                             </b-field>
-                            <b-field horizontal label="ชื่อที่ปรึกษาร่วม">
+                            <b-field horizontal label="ที่ปรึกษาร่วม">
                                 <b-input name="mentor2" placeholder="ชื่อ-นามสกุล อาจารย์ที่ปรึกษาร่วม" expanded></b-input>
                             </b-field>
                             <b-field horizontal label="หน่วยงาน">
                                 <b-input name="dep" placeholder="ชื่อสถานประกอบการ/หน่วยงาน" expanded></b-input>
                             </b-field>
                             <b-field horizontal label="ภาคการศึกษา">
-                                <b-field >
+                                <b-field class style="width:150px;">
                                 <b-select expanded placeholder="เลือกภาคเรียน">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                 </b-select>
                                 </b-field>
-                                <b-field>
+                                <b-field class style="margin-right:150px; width:100;">
                                     <b-input name="year" type= "number" min="2500" max="3000" minlength="4" maxlength="4" placeholder="ปีการศึกษา" expanded></b-input>
                                 </b-field>
-                            </b-field><br>
+                            </b-field>
+
+                            <div class="field" style="margin-left:105px;">
+                                <b-radio v-model="radio"
+                                    native-value="term">
+                                    โครงงาน 1 ภาคการศึกษา
+                                </b-radio>
+                                <b-radio v-model="radio"
+                                    native-value="terms">
+                                    โครงงาน 2 ภาคการศึกษา
+                                </b-radio>
+                            </div>
+
+                            <b-field label="วันยื่นสอบ" horizontal>
+                              <b-datepicker
+                                  placeholder="เลือกวันยื่นสอบ"
+                                  icon="calendar-alt" style="width:150px;">
+                              </b-datepicker>
+                            </b-field>
+
                         </div>
                         <center><button class="button is-success" @click="$router.push({name: 'Group'})">ยืนยัน</button></center>
                     </section></div>
