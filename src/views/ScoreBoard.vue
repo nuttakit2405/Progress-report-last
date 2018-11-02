@@ -40,6 +40,17 @@
                                         <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
                                             <b-input type="textarea"></b-input>
                                         </b-field>
+<b-field class="file">
+        <b-upload v-model="file">
+            <a class="button is-primary">
+                <b-icon icon="upload"></b-icon>
+                <span>Click to upload</span>
+            </a>
+        </b-upload>
+        <span class="file-name" v-if="file">
+            {{ file.name }}
+        </span>
+    </b-field>
 
                                         <b-field horizontal label="คิดเป็นร้อยละ">
                                             <b-input type="number" maxlength="3" style="width:95px" min="0" max="100" v-model="InputProgress"></b-input>
