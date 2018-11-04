@@ -9,6 +9,9 @@ import Profile from '@/views/Profile'
 import AddProject from '@/views/AddProject'
 import ScoreBoard from '@/views/ScoreBoard'
 import ScalWork from '@/components/ScalWork'
+import ProgressStudent from '@/components/ProgressStudent'
+import ProgressMentor from '@/components/ProgressMentor'
+import ProgressTeacher from '@/components/ProgressTeacher'
 
 Vue.use(Router)
 
@@ -61,6 +64,21 @@ export default new Router({
       path: '/scalwork',
       name: 'ScalWork',
       component: ScalWork
+    },
+    {
+      path: '/progressstudent',
+      name: 'ProgressStudent',
+      component: ProgressStudent
+    },
+    {
+      path: '/progressmentor',
+      name: 'ProgressMentor',
+      component: ProgressMentor
+    },
+    {
+      path: '/progressteacher',
+      name: 'ProgressTeacher',
+      component: ProgressTeacher
     }
 
   ]
