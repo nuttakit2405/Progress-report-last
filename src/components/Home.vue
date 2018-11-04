@@ -8,7 +8,7 @@
               <router-link :to="{name: 'Login'}" class="button is-medium">Login</router-link>
             </div>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
   </div>

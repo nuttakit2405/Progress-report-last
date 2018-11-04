@@ -121,6 +121,7 @@ export default {
         lastname: '',
         id: ''
       }],
+      radio: '',
       favorited: false,
       statusDelteam: true
     }
