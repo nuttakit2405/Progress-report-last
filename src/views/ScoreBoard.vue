@@ -23,9 +23,6 @@
                           </div>
                         </div>
                     </div>
-                    <div class="column" v-if="showBooks == true">
-                        <scal-work></scal-work>
-                    </div>
                   </div>
                 </div>
                 <div class="card-content">
@@ -43,28 +40,7 @@
           </div>
         </div>
         <div class="column" v-if="showBooks == true">
-          <div class="column box">
-            <section>
-              <b-tabs v-model="activeTab">
-                <b-tab-item :visible="showBooks" label="ยังไม่เสร็จ">
-                  ขอบเขตการทำงาน
-                  <div v-for="(n, i) in teams" :key="i">
-                    <b-field>
-                      <b-input name="name" placeholder="Name" expanded></b-input>
-                    </b-field>
-                  </div>
-
-                  <button @click="Addteam" class ="button is-dark " icon="times">
-                    <b-icon icon="plus" size="is-small"></b-icon>
-                  </button>
-
-                </b-tab-item>
-                <b-tab-item :visible="showBooks" label="เสร็จแล้ว">
-                    ขอบเขตนะจ๊ะ
-                </b-tab-item>
-              </b-tabs>
-            </section>
-          </div>
+          <scal-work/>
         </div>
       </div>
     </div>
@@ -72,6 +48,7 @@
 </template>
 
 <script>
+import auth from '@/auth'
 import ScalWork from '@/components/ScalWork'
 import ProgressStudent from '@/components/ProgressStudent'
 import ProgressMentor from '@/components/ProgressMentor'
@@ -108,6 +85,33 @@ export default {
     ProgressStudent,
     ProgressMentor,
     ProgressTeacher
+  },
+  methods: {
+    logOut () {
+      auth.logout()
+    },
+    deleteDropFile (index) {
+      this.dropFiles.splice(index, 1)
+    },
+    async condition () {
+      const {value: percent} = await this.$swal({
+        title: 'เปอร์เซนต์การทำงานที่เหมาะสม',
+        html: `<div>
+            คิดเป็นร้อยละ <input id="swal-input1" class="swal2-input" style="width:90px"><br>
+            ความคิดเห็นอาจารย์ที่ปรึกษา
+            <textarea id="swal-input2" class="swal2-textarea"></textarea>
+            </div> `
+      })
+
+      if (percent) {
+        this.$swal({
+          title: 'เปอร์เซนต์การทำงานถูกเปลี่ยนแปลงแล้ว',
+          // text: 'Do you want to continue',
+          type: 'success'
+          // confirmButtonText: 'Cool'
+        })
+      }
+    }
   }
 }
 </script>

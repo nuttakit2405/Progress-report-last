@@ -49,7 +49,9 @@ import storage from '@/storage'
 export default {
   data () {
     return {
-      file: null
+      file: null,
+      radio: '',
+      InputProgress: ''
     }
   },
   methods: {
