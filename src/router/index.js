@@ -6,7 +6,7 @@ import Calendar from '@/views/Calendar'
 import HomeStudent from '@/components/HomeStudent'
 import Login from '@/views/Login'
 import Profile from '@/views/Profile'
-import AddStudent from '@/views/AddStudent'
+import AddProject from '@/views/AddProject'
 import ScoreBoard from '@/views/ScoreBoard'
 import Group from '@/components/Group'
 import ScalWork from '@/components/ScalWork'
@@ -48,9 +48,9 @@ export default new Router({
       meta: { requireAuth: true }
     },
     {
-      path: '/addstudent',
-      name: 'AddStudent',
-      component: AddStudent
+      path: '/addproject',
+      name: 'AddProject',
+      component: AddProject
     },
     {
       path: '/scoreboard',
