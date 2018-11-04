@@ -8,10 +8,10 @@
                     <section>
                         <div class="box">
                             <b-field horizontal label="ชื่อโครงงาน">
-                                <b-input name="ProjectName1" placeholder="ภาษาไทย" expanded></b-input>
+                                <b-input name="ProjectName1" placeholder="ภาษาไทย" expanded  required></b-input>
                             </b-field>
                             <b-field horizontal>
-                                <b-input name="ProjectName2" placeholder="ภาษาอังกฤษ" expanded></b-input>
+                                <b-input name="ProjectName2" placeholder="ภาษาอังกฤษ" expanded  required></b-input>
                             </b-field> <br>
 
                             <b-field horizontal label="กรณีศึกษา">
@@ -24,11 +24,11 @@
                         <!-- <div class= "aa" v-for="(item, index) in items" > -->
                         <div v-for="(n, i) in teams" :key="i" class="box">
                             <b-field horizontal :label="'ชื่อ-นามสกุล'+(i+1)">
-                                <b-input v-model="n.name" name="name" placeholder="ชื่อ" expanded></b-input>
-                                <b-input v-model="n.lastname" name="lastname" placeholder="นามสกุล" expanded></b-input>
+                                <b-input v-model="n.name" name="name" placeholder="ชื่อ" expanded  required></b-input>
+                                <b-input v-model="n.lastname" name="lastname" placeholder="นามสกุล" expanded required></b-input>
                             </b-field>
                             <b-field horizontal label="รหัสนักศึกษา">
-                                <b-input v-model="n.id" name="id" type="number" maxlength="13" min="0" placeholder="รหัสนักศึกษา 13 หลัก" expanded></b-input>
+                                <b-input v-model="n.id" name="id" type="number" maxlength="13" min="0" placeholder="รหัสนักศึกษา 13 หลัก" expanded  required></b-input>
                             </b-field>
                             <div class="level-item has-text-centered">
                             <button v-if="i > 0" :v-model="statusDelteam" @click="Delteam" class="button is-info">
@@ -73,7 +73,7 @@
                             <b-field horizontal label="หน่วยงาน">
                                 <b-input name="dep" placeholder="ชื่อสถานประกอบการ/หน่วยงาน" expanded></b-input>
                             </b-field>
-                            <b-field horizontal label="ภาคการศึกษา">
+                            <b-field horizontal label="ภาคการศึกษา"  required>
                                 <b-field class style="width:150px;">
                                 <b-select expanded placeholder="เลือกภาคเรียน">
                                     <option value="1">1</option>
@@ -81,7 +81,7 @@
                                     <option value="3">3</option>
                                 </b-select>
                                 </b-field>
-                                <b-field class style="margin-right:150px; width:100;">
+                                <b-field class style="margin-right:150px; width:100;"  required>
                                     <b-input name="year" type= "number" min="2500" max="3000" minlength="4" maxlength="4" placeholder="ปีการศึกษา" expanded></b-input>
                                 </b-field>
                             </b-field>
@@ -97,7 +97,7 @@
                                 </b-radio>
                             </div>
 
-                            <b-field label="วันยื่นสอบ" horizontal>
+                            <b-field label="วันยื่นสอบ" horizontal  required>
                               <b-datepicker
                                   placeholder="เลือกวันยื่นสอบ"
                                   icon="calendar-alt" style="width:150px;">
