@@ -41,8 +41,20 @@
                                             <b-input type="textarea"></b-input>
                                         </b-field>
 
+                                        <b-field class="file">
+                                          <b-upload v-model="file">
+                                            <a class="button is-primary">
+                                              <b-icon icon="upload"></b-icon>
+                                                <span>Click to upload</span>
+                                            </a>
+                                          </b-upload>
+                                            <span class="file-name" v-if="file">
+                                              {{ file.name }}
+                                            </span>
+                                        </b-field>
+
                                         <b-field horizontal label="คิดเป็นร้อยละ">
-                                            <b-input type="number" maxlength="3" style="width:95px" min="0" max="100" v-model="InputProgress"></b-input>
+                                            <b-input type="number" maxlength="3" style="width:95px" min="1" max="100" v-model="InputProgress"></b-input>
                                         </b-field>
                                         <b-field horizontal label="จัดทำโครงงานได้">
                                         <b-radio v-model="radio"
@@ -74,16 +86,42 @@
                                         <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
                                             <b-input type="textarea"></b-input>
                                         </b-field>
+
+                                         <b-field class="file">
+                                          <b-upload v-model="file">
+                                            <a class="button is-primary">
+                                              <b-icon icon="upload"></b-icon>
+                                                <span>Click to upload</span>
+                                            </a>
+                                          </b-upload>
+                                            <span class="file-name" v-if="file">
+                                              {{ file.name }}
+                                            </span>
+                                        </b-field>
+
                                         <button class="button is-success" style="font-family: 'Kanit', sans-serif">
                                         เห็นด้วย
                                         </button>
                                         <button class="button is-warning" @click="condition" style="font-family: 'Kanit', sans-serif">
-                                        (มีเงื่อนไข)
+                                        เห็นด้วย (มีเงื่อนไข)
                                         </button>
 
                                         <b-field label="ความเห็นอาจารย์ประจำวิชา">
                                             <b-input type="textarea"></b-input>
                                         </b-field>
+
+                                        <b-field class="file">
+                                          <b-upload v-model="file">
+                                            <a class="button is-primary">
+                                              <b-icon icon="upload"></b-icon>
+                                                <span>Click to upload</span>
+                                            </a>
+                                          </b-upload>
+                                            <span class="file-name" v-if="file">
+                                              {{ file.name }}
+                                            </span>
+                                        </b-field>
+
                                         <button class="button is-success" style="font-family: 'Kanit', sans-serif">
                                         รับทราบ
                                         </button>
@@ -98,15 +136,25 @@
                         </div>
                     </div>
                     <div class="column" v-if="showBooks == true">
-                        <div class="column box">
+                        <!-- <div class="column box">
                             <section>
                             <b-tabs v-model="activeTab">
-                                <b-tab-item :visible="showBooks" label="Books">
+                                <b-tab-item :visible="showBooks" label="ยังไม่เสร็จ">
+                                  ขอบเขตการทำงาน
+                                    <b-field>
+                                      <b-input name="name" placeholder="Name" expanded></b-input>
+                                    </b-field>
+                                    <div class="ButtonAddWork">
+                                      <button class="button is-primary">เพิ่มขอบเขต</button>
+                                    </div>
+                                </b-tab-item>
+                                <b-tab-item :visible="showBooks" label="เสร็จแล้ว">
                                     ขอบเขตนะจ๊ะ
                                 </b-tab-item>
                             </b-tabs>
                             </section>
-                        </div>
+                        </div> -->
+                        <scal-work></scal-work>
                     </div>
                 </div>
             </div>
@@ -116,6 +164,7 @@
 
 <script>
 import auth from '@/auth'
+import ScalWork from '@/components/ScalWork'
 
 export default {
   name: 'auth-success',
@@ -128,7 +177,10 @@ export default {
       InputProgress: 0,
       SumProgress: 0,
       activeTab: 0,
-      showBooks: false
+      showBooks: false,
+      teams: [{
+        name: ''
+      }]
     }
   },
   computed: {
@@ -138,6 +190,9 @@ export default {
     showInput () {
       return this.InputProgress
     }
+  },
+  components: {
+    ScalWork
   },
   methods: {
     logOut () {
@@ -150,7 +205,7 @@ export default {
       const {value: percent} = await this.$swal({
         title: 'เปอร์เซนต์การทำงานที่เหมาะสม',
         html: `<div> 
-            คิดเป็นร้อยละ <input id="swal-input1" class="swal2-input" style="width:90px" ><br>
+            คิดเป็นร้อยละ <input id="swal-input1" class="swal2-input" style="width:90px"><br>
             ความคิดเห็นอาจารย์ที่ปรึกษา 
             <textarea id="swal-input2" class="swal2-textarea"></textarea>
             </div> `
@@ -178,5 +233,9 @@ export default {
 .fieldSize{
     margin-right: 80px;
     margin-left: 80px;
+}
+.ButtonAddWork{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
