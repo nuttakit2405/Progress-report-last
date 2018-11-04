@@ -6,6 +6,7 @@
             ขอบเขตการทำงาน
               <b-field>
                 <b-input name="detail" placeholder="Name" v-model="detail.Scal" expanded></b-input>
+                <b-input name="detail" placeholder="Name" expanded></b-input>
               </b-field>
               <div class="ButtonAddWork">
                 <button class="button is-primary" @click="ClickScal">เพิ่มขอบเขต</button>
@@ -13,7 +14,7 @@
               <div v-if="activeTab == 0">
                 {{detail.Scal}}
               </div>
-              
+
           </b-tab-item>
           <b-tab-item :visible="showBooks" label="เสร็จแล้ว">
               ขอบเขตนะจ๊ะ

@@ -20,14 +20,14 @@
                           <b-icon  icon="caret-down"></b-icon>
                       </button>
                       <b-dropdown-item @click="$router.push({name: 'Profile'})">Profile</b-dropdown-item>
-                      <b-dropdown-item @click="$router.push({name: 'AddStudent'})">addstudent</b-dropdown-item>
+                      <b-dropdown-item @click="$router.push({name: 'AddProject'})">Add Project</b-dropdown-item>
                       <hr class="dropdown-divider">
                       <b-dropdown-item @click="$router.push({name: 'Calendar'})">Calendar</b-dropdown-item>
                       <b-dropdown-item @click="$router.push({name: 'ScoreBoard'})">Score Board</b-dropdown-item>
-                      <b-dropdown-item @click="$router.push({name: 'Group'})">Group</b-dropdown-item>
                       <hr class="dropdown-divider">
                       <b-dropdown-item @click="logout">Log out</b-dropdown-item>
                     </b-dropdown>
+                    <button v-else @click="$router.push({name: 'Login'})" class="button">Login</button>
                   </div>
                   <div>
 

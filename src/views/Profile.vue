@@ -77,7 +77,7 @@
                   </div>
                   <div class="columns is-centered" style="margin-top: 10px;">
                     <div class="column" style="flex: none; width: fit-content;" >
-                      <button class="button is-info" @click="$router.push({name: 'AddStudent'})">
+                      <button class="button is-info" @click="saveProfile()">
                         <!-- @click="saveProfile()" -->
                         <b-icon icon="edit"></b-icon>
                         <span>บันทึก</span>
