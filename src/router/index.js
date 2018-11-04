@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Home from '@/components/Home'
+import Home from '@/components/Home'
 import Register from '@/components/Register'
 import Calendar from '@/views/Calendar'
 import HomeStudent from '@/components/HomeStudent'
@@ -14,11 +14,12 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'Home',
-    //   component: Home
-    // },
+    {
+      path: '/',
+      name: 'Home',
+      component: Home,
+      meta: { requireAuth: true }
+    },
     {
       path: '/register',
       name: 'Register',
@@ -36,7 +37,7 @@ export default new Router({
       meta: { requireAuth: true }
     },
     {
-      path: '/',
+      path: '/login',
       name: 'Login',
       component: Login
     },
