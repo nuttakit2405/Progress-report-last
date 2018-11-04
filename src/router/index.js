@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
+import Home from '@/views/Home'
 import Register from '@/components/Register'
 import Calendar from '@/views/Calendar'
 import HomeStudent from '@/components/HomeStudent'
@@ -8,7 +8,6 @@ import Login from '@/views/Login'
 import Profile from '@/views/Profile'
 import AddProject from '@/views/AddProject'
 import ScoreBoard from '@/views/ScoreBoard'
-import Group from '@/components/Group'
 import ScalWork from '@/components/ScalWork'
 
 Vue.use(Router)
@@ -57,11 +56,6 @@ export default new Router({
       path: '/scoreboard',
       name: 'ScoreBoard',
       component: ScoreBoard
-    },
-    {
-      path: '/group',
-      name: 'Group',
-      component: Group
     },
     {
       path: '/scalwork',
