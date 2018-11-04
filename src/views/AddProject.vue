@@ -5,123 +5,145 @@
             <div class="column is-8 is-offset-2">
                 <div class="column box">
                     <div class="column is-10 is-offset-1">
-                    <section>
-                        <div class="box">
-                            <b-field horizontal label="ชื่อโครงงาน">
-                                <b-input name="ProjectName1" placeholder="ภาษาไทย" expanded  required></b-input>
-                            </b-field>
-                            <b-field horizontal>
-                                <b-input name="ProjectName2" placeholder="ภาษาอังกฤษ" expanded  required></b-input>
-                            </b-field> <br>
-
-                            <b-field horizontal label="กรณีศึกษา">
-                                <b-input name="CaseStudy1" placeholder="ภาษาไทย" expanded></b-input>
-                            </b-field>
-                            <b-field horizontal>
-                                <b-input name="CaseStudy2" placeholder="ภาษาอังกฤษ" expanded></b-input>
-                            </b-field> <br>
-                        </div>
-                        <!-- <div class= "aa" v-for="(item, index) in items" > -->
-                        <div v-for="(n, i) in teams" :key="i" class="box">
-                            <b-field horizontal :label="'ชื่อ-นามสกุล'+(i+1)">
-                                <b-input v-model="n.name" name="name" placeholder="ชื่อ" expanded  required></b-input>
-                                <b-input v-model="n.lastname" name="lastname" placeholder="นามสกุล" expanded required></b-input>
-                            </b-field>
-                            <b-field horizontal label="รหัสนักศึกษา">
-                                <b-input v-model="n.id" name="id" type="number" maxlength="13" min="0" placeholder="รหัสนักศึกษา 13 หลัก" expanded  required></b-input>
-                            </b-field>
-                            <div class="level-item has-text-centered">
-                            <button v-if="i > 0" :v-model="statusDelteam" @click="Delteam" class="button is-info">
-                                <b-icon icon="times" size="is-small"></b-icon>
-                            </button>
-                            </div>
-                        </div>
-                        <b-field  class="buttonAddteam">
-                            <button @click="Addteam" class ="button is-dark " icon="times">
-                                <b-icon icon="plus" size="is-small"></b-icon>
-                            </button>
-                        </b-field>
-                        <div class="box">
-                            <b-field horizontal label="ชื่อที่ปรึกษา">
-                                <b-select placeholder="เลือกอาจารย์ที่ปรึกษา" required>
-                                    <option value="teacher1">ผู้ช่วยศาสตราจารย์ ดร. ขนิษฐา นามี</option>
-                                    <option value="teacher2">ผู้ช่วยศาสตราจารย์ ดร. พาฝัน ดวงไพศาล</option>
-                                    <option value="teacher3">ผู้ช่วยศาสตราจารย์ ดร. ยุพิน สรรพคุณ</option>
-                                    <option value="teacher4">ผู้ช่วยศาสตราจารย์ ดร. วันทนี ประจวบศุภกิจ</option>
-                                    <option value="teacher5">ผู้ช่วยศาสตราจารย์ อรบุษป์ วุฒิกมลชัย</option>
-                                    <option value="teacher6">ผู้ช่วยศาสตราจารย์ ดร. อนิราช มิ่งขวัญ</option>
-                                    <option value="teacher7">ผู้ช่วยศาสตราจารย์ สุปีติ กุลจันทร์</option>
-                                    <option value="teacher8">ผู้ช่วยศาสตราจารย์ สุพาภรณ์ ซิ้มเจริญ</option>
-                                    <option value="teacher9">อาจารย์ ดร. ประดิษฐ์ พิทักษ์เสถียรกุล</option>
-                                    <option value="teacher10">อาจารย์ ดร. วิชญา รุ่นสุวรรณ์</option>
-                                    <option value="teacher11">อาจารย์ ดร. สมพัตร์ เบ็ญจชัยพร</option>
-                                    <option value="teacher12">อาจารย์ นัฎฐพันธ์ นาคพงษ์</option>
-                                    <option value="teacher13">อาจารย์ นิติการ นาคเจือทอง</option>
-                                    <option value="teacher14">อาจารย์ นพดล บูรณ์กุศล</option>
-                                    <option value="teacher15">อาจารย์ นพเก้า ทองใบ</option>
-                                    <option value="teacher16">อาจารย์ นิมิต ศรีคำทา</option>
-                                    <option value="teacher17">อาจารย์ บีสุดา ดาวเรือง</option>
-                                    <option value="teacher18">อาจารย์ ปองพล สพันธุ์พงศ์</option>
-                                    <option value="teacher19">อาจารย์ วัชรชัย คงศิริวัฒนา</option>
-                                    <option value="teacher20">อาจารย์ สมชัย เชียงพงศ์พันธุ์</option>
-                                    <option value="teacher21">อาจารย์ สิวาลัย จินเจือ</option>
-                                </b-select>
-                            </b-field>
-                            <b-field horizontal label="ที่ปรึกษาร่วม">
-                                <b-input name="mentor2" placeholder="ชื่อ-นามสกุล อาจารย์ที่ปรึกษาร่วม" expanded></b-input>
-                            </b-field>
-                            <b-field horizontal label="หน่วยงาน">
-                                <b-input name="dep" placeholder="ชื่อสถานประกอบการ/หน่วยงาน" expanded></b-input>
-                            </b-field>
-                            <b-field horizontal label="ภาคการศึกษา"  required>
-                                <b-field class style="width:150px;">
-                                <b-select expanded placeholder="เลือกภาคเรียน">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </b-select>
+                      <form @submit.prevent="confirmAddProject">
+                        <section>
+                            <div class="box">
+                                <b-field horizontal label="ชื่อโครงงาน">
+                                    <b-input name="ProjectName1" placeholder="ภาษาไทย" v-model="thaiProjectName" expanded  required></b-input>
                                 </b-field>
-                                <b-field class style="margin-right:150px; width:100;"  required>
-                                    <b-input name="year" type= "number" min="2500" max="3000" minlength="4" maxlength="4" placeholder="ปีการศึกษา" expanded></b-input>
+                                <b-field horizontal>
+                                    <b-input name="ProjectName2" placeholder="ภาษาอังกฤษ" v-model="engProjectName" expanded  required></b-input>
+                                </b-field> <br>
+
+                                <b-field horizontal label="กรณีศึกษา">
+                                    <b-input name="CaseStudy1" placeholder="ภาษาไทย" v-model="thaiCaseStudy" expanded></b-input>
                                 </b-field>
-                            </b-field>
-
-                            <div class="field" style="margin-left:105px;">
-                                <b-radio v-model="radio"
-                                    native-value="term">
-                                    โครงงาน 1 ภาคการศึกษา
-                                </b-radio>
-                                <b-radio v-model="radio"
-                                    native-value="terms">
-                                    โครงงาน 2 ภาคการศึกษา
-                                </b-radio>
+                                <b-field horizontal>
+                                    <b-input name="CaseStudy2" placeholder="ภาษาอังกฤษ" v-model="engCaseStudy" expanded></b-input>
+                                </b-field> <br>
                             </div>
-
-                            <b-field label="วันยื่นสอบ" horizontal  required>
-                              <b-datepicker
-                                  placeholder="เลือกวันยื่นสอบ"
-                                  icon="calendar-alt" style="width:150px;">
-                              </b-datepicker>
+                            <!-- <div class= "aa" v-for="(item, index) in items" > -->
+                            <div v-for="(n, i) in teams" :key="i" class="box">
+                                <b-field horizontal :label="'ชื่อ-นามสกุล'+(i+1)">
+                                    <b-input v-model="n.name" name="name" placeholder="ชื่อ" expanded  required></b-input>
+                                    <b-input v-model="n.lastname" name="lastname" placeholder="นามสกุล" expanded required></b-input>
+                                </b-field>
+                                <b-field horizontal label="รหัสนักศึกษา">
+                                    <b-input v-model="n.id" name="id" type="number" maxlength="13" min="0" placeholder="รหัสนักศึกษา 13 หลัก" expanded  required></b-input>
+                                </b-field>
+                                <div class="level-item has-text-centered">
+                                <button v-if="i > 0" :v-model="statusDelteam" @click="Delteam" class="button is-info">
+                                    <b-icon icon="times" size="is-small"></b-icon>
+                                </button>
+                                </div>
+                            </div>
+                            <b-field  class="buttonAddteam">
+                                <button @click="Addteam" class ="button is-dark " icon="times">
+                                    <b-icon icon="plus" size="is-small"></b-icon>
+                                </button>
                             </b-field>
+                            <div class="box">
+                                <b-field horizontal label="ชื่อที่ปรึกษา">
+                                    <b-select placeholder="เลือกอาจารย์ที่ปรึกษา" v-model="mentor" required>
+                                        <option value="teacher1">ผู้ช่วยศาสตราจารย์ ดร. ขนิษฐา นามี</option>
+                                        <option value="teacher2">ผู้ช่วยศาสตราจารย์ ดร. พาฝัน ดวงไพศาล</option>
+                                        <option value="teacher3">ผู้ช่วยศาสตราจารย์ ดร. ยุพิน สรรพคุณ</option>
+                                        <option value="teacher4">ผู้ช่วยศาสตราจารย์ ดร. วันทนี ประจวบศุภกิจ</option>
+                                        <option value="teacher5">ผู้ช่วยศาสตราจารย์ อรบุษป์ วุฒิกมลชัย</option>
+                                        <option value="teacher6">ผู้ช่วยศาสตราจารย์ ดร. อนิราช มิ่งขวัญ</option>
+                                        <option value="teacher7">ผู้ช่วยศาสตราจารย์ สุปีติ กุลจันทร์</option>
+                                        <option value="teacher8">ผู้ช่วยศาสตราจารย์ สุพาภรณ์ ซิ้มเจริญ</option>
+                                        <option value="teacher9">อาจารย์ ดร. ประดิษฐ์ พิทักษ์เสถียรกุล</option>
+                                        <option value="teacher10">อาจารย์ ดร. วิชญา รุ่นสุวรรณ์</option>
+                                        <option value="teacher11">อาจารย์ ดร. สมพัตร์ เบ็ญจชัยพร</option>
+                                        <option value="teacher12">อาจารย์ นัฎฐพันธ์ นาคพงษ์</option>
+                                        <option value="teacher13">อาจารย์ นิติการ นาคเจือทอง</option>
+                                        <option value="teacher14">อาจารย์ นพดล บูรณ์กุศล</option>
+                                        <option value="teacher15">อาจารย์ นพเก้า ทองใบ</option>
+                                        <option value="teacher16">อาจารย์ นิมิต ศรีคำทา</option>
+                                        <option value="teacher17">อาจารย์ บีสุดา ดาวเรือง</option>
+                                        <option value="teacher18">อาจารย์ ปองพล สพันธุ์พงศ์</option>
+                                        <option value="teacher19">อาจารย์ วัชรชัย คงศิริวัฒนา</option>
+                                        <option value="teacher20">อาจารย์ สมชัย เชียงพงศ์พันธุ์</option>
+                                        <option value="teacher21">อาจารย์ สิวาลัย จินเจือ</option>
+                                    </b-select>
+                                </b-field>
+                                <b-field horizontal label="ที่ปรึกษาร่วม">
+                                    <b-input name="mentor2" placeholder="ชื่อ-นามสกุล อาจารย์ที่ปรึกษาร่วม" v-model="coOpMentor" expanded></b-input>
+                                </b-field>
+                                <b-field horizontal label="หน่วยงาน">
+                                    <b-input name="dep" placeholder="ชื่อสถานประกอบการ/หน่วยงาน" v-model="department" expanded></b-input>
+                                </b-field>
+                                <b-field horizontal label="ภาคการศึกษา"  required>
+                                    <b-field class style="width:150px;">
+                                    <b-select expanded placeholder="เลือกภาคเรียน" v-model="term">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </b-select>
+                                    </b-field>
+                                    <b-field class style="margin-right:150px; width:100;"  required>
+                                        <b-input name="year" v-model="year" type= "number" min="2500" max="3000" minlength="4" maxlength="4" placeholder="ปีการศึกษา" expanded></b-input>
+                                    </b-field>
+                                </b-field>
 
-                        </div>
-                        <center><button class="button is-success" @click="$router.push({name: 'Group'})">ยืนยัน</button></center>
-                    </section></div>
+                                <div class="field" style="margin-left:105px;">
+                                    <b-radio v-model="projectSize"
+                                        native-value="1">
+                                        โครงงาน 1 ภาคการศึกษา
+                                    </b-radio>
+                                    <b-radio v-model="projectSize"
+                                        native-value="2">
+                                        โครงงาน 2 ภาคการศึกษา
+                                    </b-radio>
+                                </div>
+
+                                <b-field label="วันยื่นสอบ" horizontal required>
+                                  <b-datepicker
+                                      v-model="deadlineProject"
+                                      :date-formatter="dateFormat"
+                                      placeholder="เลือกวันยื่นสอบ"
+                                      icon="calendar-alt" style="width:150px;">
+                                  </b-datepicker>
+                                </b-field>
+
+                            </div>
+                            <center><button type="submit" class="button is-success">ยืนยัน</button></center>
+                        </section>
+                      </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
 <script>
+import db from '@/database'
 export default {
   data () {
     return {
+      thaiProjectName: 'ติดตามความก้าวหน้าโครงงานพิเศษ',
+      engProjectName: 'Progress Report System for Special Project',
+      thaiCaseStudy: '',
+      engCaseStudy: '',
       teams: [{
-        name: '',
-        lastname: '',
-        id: ''
+        name: 'กัญญารัก',
+        lastname: 'เอี้ยงลักขะ',
+        id: '5806021631017'
+      },
+      {
+        name: 'ณัฐกิตติ์',
+        lastname: 'จะมะนุ',
+        id: '5806021631033'
       }],
-      radio: '',
+      mentor: 'teacher19',
+      coOpMentor: '',
+      department: '',
+      term: '1',
+      year: '2561',
+      projectSize: '2',
+      deadlineProject: new Date('11-23-2018'),
       favorited: false,
       statusDelteam: true
     }
@@ -136,6 +158,28 @@ export default {
     },
     Delteam (i) {
       this.teams.splice(i, 1)
+    },
+    dateFormat (date) {
+      return this.$dayjs(date).format('DD-MM-YYYY')
+    },
+    async confirmAddProject (e) {
+      const data = {
+        thaiProjectName: this.thaiProjectName,
+        engProjectName: this.engProjectName,
+        thaiCaseStudy: this.thaiCaseStudy,
+        engCaseStudy: this.engCaseStudy,
+        teams: this.teams,
+        mentor: this.mentor,
+        coOpMentor: this.coOpMentor,
+        department: this.department,
+        term: this.term,
+        year: this.year,
+        projectSize: this.projectSize,
+        deadlineProject: this.deadlineProject
+      }
+      await db.database.ref('/projects').push(data)
+      await this.$swal('เสร็จสิ้น')
+      await this.$router.push({name: 'Home'})
     }
   }
 }

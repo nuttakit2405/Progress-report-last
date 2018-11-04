@@ -1,21 +1,18 @@
 <template>
   <div class="card layoutcalendar">
     <header class="card-header">
-    <p class="card-header-title iconcalendar" @click="$router.push({name: 'Calendar'})">
-        {{role}}
+    <p class="card-header-title iconcalendar">
+      <span>{{data.thaiProjectName}}</span>
+      <button class="button" @click="$router.push({name: 'Calendar'})">
         <b-icon
             icon="calendar-alt"
             size="is-large">
         </b-icon>
+      </button>
     </p>
     </header>
     <div class="card-content">
-    <p class="title">
-        “There are two hard things in computer science: cache invalidation, naming things, and off-by-one errors.”
-    </p>
-    <p class="subtitle">
-        Jeff Atwood
-    </p>
+      {{data}}
     </div>
     <footer class="card-footer">
     <p class="card-footer-item">
@@ -34,7 +31,7 @@
         </b-icon>
         </span>
     </p>
-    <p class="card-footer-item" @click="$router.push({name: 'ScoreBoard'})">
+    <p class="card-footer-item" style="cursor: pointer;" @click="$router.push({name: 'ScoreBoard'})">
         <span>
         <b-icon
             icon="file-alt"
@@ -60,6 +57,9 @@ export default {
     role: {
       type: String,
       default: ''
+    },
+    data: {
+      type: Object
     }
   }
 }
