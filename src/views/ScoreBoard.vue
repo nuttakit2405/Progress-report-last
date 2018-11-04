@@ -23,14 +23,26 @@
                           </div>
                         </div>
                     </div>
-                  </div>
-                  <div class="level">
-                    <div class="level-item percent">{{showInput}}%</div>
-                    <div class ="double-down">
-                        <b-icon
-                            icon="angle-double-down"
-                            size="is-small">
-                        </b-icon>
+                    <div class="column" v-if="showBooks == true">
+                        <!-- <div class="column box">
+                            <section>
+                            <b-tabs v-model="activeTab">
+                                <b-tab-item :visible="showBooks" label="ยังไม่เสร็จ">
+                                  ขอบเขตการทำงาน
+                                    <b-field>
+                                      <b-input name="name" placeholder="Name" expanded></b-input>
+                                    </b-field>
+                                    <div class="ButtonAddWork">
+                                      <button class="button is-primary">เพิ่มขอบเขต</button>
+                                    </div>
+                                </b-tab-item>
+                                <b-tab-item :visible="showBooks" label="เสร็จแล้ว">
+                                    ขอบเขตนะจ๊ะ
+                                </b-tab-item>
+                            </b-tabs>
+                            </section>
+                        </div> -->
+                        <scal-work></scal-work>
                     </div>
                   </div>
                 </div>
@@ -165,6 +177,8 @@
 
 <script>
 import storage from '@/storage'
+import ScalWork from '@/components/ScalWork'
+
 export default {
   name: 'auth-success',
   data () {
@@ -190,6 +204,9 @@ export default {
     showInput () {
       return this.InputProgress
     }
+  },
+  components: {
+    ScalWork
   },
   methods: {
     async condition () {
@@ -235,5 +252,9 @@ export default {
 .fieldSize{
     margin-right: 80px;
     margin-left: 80px;
+}
+.ButtonAddWork{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
