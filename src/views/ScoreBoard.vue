@@ -127,7 +127,7 @@
 
 <script>
 import auth from '@/auth'
-
+import storage from '@/storage'
 export default {
   name: 'auth-success',
   data () {
@@ -139,7 +139,8 @@ export default {
       InputProgress: 0,
       SumProgress: 0,
       activeTab: 0,
-      showBooks: false
+      showBooks: false,
+      file: null
     }
   },
   computed: {
@@ -151,18 +152,12 @@ export default {
     }
   },
   methods: {
-    logOut () {
-      auth.logout()
-    },
-    deleteDropFile (index) {
-      this.dropFiles.splice(index, 1)
-    },
     async condition () {
       const {value: percent} = await this.$swal({
         title: 'เปอร์เซนต์การทำงานที่เหมาะสม',
-        html: `<div> 
+        html: `<div>
             คิดเป็นร้อยละ <input id="swal-input1" class="swal2-input" style="width:90px" ><br>
-            ความคิดเห็นอาจารย์ที่ปรึกษา 
+            ความคิดเห็นอาจารย์ที่ปรึกษา
             <textarea id="swal-input2" class="swal2-textarea"></textarea>
             </div> `
       })
@@ -175,6 +170,11 @@ export default {
           // confirmButtonText: 'Cool'
         })
       }
+    },
+    async uploadfile (files) {
+      console.log(files)
+      const upload = storage
+      console.log(upload)
     }
   }
 }
