@@ -13,10 +13,14 @@
               </div>
               <div class="level">
                 <div v-if="showBooks == true">
-                  <group role="อ.ที่ปรึกษา"/>
+                  <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
+                    <group role="อ.ที่ปรึกษา"/>
+                  </div>
                 </div>
-                <div v-else >
-                  <group role="อ.ประจำวิชา"/>
+                <div v-else class="columns is-multiline">
+                  <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
+                    <group :data="project" role="อ.ประจำวิชา"/>
+                  </div>
                 </div>
               </div>
             </section>
@@ -29,12 +33,26 @@
 
 <script>
 import Group from '@/components/Group'
+import {mapActions, mapGetters} from 'vuex'
 export default {
   data () {
     return {
       activeTab: 0,
       showBooks: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      projects: 'projects/projects'
+    })
+  },
+  methods: {
+    ...mapActions({
+      getProjects: 'projects/getProjects'
+    })
+  },
+  created () {
+    this.getProjects()
   },
   components: {
     Group
