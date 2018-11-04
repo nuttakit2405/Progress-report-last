@@ -19,7 +19,7 @@
                             <p class="title is-5">สัปดาห์ที {{ind}} </p>
                           </div>
                           <div>
-                            หัวข้อที่ {{ind}}
+                            &nbsp;หัวข้อที่ {{ind}}
                           </div>
                         </div>
                     </div>
@@ -50,6 +50,7 @@
                           {{ file.name }}
                         </span>
                     </b-field>
+                    <button class="button" @click="uploadfile(file)">uploadfile</button>
 
                     <b-field horizontal label="คิดเป็นร้อยละ">
                         <b-input type="number" maxlength="3" style="width:95px" min="1" max="100" v-model="InputProgress"></b-input>
@@ -169,7 +170,7 @@ export default {
   data () {
     return {
       dropFiles: [],
-      radio: [],
+      radio: '',
       isSwitched: false,
       isSwitchedCustom: 'Yes',
       InputProgress: 0,
@@ -212,8 +213,9 @@ export default {
     },
     async uploadfile (files) {
       console.log(files)
-      const upload = storage
-      console.log(upload)
+      console.log(storage)
+      const res = await storage.upload(files.name, files, '/projectId')
+      console.log(res)
     },
     Addteam () {
       this.teams.push({
