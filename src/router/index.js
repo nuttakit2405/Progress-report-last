@@ -9,6 +9,7 @@ import Profile from '@/views/Profile'
 import AddStudent from '@/views/AddStudent'
 import ScoreBoard from '@/views/ScoreBoard'
 import Group from '@/components/Group'
+import ScalWork from '@/components/ScalWork'
 
 Vue.use(Router)
 
@@ -60,6 +61,11 @@ export default new Router({
       path: '/group',
       name: 'Group',
       component: Group
+    },
+    {
+      path: '/scalwork',
+      name: 'ScalWork',
+      component: ScalWork
     }
 
   ]

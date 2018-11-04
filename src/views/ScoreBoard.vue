@@ -136,28 +136,25 @@
                         </div>
                     </div>
                     <div class="column" v-if="showBooks == true">
-                        <div class="column box">
+                        <!-- <div class="column box">
                             <section>
                             <b-tabs v-model="activeTab">
                                 <b-tab-item :visible="showBooks" label="ยังไม่เสร็จ">
                                   ขอบเขตการทำงาน
-                                  <div v-for="(n, i) in teams" :key="i">
                                     <b-field>
                                       <b-input name="name" placeholder="Name" expanded></b-input>
                                     </b-field>
-                                  </div>
-
-                                      <button @click="Addteam" class ="button is-dark " icon="times">
-                                          <b-icon icon="plus" size="is-small"></b-icon>
-                                      </button>
-
+                                    <div class="ButtonAddWork">
+                                      <button class="button is-primary">เพิ่มขอบเขต</button>
+                                    </div>
                                 </b-tab-item>
                                 <b-tab-item :visible="showBooks" label="เสร็จแล้ว">
                                     ขอบเขตนะจ๊ะ
                                 </b-tab-item>
                             </b-tabs>
                             </section>
-                        </div>
+                        </div> -->
+                        <scal-work></scal-work>
                     </div>
                 </div>
             </div>
@@ -167,6 +164,7 @@
 
 <script>
 import auth from '@/auth'
+import ScalWork from '@/components/ScalWork'
 
 export default {
   name: 'auth-success',
@@ -193,6 +191,9 @@ export default {
       return this.InputProgress
     }
   },
+  components: {
+    ScalWork
+  },
   methods: {
     logOut () {
       auth.logout()
@@ -218,11 +219,6 @@ export default {
           // confirmButtonText: 'Cool'
         })
       }
-    },
-    Addteam () {
-      this.teams.push({
-        name: ''
-      })
     }
   }
 }
@@ -237,5 +233,9 @@ export default {
 .fieldSize{
     margin-right: 80px;
     margin-left: 80px;
+}
+.ButtonAddWork{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
