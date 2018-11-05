@@ -40,7 +40,15 @@
           </div>
         </div>
         <div class="column" v-if="showBooks == true">
-          <scal-work/>
+          <div class="column box">
+            <section>
+              <b-tabs v-model="activeTab">
+                  <b-tab-item :visible="showBooks" label="ขอบเขตการทำงาน">
+                    <ScalWork/>
+                  </b-tab-item>
+              </b-tabs>
+            </section>
+          </div>
         </div>
       </div>
     </div>
