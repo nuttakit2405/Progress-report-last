@@ -6,20 +6,23 @@
       <div class="columns">
         <div class="column">
           <div class="column box">
-            <section>
+            <section  v-if="projectSelected !== null">
               <div class="block">
                 <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
               </div>
-              <b-collapse class="card" :open="false" v-for="ind in 10" :key="ind">
+              <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">
                 <div slot="trigger" slot-scope="props" class="card-header">
                   <div class="card-header-title">
                     <div class="level">
                         <div class="level-item ">
                           <div class="">
-                            <p class="title is-5">สัปดาห์ที {{ind}} </p>
+                            <p class="title is-5">สัปดาห์ที {{ind+1}} </p>
                           </div>
                           <div>
-                            &nbsp;หัวข้อที่ {{ind}}
+                            &nbsp;หัวข้อที่ {{ind+1}}
+                          </div>
+                          <div>
+                            &nbsp; วันที่ {{val.startDate | format('DD-MMM-YYYY')}} ถึง {{val.endDate | format('DD-MMM-YYYY')}}
                           </div>
                         </div>
                     </div>
@@ -37,6 +40,9 @@
                 </footer>
               </b-collapse>
             </section>
+            <div v-else>
+              ยังไม่ได้เลือกโครงงาน
+            </div>
           </div>
         </div>
         <div class="column" v-if="showBooks == true">
@@ -54,8 +60,15 @@ import ProgressStudent from '@/components/ProgressStudent'
 import ProgressMentor from '@/components/ProgressMentor'
 import ProgressTeacher from '@/components/ProgressTeacher'
 
+import {mapActions, mapGetters} from 'vuex'
+
 export default {
   name: 'auth-success',
+  props: {
+    projectId: {
+      type: String
+    }
+  },
   data () {
     return {
       dropFiles: [],
@@ -73,9 +86,10 @@ export default {
     }
   },
   computed: {
-    user () {
-      return this.$store.getters['user/user']
-    },
+    ...mapGetters({
+      user: 'user/user',
+      projectSelected: 'projects/projectSelected'
+    }),
     showInput () {
       return this.InputProgress
     }
@@ -87,6 +101,9 @@ export default {
     ProgressTeacher
   },
   methods: {
+    ...mapActions({
+      selectProject: 'projects/selectProject'
+    }),
     logOut () {
       auth.logout()
     },
@@ -111,6 +128,11 @@ export default {
           // confirmButtonText: 'Cool'
         })
       }
+    }
+  },
+  created () {
+    if (this.projectId) {
+      this.selectProject(this.projectId)
     }
   }
 }

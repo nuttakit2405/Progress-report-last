@@ -1,5 +1,5 @@
 <template>
-  <div class="card layoutcalendar">
+  <div class="card">
     <header class="card-header">
     <p class="card-header-title iconcalendar">
       <span>{{data.thaiProjectName}}</span>
@@ -12,7 +12,14 @@
     </p>
     </header>
     <div class="card-content">
-      {{data}}
+      <!-- {{data}} -->
+      <div>
+        วันทำงานตั้งแต่
+        {{$dayjs(data.startProject).format('DD-MMM-YYYY')}}
+        ถึง
+        {{$dayjs(data.deadlineProject).format('DD-MMM-YYYY')}}
+      </div>
+      {{data.teams}}
     </div>
     <footer class="card-footer">
     <p class="card-footer-item">
@@ -31,7 +38,7 @@
         </b-icon>
         </span>
     </p>
-    <p class="card-footer-item" style="cursor: pointer;" @click="$router.push({name: 'ScoreBoard'})">
+    <p class="card-footer-item" style="cursor: pointer;" @click="$router.push({name: 'ProjectScoreBoard', params: {projectId: projectId}})">
         <span>
         <b-icon
             icon="file-alt"
@@ -58,18 +65,14 @@ export default {
       type: String,
       default: ''
     },
+    projectId: {
+      type: String,
+      required: true
+    },
     data: {
-      type: Object
+      type: Object,
+      required: true
     }
   }
 }
 </script>
-
-<style>
-.layoutcalendar{
-  margin-top:50px;
-  margin-left: auto;
-  margin-right: auto;
-  width:450px;
-}
-</style>

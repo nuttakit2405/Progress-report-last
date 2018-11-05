@@ -61,6 +61,12 @@ export default new Router({
       component: ScoreBoard
     },
     {
+      path: '/scoreboard/:projectId',
+      name: 'ProjectScoreBoard',
+      component: ScoreBoard,
+      props: true
+    },
+    {
       path: '/scalwork',
       name: 'ScalWork',
       component: ScalWork

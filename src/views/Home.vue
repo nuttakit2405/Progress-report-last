@@ -14,12 +14,12 @@
               <div class="level">
                 <div v-if="showBooks == true">
                   <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
-                    <group role="อ.ที่ปรึกษา"/>
+                    <!-- <group role="อ.ที่ปรึกษา"/> -->
                   </div>
                 </div>
                 <div v-else class="columns is-multiline">
                   <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
-                    <group :data="project" role="อ.ประจำวิชา"/>
+                    <group :data="project" :projectId="key" role="อ.ประจำวิชา"/>
                   </div>
                 </div>
               </div>
