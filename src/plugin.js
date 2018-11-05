@@ -29,5 +29,10 @@ Vue.use(Buefy, { defaultIconPack: 'fas' })
 Vue.use(VueSweetalert2)
 Vue.component('Calendar', Calendar)
 dayjs.locale('th')
+
+Vue.filter('format', (val, format) => {
+  return dayjs(val).format(format)
+})
+
 Vue.prototype.$dayjs = dayjs
 Vue.prototype.$firebase = firebase

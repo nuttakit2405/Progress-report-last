@@ -97,13 +97,21 @@
                                         โครงงาน 2 ภาคการศึกษา
                                     </b-radio>
                                 </div>
+                                <b-field label="วันเริ่มทำ" horizontal required>
+                                  <b-datepicker
+                                      v-model="startProject"
+                                      :date-formatter="dateFormat"
+                                      placeholder="วันเริ่มทำโครงงานพิเศษ"
+                                      icon="calendar-alt" style="width:200px;">
+                                  </b-datepicker>
+                                </b-field>
 
                                 <b-field label="วันยื่นสอบ" horizontal required>
                                   <b-datepicker
                                       v-model="deadlineProject"
                                       :date-formatter="dateFormat"
                                       placeholder="เลือกวันยื่นสอบ"
-                                      icon="calendar-alt" style="width:150px;">
+                                      icon="calendar-alt" style="width:200px;">
                                   </b-datepicker>
                                 </b-field>
 
@@ -143,6 +151,7 @@ export default {
       term: '1',
       year: '2561',
       projectSize: '2',
+      startProject: new Date('10-8-2018'),
       deadlineProject: new Date('11-23-2018'),
       favorited: false,
       statusDelteam: true
@@ -160,9 +169,20 @@ export default {
       this.teams.splice(i, 1)
     },
     dateFormat (date) {
-      return this.$dayjs(date).format('DD-MM-YYYY')
+      return this.$dayjs(date).format('DD-MMM-YYYY')
     },
     async confirmAddProject (e) {
+      const startWeek = this.$dayjs(this.startProject)
+      const endWeek = this.$dayjs(this.deadlineProject)
+      const amountWeeks = endWeek.diff(startWeek, 'weeks') + 1
+
+      const scoreboard = new Array(amountWeeks).fill(null).map((val, i) => {
+        return {
+          startDate: startWeek.add(i, 'weeks').startOf('weeks').add(1, 'days').toString(),
+          endDate: startWeek.add(i, 'weeks').endOf('weeks').add(1, 'days').toString()
+        }
+      })
+
       const data = {
         thaiProjectName: this.thaiProjectName,
         engProjectName: this.engProjectName,
@@ -175,8 +195,11 @@ export default {
         term: this.term,
         year: this.year,
         projectSize: this.projectSize,
-        deadlineProject: this.deadlineProject
+        startProject: this.startProject.toString(),
+        deadlineProject: this.deadlineProject.toString(),
+        scoreboard: scoreboard
       }
+
       await db.database.ref('/projects').push(data)
       await this.$swal('เสร็จสิ้น')
       await this.$router.push({name: 'Home'})
