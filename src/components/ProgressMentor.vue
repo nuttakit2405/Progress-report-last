@@ -19,7 +19,7 @@
         style="font-family: 'Kanit', sans-serif">OK</button>
     </b-field>
 
-    <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="GoodJob">
+    <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="$emit('confirm')">
       เห็นด้วย
     </button>
     <button class="button is-warning" @click="condition" style="font-family: 'Kanit', sans-serif">
@@ -57,12 +57,13 @@ export default {
             </div> `
       })
       if (percent) {
-        this.$swal({
+        await this.$swal({
           title: 'เปอร์เซนต์การทำงานถูกเปลี่ยนแปลงแล้ว',
           // text: 'Do you want to continue',
           type: 'success'
           // confirmButtonText: 'Cool'
         })
+        await this.$emit('confirmCondition')
       }
     },
     async uploadfile (files) {

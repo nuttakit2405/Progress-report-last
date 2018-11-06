@@ -25,8 +25,13 @@ const actions = {
     })
   },
   selectProject ({commit}, id) {
-    db.database.ref('/projects').child(id).once('value', (snap) => {
-      commit('setSelectProject', snap.val())
+    db.database.ref('/projects').child(id).on('value', (snap) => {
+      if (snap.val()) {
+        commit('setSelectProject', {
+          ...snap.val(),
+          key: snap.key
+        })
+      }
     })
   }
 }
