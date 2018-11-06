@@ -179,7 +179,8 @@ export default {
       const scoreboard = new Array(amountWeeks).fill(null).map((val, i) => {
         return {
           startDate: startWeek.add(i, 'weeks').startOf('weeks').add(1, 'days').toString(),
-          endDate: startWeek.add(i, 'weeks').endOf('weeks').add(1, 'days').toString()
+          endDate: startWeek.add(i, 'weeks').endOf('weeks').add(1, 'days').toString(),
+          score: 0
         }
       })
 

@@ -14,24 +14,23 @@
               <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">
                 <div slot="trigger" slot-scope="props" class="card-header">
                   <div class="card-header-title">
-                    <div class="level">
-                        <div class="level-item ">
-                          <div class="">
-                            <p class="title is-5">สัปดาห์ที {{ind+1}} </p>
-                          </div>
-                          <div>
-                            &nbsp;หัวข้อที่ {{ind+1}}
-                          </div>
-                          <div>
-                            &nbsp; วันที่ {{val.startDate | format('DD-MMM-YYYY')}} ถึง {{val.endDate | format('DD-MMM-YYYY')}}
-                          </div>
-                        </div>
+                    <div class="level" style="width: 100%;display: flex; justify-content: space-between;">
+                      <div class="level-item" style="flex: none;width: fit-content;">
+                        <span>
+                            <span class="title is-5">สัปดาห์ที {{ind+1}} </span>
+                            <span>หัวข้อที่ {{ind+1}}</span>
+                            <span>วันที่ {{val.startDate | format('DD-MMM-YY')}} ถึง {{val.endDate | format('DD-MMM-YY')}}</span>
+                        </span>
+                      </div>
+                      <div class="level-item" style="flex: none;width: fit-content;">
+                        <span>{{calScore(val.score, weekScore) | twopoint}}/{{weekScore | twopoint}}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div class="card-content">
                   <ProgressStudent/>
-                  <ProgressMentor/>
+                  <ProgressMentor @confirm="confirm(projectSelected.key, ind)" @confirmCondition="confirm(projectSelected.key, ind, true)"/>
                   <ProgressTeacher/>
                 </div>
                 <footer class="card-footer">
@@ -70,12 +69,18 @@ import ProgressMentor from '@/components/ProgressMentor'
 import ProgressTeacher from '@/components/ProgressTeacher'
 
 import {mapActions, mapGetters} from 'vuex'
+import db from '@/database'
 
 export default {
   name: 'auth-success',
   props: {
     projectId: {
       type: String
+    }
+  },
+  filters: {
+    twopoint: (val) => {
+      return val.toFixed(2)
     }
   },
   data () {
@@ -102,6 +107,12 @@ export default {
     }),
     showInput () {
       return this.InputProgress
+    },
+    weekScore () {
+      if (this.projectSelected) {
+        return 20 / this.projectSelected.scoreboard.length
+      }
+      return 0
     }
   },
   components: {
@@ -138,6 +149,16 @@ export default {
           // confirmButtonText: 'Cool'
         })
       }
+    },
+    async confirm (key, index, condition = false) {
+      console.log({key, index, condition})
+      const score = !condition ? 100 : 75
+      await db.database.ref(`projects/${key}/scoreboard/${index}`).update({score: score})
+      await this.$swal('เสร็จสิ้น')
+    },
+    calScore (score = 0, max) {
+      console.log(score, max)
+      return (max * score) / 100
     }
   },
   created () {
