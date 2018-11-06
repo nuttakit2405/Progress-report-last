@@ -1,6 +1,7 @@
 <template>
   <div>
-    <b-field label="ความเห็นอาจารย์ประจำวิชา">
+    <div v-if="profile.userType != 'student'">
+      <b-field label="ความเห็นอาจารย์ประจำวิชา">
       <b-input type="textarea"></b-input>
     </b-field>
 
@@ -21,15 +22,26 @@
     <button class="button is-success" style="font-family: 'Kanit', sans-serif">
     รับทราบ
     </button>
+    </div>
   </div>
 </template>
 <script>
 import storage from '@/storage'
+
+import {mapGetters} from 'vuex'
+
 export default {
   data () {
     return {
       file: null
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/user',
+      projectSelected: 'projects/projectSelected',
+      profile: 'user/profile'
+    })
   },
   methods: {
     async condition () {

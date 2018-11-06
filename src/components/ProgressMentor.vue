@@ -1,6 +1,7 @@
 <template>
   <div>
-    <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
+    <div v-if="profile.userType != 'student'">
+      <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
       <b-input type="textarea"></b-input>
     </b-field>
 
@@ -18,21 +19,32 @@
                     style="font-family: 'Kanit', sans-serif">uploadfile</button>
     </b-field>
 
-    <button class="button is-success" style="font-family: 'Kanit', sans-serif">
+    <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="GoodJob">
       เห็นด้วย
     </button>
     <button class="button is-warning" @click="condition" style="font-family: 'Kanit', sans-serif">
     เห็นด้วย (มีเงื่อนไข)
     </button>
+    </div>
   </div>
 </template>
 <script>
 import storage from '@/storage'
+
+import {mapGetters} from 'vuex'
+
 export default {
   data () {
     return {
       file: null
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/user',
+      projectSelected: 'projects/projectSelected',
+      profile: 'user/profile'
+    })
   },
   methods: {
     async condition () {
