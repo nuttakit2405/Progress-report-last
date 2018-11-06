@@ -18,7 +18,7 @@
       style="font-family: 'Kanit', sans-serif">OK</button>
     </b-field>
 
-  <b-field horizontal label="คิดเป็นร้อยละ">{{InputProgress}}
+  <b-field horizontal label="คิดเป็นร้อยละ">
     <b-input type="number" maxlength="3" style="width:95px" min="1" max="100" v-model="InputProgress"></b-input>
   </b-field>
   <b-field horizontal label="จัดทำโครงงานได้">
