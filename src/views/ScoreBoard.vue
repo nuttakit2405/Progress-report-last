@@ -13,18 +13,17 @@
               <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">
                 <div slot="trigger" slot-scope="props" class="card-header">
                   <div class="card-header-title">
-                    <div class="level">
-                        <div class="level-item ">
-                          <div class="">
-                            <p class="title is-5">สัปดาห์ที {{ind+1}} </p>
-                          </div>
-                          <div>
-                            &nbsp;หัวข้อที่ {{ind+1}}
-                          </div>
-                          <div>
-                            &nbsp; วันที่ {{val.startDate | format('DD-MMM-YYYY')}} ถึง {{val.endDate | format('DD-MMM-YYYY')}}
-                          </div>
-                        </div>
+                    <div class="level" style="width: 100%; display:flex; justify-content: space-between;">
+                      <div class="level-item">
+                        <span>
+                            <span class="title is-5">สัปดาห์ที {{ind+1}} </span>
+                            <span>หัวข้อที่ {{ind+1}}</span>
+                            <span>วันที่ {{val.startDate | format('DD-MMM-YY')}} ถึง {{val.endDate | format('DD-MMM-YY')}}</span>
+                        </span>
+                      </div>
+                      <div class="level-item">
+                        <span>score</span>
+                      </div>
                     </div>
                   </div>
                 </div>
