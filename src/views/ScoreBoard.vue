@@ -9,6 +9,7 @@
             <section  v-if="projectSelected !== null">
               <div class="block">
                 <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
+                {{profile.teacherGroup}}
               </div>
               <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">
                 <div slot="trigger" slot-scope="props" class="card-header">
@@ -28,9 +29,9 @@
                   </div>
                 </div>
                 <div class="card-content">
-                    <ProgressStudent/>
-                    <ProgressMentor/>
-                    <ProgressTeacher/>
+                  <ProgressStudent/>
+                  <ProgressMentor/>
+                  <ProgressTeacher/>
                 </div>
                 <footer class="card-footer">
                     <a class="card-footer-item">Save</a>
@@ -95,7 +96,8 @@ export default {
   computed: {
     ...mapGetters({
       user: 'user/user',
-      projectSelected: 'projects/projectSelected'
+      projectSelected: 'projects/projectSelected',
+      profile: 'user/profile'
     }),
     showInput () {
       return this.InputProgress
