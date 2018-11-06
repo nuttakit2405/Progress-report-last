@@ -15,8 +15,8 @@
       <span class="file-name" v-if="file">
         {{ file.name }}
       </span>
-      <button class="button UploadfileButton" @click="uploadfile(file)"
-                    style="font-family: 'Kanit', sans-serif">uploadfile</button>
+      <button class="button UploadfileButton is-success" @click="uploadfile(file)"
+        style="font-family: 'Kanit', sans-serif">OK</button>
     </b-field>
 
     <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="GoodJob">
