@@ -201,9 +201,30 @@ export default {
         scoreboard: scoreboard
       }
 
-      await db.database.ref('/projects').push(data)
-      await this.$swal('เสร็จสิ้น')
-      await this.$router.push({name: 'Home'})
+      //   await this.$swal('เสร็จสิ้น')
+      const result = await this.$swal({
+        title: 'ยืนยันในการกรอกข้อมูลนี้หรือไม่?',
+        // text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก'
+      })
+      if (result.value) {
+        await this.$swal(
+          'การกรอกข้อมูลเสร็จสิ้น',
+          ' ',
+          'success'
+        )
+        await db.database.ref('/projects').push(data)
+        this.$router.push({name: 'Home'})
+      } else {
+        this.$router.push({name: 'AddProject'})
+      }
+
+    //   await this.$router.push({name: 'Home'})
     }
   }
 }
