@@ -5,7 +5,6 @@
             <div class="column is-8 is-offset-2">
                 <div class="column box">
                     <div class="column is-10 is-offset-1">
-                      <form @submit.prevent="confirmAddProject">
                         <section>
                             <div class="box">
                                 <b-field horizontal label="ชื่อโครงงาน">
@@ -29,7 +28,7 @@
                                     <b-input v-model="n.lastname" name="lastname" placeholder="นามสกุล" expanded required></b-input>
                                 </b-field>
                                 <b-field horizontal label="รหัสนักศึกษา">
-                                    <b-input v-model="n.id" name="id" type="number" maxlength="13" min="0" placeholder="รหัสนักศึกษา 13 หลัก" expanded  required></b-input>
+                                    <b-input v-model="n.id" name="id" type="number" maxlength="13" minlength="13" min="0" placeholder="รหัสนักศึกษา 13 หลัก" expanded  required></b-input>
                                 </b-field>
                                 <div class="level-item has-text-centered">
                                 <button v-if="i > 0" :v-model="statusDelteam" @click="Delteam" class="button is-info">
@@ -38,7 +37,7 @@
                                 </div>
                             </div>
                             <b-field  class="buttonAddteam">
-                                <button @click="Addteam" class ="button is-dark " icon="times">
+                                <button @click="Addteam" class ="button is-dark">
                                     <b-icon icon="plus" size="is-small"></b-icon>
                                 </button>
                             </b-field>
@@ -116,9 +115,8 @@
                                 </b-field>
 
                             </div>
-                            <center><button type="submit" class="button is-success">ยืนยัน</button></center>
+                            <center><button type="submit" class="button is-success" @click="confirmAddProject">ยืนยัน</button></center>
                         </section>
-                      </form>
                     </div>
                 </div>
             </div>
@@ -158,7 +156,7 @@ export default {
     }
   },
   methods: {
-    Addteam () {
+    async Addteam () {
       this.teams.push({
         name: '',
         lastname: '',
@@ -212,6 +210,7 @@ export default {
         confirmButtonText: 'ยืนยัน',
         cancelButtonText: 'ยกเลิก'
       })
+
       if (result.value) {
         await this.$swal(
           'การกรอกข้อมูลเสร็จสิ้น',
