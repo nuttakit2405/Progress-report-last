@@ -10,7 +10,7 @@ const auth = {
     this.firebase = context.$firebase
     this.context = context
     this.uiConfig = {
-      signInSuccessUrl: '/#/profile',
+      signInSuccessUrl: '/#/',
       signInOptions: [this.firebase.auth.GoogleAuthProvider.PROVIDER_ID]
     }
     this.ui = new firebaseui.auth.AuthUI(this.firebase.auth())
