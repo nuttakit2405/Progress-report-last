@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="layoutcalendar">
     <div v-if="profile.userType == 'student'">
       <div class="card" v-if="data.teams[0].id+'@fitm.kmutnb.ac.th' == user.email || data.teams[1].id+'@fitm.kmutnb.ac.th' == user.email">
-        {{data.mentor}}
-        {{user.email}}
+        <!-- {{data.mentor}}
+        {{user.email}} -->
         <header class="card-header">
           <p class="card-header-title iconcalendar">
             <span>{{data.thaiProjectName}}</span>
@@ -156,3 +156,11 @@ export default {
   }
 }
 </script>
+<style scooped>
+.layoutcalendar{
+  margin-top:50px;
+  margin-left: auto;
+  margin-right: auto;
+  width:450px;
+}
+</style>
