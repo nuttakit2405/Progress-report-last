@@ -80,7 +80,7 @@
         <div class="card-content">
           <!-- {{data}} -->
           <div>
-            วันทำงานตั้งแต่
+            วันทำงานตั้งแต่.
             {{$dayjs(data.startProject).format('DD-MMM-YYYY')}}
             ถึง
             {{$dayjs(data.deadlineProject).format('DD-MMM-YYYY')}}
