@@ -28,7 +28,7 @@
               </div>
               <div>
                 <div class="block">
-                  Status: {{profile.userType}}
+                  Statu: {{profile.userType}}
                 </div>
                 <div class="columns is-multiline" v-if="profile.userType == 'student'">
                     <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
