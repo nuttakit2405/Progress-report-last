@@ -31,7 +31,7 @@
                                     <b-input v-model="n.id" name="id" type="number" maxlength="13" minlength="13" min="0" placeholder="รหัสนักศึกษา 13 หลัก" expanded  required></b-input>
                                 </b-field>
                                 <div class="level-item has-text-centered">
-                                <button v-if="i > 0" :v-model="statusDelteam" @click="Delteam" class="button is-info">
+                                <button v-if="i > 0" :v-model="statusDelteam" @click="Delteam(i)" class="button is-info">
                                     <b-icon icon="times" size="is-small"></b-icon>
                                 </button>
                                 </div>
