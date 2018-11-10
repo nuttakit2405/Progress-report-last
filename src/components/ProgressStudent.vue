@@ -91,7 +91,13 @@ export default {
         Progressed: this.Progressed,
         radio: this.radio
       }
-      await db.database.ref('/score').push(datas)
+      this.$dialog.confirm({
+        title: 'Deleting account',
+        message: 'Are you sure',
+        confirmText: 'OK',
+        type: 'is-danger',
+        onConfirm: () => db.database.ref('/score').push(datas)
+      })
     }
   }
 }
