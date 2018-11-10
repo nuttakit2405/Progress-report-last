@@ -157,10 +157,10 @@ export default {
 }
 </script>
 <style scooped>
-.layoutcalendar{
+/* .layoutcalendar{
   margin-top:50px;
   margin-left: auto;
   margin-right: auto;
   width:450px;
-}
+} */
 </style>

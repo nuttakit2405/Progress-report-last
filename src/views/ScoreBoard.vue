@@ -29,7 +29,7 @@
                   </div>
                 </div>
                 <div class="card-content">
-                  <ProgressStudent/>
+                  <ProgressStudent :projectKey="projectSelected.key" :week="ind"/>
                   <ProgressMentor @confirm="confirm(projectSelected.key, ind)" @confirmCondition="confirm(projectSelected.key, ind, true)"/>
                   <ProgressTeacher/>
                 </div>

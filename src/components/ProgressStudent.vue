@@ -55,6 +55,14 @@ import db from '@/database'
 import {mapGetters} from 'vuex'
 
 export default {
+  props: {
+    projectKey: {
+      type: String
+    },
+    week: {
+      type: String
+    }
+  },
   data () {
     return {
       file: null,
@@ -74,7 +82,7 @@ export default {
     async uploadfile (files) {
       console.log(files)
       console.log(storage)
-      const res = await storage.upload(files.name, files, '/projectId')
+      const res = await storage.upload(files.name, files, `/${this.projectKey}/${this.week}`)
       console.log(res)
     },
     async Pushpro () {
