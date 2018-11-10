@@ -13,7 +13,7 @@
                   </b-switch>
                   Status: {{profile.userType}}
                 </div>
-                <div class="level">
+                <div>
                   <div v-if="showBooks == true" class="columns is-multiline">
                     <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
                       <group :data="project" :projectId="key" role="อ.ที่ปรึกษา"/>
@@ -26,15 +26,15 @@
                   </div>
                 </div>
               </div>
-              <div>
+              <div  v-if="profile.userType == 'student'">
                 <div class="block">
                   Status: {{profile.userType}}
                 </div>
-                <div class="columns is-multiline" v-if="profile.userType == 'student'">
-                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
-                      <group :data="project" :projectId="key" role="อ.ประจำวิชา"/>
-                    </div>
+                <div class="columns is-multiline">
+                  <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
+                    <group :data="project" :projectId="key" role="อ.ประจำวิชา"/>
                   </div>
+                </div>
               </div>
             </section>
           </div>
