@@ -9,7 +9,7 @@
             <section  v-if="projectSelected !== null">
               <div class="block">
                 <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
-                {{profile.teacherGroup}}
+                <!-- {{profile.teacherGroup}} -->
               </div>
               <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">
                 <div slot="trigger" slot-scope="props" class="card-header">
@@ -29,9 +29,9 @@
                   </div>
                 </div>
                 <div class="card-content">
-                  <ProgressStudent/>
-                  <ProgressMentor @confirm="confirm(projectSelected.key, ind)" @confirmCondition="confirm(projectSelected.key, ind, true)"/>
-                  <ProgressTeacher/>
+                  <ProgressStudent :weekData="val" :projectKey="projectSelected.key" :week="ind" @upload="uploadfile"/>
+                  <ProgressMentor  :projectKey="projectSelected.key" :week="ind" @upload="uploadfile" @confirm="confirm(projectSelected.key, ind)" @confirmCondition="confirm(projectSelected.key, ind, true)"/>
+                  <ProgressTeacher :projectKey="projectSelected.key" :week="ind" @upload="uploadfile"/>
                 </div>
                 <footer class="card-footer">
                     <a class="card-footer-item">Save</a>
@@ -70,9 +70,10 @@ import ProgressTeacher from '@/components/ProgressTeacher'
 
 import {mapActions, mapGetters} from 'vuex'
 import db from '@/database'
+import storage from '@/storage'
 
 export default {
-  name: 'auth-success',
+  name: 'Scoreboard',
   props: {
     projectId: {
       type: String
@@ -131,6 +132,17 @@ export default {
     deleteDropFile (index) {
       this.dropFiles.splice(index, 1)
     },
+    async uploadfile ({files, projectKey, week}) {
+      const res = await storage.upload(files.name, files, `/${projectKey}/${week}`)
+      console.log(res)
+      const data = {
+        filename: files.name,
+        ref: `/${projectKey}/${week}/${files.name}`,
+        time: new Date().toString(),
+        username: this.profile
+      }
+      db.database.ref(`/projects/${projectKey}/scoreboard/${week}/files`).push(data)
+    },
     async condition () {
       const {value: percent} = await this.$swal({
         title: 'เปอร์เซนต์การทำงานที่เหมาะสม',
@@ -140,7 +152,6 @@ export default {
             <textarea id="swal-input2" class="swal2-textarea"></textarea>
             </div> `
       })
-
       if (percent) {
         this.$swal({
           title: 'เปอร์เซนต์การทำงานถูกเปลี่ยนแปลงแล้ว',

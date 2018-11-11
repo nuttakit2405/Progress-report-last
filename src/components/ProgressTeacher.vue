@@ -5,7 +5,7 @@
       <b-input type="textarea"></b-input>
     </b-field>
 
-    <b-field class="file">
+    <!-- <b-field class="file">
       <b-upload v-model="file">
         <a class="button is-primary">
           <b-icon icon="upload"></b-icon>
@@ -17,7 +17,7 @@
         </span>
         <button class="button UploadfileButton is-success" @click="uploadfile(file)"
           style="font-family: 'Kanit', sans-serif">OK</button>
-    </b-field>
+    </b-field> -->
 
     <button class="button is-success" style="font-family: 'Kanit', sans-serif">
     รับทราบ
@@ -31,6 +31,14 @@ import storage from '@/storage'
 import {mapGetters} from 'vuex'
 
 export default {
+  props: {
+    projectKey: {
+      type: String
+    },
+    week: {
+      type: Number
+    }
+  },
   data () {
     return {
       file: null
@@ -62,11 +70,11 @@ export default {
         })
       }
     },
-    async uploadfile (files) {
-      console.log(files)
-      console.log(storage)
-      const res = await storage.upload(files.name, files, '/projectId')
-      console.log(res)
+    uploadfile (files) {
+      const data = {
+        files, projectKey: this.projectKey, week: this.week
+      }
+      this.$emit('upload', data)
     }
   }
 }

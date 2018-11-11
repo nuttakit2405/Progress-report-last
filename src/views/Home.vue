@@ -5,21 +5,41 @@
         <div class="column">
           <div class="column box">
             <section>
-              <div class="block">
-                <b-switch v-model="showBooks">
-                  <p v-if="showBooks == true">อ.ประจำวิชา</p>
-                  <p v-else>อ.ที่ปรึกษา </p>
-                </b-switch>
-              </div>
-              <div class="level">
-                <div v-if="showBooks == true">
-                  <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
-                    <!-- <group role="อ.ที่ปรึกษา"/> -->
+              <div v-if="profile.userType == 'teacher'">
+                <div class="block level" >
+                  <div class="level-left">
+                    <b-switch v-model="showBooks">
+                      <p v-if="showBooks == true">อ.ที่ปรึกษา</p>
+                      <p v-else>อ.ประจำวิชา </p>
+                    </b-switch>
+                  </div>
+                  {{profile.userType}}
+                  <div class="level-right">
+                    <button v-if="showBooks !== true" class="button is-danger" @click="$router.push({name: 'AddProject'})">+</button>
                   </div>
                 </div>
-                <div v-else class="columns is-multiline">
-                  <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
-                    <group :data="project" :projectId="key" role="อ.ประจำวิชา"/>
+                <div class="column">
+                  <div v-if="showBooks == true" class="columns is-multiline">
+                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
+                      <group :data="project" :projectId="key" role="อ.ที่ปรึกษา"/>
+                    </div>
+                  </div>
+                  <div v-else class="columns is-multiline">
+                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
+                      <group :data="project" :projectId="key" role="อ.ประจำวิชา"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div  v-if="profile.userType == 'student'">
+                <div class="block">
+                  Status: {{profile.userType}}
+                </div>
+                <div class="column">
+                  <div class="columns is-multiline">
+                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
+                      <group :data="project" :projectId="key" role="อ.ประจำวิชา"/>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -43,7 +63,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      projects: 'projects/projects'
+      projects: 'projects/projects',
+      profile: 'user/profile'
     })
   },
   methods: {

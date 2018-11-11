@@ -6,6 +6,8 @@ import Login from '@/views/Login'
 import Profile from '@/views/Profile'
 import AddProject from '@/views/AddProject'
 import ScoreBoard from '@/views/ScoreBoard'
+import ScalWork from '@/components/ScalWork'
+import Folder from '@/views/Folder'
 
 // admin only
 import ImportStudent from '@/views/admin/ImportStudent'
@@ -57,6 +59,17 @@ export default new Router({
       path: '/admin/importstudent',
       name: 'ImportStudent',
       component: ImportStudent
+    },
+    {
+      path: '/scalwork',
+      name: 'ScalWork',
+      component: ScalWork
+    },
+    {
+      path: '/folder/:projectId',
+      name: 'ProjectFolder',
+      component: Folder,
+      props: true
     }
   ]
 })
