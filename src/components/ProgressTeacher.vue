@@ -5,7 +5,7 @@
       <b-input type="textarea"></b-input>
     </b-field>
 
-    <b-field class="file">
+    <!-- <b-field class="file">
       <b-upload v-model="file">
         <a class="button is-primary">
           <b-icon icon="upload"></b-icon>
@@ -17,7 +17,7 @@
         </span>
         <button class="button UploadfileButton is-success" @click="uploadfile(file)"
           style="font-family: 'Kanit', sans-serif">OK</button>
-    </b-field>
+    </b-field> -->
 
     <button class="button is-success" style="font-family: 'Kanit', sans-serif">
     รับทราบ

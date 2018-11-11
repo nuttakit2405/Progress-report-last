@@ -165,4 +165,10 @@ export default {
   margin-right: auto;
   width:450px;
 } */
+.sizeCard {
+  background: #eee;
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+}
 </style>
