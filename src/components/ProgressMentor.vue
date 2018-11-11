@@ -5,26 +5,28 @@
       <b-input type="textarea"></b-input>
     </b-field>
 
-    <b-field class="file">
-      <b-upload v-model="file">
-        <a class="button is-primary">
-          <b-icon icon="upload"></b-icon>
-            <span>Click to upload</span>
-        </a>
-      </b-upload>
-      <span class="file-name" v-if="file">
-        {{ file.name }}
-      </span>
-      <button class="button UploadfileButton is-success" @click="uploadfile(file)"
-        style="font-family: 'Kanit', sans-serif">OK</button>
-    </b-field>
+    <div v-if="profile.teacherGroup[0] === 'mentor' || profile.teacherGroup[1] === 'mentor'">
+      <b-field class="file">
+        <b-upload v-model="file">
+          <a class="button is-primary">
+            <b-icon icon="upload"></b-icon>
+              <span>Click to upload</span>
+          </a>
+        </b-upload>
+        <span class="file-name" v-if="file">
+          {{ file.name }}
+        </span>
+        <button class="button UploadfileButton is-success" @click="uploadfile(file)"
+          style="font-family: 'Kanit', sans-serif">OK</button>
+      </b-field>
 
-    <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="$emit('confirm')">
-      เห็นด้วย
-    </button>
-    <button class="button is-warning" @click="condition" style="font-family: 'Kanit', sans-serif">
-    เห็นด้วย (มีเงื่อนไข)
-    </button>
+      <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="$emit('confirm')">
+        เห็นด้วย
+      </button>
+      <button class="button is-warning" @click="condition" style="font-family: 'Kanit', sans-serif">
+      เห็นด้วย (มีเงื่อนไข)
+      </button>
+    </div>
     </div>
   </div>
 </template>

@@ -9,7 +9,7 @@
             <section  v-if="projectSelected !== null">
               <div class="block">
                 <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
-                {{profile.teacherGroup}}
+                <!-- {{profile.teacherGroup}} -->
               </div>
               <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">
                 <div slot="trigger" slot-scope="props" class="card-header">
