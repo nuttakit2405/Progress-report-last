@@ -12,6 +12,7 @@ import ScalWork from '@/components/ScalWork'
 import ProgressStudent from '@/components/ProgressStudent'
 import ProgressMentor from '@/components/ProgressMentor'
 import ProgressTeacher from '@/components/ProgressTeacher'
+import Folder from '@/views/Folder'
 
 Vue.use(Router)
 
@@ -85,7 +86,11 @@ export default new Router({
       path: '/progressteacher',
       name: 'ProgressTeacher',
       component: ProgressTeacher
+    },
+    {
+      path: '/folder',
+      name: 'Folder',
+      component: Folder
     }
-
   ]
 })
