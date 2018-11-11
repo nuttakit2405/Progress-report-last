@@ -114,10 +114,12 @@
           </p>
           <p class="card-footer-item">
               <span>
-              <b-icon
-                  icon="folder"
-                  size="is-meduim">
-              </b-icon>
+                <button class="button" @click="$router.push({name: 'Folder'})">
+                  <b-icon
+                      icon="folder"
+                      size="is-meduim">
+                  </b-icon>
+                </button>
               </span>
           </p>
         </footer>
