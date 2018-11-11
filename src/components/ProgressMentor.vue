@@ -36,6 +36,14 @@ import storage from '@/storage'
 import {mapGetters} from 'vuex'
 
 export default {
+  props: {
+    projectKey: {
+      type: String
+    },
+    week: {
+      type: Number
+    }
+  },
   data () {
     return {
       file: null
@@ -68,11 +76,11 @@ export default {
         await this.$emit('confirmCondition')
       }
     },
-    async uploadfile (files) {
-      console.log(files)
-      console.log(storage)
-      const res = await storage.upload(files.name, files, '/projectId')
-      console.log(res)
+    uploadfile (files) {
+      const data = {
+        files, projectKey: this.projectKey, week: this.week
+      }
+      this.$emit('upload', data)
     }
   }
 }

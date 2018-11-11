@@ -91,6 +91,12 @@ export default new Router({
       path: '/folder',
       name: 'Folder',
       component: Folder
+    },
+    {
+      path: '/folder/:projectId',
+      name: 'ProjectFolder',
+      component: Folder,
+      props: true
     }
   ]
 })
