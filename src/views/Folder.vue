@@ -1,33 +1,30 @@
 <template>
 <section>
 
-<b-table :data="isEmpty ? [] : data">
+<b-table :data="fileData">
 
   <template slot-scope="props">
 
       <b-table-column field="FileName" label="ชื่อไฟล์" centered>
-          <!-- {{ props.row.FileName }} -->
-          {{FileName}}
+          {{ props.row.FileName }}
       </b-table-column>
 
        <b-table-column field="OwnerFile" label="เจ้าของ"  centered>
-          <!-- {{ props.row.first_name }} -->
-          {{OwnerFile}}
+          {{ props.row.OwnerFile }}
       </b-table-column>
 
       <b-table-column field="date" label="วันที่อัพโหลดไฟล์" centered>
           <span class="tag is-success">
-              {{ new Date(props.row.date).toLocaleDateString() }}
+              {{ props.row.Date }}
           </span>
       </b-table-column>
 
       <b-table-column label="ดาวน์โหลด"  centered>
-        <button class="button" @click="DownloadFile()">
+        <button class="button" @click="DownloadFile(props.row.FileName, props.row.Ref)">
           <b-icon
                 icon="download"
                  size="is-medium" >
             </b-icon>
-          <!-- {{ props.row.gender }} -->
         </button>
       </b-table-column>
   </template>
@@ -45,7 +42,6 @@
           </div>
       </section>
   </template>
-
 </b-table>
 </section>
 </template>
@@ -53,25 +49,58 @@
 <script>
 import st from '@/storage'
 import axios from 'axios'
+import {mapActions, mapGetters} from 'vuex'
 export default {
+  props: {
+    projectId: {
+      type: String
+    }
+  },
   data () {
-    const data = [
-      // { 'id': 1, 'FileName': 'Jesse', 'OwnerFile': 'Simmons', 'date': '2016/10/15 13:43:27', 'download': 'Male' },
-      // { 'id': 2, 'FileName': 'Jesse', 'OwnerFile': 'Simmons', 'date': '2016/10/15 13:43:27', 'download': 'Male' }
-    ]
-
     return {
-      data,
+      data: [
+        { 'id': 1, 'FileName': 'Jesse', 'OwnerFile': 'Simmons', 'date': '2016/10/15 13:43:27', 'download': 'Male' },
+        { 'id': 2, 'FileName': 'Jesse', 'OwnerFile': 'Simmons', 'date': '2016/10/15 13:43:27', 'download': 'Male' }
+      ],
       FileName: 'การทดลองที่ 1',
       OwnerFile: 'กัญญารัก',
       date: '',
       download: ''
-
+    }
+  },
+  computed: {
+    ...mapGetters({
+      projectSelected: 'projects/projectSelected'
+    }),
+    fileData () {
+      if (this.projectSelected && this.projectSelected.scoreboard) {
+        const data = this.projectSelected.scoreboard.map(week => {
+          return week.files
+        }).filter(v => v).reduce((prev, curr) => {
+          Object.values(curr).forEach(file => {
+            prev.push(file)
+          })
+          return prev
+        }, []).map(file => {
+          return {
+            FileName: file.filename,
+            OwnerFile: file.username.fullName,
+            Date: this.$dayjs(file.time).format('DD/MM/YYYY'),
+            Ref: file.ref
+          }
+        })
+        console.log(data)
+        return data
+      }
+      return []
     }
   },
   methods: {
-    async DownloadFile () {
-      var pathReference = st.storage.ref('-LQm-4I28BMCSHq85wD1/0/test.txt')
+    ...mapActions({
+      selectProject: 'projects/selectProject'
+    }),
+    async DownloadFile (filename, ref) {
+      var pathReference = st.storage.ref(ref)
       const url = await pathReference.getDownloadURL()
       console.log(url)
 
@@ -83,10 +112,16 @@ export default {
         const url = window.URL.createObjectURL(new Blob([response.data]))
         const link = document.createElement('a')
         link.href = url
-        link.setAttribute('download', 'test.txt')
+        link.setAttribute('download', filename)
+        document.style = 'display: none'
         document.body.appendChild(link)
         link.click()
       })
+    }
+  },
+  created () {
+    if (this.projectId) {
+      this.selectProject(this.projectId)
     }
   }
 }

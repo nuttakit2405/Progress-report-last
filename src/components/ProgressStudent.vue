@@ -5,6 +5,10 @@
     <b-input type="textarea"></b-input>
   </b-field>
 
+  <b-taglist>
+    <b-tag >All Files:</b-tag>
+    <b-tag :key="i" v-for="(file, i) in weekData.files" type="is-info">{{file.filename}}</b-tag>
+  </b-taglist>
   <b-field class="file">
     <b-upload v-model="file">
       <a class="button is-primary">
@@ -49,7 +53,6 @@
 
 </template>
 <script>
-import storage from '@/storage'
 import db from '@/database'
 
 import {mapGetters} from 'vuex'
@@ -61,6 +64,9 @@ export default {
     },
     week: {
       type: Number
+    },
+    weekData: {
+      type: Object
     }
   },
   data () {
@@ -80,10 +86,11 @@ export default {
   },
   methods: {
     async uploadfile (files) {
-      console.log(files)
-      console.log(storage)
-      const res = await storage.upload(files.name, files, `/${this.projectKey}/${this.week}`)
-      console.log(res)
+      const data = {
+        files, projectKey: this.projectKey, week: this.week
+      }
+      await this.$emit('upload', data)
+      this.file = await null
     },
     async Pushpro () {
       const datas = {
