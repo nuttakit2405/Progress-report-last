@@ -56,8 +56,8 @@ import axios from 'axios'
 export default {
   data () {
     const data = [
-      { 'id': 1, 'FileName': 'Jesse', 'OwnerFile': 'Simmons', 'date': '2016/10/15 13:43:27', 'download': 'Male' },
-      { 'id': 2, 'FileName': 'Jesse', 'OwnerFile': 'Simmons', 'date': '2016/10/15 13:43:27', 'download': 'Male' }
+      // { 'id': 1, 'FileName': 'Jesse', 'OwnerFile': 'Simmons', 'date': '2016/10/15 13:43:27', 'download': 'Male' },
+      // { 'id': 2, 'FileName': 'Jesse', 'OwnerFile': 'Simmons', 'date': '2016/10/15 13:43:27', 'download': 'Male' }
     ]
 
     return {
