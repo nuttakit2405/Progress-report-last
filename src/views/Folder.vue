@@ -22,11 +22,13 @@
       </b-table-column>
 
       <b-table-column label="ดาวน์โหลด"  centered>
+        <button class="button" @click="DownloadFile()">
           <b-icon
                 icon="download"
-                 size="is-medium">
+                 size="is-medium" >
             </b-icon>
           <!-- {{ props.row.gender }} -->
+        </button>
       </b-table-column>
   </template>
 
@@ -49,6 +51,8 @@
 </template>
 
 <script>
+import st from '@/storage'
+import axios from 'axios'
 export default {
   data () {
     const data = [
@@ -63,6 +67,26 @@ export default {
       date: '',
       download: ''
 
+    }
+  },
+  methods: {
+    async DownloadFile () {
+      var pathReference = st.storage.ref('-LQm-4I28BMCSHq85wD1/0/test.txt')
+      const url = await pathReference.getDownloadURL()
+      console.log(url)
+
+      axios({
+        url: url,
+        method: 'GET',
+        responseType: 'blob' // important
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', 'test.txt')
+        document.body.appendChild(link)
+        link.click()
+      })
     }
   }
 }

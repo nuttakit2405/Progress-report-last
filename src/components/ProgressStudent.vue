@@ -60,7 +60,7 @@ export default {
       type: String
     },
     week: {
-      type: String
+      type: Number
     }
   },
   data () {

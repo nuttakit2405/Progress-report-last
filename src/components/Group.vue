@@ -112,14 +112,14 @@
               </b-icon>
               </span>
           </p>
-          <p class="card-footer-item" style="cursor: pointer;" @click="$router.push({name: 'Folder'})">
+          <p class="card-footer-item">
               <span>
-                <!-- <button class="button" @click="$router.push({name: 'Folder'})"> -->
+                <button class="button" @click="$router.push({name: 'Folder'})">
                   <b-icon
                       icon="folder"
                       size="is-meduim">
                   </b-icon>
-                <!-- </button> -->
+                </button>
               </span>
           </p>
         </footer>
