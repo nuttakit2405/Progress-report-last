@@ -25,7 +25,8 @@
                   v-for="(option, key) in selectOptions"
                   :value="option.value"
                   :key="key"
-                  :disabled="option.seletcted && option.seletcted !== ic">
+                  :disabled="option.seletcted && option.seletcted !== ic"
+                  :class="{'is-disabled': option.seletcted && option.seletcted !== ic}">
                   {{ option.title }}
               </option>
             </b-select>
@@ -150,3 +151,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.is-disabled {
+  color: lightgray;
+}
+</style>

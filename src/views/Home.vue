@@ -3,7 +3,7 @@
     <div class="column">
       <div class="columns">
         <div class="column">
-          <div class="column box">
+          <div class="column box" v-if="profile">
             <section>
               <div v-if="profile.userType == 'teacher'">
                 <div class="block level" >
@@ -37,7 +37,7 @@
                 </div>
                 <div class="column">
                   <div class="columns is-multiline">
-                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
+                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkOwnerProject(project)" >
                       <group :data="project" :projectId="key" role="อ.ประจำวิชา"/>
                     </div>
                   </div>
@@ -45,6 +45,7 @@
               </div>
             </section>
           </div>
+          <b-loading v-else :active="true"></b-loading>
         </div>
       </div>
     </div>
@@ -64,13 +65,19 @@ export default {
   computed: {
     ...mapGetters({
       projects: 'projects/projects',
-      profile: 'user/profile'
+      profile: 'user/profile',
+      user: 'user/user'
     })
   },
   methods: {
     ...mapActions({
       getProjects: 'projects/getProjects'
-    })
+    }),
+    checkOwnerProject (data) {
+      return data.teams.map(member => {
+        return member.id + '@fitm.kmutnb.ac.th' === this.user.email
+      }).some(val => val === true)
+    }
   },
   created () {
     this.getProjects()
