@@ -31,7 +31,6 @@
   </div>
 </template>
 <script>
-import storage from '@/storage'
 
 import {mapGetters} from 'vuex'
 
