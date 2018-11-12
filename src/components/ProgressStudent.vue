@@ -70,7 +70,12 @@ export default {
       type: Object
     },
     progressTotal: {
-      type: Number
+      type: [Number, String]
+    }
+  },
+  watch: {
+    progressTotal (val) {
+      this.progress = this.weekData.progress ? this.weekData.progress : this.progressTotal
     }
   },
   data () {
