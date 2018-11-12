@@ -201,7 +201,8 @@ export default {
         projectSize: this.projectSize,
         startProject: this.startProject.toString(),
         deadlineProject: this.deadlineProject.toString(),
-        scoreboard: scoreboard
+        scoreboard: scoreboard,
+        progress: 0
       }
 
       //   await this.$swal('เสร็จสิ้น')

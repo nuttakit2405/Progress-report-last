@@ -29,19 +29,37 @@
                   </div>
                 </div>
                 <div class="card-content">
-                  <ProgressStudent :weekData="val" :projectKey="projectSelected.key" :week="ind" @upload="uploadfile"/>
-                  <ProgressMentor  :projectKey="projectSelected.key" :week="ind" @upload="uploadfile" @confirm="confirm(projectSelected.key, ind)" @confirmCondition="confirm(projectSelected.key, ind, true)"/>
-                  <ProgressTeacher :projectKey="projectSelected.key" :week="ind" @upload="uploadfile"/>
+                  <ProgressStudent
+                    :weekData="val"
+                    :projectKey="projectSelected.key"
+                    :week="ind"
+                    :progressTotal="projectSelected.progressTotal ? projectSelected : 0"
+                    @upload="uploadfile"/>
+                  <!-- <div v-if="val.sentTeacher && profile.userType === 'teacher'">
+                    {{val}}
+                  </div> -->
+                  <ProgressMentor
+                    :weekData="val"
+                    :projectKey="projectSelected.key"
+                    :week="ind"
+                    @upload="uploadfile"
+                    @confirm="confirm(projectSelected.key, ind)"
+                    @confirmCondition="confirm(projectSelected.key, ind, true)"/>
+                  <ProgressTeacher
+                    :weekData="val"
+                    :projectKey="projectSelected.key"
+                    :week="ind"
+                    @upload="uploadfile"/>
                 </div>
-                <footer class="card-footer">
+                <!-- <footer class="card-footer">
                     <a class="card-footer-item">Save</a>
                     <a class="card-footer-item">Edit</a>
-                    <!-- <a class="card-footer-item">Delete</a> -->
-                </footer>
+                </footer> -->
               </b-collapse>
             </section>
             <div v-else>
-              ยังไม่ได้เลือกโครงงาน
+              <b-loading v-if="projectId !== ''" :active="true"></b-loading>
+              <span v-else>ยังไม่ได้เลือกโครงงาน</span>
             </div>
           </div>
         </div>
@@ -168,7 +186,6 @@ export default {
       await this.$swal('เสร็จสิ้น')
     },
     calScore (score = 0, max) {
-      console.log(score, max)
       return (max * score) / 100
     }
   },

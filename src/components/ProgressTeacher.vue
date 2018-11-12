@@ -1,27 +1,10 @@
 <template>
   <div>
-    <div v-if="profile.userType != 'student'">
+    <div v-if="profile && profile.userType != 'student'">
       <b-field label="ความเห็นอาจารย์ประจำวิชา">
-      <b-input type="textarea"></b-input>
-    </b-field>
-
-    <!-- <b-field class="file">
-      <b-upload v-model="file">
-        <a class="button is-primary">
-          <b-icon icon="upload"></b-icon>
-            <span>Click to upload</span>
-        </a>
-      </b-upload>
-        <span class="file-name" v-if="file">
-          {{ file.name }}
-        </span>
-        <button class="button UploadfileButton is-success" @click="uploadfile(file)"
-          style="font-family: 'Kanit', sans-serif">OK</button>
-    </b-field> -->
-
-    <button class="button is-success" style="font-family: 'Kanit', sans-serif">
-    รับทราบ
-    </button>
+        <b-input type="textarea"></b-input>
+      </b-field>
+      <button class="button is-success" style="font-family: 'Kanit', sans-serif">รับทราบ</button>
     </div>
   </div>
 </template>

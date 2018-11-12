@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="profile.userType == 'student'">
-      <div class="card" v-if="data.teams[0].id+'@fitm.kmutnb.ac.th' == user.email || data.teams[1].id+'@fitm.kmutnb.ac.th' == user.email">
+      <div class="card">
         <!-- {{data.mentor}}
         {{user.email}} -->
         <header class="card-header">
@@ -16,6 +16,10 @@
           </p>
         </header>
         <div class="card-content">
+          <div class="columns" style="align-items: center">
+            <div class="column is-paddingless"><progress class="progress is-info" :value="data.progress ? data.progress : 0" max="100"></progress></div>
+            <span class="column is-paddingless" style="flex: none;width: fit-content;">&nbsp;{{data.progress ? data.progress : 0}}%</span>
+          </div>
           <!-- {{data}} -->
           <div>
             วันทำงานตั้งแต่
