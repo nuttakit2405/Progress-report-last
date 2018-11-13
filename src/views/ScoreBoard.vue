@@ -29,19 +29,37 @@
                   </div>
                 </div>
                 <div class="card-content">
-                  <ProgressStudent :weekData="val" :projectKey="projectSelected.key" :week="ind" @upload="uploadfile"/>
-                  <ProgressMentor  :projectKey="projectSelected.key" :week="ind" @upload="uploadfile" @confirm="confirm(projectSelected.key, ind)" @confirmCondition="confirm(projectSelected.key, ind, true)"/>
-                  <ProgressTeacher :projectKey="projectSelected.key" :week="ind" @upload="uploadfile"/>
+                  <ProgressStudent
+                    :weekData="val"
+                    :projectKey="projectSelected.key"
+                    :week="ind"
+                    :progressTotal="projectSelected.progress ? projectSelected.progress : 0"
+                    @upload="uploadfile"/>
+                  <div v-if="val.sentTeacher && profile.userType === 'teacher'">
+                    {{val}}
+                  </div>
+                  <ProgressMentor
+                    :weekData="val"
+                    :projectKey="projectSelected.key"
+                    :week="ind"
+                    @upload="uploadfile"
+                    @confirm="confirm(val, projectSelected.key, ind)"
+                    @confirmCondition="confirm(val, projectSelected.key, ind, true)"/>
+                  <ProgressTeacher
+                    :weekData="val"
+                    :projectKey="projectSelected.key"
+                    :week="ind"
+                    @upload="uploadfile"/>
                 </div>
-                <footer class="card-footer">
+                <!-- <footer class="card-footer">
                     <a class="card-footer-item">Save</a>
                     <a class="card-footer-item">Edit</a>
-                    <!-- <a class="card-footer-item">Delete</a> -->
-                </footer>
+                </footer> -->
               </b-collapse>
             </section>
             <div v-else>
-              ยังไม่ได้เลือกโครงงาน
+              <b-loading v-if="projectId && projectId !== ''" :active="true"></b-loading>
+              <span v-else>ยังไม่ได้เลือกโครงงาน</span>
             </div>
           </div>
         </div>
@@ -143,32 +161,15 @@ export default {
       }
       db.database.ref(`/projects/${projectKey}/scoreboard/${week}/files`).push(data)
     },
-    async condition () {
-      const {value: percent} = await this.$swal({
-        title: 'เปอร์เซนต์การทำงานที่เหมาะสม',
-        html: `<div>
-            คิดเป็นร้อยละ <input id="swal-input1" class="swal2-input" style="width:90px"><br>
-            ความคิดเห็นอาจารย์ที่ปรึกษา
-            <textarea id="swal-input2" class="swal2-textarea"></textarea>
-            </div> `
-      })
-      if (percent) {
-        this.$swal({
-          title: 'เปอร์เซนต์การทำงานถูกเปลี่ยนแปลงแล้ว',
-          // text: 'Do you want to continue',
-          type: 'success'
-          // confirmButtonText: 'Cool'
-        })
-      }
-    },
-    async confirm (key, index, condition = false) {
-      console.log({key, index, condition})
+    async confirm (weekData, key, index, condition = false) {
+      // console.log({key, index, condition})
       const score = !condition ? 100 : 75
       await db.database.ref(`projects/${key}/scoreboard/${index}`).update({score: score})
+      await db.database.ref(`projects/${key}`).update({progress: weekData.progress})
+
       await this.$swal('เสร็จสิ้น')
     },
     calScore (score = 0, max) {
-      console.log(score, max)
       return (max * score) / 100
     }
   },

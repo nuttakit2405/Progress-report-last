@@ -1,11 +1,14 @@
 <template>
-  <div>
-    <div v-if="profile.userType != 'student'">
+  <div style="margin-bottom: 20px;" v-if="profile && profile.userType != 'student' && profile.teacherGroup.some(type => type === 'mentor')">
+    <div>
       <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
       <b-input type="textarea"></b-input>
     </b-field>
-
-    <div v-if="profile.teacherGroup[0] === 'mentor' || profile.teacherGroup[1] === 'mentor'">
+    <div>
+      <b-taglist>
+        <b-tag >All Files:</b-tag>
+        <b-tag :key="i" v-for="(file, i) in weekData.files" type="is-info">{{file.filename}}</b-tag>
+      </b-taglist>
       <b-field class="file">
         <b-upload v-model="file">
           <a class="button is-primary">
@@ -19,7 +22,6 @@
         <button class="button UploadfileButton is-success" @click="uploadfile(file)"
           style="font-family: 'Kanit', sans-serif">OK</button>
       </b-field>
-
       <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="$emit('confirm')">
         เห็นด้วย
       </button>
@@ -41,6 +43,9 @@ export default {
     },
     week: {
       type: Number
+    },
+    weekData: {
+      type: Object
     }
   },
   data () {
