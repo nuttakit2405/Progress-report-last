@@ -23,7 +23,8 @@
                       <b-dropdown-item @click="$router.push({name: 'AddProject'})">Add Project</b-dropdown-item>
                       <hr class="dropdown-divider">
                       <b-dropdown-item @click="$router.push({name: 'Calendar'})">Calendar</b-dropdown-item>
-                      <b-dropdown-item @click="$router.push({name: 'ScoreBoard'})">Score Board</b-dropdown-item>
+                      <b-dropdown-item @click="$router.push({name: 'ScoreBoard'})">ScoreBoard</b-dropdown-item>
+                      <b-dropdown-item @click="$router.push({name: 'ImportStudent'})">ImportStudent</b-dropdown-item>
                       <hr class="dropdown-divider">
                       <b-dropdown-item @click="logout">Log out</b-dropdown-item>
                     </b-dropdown>

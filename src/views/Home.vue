@@ -5,7 +5,7 @@
         <div class="column">
           <div class="column box" v-if="profile">
             <section>
-              <div v-if="profile.userType == 'teacher'">
+              <div v-if="profile.userType ==  'teacher'">
                 <div class="block level" >
                   <div class="level-left">
                     <b-switch v-model="showBooks">
