@@ -1,7 +1,7 @@
 <template>
-    <div class= "container" v-if="profile.teacherGroup[0] === 'subject' || profile.teacherGroup[1] === 'subject'">
+    <div class= "container">
         <div class="column"></div>
-        <div class="columns">
+        <div class="columns" v-if="checkTeacherSubject()">
             <div class="column is-8 is-offset-2">
                 <div class="column box">
                     <div class="column is-10 is-offset-1">
@@ -124,6 +124,9 @@
                 </div>
             </div>
         </div>
+        <div class="columns is-centered" v-else>
+            <span class="is-size-4 has-text-danger">ต้องมีสิทธิ์เป็นอาจารย์ประจำวิชาเท่านั้น</span>
+        </div>
     </div>
 </template>
 
@@ -161,6 +164,9 @@ export default {
     }
   },
   methods: {
+    checkTeacherSubject () {
+      return this.profile && this.profile.teacherGroup && this.profile.teacherGroup.some(g => g === 'subject')
+    },
     async Addteam () {
       this.teams.push({
         name: '',

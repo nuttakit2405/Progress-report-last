@@ -17,22 +17,21 @@
                   <div class="level-item has-text-centered">
                     <div>
                       <img :src="user.photoURL" width="100">
-                      <h3>{{profile.fullName}}</h3>
-                      <p>{{user.email}}</p>
-                      {{hasProfile}}
+                      <p class="is-size-5">{{profile.fullName}}</p>
+                      <p class="is-size-5">{{user.email}}</p>
                     </div>
                   </div>
                 </div>
                 <div class="level-item has-text-centered">
                   <!-- {{profile}} -->
-                  <span class="title is-5">ประเภทผู้ใช้งาน: </span>
-                  <span>{{stringUserType(profile.userType)}}</span>
+                  <span class="title is-5">ประเภทผู้ใช้งาน:&nbsp;</span>
+                  <span class="is-size-5">{{stringUserType(profile.userType)}}</span>
                 </div>
                 <div class="level-item has-text-centered">
-                  <p class="title is-5">ความก้าวหน้าของงาน: </p>
-                  <p>55%</p>
+                  <p class="title is-5">ความก้าวหน้าของงาน:&nbsp;</p>
+                  <p class="is-size-5">55%</p>
                 </div>
-                <div class="level-item has-text-centered">
+                <div class="column level-item has-text-centered">
                   <button class="button">ไปยังหน้าปฏิทิน</button>
                 </div>
                 <!-- <button @click="logOut">Log out</button> -->
