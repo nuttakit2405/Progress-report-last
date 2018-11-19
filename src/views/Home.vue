@@ -37,7 +37,7 @@
                 </div>
                 <div class="column">
                   <div class="columns is-multiline">
-                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkOwnerProject(project)" >
+                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkOwnerProject(project) && !project.deleted" >
                       <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" role="อ.ประจำวิชา"/>
                     </div>
                   </div>
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import db from '@/database'
 import Group from '@/components/Group'
 import {mapActions, mapGetters} from 'vuex'
 export default {
@@ -78,11 +79,24 @@ export default {
         return member.id + '@fitm.kmutnb.ac.th' === this.user.email
       }).some(val => val === true)
     },
-    removeProject (projectId) {
-      this.$swal('delete')
+    async removeProject (projectId) {
+      const { value } = await this.$swal({
+        type: 'error',
+        title: 'ลบโปรเจคนี้',
+        showCancelButton: true
+      })
+      if (value) {
+        db.database.ref(`projects/${projectId}`).update({deleted: true})
+      }
     },
-    editProject (projectId) {
-      this.$swal('edit')
+    async editProject (projectId) {
+      const { value } = await this.$swal({
+        title: 'แก้ไขโปรเจค',
+        showCancelButton: true
+      })
+      if (value) {
+        this.$router.push({name: 'EditProject', params: {projectId: projectId}})
+      }
     }
   },
   created () {

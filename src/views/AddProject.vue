@@ -135,6 +135,11 @@ import db from '@/database'
 import {mapGetters} from 'vuex'
 
 export default {
+  props: {
+    projectId: {
+      type: String
+    }
+  },
   data () {
     return {
       thaiProjectName: 'ติดตามความก้าวหน้าโครงงานพิเศษ',
@@ -159,8 +164,8 @@ export default {
       projectSize: '2',
       startProject: new Date('10-8-2018'),
       deadlineProject: new Date('11-23-2018'),
-      favorited: false,
-      statusDelteam: true
+      statusDelteam: true,
+      editMode: false
     }
   },
   methods: {
@@ -229,13 +234,40 @@ export default {
           ' ',
           'success'
         )
-        await db.database.ref('/projects').push(data)
-        this.$router.push({name: 'Home'})
-      } else {
-        this.$router.push({name: 'AddProject'})
-      }
+        if (this.editMode) {
 
-    //   await this.$router.push({name: 'Home'})
+        } else {
+          await db.database.ref('/projects').push(data)
+        }
+        this.$router.push({name: 'Home'})
+      }
+    },
+    initDataFormDB (val) {
+      console.log(val)
+    //   thaiProjectName: 'ติดตามความก้าวหน้าโครงงานพิเศษ',
+    //   engProjectName: 'Progress Report System for Special Project',
+    //   thaiCaseStudy: '',
+    //   engCaseStudy: '',
+    //   teams: [{
+    //     name: 'กัญญารัก',
+    //     lastname: 'เอี้ยงลักขะ',
+    //     id: '5806021631017'
+    //   },
+    //   {
+    //     name: 'ณัฐกิตติ์',
+    //     lastname: 'จะมะนุ',
+    //     id: '5806021631033'
+    //   }],
+    //   mentor: '',
+    //   coOpMentor: '',
+    //   department: '',
+    //   term: '1',
+    //   year: '2561',
+    //   projectSize: '2',
+    //   startProject: new Date('10-8-2018'),
+    //   deadlineProject: new Date('11-23-2018'),
+    //   favorited: false,
+    //   statusDelteam: true
     }
   },
   computed: {
@@ -246,6 +278,17 @@ export default {
         profile: 'user/profile'
       }
     )
+  },
+  created () {
+    if (this.$route.name === 'EditProject') {
+      this.editMode = true
+      db.database.ref(`projects/${this.projectId}`).once('value', snap => {
+        const data = snap.val()
+        if (data) {
+          this.initDataFormDB(data)
+        }
+      })
+    }
   }
 }
 </script>

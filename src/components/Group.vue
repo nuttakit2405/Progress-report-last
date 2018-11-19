@@ -2,11 +2,9 @@
   <div>
     <div v-if="profile.userType == 'student'">
       <div class="card">
-        <!-- {{data.mentor}}
-        {{user.email}} -->
         <header class="card-header">
           <p class="card-header-title iconcalendar">
-            <span>{{data.thaiProjectName}}</span>
+            <span class="dotdotdot">{{data.thaiProjectName}}</span>
             <button class="button" @click="$router.push({name: 'Calendar'})">
               <b-icon
                   icon="calendar-alt"
@@ -124,5 +122,12 @@ export default {
   max-width: 900px;
   margin: 30px auto;
   padding: 20px;
+}
+
+.dotdotdot {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 75%;
+  white-space: nowrap;
 }
 </style>
