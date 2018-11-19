@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="profile.userType == 'student'">
+    <div>
       <div class="card">
         <header class="card-header">
           <p class="card-header-title iconcalendar">
