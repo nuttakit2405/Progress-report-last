@@ -25,8 +25,8 @@
               <label>
                 <!-- <input type="checkbox" :checked=todo.done @change="todo.done = !todo.done" /> -->
                 <div class="field">
-                  <b-checkbox :checked=todo.done @change="todo.done = !todo.done" type="is-success">
-                    <span style="white-space: pre-wrap">{{todo.title}}</span>
+                  <b-checkbox :checked=todo.done @input="(val) => todo.done=val" type="is-success">
+                    <span style="white-space: pre-wrap" :class="{'textcompleted':todo.done}">{{todo.title}}</span>
                   </b-checkbox>
                 <span>
                   <a @click.prevent="deleteTodo(todo)">
@@ -48,21 +48,21 @@ export default {
   name: 'app',
   data () {
     return {
-      todos: [],
+      todos: [
+        // {
+        //   id: 1,
+        //   title: 'Learn Vue.js',
+        //   done: false,
+        //   editing: false
+        // },
+        // {
+        //   id: 2,
+        //   title: 'Build a project with vue.js',
+        //   done: false,
+        //   editing: false
+        // }
+      ],
       newTodo: ''
-    }
-  },
-  watch: {
-    todos: {
-      handler () {
-        localStorage.todos = JSON.stringify(this.todos)
-      },
-      deep: true
-    }
-  },
-  mounted () {
-    if (localStorage.todos) {
-      this.todos = JSON.parse(localStorage.todos)
     }
   },
   methods: {
@@ -80,3 +80,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.textcompleted {
+  text-decoration: line-through;
+}
+</style>
