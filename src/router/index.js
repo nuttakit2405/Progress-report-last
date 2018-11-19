@@ -1,16 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/views/Home'
-import Calendar from '@/views/Calendar'
-import Login from '@/views/Login'
-import Profile from '@/views/Profile'
-import AddProject from '@/views/AddProject'
-import ScoreBoard from '@/views/ScoreBoard'
-import ScalWork from '@/components/ScalWork'
-import Folder from '@/views/Folder'
+
+const Home = () => import('@/views/Home')
+const Calendar = () => import('@/views/Calendar')
+const Login = () => import('@/views/Login')
+const Profile = () => import('@/views/Profile')
+const AddProject = () => import('@/views/AddProject')
+const ScoreBoard = () => import('@/views/ScoreBoard')
+const ScalWork = () => import('@/components/ScalWork')
+const Folder = () => import('@/views/Folder')
 
 // admin only
-import ImportStudent from '@/views/admin/ImportStudent'
+const ImportStudent = () => import('@/views/admin/ImportStudent')
 
 Vue.use(Router)
 
@@ -43,6 +44,12 @@ export default new Router({
       path: '/addproject',
       name: 'AddProject',
       component: AddProject
+    },
+    {
+      path: '/editproject/:projectId',
+      name: 'EditProject',
+      component: AddProject,
+      props: true
     },
     {
       path: '/scoreboard',

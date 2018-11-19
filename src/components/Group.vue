@@ -1,18 +1,28 @@
 <template>
   <div>
-    <div v-if="profile.userType == 'student'">
+    <div>
       <div class="card">
-        <!-- {{data.mentor}}
-        {{user.email}} -->
         <header class="card-header">
           <p class="card-header-title iconcalendar">
-            <span>{{data.thaiProjectName}}</span>
+            <span class="dotdotdot">{{data.thaiProjectName}}</span>
             <button class="button" @click="$router.push({name: 'Calendar'})">
               <b-icon
                   icon="calendar-alt"
                   size="is-large">
               </b-icon>
             </button>
+            <b-dropdown hoverable>
+              <button class="button" slot="trigger">
+                  <i class="fas fa-ellipsis-v"></i>
+              </button>
+
+              <b-dropdown-item @click="$emit('edit', projectId)">
+                <b-icon icon="edit"></b-icon>แก้ไขโปรเจค
+              </b-dropdown-item>
+              <b-dropdown-item @click="$emit('remove', projectId)">
+                <b-icon icon="trash-alt"></b-icon>ลบโปรเจค
+              </b-dropdown-item>
+          </b-dropdown>
           </p>
         </header>
         <div class="card-content">
@@ -27,7 +37,10 @@
             ถึง
             {{$dayjs(data.deadlineProject).format('DD-MMM-YYYY')}}
           </div>
-          {{data.teams[0].id}}<br/>{{data.teams[1].id}}
+          <span :key="member.id" v-for="member in data.teams">
+            {{member.id}}
+          </span>
+          <!-- {{data.teams[0].id}}<br/>{{data.teams[1].id}} -->
         </div>
         <footer class="card-footer">
           <p class="card-footer-item">
@@ -109,5 +122,12 @@ export default {
   max-width: 900px;
   margin: 30px auto;
   padding: 20px;
+}
+
+.dotdotdot {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 75%;
+  white-space: nowrap;
 }
 </style>

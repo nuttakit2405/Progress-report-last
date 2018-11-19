@@ -20,13 +20,13 @@
                 </div>
                 <div class="column">
                   <div v-if="showBooks == true" class="columns is-multiline">
-                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
-                      <group :data="project" :projectId="key" role="อ.ที่ปรึกษา"/>
+                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="!project.deleted" >
+                      <group :data="project" :projectId="key" role="mentor"/>
                     </div>
                   </div>
                   <div v-else class="columns is-multiline">
-                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" >
-                      <group :data="project" :projectId="key" role="อ.ประจำวิชา"/>
+                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="!project.deleted" >
+                      <group :data="project" :projectId="key" role="subject"/>
                     </div>
                   </div>
                 </div>
@@ -37,8 +37,8 @@
                 </div>
                 <div class="column">
                   <div class="columns is-multiline">
-                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkOwnerProject(project)" >
-                      <group :data="project" :projectId="key" role="อ.ประจำวิชา"/>
+                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkOwnerProject(project) && !project.deleted" >
+                      <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" role="อ.ประจำวิชา"/>
                     </div>
                   </div>
                 </div>
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import db from '@/database'
 import Group from '@/components/Group'
 import {mapActions, mapGetters} from 'vuex'
 export default {
@@ -77,6 +78,25 @@ export default {
       return data.teams.map(member => {
         return member.id + '@fitm.kmutnb.ac.th' === this.user.email
       }).some(val => val === true)
+    },
+    async removeProject (projectId) {
+      const { value } = await this.$swal({
+        type: 'error',
+        title: 'ลบโปรเจคนี้',
+        showCancelButton: true
+      })
+      if (value) {
+        db.database.ref(`projects/${projectId}`).update({deleted: true})
+      }
+    },
+    async editProject (projectId) {
+      const { value } = await this.$swal({
+        title: 'แก้ไขโปรเจค',
+        showCancelButton: true
+      })
+      if (value) {
+        this.$router.push({name: 'EditProject', params: {projectId: projectId}})
+      }
     }
   },
   created () {
