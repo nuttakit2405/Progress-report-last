@@ -13,6 +13,18 @@
                   size="is-large">
               </b-icon>
             </button>
+            <b-dropdown hoverable>
+              <button class="button" slot="trigger">
+                  <i class="fas fa-ellipsis-v"></i>
+              </button>
+
+              <b-dropdown-item @click="$emit('edit', projectId)">
+                <b-icon icon="edit"></b-icon>แก้ไขโปรเจค
+              </b-dropdown-item>
+              <b-dropdown-item @click="$emit('remove', projectId)">
+                <b-icon icon="trash-alt"></b-icon>ลบโปรเจค
+              </b-dropdown-item>
+          </b-dropdown>
           </p>
         </header>
         <div class="card-content">
@@ -27,7 +39,10 @@
             ถึง
             {{$dayjs(data.deadlineProject).format('DD-MMM-YYYY')}}
           </div>
-          {{data.teams[0].id}}<br/>{{data.teams[1].id}}
+          <span :key="member.id" v-for="member in data.teams">
+            {{member.id}}
+          </span>
+          <!-- {{data.teams[0].id}}<br/>{{data.teams[1].id}} -->
         </div>
         <footer class="card-footer">
           <p class="card-footer-item">

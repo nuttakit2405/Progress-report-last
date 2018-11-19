@@ -38,7 +38,7 @@
                 <div class="column">
                   <div class="columns is-multiline">
                     <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkOwnerProject(project)" >
-                      <group :data="project" :projectId="key" role="อ.ประจำวิชา"/>
+                      <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" role="อ.ประจำวิชา"/>
                     </div>
                   </div>
                 </div>
@@ -77,6 +77,12 @@ export default {
       return data.teams.map(member => {
         return member.id + '@fitm.kmutnb.ac.th' === this.user.email
       }).some(val => val === true)
+    },
+    removeProject (projectId) {
+      this.$swal('delete')
+    },
+    editProject (projectId) {
+      this.$swal('edit')
     }
   },
   created () {
