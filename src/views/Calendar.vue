@@ -225,7 +225,34 @@ export default {
               </select>
             </span>
           </span>
+        </div><br>
+        
+        <div style="display: flex; flex-direction: row; justify-content: center;">
+          <span style="display: flex; align-items: center; margin: 0px 5px;">
+            ต้องการนัด:
+            <span class="radio" style="width: auto; margin: 0px 5px;">
+               <span class="select" style="width: auto; margin: 0px 5px;">
+                  <select id="swal-input5">
+                    <option value="mentor">อาจารย์ที่ปรึกษา</option>
+                    <option value="teacher">อาจารย์ประจำวิชา</option>
+                  </select>
+                </span>
+            </span>
+        </div><br>
+
+        <div style="display: flex; flex-direction: row; justify-content: center;">
+          <span style="display: flex; align-items: center; margin: 0px 5px;">
+            ต้องการนัด:
+            <span class="radio" style="width: auto; margin: 0px 5px;">
+               <span class="select" style="width: auto; margin: 0px 5px;">
+                  <select id="swal-input6">
+                    <option value="1">กลุ่ม1</option>
+                    <option value="2">กลุ่ม2</option>
+                  </select>
+                </span>
+            </span>
         </div>
+
       </div>`
       const {value: formValues} = await this.$swal({
         title: 'สร้างการนัดหมาย',
