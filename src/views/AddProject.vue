@@ -36,7 +36,7 @@
                                 </button>
                                 </div>
                             </div>
-                            <b-field  class="buttonAddteam">
+                            <b-field v-if="teams.length < 2"  class="buttonAddteam">
                                 <button @click="Addteam" class ="button is-dark">
                                     <b-icon icon="plus" size="is-small"></b-icon>
                                 </button>
@@ -44,28 +44,7 @@
                             <div class="box">
                                 <b-field horizontal label="ชื่อที่ปรึกษา">
                                     <b-select placeholder="เลือกอาจารย์ที่ปรึกษา" v-model="mentor" required>
-                                        <option value="ผู้ช่วยศาสตราจารย์ ดร.ขนิษฐา นามี">ผู้ช่วยศาสตราจารย์ ดร.ขนิษฐา นามี</option>
-                                        <option value="ผู้ช่วยศาสตราจารย์ ดร.พาฝัน ดวงไพศาล">ผู้ช่วยศาสตราจารย์ ดร.พาฝัน ดวงไพศาล</option>
-                                        <option value="ผู้ช่วยศาสตราจารย์ ดร.ยุพิน สรรพคุณ">ผู้ช่วยศาสตราจารย์ ดร.ยุพิน สรรพคุณ</option>
-                                        <option value="ผู้ช่วยศาสตราจารย์ ดร.วันทนี ประจวบศุภกิจ">ผู้ช่วยศาสตราจารย์ ดร.วันทนี ประจวบศุภกิจ</option>
-                                        <option value="ผู้ช่วยศาสตราจารย์ อรบุษป์ วุฒิกมลชัย">ผู้ช่วยศาสตราจารย์ อรบุษป์ วุฒิกมลชัย</option>
-                                        <option value="ผู้ช่วยศาสตราจารย์ ดร.อนิราช มิ่งขวัญ">ผู้ช่วยศาสตราจารย์ ดร.อนิราช มิ่งขวัญ</option>
-                                        <option value="ผู้ช่วยศาสตราจารย์ สุปีติ กุลจันทร์">ผู้ช่วยศาสตราจารย์ สุปีติ กุลจันทร์</option>
-                                        <option value="ผู้ช่วยศาสตราจารย์ สุพาภรณ์ ซิ้มเจริญ">ผู้ช่วยศาสตราจารย์ สุพาภรณ์ ซิ้มเจริญ</option>
-                                        <option value="อาจารย์ ดร.ประดิษฐ์ พิทักษ์เสถียรกุล">อาจารย์ ดร.ประดิษฐ์ พิทักษ์เสถียรกุล</option>
-                                        <option value="อาจารย์ ดร.วิชญา รุ่นสุวรรณ์">อาจารย์ ดร.วิชญา รุ่นสุวรรณ์</option>
-                                        <option value="อาจารย์ ดร.สมพัตร์ เบ็ญจชัยพร">อาจารย์ ดร.สมพัตร์ เบ็ญจชัยพร</option>
-                                        <option value="อาจารย์ นัฎฐพันธ์ นาคพงษ์">อาจารย์ นัฎฐพันธ์ นาคพงษ์</option>
-                                        <option value="อาจารย์ นิติการ นาคเจือทอง">อาจารย์ นิติการ นาคเจือทอง</option>
-                                        <option value="อาจารย์ นพดล บูรณ์กุศล">อาจารย์ นพดล บูรณ์กุศล</option>
-                                        <option value="อาจารย์ นพเก้า ทองใบ">อาจารย์ นพเก้า ทองใบ</option>
-                                        <option value="อาจารย์ นิมิต ศรีคำทา">อาจารย์ นิมิต ศรีคำทา</option>
-                                        <option value="อาจารย์ บีสุดา ดาวเรือง">อาจารย์ บีสุดา ดาวเรือง</option>
-                                        <option value="อาจารย์ ปองพล สพันธุ์พงศ์">อาจารย์ ปองพล สพันธุ์พงศ์</option>
-                                        <option value="อาจารย์ วัชรชัย คงศิริวัฒนา">อาจารย์ วัชรชัย คงศิริวัฒนา</option>
-                                        <option value="อาจารย์ สมชัย เชียงพงศ์พันธุ์">อาจารย์ สมชัย เชียงพงศ์พันธุ์</option>
-                                        <option value="อาจารย์ สิวาลัย จินเจือ">อาจารย์ สิวาลัย จินเจือ</option>
-                                        <option value="NUTTAKIT JAMANU">NUTTAKIT JAMANU</option>
+                                        <option :key="teacher.initials" v-for="teacher in teacherData" :value="teacher.initials">{{teacher.position}}{{teacher.name | removeTitle}} {{teacher.lastname}}</option>
                                     </b-select>
                                 </b-field>
                                 <b-field horizontal label="ที่ปรึกษาร่วม">
@@ -140,6 +119,11 @@ export default {
       type: String
     }
   },
+  filters: {
+    removeTitle (val) {
+      return val.replace(/^นาย|นางสาว|นาง/i, '')
+    }
+  },
   data () {
     return {
       thaiProjectName: 'ติดตามความก้าวหน้าโครงงานพิเศษ',
@@ -156,7 +140,7 @@ export default {
         lastname: 'จะมะนุ',
         id: '5806021631033'
       }],
-      mentor: '',
+      mentor: null,
       coOpMentor: '',
       department: '',
       term: '1',
@@ -165,7 +149,8 @@ export default {
       startProject: new Date('10-8-2018'),
       deadlineProject: new Date('11-23-2018'),
       statusDelteam: true,
-      editMode: false
+      editMode: false,
+      teacherData: null
     }
   },
   methods: {
@@ -204,22 +189,19 @@ export default {
         thaiCaseStudy: this.thaiCaseStudy,
         engCaseStudy: this.engCaseStudy,
         teams: this.teams,
-        mentor: this.mentor,
+        mentor: this.teacherData[this.mentor],
         coOpMentor: this.coOpMentor,
         department: this.department,
         term: this.term,
         year: this.year,
         projectSize: this.projectSize,
         startProject: this.startProject.toString(),
-        deadlineProject: this.deadlineProject.toString(),
-        scoreboard: scoreboard,
-        progress: 0
+        deadlineProject: this.deadlineProject.toString()
       }
 
       //   await this.$swal('เสร็จสิ้น')
       const result = await this.$swal({
         title: 'ยืนยันในการกรอกข้อมูลนี้หรือไม่?',
-        // text: "You won't be able to revert this!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -235,39 +217,37 @@ export default {
           'success'
         )
         if (this.editMode) {
-
+          await db.database.ref(`/projects/${this.projectId}`).update(data)
         } else {
+          data['scoreboard'] = scoreboard
+          data['progress'] = 0
           await db.database.ref('/projects').push(data)
         }
-        this.$router.push({name: 'Home'})
+        await this.$router.push({name: 'Home'})
       }
     },
     initDataFormDB (val) {
-      console.log(val)
-    //   thaiProjectName: 'ติดตามความก้าวหน้าโครงงานพิเศษ',
-    //   engProjectName: 'Progress Report System for Special Project',
-    //   thaiCaseStudy: '',
-    //   engCaseStudy: '',
-    //   teams: [{
-    //     name: 'กัญญารัก',
-    //     lastname: 'เอี้ยงลักขะ',
-    //     id: '5806021631017'
-    //   },
-    //   {
-    //     name: 'ณัฐกิตติ์',
-    //     lastname: 'จะมะนุ',
-    //     id: '5806021631033'
-    //   }],
-    //   mentor: '',
-    //   coOpMentor: '',
-    //   department: '',
-    //   term: '1',
-    //   year: '2561',
-    //   projectSize: '2',
-    //   startProject: new Date('10-8-2018'),
-    //   deadlineProject: new Date('11-23-2018'),
-    //   favorited: false,
-    //   statusDelteam: true
+      this.thaiProjectName = val.thaiProjectName
+      this.engProjectName = val.engProjectName
+      this.thaiCaseStudy = val.thaiCaseStudy
+      this.engCaseStudy = val.engCaseStudy
+      this.teams = val.teams ? val.teams : []
+      this.mentor = val.mentor ? val.mentor.initials : null
+      this.coOpMentor = val.coOpMentor
+      this.department = val.department
+      this.term = val.term
+      this.year = val.year
+      this.projectSize = val.projectSize
+      this.startProject = new Date(val.startProject)
+      this.deadlineProject = new Date(val.deadlineProject)
+    },
+    getTeacherData () {
+      db.database.ref('teachers').once('value', snap => {
+        const data = snap.val()
+        if (data !== null) {
+          this.teacherData = data
+        }
+      })
     }
   },
   computed: {
@@ -280,6 +260,7 @@ export default {
     )
   },
   created () {
+    this.getTeacherData()
     if (this.$route.name === 'EditProject') {
       this.editMode = true
       db.database.ref(`projects/${this.projectId}`).once('value', snap => {
