@@ -11,7 +11,7 @@
                   size="is-large">
               </b-icon>
             </button>
-            <b-dropdown hoverable>
+            <b-dropdown v-if="role === 'subject'" hoverable>
               <button class="button" slot="trigger">
                   <i class="fas fa-ellipsis-v"></i>
               </button>

@@ -13,7 +13,9 @@
                       <p v-else>อ.ประจำวิชา </p>
                     </b-switch>
                   </div>
-                  {{profile.userType}}
+                  <div class="block is-capitalized">
+                    ประเภทผู้ใช้: {{profile.userType}}
+                  </div>
                   <div class="level-right">
                     <button v-if="showBooks !== true" class="button is-danger" @click="$router.push({name: 'AddProject'})">+</button>
                   </div>
@@ -32,8 +34,8 @@
                 </div>
               </div>
               <div  v-if="profile.userType == 'student'">
-                <div class="block">
-                  Status: {{profile.userType}}
+                <div class="block is-capitalized">
+                  ประเภทผู้ใช้: {{profile.userType}}
                 </div>
                 <div class="column">
                   <div class="columns is-multiline">
