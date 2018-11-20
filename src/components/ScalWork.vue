@@ -84,5 +84,6 @@ export default {
 <style scoped>
 .textcompleted {
   text-decoration: line-through;
+   color: lightgray;
 }
 </style>
