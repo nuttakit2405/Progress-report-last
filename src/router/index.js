@@ -12,6 +12,7 @@ const Folder = () => import('@/views/Folder')
 
 // admin only
 const ImportStudent = () => import('@/views/admin/ImportStudent')
+const ImportTeacher = () => import('@/views/admin/ImportTeacher')
 
 Vue.use(Router)
 
@@ -66,6 +67,11 @@ export default new Router({
       path: '/admin/importstudent',
       name: 'ImportStudent',
       component: ImportStudent
+    },
+    {
+      path: '/admin/importteacher',
+      name: 'ImportTeacher',
+      component: ImportTeacher
     },
     {
       path: '/scalwork',
