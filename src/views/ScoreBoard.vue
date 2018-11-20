@@ -35,7 +35,7 @@
                     :week="ind"
                     :progressTotal="projectSelected.progress ? projectSelected.progress : 0"
                     @upload="uploadfile"/>
-                  <div v-if="val.sentTeacher && profile.userType === 'teacher'">
+                  <div v-if="val.sentTeacher && profile && profile.userType === 'teacher'">
                     {{val}}
                   </div>
                   <ProgressMentor
