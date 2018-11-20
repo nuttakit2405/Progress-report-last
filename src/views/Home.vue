@@ -21,12 +21,12 @@
                 <div class="column">
                   <div v-if="showBooks == true" class="columns is-multiline">
                     <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="!project.deleted" >
-                      <group :data="project" :projectId="key" role="mentor"/>
+                      <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" role="mentor"/>
                     </div>
                   </div>
                   <div v-else class="columns is-multiline">
                     <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="!project.deleted" >
-                      <group :data="project" :projectId="key" role="subject"/>
+                      <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" role="subject"/>
                     </div>
                   </div>
                 </div>
@@ -38,7 +38,7 @@
                 <div class="column">
                   <div class="columns is-multiline">
                     <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkOwnerProject(project) && !project.deleted" >
-                      <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" role="อ.ประจำวิชา"/>
+                      <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" role="student"/>
                     </div>
                   </div>
                 </div>
