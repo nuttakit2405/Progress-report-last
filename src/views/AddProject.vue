@@ -44,7 +44,8 @@
                             <div class="box">
                                 <b-field horizontal label="ชื่อที่ปรึกษา">
                                     <b-select placeholder="เลือกอาจารย์ที่ปรึกษา" v-model="mentor" required>
-                                        <option value="ผู้ช่วยศาสตราจารย์ ดร.ขนิษฐา นามี">ผู้ช่วยศาสตราจารย์ ดร.ขนิษฐา นามี</option>
+                                        <option :key="teacher.initials" v-for="teacher in teacherData" :value="teacher.initials">{{teacher.position}}{{teacher.name | removeTitle}} {{teacher.lastname}}</option>
+                                        <!-- <option value="ผู้ช่วยศาสตราจารย์ ดร.ขนิษฐา นามี">ผู้ช่วยศาสตราจารย์ ดร.ขนิษฐา นามี</option>
                                         <option value="ผู้ช่วยศาสตราจารย์ ดร.พาฝัน ดวงไพศาล">ผู้ช่วยศาสตราจารย์ ดร.พาฝัน ดวงไพศาล</option>
                                         <option value="ผู้ช่วยศาสตราจารย์ ดร.ยุพิน สรรพคุณ">ผู้ช่วยศาสตราจารย์ ดร.ยุพิน สรรพคุณ</option>
                                         <option value="ผู้ช่วยศาสตราจารย์ ดร.วันทนี ประจวบศุภกิจ">ผู้ช่วยศาสตราจารย์ ดร.วันทนี ประจวบศุภกิจ</option>
@@ -65,7 +66,7 @@
                                         <option value="อาจารย์ วัชรชัย คงศิริวัฒนา">อาจารย์ วัชรชัย คงศิริวัฒนา</option>
                                         <option value="อาจารย์ สมชัย เชียงพงศ์พันธุ์">อาจารย์ สมชัย เชียงพงศ์พันธุ์</option>
                                         <option value="อาจารย์ สิวาลัย จินเจือ">อาจารย์ สิวาลัย จินเจือ</option>
-                                        <option value="NUTTAKIT JAMANU">NUTTAKIT JAMANU</option>
+                                        <option value="NUTTAKIT JAMANU">NUTTAKIT JAMANU</option> -->
                                     </b-select>
                                 </b-field>
                                 <b-field horizontal label="ที่ปรึกษาร่วม">
@@ -140,6 +141,11 @@ export default {
       type: String
     }
   },
+  filters: {
+    removeTitle (val) {
+      return val.replace(/^นาย|นางสาว|นาง/i, '')
+    }
+  },
   data () {
     return {
       thaiProjectName: 'ติดตามความก้าวหน้าโครงงานพิเศษ',
@@ -156,7 +162,7 @@ export default {
         lastname: 'จะมะนุ',
         id: '5806021631033'
       }],
-      mentor: '',
+      mentor: null,
       coOpMentor: '',
       department: '',
       term: '1',
@@ -165,7 +171,8 @@ export default {
       startProject: new Date('10-8-2018'),
       deadlineProject: new Date('11-23-2018'),
       statusDelteam: true,
-      editMode: false
+      editMode: false,
+      teacherData: null
     }
   },
   methods: {
@@ -204,7 +211,7 @@ export default {
         thaiCaseStudy: this.thaiCaseStudy,
         engCaseStudy: this.engCaseStudy,
         teams: this.teams,
-        mentor: this.mentor,
+        mentor: this.teacherData[this.mentor],
         coOpMentor: this.coOpMentor,
         department: this.department,
         term: this.term,
@@ -219,7 +226,6 @@ export default {
       //   await this.$swal('เสร็จสิ้น')
       const result = await this.$swal({
         title: 'ยืนยันในการกรอกข้อมูลนี้หรือไม่?',
-        // text: "You won't be able to revert this!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -244,30 +250,38 @@ export default {
     },
     initDataFormDB (val) {
       console.log(val)
-    //   thaiProjectName: 'ติดตามความก้าวหน้าโครงงานพิเศษ',
-    //   engProjectName: 'Progress Report System for Special Project',
-    //   thaiCaseStudy: '',
-    //   engCaseStudy: '',
-    //   teams: [{
-    //     name: 'กัญญารัก',
-    //     lastname: 'เอี้ยงลักขะ',
-    //     id: '5806021631017'
-    //   },
-    //   {
-    //     name: 'ณัฐกิตติ์',
-    //     lastname: 'จะมะนุ',
-    //     id: '5806021631033'
-    //   }],
-    //   mentor: '',
-    //   coOpMentor: '',
-    //   department: '',
-    //   term: '1',
-    //   year: '2561',
-    //   projectSize: '2',
-    //   startProject: new Date('10-8-2018'),
-    //   deadlineProject: new Date('11-23-2018'),
-    //   favorited: false,
-    //   statusDelteam: true
+      //   thaiProjectName: 'ติดตามความก้าวหน้าโครงงานพิเศษ',
+      //   engProjectName: 'Progress Report System for Special Project',
+      //   thaiCaseStudy: '',
+      //   engCaseStudy: '',
+      //   teams: [{
+      //     name: 'กัญญารัก',
+      //     lastname: 'เอี้ยงลักขะ',
+      //     id: '5806021631017'
+      //   },
+      //   {
+      //     name: 'ณัฐกิตติ์',
+      //     lastname: 'จะมะนุ',
+      //     id: '5806021631033'
+      //   }],
+      this.mentor = val.mentor ? val.mentor.initials : null
+      //   coOpMentor: '',
+      //   department: '',
+      //   term: '1',
+      //   year: '2561',
+      //   projectSize: '2',
+      //   startProject: new Date('10-8-2018'),
+      //   deadlineProject: new Date('11-23-2018'),
+      //   favorited: false,
+      //   statusDelteam: true
+    },
+    getTeacherData () {
+      db.database.ref('teachers').once('value', snap => {
+        const data = snap.val()
+        if (data !== null) {
+          this.teacherData = data
+        }
+      })
     }
   },
   computed: {
@@ -280,6 +294,7 @@ export default {
     )
   },
   created () {
+    this.getTeacherData()
     if (this.$route.name === 'EditProject') {
       this.editMode = true
       db.database.ref(`projects/${this.projectId}`).once('value', snap => {

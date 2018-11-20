@@ -16,10 +16,15 @@
     </div>
     <!-- <button class="button" @click="parse(file)">view data</button> -->
     <!-- <b-table v-if="student" :data="student" :columns="columns"></b-table> -->
-    <table class="table" v-if="student">
+    <table class="table" style="overflow: scroll" v-if="student">
       <tr>
+        <td>
+          <div>
+            <b-checkbox @input="selectAll(checkAll)" v-model="checkAll">เลือกทั้งหมด</b-checkbox>
+          </div>
+        </td>
         <td :key="ic" v-for="(column, ic) in maxColumn">
-          <b-field v-if="ic !== 0">
+          <b-field>
             <b-select v-model="columnSelected[ic]" @input="selectedField($event, ic)" placeholder="Select a field">
               <option
                   v-for="(option, key) in selectOptions"
@@ -31,9 +36,6 @@
               </option>
             </b-select>
           </b-field>
-          <div v-else>
-            <b-checkbox @input="selectAll(checkAll)" v-model="checkAll">เลือกทั้งหมด</b-checkbox>
-          </div>
         </td>
       </tr>
       <tr :key="ir" v-for="(row, ir) in student">
@@ -129,10 +131,10 @@ export default {
       })
     },
     async saveToDB () {
-      const idColumn = this.columnSelected.findIndex(v => v === 'id') - 1
-      const nameColumn = this.columnSelected.findIndex(v => v === 'name') - 1
-      const lastnameColumn = this.columnSelected.findIndex(v => v === 'lastname') - 1
-      const branchColumn = this.columnSelected.findIndex(v => v === 'branch') - 1
+      const idColumn = this.columnSelected.findIndex(v => v === 'id')
+      const nameColumn = this.columnSelected.findIndex(v => v === 'name')
+      const lastnameColumn = this.columnSelected.findIndex(v => v === 'lastname')
+      const branchColumn = this.columnSelected.findIndex(v => v === 'branch')
 
       const data = this.rowSelected.map(row => {
         return {

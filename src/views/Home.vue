@@ -8,8 +8,8 @@
               <div v-if="profile.userType ==  'teacher'">
                 <div class="block level" >
                   <div class="level-left">
-                    <b-switch v-model="showBooks">
-                      <p v-if="showBooks == true">อ.ที่ปรึกษา</p>
+                    <b-switch v-model="teacherSubject">
+                      <p v-if="teacherSubject == true">อ.ที่ปรึกษา</p>
                       <p v-else>อ.ประจำวิชา </p>
                     </b-switch>
                   </div>
@@ -17,18 +17,13 @@
                     ประเภทผู้ใช้: {{profile.userType}}
                   </div>
                   <div class="level-right">
-                    <button v-if="showBooks !== true" class="button is-danger" @click="$router.push({name: 'AddProject'})">+</button>
+                    <button v-if="teacherSubject !== true" class="button is-danger" @click="$router.push({name: 'AddProject'})">+</button>
                   </div>
                 </div>
                 <div class="column">
-                  <div v-if="showBooks == true" class="columns is-multiline">
-                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="!project.deleted" >
-                      <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" role="mentor"/>
-                    </div>
-                  </div>
-                  <div v-else class="columns is-multiline">
-                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="!project.deleted" >
-                      <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" role="subject"/>
+                  <div class="columns is-multiline">
+                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkMentor(project.mentor, user.email) && !project.deleted" >
+                      <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
                     </div>
                   </div>
                 </div>
@@ -62,7 +57,7 @@ export default {
   data () {
     return {
       activeTab: 0,
-      showBooks: false
+      teacherSubject: false
     }
   },
   computed: {
@@ -76,6 +71,15 @@ export default {
     ...mapActions({
       getProjects: 'projects/getProjects'
     }),
+    checkMentor (mentor, email) {
+      if (this.teacherSubject) {
+        if (mentor && mentor.email === email) {
+          return true
+        }
+        return false
+      }
+      return true
+    },
     checkOwnerProject (data) {
       return data.teams.map(member => {
         return member.id + '@fitm.kmutnb.ac.th' === this.user.email
