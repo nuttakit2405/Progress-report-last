@@ -23,17 +23,20 @@
                   </div>
                 </div>
                 <div class="level-item has-text-centered">
-                  <!-- {{profile}} -->
                   <span class="title is-5">ประเภทผู้ใช้งาน:&nbsp;</span>
-                  <span class="is-size-5">{{stringUserType(profile.userType)}}</span>
+                  <span class="is-size-5">{{roles[profile.userType]}}</span>
                 </div>
-                <div class="level-item has-text-centered">
+                <div class="level-item" v-if="profile && profile.userType === 'teacher'">
+                  <p class="title is-5">สิทธิ์ของอาจารย์:&nbsp;</p>
+                  <p class="is-size-5">{{profile.teacherGroup.map(group => roles[group]).join(", ")}}</p>
+                </div>
+                <div class="level-item has-text-centered" v-if="profile && profile.userType === 'student'">
                   <p class="title is-5">ความก้าวหน้าของงาน:&nbsp;</p>
                   <p class="is-size-5">55%</p>
                 </div>
-                <div class="column level-item has-text-centered">
+                <!-- <div class="column level-item has-text-centered">
                   <button class="button">ไปยังหน้าปฏิทิน</button>
-                </div>
+                </div> -->
                 <!-- <button @click="logOut">Log out</button> -->
                 <!-- Data User -->
                 <!-- <pre>{{user}}</pre> -->
@@ -113,7 +116,13 @@ export default {
       edit: false,
       fetchProfile: false,
       isLoading: true,
-      isFullPage: true
+      isFullPage: true,
+      roles: {
+        teacher: 'อาจารย์',
+        student: 'นักศึกษา',
+        subject: 'อาจารย์ประจำวิชา',
+        mentor: 'อาจารย์ที่ปรึกษา'
+      }
     }
   },
   computed: {

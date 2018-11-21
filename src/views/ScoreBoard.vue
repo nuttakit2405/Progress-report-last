@@ -51,10 +51,6 @@
                     :week="ind"
                     @upload="uploadfile"/>
                 </div>
-                <!-- <footer class="card-footer">
-                    <a class="card-footer-item">Save</a>
-                    <a class="card-footer-item">Edit</a>
-                </footer> -->
               </b-collapse>
             </section>
             <div v-else>

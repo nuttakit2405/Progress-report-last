@@ -8,10 +8,22 @@ import projects from './modules/projects'
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
-  state: {},
-  getters: {},
-  mutations: {},
-  actions: {},
+  state: {
+    viewMode: null
+  },
+  getters: {
+    viewMode: state => state.viewMode
+  },
+  mutations: {
+    setViewMode (state, mode) {
+      state.viewMode = mode
+    }
+  },
+  actions: {
+    setViewMode ({commit}, mode) {
+      commit('setViewMode', mode)
+    }
+  },
   modules: {
     user,
     events,

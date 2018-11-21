@@ -2,28 +2,30 @@
   <div>
     <div>
       <div class="card">
-        <header class="card-header">
-          <p class="card-header-title iconcalendar">
-            <span class="dotdotdot">{{data.thaiProjectName}}</span>
+        <header class="card-header" style="position: relative; width: 100%; padding: 10px;">
+          <p class="card-header-title" style="padding-left: 0px;">
+            <span class="dotdotdot" :title="data.thaiProjectName">{{data.thaiProjectName}}</span>
+          </p>
+          <div style="display: flex; flex-direction: row;">
             <button class="button" @click="$router.push({name: 'Calendar'})">
               <b-icon
                   icon="calendar-alt"
                   size="is-large">
               </b-icon>
             </button>
+            &nbsp;
             <b-dropdown v-if="role === 'subject'" hoverable>
               <button class="button" slot="trigger">
                   <i class="fas fa-ellipsis-v"></i>
               </button>
-
               <b-dropdown-item @click="$emit('edit', projectId)">
-                <b-icon icon="edit"></b-icon>แก้ไขโปรเจค
+                <i class="fas fa-edit"></i>&nbsp;<span>แก้ไขโปรเจค</span>
               </b-dropdown-item>
               <b-dropdown-item @click="$emit('remove', projectId)">
-                <b-icon icon="trash-alt"></b-icon>ลบโปรเจค
+                <i class="fas fa-trash-alt"></i>&nbsp;<span>ลบโปรเจค</span>
               </b-dropdown-item>
-          </b-dropdown>
-          </p>
+            </b-dropdown>
+          </div>
         </header>
         <div class="card-content">
           <div class="columns" style="align-items: center">
@@ -127,7 +129,8 @@ export default {
 .dotdotdot {
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 75%;
+  position: absolute;
+  width: calc(100% - 100px);
   white-space: nowrap;
 }
 </style>
