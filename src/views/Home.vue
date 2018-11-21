@@ -7,11 +7,9 @@
             <section>
               <div v-if="profile.userType ==  'teacher'">
                 <div class="block level " >
-                  <div class="level-left">
+                  <div class="level-left" v-if="profile && profile.teacherGroup.length > 1">
                     อ.ประจำวิชา &nbsp;
                      <b-switch v-model="teacherSubject">
-                       <p v-if="teacherSubject == true"></p>
-                      <!-- <p v-else>อ.ประจำวิชา </p> -->
                      </b-switch>
                     อ.ที่ปรึกษา
                   </div>
@@ -61,19 +59,32 @@ export default {
   data () {
     return {
       activeTab: 0,
-      teacherSubject: false
     }
   },
   computed: {
     ...mapGetters({
+      viewMode: 'viewMode',
       projects: 'projects/projects',
       profile: 'user/profile',
       user: 'user/user'
-    })
+    }),
+    teacherSubject: {
+      get () {
+        return this.viewMode === 'mentor'
+      },
+      set (val) {
+        if (val) {
+          this.setViewMode('mentor')
+        } else {
+          this.setViewMode('subject')
+        }
+      }
+    }
   },
   methods: {
     ...mapActions({
-      getProjects: 'projects/getProjects'
+      getProjects: 'projects/getProjects',
+      setViewMode: 'setViewMode'
     }),
     checkMentor (mentor, email) {
       if (this.teacherSubject) {
