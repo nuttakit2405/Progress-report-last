@@ -35,16 +35,21 @@
                     :week="ind"
                     :progressTotal="projectSelected.progress ? projectSelected.progress : 0"
                     @upload="uploadfile"/>
-                  <div v-if="val.sentTeacher && profile && profile.userType === 'teacher'">
-                    {{val}}
+                  <div v-if="val.sentTeacher && profile && profile.userType === 'teacher'" style="margin-bottom: 20px;">
+                    <p class="title is-5">ข้อมูลจากนักศึกษา</p>
+                    <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
+                      <b-input disabled type="textarea" v-model="val.textProgress"></b-input>
+                    </b-field>
+                    <p class="title is-6">คิดเป็นร้อยละ {{val.progress}}%</p>
+                    <hr>
                   </div>
                   <ProgressMentor
                     :weekData="val"
                     :projectKey="projectSelected.key"
                     :week="ind"
                     @upload="uploadfile"
-                    @confirm="confirm(val, projectSelected.key, ind)"
-                    @confirmCondition="confirm(val, projectSelected.key, ind, true)"/>
+                    @confirm="confirm(val, projectSelected.key, ind, false, $event)"
+                    @confirmCondition="confirm(val, projectSelected.key, ind, true, $event)"/>
                   <ProgressTeacher
                     :weekData="val"
                     :projectKey="projectSelected.key"
@@ -157,11 +162,13 @@ export default {
       }
       db.database.ref(`/projects/${projectKey}/scoreboard/${week}/files`).push(data)
     },
-    async confirm (weekData, key, index, condition = false) {
-      // console.log({key, index, condition})
+    async confirm (weekData, key, index, condition = false, data = {}) {
       const score = !condition ? 100 : 75
-      await db.database.ref(`projects/${key}/scoreboard/${index}`).update({score: score})
-      await db.database.ref(`projects/${key}`).update({progress: weekData.progress})
+      const dataUpdate = {score: score, ...data, mentorConfirm: true}
+      await db.database.ref(`projects/${key}/scoreboard/${index}`).update(dataUpdate)
+
+      const progress = data && data.progress !== undefined ? data.progress : weekData.progress
+      await db.database.ref(`projects/${key}`).update({progress})
 
       await this.$swal('เสร็จสิ้น')
     },
