@@ -31,13 +31,13 @@
         </b-radio>
       </b-field>
       <div v-if="radio == 2" style="margin-bottom: 20px" >
-        <div class="title is-5">ในกรณีทำได้น้อยกว่าเป้าหมาย</div>
+        <!-- <div class="title is-5">ในกรณีทำได้น้อยกว่าเป้าหมาย</div>
         <b-field label="เป้าหมายที่ทำให้ล่าช้า">
           <b-input :disabled="weekData.mentorConfirm" type="textarea" placeholder="เป้าหมายที่ทำให้ล่าช้า" v-model="lateReason"></b-input>
         </b-field>
         <b-field label="แนวทางแก้ปัญหา">
             <b-input :disabled="weekData.mentorConfirm" placeholder="แนวทางแก้ปัญหา" type="textarea" v-model="solutions"></b-input>
-        </b-field>
+        </b-field> -->
       </div>
 
       <div class="has-text-centered" v-if="weekData.sentTeacher || weekData.mentorConfirm">
@@ -109,7 +109,8 @@ export default {
         html: `<div>
             คิดเป็นร้อยละ <input id="swal-progress" type="number" min="0" max="100" value="${this.weekData.progress}" class="swal2-input" style="width:90px"><br>
             ความคิดเห็นอาจารย์ที่ปรึกษา
-            <textarea id="swal-comment" disabled class="swal2-textarea">${this.mentorComment}</textarea>
+              <textarea id="swal-comment" disabled class="swal2-textarea">${this.mentorComment}</textarea>
+            
           </div>`,
         preConfirm: () => {
           return [

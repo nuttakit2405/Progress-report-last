@@ -11,7 +11,7 @@
                 </b-notification>
               </section>
             </div>
-            <div v-else class="column box hero is-light">
+            <div v-else class="column box hero">
               <div v-if="isLogged && hasProfile">
                 <div class="level">
                   <div class="level-item has-text-centered">
@@ -27,12 +27,12 @@
                   <span class="is-size-5">{{roles[profile.userType]}}</span>
                 </div>
                 <div class="level-item" v-if="profile && profile.userType === 'teacher'">
-                  <p class="title is-5">สิทธิ์ของอาจารย์:&nbsp;</p>
+                  <p class="title is-5">สิทธิ์ของผู้ใช้:&nbsp;</p>
                   <p class="is-size-5">{{profile.teacherGroup.map(group => roles[group]).join(", ")}}</p>
                 </div>
                 <div class="level-item has-text-centered" v-if="profile && profile.userType === 'student'">
-                  <p class="title is-5">ความก้าวหน้าของงาน:&nbsp;</p>
-                  <p class="is-size-5">55%</p>
+                  <!-- <p class="title is-5">ความก้าวหน้าของงาน:&nbsp;</p>
+                  <p class="is-size-5">55%</p> -->
                 </div>
                 <!-- <div class="column level-item has-text-centered">
                   <button class="button">ไปยังหน้าปฏิทิน</button>

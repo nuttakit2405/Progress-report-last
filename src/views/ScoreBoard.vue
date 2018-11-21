@@ -40,6 +40,12 @@
                     <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
                       <b-input disabled type="textarea" v-model="val.textProgress"></b-input>
                     </b-field>
+                    <b-field label="ปัญหาที่พบ">
+                      <b-input disabled type="textarea" v-model="val.Ploblem"></b-input>
+                    </b-field>
+                    <b-field label="วิธีแก้ปัญหาที่พบ">
+                      <b-input disabled type="textarea" v-model="val.Solution"></b-input>
+                    </b-field>
                     <p class="title is-6">คิดเป็นร้อยละ {{val.progress}}%</p>
                     <hr>
                   </div>

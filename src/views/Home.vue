@@ -32,7 +32,7 @@
               </div>
               <div  v-if="profile.userType == 'student'">
                 <div class="block is-capitalized">
-                  ประเภทผู้ใช้: {{profile.userType}}
+                  <!-- ประเภทผู้ใช้: {{profile.userType}} -->
                 </div>
                 <div class="column">
                   <div class="columns is-multiline">
