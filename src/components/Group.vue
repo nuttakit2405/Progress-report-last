@@ -3,11 +3,11 @@
     <div>
       <div class="card">
         <header class="card-header" style="position: relative; width: 100%; padding: 10px;">
-          <p class="card-header-title" style="padding-left: 0px;">
+          <p class="card-header-title" style="padding-left: 5px;">
             <span class="dotdotdot" :title="data.thaiProjectName">{{data.thaiProjectName}}</span>
           </p>
           <div style="display: flex; flex-direction: row;">
-            <button class="button" @click="$router.push({name: 'Calendar'})">
+            <button class="button" @click="$router.push({name: 'CalendarProject', params: {projectId: projectId}})">
               <b-icon
                   icon="calendar-alt"
                   size="is-large">
@@ -130,7 +130,7 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
   position: absolute;
-  width: calc(100% - 100px);
+  width: calc(100% - 105px);
   white-space: nowrap;
 }
 </style>

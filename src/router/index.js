@@ -30,6 +30,13 @@ export default new Router({
       meta: { requireAuth: true }
     },
     {
+      path: '/calendar/:projectId',
+      name: 'CalendarProject',
+      component: Calendar,
+      meta: { requireAuth: true },
+      props: true
+    },
+    {
       path: '/login',
       name: 'Login',
       component: Login

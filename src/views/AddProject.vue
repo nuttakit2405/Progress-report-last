@@ -119,11 +119,6 @@ export default {
       type: String
     }
   },
-  filters: {
-    removeTitle (val) {
-      return val.replace(/^นาย|นางสาว|นาง/i, '')
-    }
-  },
   data () {
     return {
       thaiProjectName: 'ติดตามความก้าวหน้าโครงงานพิเศษ',
