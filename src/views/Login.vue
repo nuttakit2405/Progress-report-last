@@ -5,6 +5,7 @@
       <div class="columns is-mobile is-centered">
         <div class="column">
           <div class="column is-4 is-offset-4 box hero is-light">
+            <img src="/static/img/login.png">
             <span style="margin: 10px" class="title is-4 has-text-centered">เข้าสู่ระบบ</span>
             <div id="firebaseui-auth-container"></div>
           </div>
