@@ -6,8 +6,8 @@
               <!-- Left side -->
                 <div class="level-left">
                   <div class="level-item">
-                    <p class="subtitle is-5">
-                      <router-link :to="{name: 'Home'}"><strong>Progress Project</strong></router-link>
+                    <p class="subtitle is-4">
+                      <router-link :to="{name: 'Home'}"><strong>Progress Report</strong></router-link>
                     </p>
                   </div>
                 </div>
@@ -26,7 +26,7 @@
                       <!-- <b-dropdown-item @click="$router.push({name: 'ScoreBoard'})">ScoreBoard</b-dropdown-item> -->
                       <b-dropdown-item @click="$router.push({name: 'ImportStudent'})">ImportStudent</b-dropdown-item>
                        <b-dropdown-item @click="$router.push({name: 'ImportTeacher'})">ImportTeacher</b-dropdown-item>
-                      <hr class="dropdown-divider">
+                       <hr class="dropdown-divider">
                       <b-dropdown-item @click="logout">Log out</b-dropdown-item>
                     </b-dropdown>
                     <!-- <button v-else @click="$router.push({name: 'Login'})" class="button">Login</button> -->

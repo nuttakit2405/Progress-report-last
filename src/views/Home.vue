@@ -14,7 +14,7 @@
                     </b-switch>
                   </div>
                   <div class="block is-capitalized">
-                    ประเภทผู้ใช้: {{profile.userType}}
+                    <!-- ประเภทผู้ใช้: {{profile.userType}} -->
                   </div>
                   <div class="level-right">
                     <button v-if="teacherSubject !== true" class="button is-danger" @click="$router.push({name: 'AddProject'})">+</button>
