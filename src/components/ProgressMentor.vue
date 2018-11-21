@@ -13,15 +13,31 @@
         <b-upload v-model="file">
           <a class="button is-primary">
             <b-icon icon="upload"></b-icon>
-              <span>Click to upload</span>
+            <span>เลือกไฟล์</span>
           </a>
         </b-upload>
         <span class="file-name" v-if="file">
           {{ file.name }}
         </span>
-        <button class="button UploadfileButton is-success" @click="uploadfile(file)"
-          style="font-family: 'Kanit', sans-serif">OK</button>
+        <button  v-if="file" class="button UploadfileButton is-success" @click="uploadfile(file)"
+        style="font-family: 'Kanit', sans-serif">อัพโหลด</button>
       </b-field>
+      <b-field horizontal label="จัดทำโครงงานได้">
+        <b-radio v-model="radio" native-value="1" :disabled="weekData.sentTeacher">
+          ตรงตามเป้าหมายที่ตั้งไว้
+        </b-radio>
+        <b-radio v-model="radio" native-value="2" :disabled="weekData.sentTeacher">
+          น้อยกว่าเป้าหมาย
+        </b-radio>
+      </b-field>
+      <div v-if="radio == 2">
+        <b-field label="ในกรณีทำได้น้อยกว่าเป้าหมาย">
+          <b-input type="textarea" placeholder="เป้าหมายที่ทำให้ล่าช้า" v-model="lateReason"></b-input>
+        </b-field>
+        <b-field label="แนวทางแก้ปัญหา">
+            <b-input type="textarea" v-model="solutions"></b-input>
+        </b-field>
+      </div>
       <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="$emit('confirm')">
         เห็นด้วย
       </button>
@@ -50,7 +66,8 @@ export default {
   },
   data () {
     return {
-      file: null
+      file: null,
+      radio: this.weekData.radio ? this.weekData.radio : '1'
     }
   },
   computed: {
@@ -80,11 +97,12 @@ export default {
         await this.$emit('confirmCondition')
       }
     },
-    uploadfile (files) {
+    async uploadfile (files) {
       const data = {
         files, projectKey: this.projectKey, week: this.week
       }
-      this.$emit('upload', data)
+      await this.$emit('upload', data)
+      this.file = await null
     }
   }
 }

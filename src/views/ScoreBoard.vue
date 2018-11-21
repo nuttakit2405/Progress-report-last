@@ -17,7 +17,7 @@
                     <div class="level" style="width: 100%;display: flex; justify-content: space-between;">
                       <div class="level-item" style="flex: none;width: fit-content;">
                         <span>
-                            <span class="title is-5">สัปดาห์ที {{ind+1}} </span>
+                            <span class="title is-5">สัปดาห์ที่ {{ind+1}} </span>
                             <span>หัวข้อที่ {{ind+1}}</span>
                             <span>วันที่ {{val.startDate | format('DD-MMM-YY')}} ถึง {{val.endDate | format('DD-MMM-YY')}}</span>
                         </span>
@@ -51,10 +51,6 @@
                     :week="ind"
                     @upload="uploadfile"/>
                 </div>
-                <!-- <footer class="card-footer">
-                    <a class="card-footer-item">Save</a>
-                    <a class="card-footer-item">Edit</a>
-                </footer> -->
               </b-collapse>
             </section>
             <div v-else>

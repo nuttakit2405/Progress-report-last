@@ -7,7 +7,6 @@ const Login = () => import('@/views/Login')
 const Profile = () => import('@/views/Profile')
 const AddProject = () => import('@/views/AddProject')
 const ScoreBoard = () => import('@/views/ScoreBoard')
-const ScalWork = () => import('@/components/ScalWork')
 const Folder = () => import('@/views/Folder')
 
 // admin only
@@ -29,6 +28,13 @@ export default new Router({
       name: 'Calendar',
       component: Calendar,
       meta: { requireAuth: true }
+    },
+    {
+      path: '/calendar/:projectId',
+      name: 'CalendarProject',
+      component: Calendar,
+      meta: { requireAuth: true },
+      props: true
     },
     {
       path: '/login',
@@ -53,11 +59,6 @@ export default new Router({
       props: true
     },
     {
-      path: '/scoreboard',
-      name: 'ScoreBoard',
-      component: ScoreBoard
-    },
-    {
       path: '/scoreboard/:projectId',
       name: 'ProjectScoreBoard',
       component: ScoreBoard,
@@ -72,11 +73,6 @@ export default new Router({
       path: '/admin/importteacher',
       name: 'ImportTeacher',
       component: ImportTeacher
-    },
-    {
-      path: '/scalwork',
-      name: 'ScalWork',
-      component: ScalWork
     },
     {
       path: '/folder/:projectId',

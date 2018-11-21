@@ -34,5 +34,9 @@ Vue.filter('format', (val, format) => {
   return dayjs(val).format(format)
 })
 
+Vue.filter('removeTitle', (val) => {
+  return val.replace(/^นาย|นางสาว|นาง/i, '')
+})
+
 Vue.prototype.$dayjs = dayjs
 Vue.prototype.$firebase = firebase

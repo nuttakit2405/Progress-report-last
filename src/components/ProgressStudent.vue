@@ -13,39 +13,19 @@
     <b-upload v-model="file">
       <a class="button is-primary">
         <b-icon icon="upload"></b-icon>
-          <span>Click to upload</span>
+        <span>เลือกไฟล์</span>
       </a>
     </b-upload>
     <span class="file-name" v-if="file">
       {{ file.name }}
     </span>
-    <button class="button UploadfileButton is-success" @click="uploadfile(file)"
-    style="font-family: 'Kanit', sans-serif">OK</button>
+    <button  v-if="file" class="button UploadfileButton is-success" @click="uploadfile(file)"
+    style="font-family: 'Kanit', sans-serif">อัพโหลด</button>
   </b-field>
 
   <b-field horizontal label="คิดเป็นร้อยละ">
     <b-input  :disabled="weekData.sentTeacher" type="number" maxlength="3" style="width:95px" :min="progressTotal" max="100" v-model="progress"></b-input>
   </b-field>
-  <b-field horizontal label="จัดทำโครงงานได้">
-    <b-radio v-model="radio" native-value="1" :disabled="weekData.sentTeacher">
-      ตรงตามเป้าหมายที่ตั้งไว้
-    </b-radio>
-    <b-radio v-model="radio" native-value="2" :disabled="weekData.sentTeacher">
-      น้อยกว่าเป้าหมาย
-    </b-radio>
-    <b-radio v-model="radio" native-value="3" :disabled="weekData.sentTeacher">
-      มากกว่าเป้าหมาย
-    </b-radio>
-  </b-field>
-
-  <div v-if="radio == 2">
-   <b-field label="ในกรณีทำได้น้อยกว่าเป้าหมาย">
-      <b-input type="textarea" placeholder="เป้าหมายที่ทำให้ล่าช้า" v-model="lateReason"></b-input>
-    </b-field>
-    <b-field label="แนวทางแก้ปัญหา">
-        <b-input type="textarea" v-model="solutions"></b-input>
-    </b-field>
-    </div>
     <div class="has-text-centered">
       <button class="button is-primary" style="font-family: 'Kanit', sans-serif" @click="Pushpro"> ยืนยัน </button>
       <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="sentToTeacher"  :disabled="weekData.sentTeacher"> ส่งความคืบหน้า </button>
@@ -82,7 +62,6 @@ export default {
     return {
       file: null,
       textProgress: this.weekData.textProgress ? this.weekData.textProgress : '',
-      radio: this.weekData.radio ? this.weekData.radio : '1',
       progress: this.weekData.progress ? this.weekData.progress : this.progressTotal,
       lateReason: this.weekData.lateReason ? this.weekData.lateReason : '',
       solutions: this.weekData.solutions ? this.weekData.solutions : '',
@@ -114,12 +93,12 @@ export default {
         progress: this.progress,
         lateReason: this.lateReason,
         solutions: this.solutions,
-        radio: this.radio,
+        // radio: this.radio,
         saveProgress: true
       }
       const {value} = await this.$swal({
         title: 'ยืนยันความคืบหน้า',
-        text: `ทำงานได้ ${this.radioWorld[this.radio]} คิดเป็น ${this.progress}%`
+        text: `เปอร์เซ็นที่ทำงานได้ คิดเป็น ${this.progress}%`
       })
       if (value) {
         console.log(datas)
@@ -130,7 +109,7 @@ export default {
       if (this.weekData.saveProgress) {
         const {value} = await this.$swal({
           title: 'ส่งความคืบหน้าให้กับอาจารย์',
-          text: `ทำงานได้ ${this.radioWorld[this.radio]} คิดเป็น ${this.progress}%`
+          text: `เปอร์เซ็นที่ทำงานได้ คิดเป็น ${this.progress}%`
         })
         if (value) {
           await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}`).update({sentTeacher: true})

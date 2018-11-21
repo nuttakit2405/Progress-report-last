@@ -32,13 +32,18 @@ const actions = {
     if (user && user.uid) {
       dispatch('setProfile', user.uid)
     }
-    // const thisYear = new Date().getFullYear()
-    // dispatch('events/getEvents', {year: thisYear, uid: user.uid}, {root: true})
   },
   setProfile: ({commit}, uid) => {
     db.database.ref('users').child(uid).once('value', snap => {
       const val = snap.val()
       commit('setProfile', val)
+      if (val !== null) {
+        let viewMode = val.userType
+        if (viewMode === 'teacher') {
+          viewMode = val.teacherGroup[0]
+        }
+        commit('setViewMode', viewMode, {root: true})
+      }
     })
   }
 }
