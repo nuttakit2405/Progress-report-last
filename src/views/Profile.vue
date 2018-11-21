@@ -39,7 +39,8 @@
                 <!-- <pre>{{user}}</pre> -->
               </div>
               <div class="has-text-centered" v-else-if="isLogged && !hasProfile">
-                  <span class="title is-4">ตั้งค่าข้อมูลส่วนตัว</span>{{hasProfile}}
+                  <span class="title is-4">ตั้งค่าข้อมูลส่วนตัว</span>
+                  <!-- {{hasProfile}} -->
                   <div class="columns is-centered has-text-left" style="margin-top: 20px">
                     <div class="column" style="flex: none; width: fit-content;">
                         <img :src="user.photoURL" width="100" style="border-radius: 50%; margin-top: 30px">
