@@ -35,16 +35,37 @@
                     :week="ind"
                     :progressTotal="projectSelected.progress ? projectSelected.progress : 0"
                     @upload="uploadfile"/>
-                  <div v-if="val.sentTeacher && profile && profile.userType === 'teacher'">
-                    {{val}}
+                  <div v-if="val.sentTeacher && profile && profile.userType === 'teacher'" style="margin-bottom: 20px;">
+                    <p class="title is-5">ข้อมูลจากนักศึกษา</p>
+                    <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
+                      <b-input disabled type="textarea" v-model="val.textProgress"></b-input>
+                    </b-field>
+                    <p class="title is-6">คิดเป็นร้อยละ {{val.progress}}%</p>
+                    <hr>
+                  </div>
+                  <div v-if="val.mentorConfirm && profile && profile.userType === 'student'" style="margin-bottom: 20px;">
+                    <p class="title is-5">ข้อมูลจากอาจารย์ที่ปรึกษา</p>
+                    <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
+                      <b-input disabled type="textarea" v-model="val.mentorComment"></b-input>
+                    </b-field>
+                    <p class="title is-6">จัดทำโครงงานได้: {{val.radio == 1 ?'ตรงตามเป้าหมายที่ตั้งไว้' : 'น้อยกว่าเป้าหมาย'}}</p>
+                    <div v-if="val.radio === 2">
+                      <b-field label="เป้าหมายที่ทำให้ล่าช้า">
+                        <b-input disabled type="textarea" placeholder="เป้าหมายที่ทำให้ล่าช้า" v-model="val.lateReason"></b-input>
+                      </b-field>
+                      <b-field label="แนวทางแก้ปัญหา">
+                          <b-input disabled placeholder="แนวทางแก้ปัญหา" type="textarea" v-model="val.solutions"></b-input>
+                      </b-field>
+                    </div>
+                    <hr>
                   </div>
                   <ProgressMentor
                     :weekData="val"
                     :projectKey="projectSelected.key"
                     :week="ind"
                     @upload="uploadfile"
-                    @confirm="confirm(val, projectSelected.key, ind)"
-                    @confirmCondition="confirm(val, projectSelected.key, ind, true)"/>
+                    @confirm="confirm(val, projectSelected.key, ind, false, $event)"
+                    @confirmCondition="confirm(val, projectSelected.key, ind, true, $event)"/>
                   <ProgressTeacher
                     :weekData="val"
                     :projectKey="projectSelected.key"
@@ -157,11 +178,13 @@ export default {
       }
       db.database.ref(`/projects/${projectKey}/scoreboard/${week}/files`).push(data)
     },
-    async confirm (weekData, key, index, condition = false) {
-      // console.log({key, index, condition})
+    async confirm (weekData, key, index, condition = false, data = {}) {
       const score = !condition ? 100 : 75
-      await db.database.ref(`projects/${key}/scoreboard/${index}`).update({score: score})
-      await db.database.ref(`projects/${key}`).update({progress: weekData.progress})
+      const dataUpdate = {score: score, ...data, mentorConfirm: true}
+      await db.database.ref(`projects/${key}/scoreboard/${index}`).update(dataUpdate)
+
+      const progress = data && data.progress !== undefined ? data.progress : weekData.progress
+      await db.database.ref(`projects/${key}`).update({progress})
 
       await this.$swal('เสร็จสิ้น')
     },
