@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 20px;" v-if="profile && profile.userType != 'student' && profile.teacherGroup.some(type => type === 'mentor')">
+  <div style="margin-bottom: 20px;" v-if="profile && profile.userType != 'student' && profile.teacherGroup.some(type => type === 'mentor') && viewMode === 'mentor'">
     <div>
       <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
       <b-input :disabled="weekData.mentorConfirm"  v-model="mentorComment" type="textarea"></b-input>
