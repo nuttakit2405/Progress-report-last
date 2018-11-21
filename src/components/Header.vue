@@ -1,11 +1,12 @@
 <template>
-    <div class="hero is-info">
+    <div class="hero is-medium is-warning is-bold">
         <div class="hero-head container is-fluid">
             <div class="column">
               <nav class="level ">
               <!-- Left side -->
                 <div class="level-left">
                   <div class="level-item">
+                    <!-- <img src="/static/img/goal.png"> -->
                     <p class="subtitle is-4">
                       <router-link :to="{name: 'Home'}"><strong>Progress Report</strong></router-link>
                     </p>
