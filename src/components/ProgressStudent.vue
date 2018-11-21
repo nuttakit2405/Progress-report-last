@@ -4,6 +4,14 @@
       <b-input :disabled="weekData.sentTeacher" type="textarea" v-model="textProgress"></b-input>
     </b-field>
 
+    <b-field label="ปัญหาที่พบ">
+      <b-input :disabled="weekData.sentTeacher" type="textarea" v-model="Ploblem"></b-input>
+    </b-field>
+
+    <b-field label="วิธีแก้ปัญหาที่พบ">
+      <b-input :disabled="weekData.sentTeacher" type="textarea" v-model="Solution"></b-input>
+    </b-field>
+
     <!-- upload section -->
     <b-taglist>
       <b-tag>All Files:</b-tag>
@@ -62,6 +70,8 @@ export default {
     return {
       file: null,
       textProgress: this.weekData.textProgress ? this.weekData.textProgress : '',
+      Ploblem: this.weekData.Ploblem ? this.weekData.Ploblem : '',
+      Solution: this.weekData.Solution ? this.weekData.Solution : '',
       progress: this.weekData.progress ? this.weekData.progress : this.progressTotal
     }
   },
@@ -83,6 +93,8 @@ export default {
     async Pushpro () {
       const datas = {
         textProgress: this.textProgress,
+        Ploblem: this.Ploblem,
+        Solution: this.Solution,
         progress: this.progress,
         saveProgress: true
       }
