@@ -8,16 +8,20 @@
               <div v-if="profile.userType ==  'teacher'">
                 <div class="block level " >
                   <div class="level-left">
-                    <b-switch v-model="teacherSubject">
-                      <p v-if="teacherSubject == true">อ.ที่ปรึกษา</p>
-                      <p v-else>อ.ประจำวิชา </p>
-                    </b-switch>
+                    อ.ประจำวิชา &nbsp;
+                     <b-switch v-model="teacherSubject">
+                       <p v-if="teacherSubject == true"></p>
+                      <!-- <p v-else>อ.ประจำวิชา </p> -->
+                     </b-switch>
+                    อ.ที่ปรึกษา
                   </div>
                   <div class="block is-capitalized">
                     <!-- ประเภทผู้ใช้: {{profile.userType}} -->
                   </div>
                   <div class="level-right">
-                    <button v-if="teacherSubject !== true" class="button is-danger" @click="$router.push({name: 'AddProject'})"><b-icon icon="plus"></b-icon></button>
+                    <button v-if="teacherSubject !== true" class="button is-white" @click="$router.push({name: 'AddProject'})"
+                      style="font-family: 'Kanit', sans-serif">
+                        <b-icon icon="plus" size="is-small"></b-icon>&nbsp;เพิ่มโครงากร</button>
                   </div>
                 </div>
                 <div class="column">
