@@ -6,8 +6,8 @@
               <!-- Left side -->
                 <div class="level-left">
                   <div class="level-item">
-                    <p class="subtitle is-5">
-                      <router-link :to="{name: 'Home'}"><strong>Progress Project</strong></router-link>
+                    <p class="subtitle is-4">
+                      <router-link :to="{name: 'Home'}"><strong>Progress Report</strong></router-link>
                     </p>
                   </div>
                 </div>

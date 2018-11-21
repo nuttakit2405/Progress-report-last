@@ -39,8 +39,11 @@
             ถึง
             {{$dayjs(data.deadlineProject).format('DD-MMM-YYYY')}}
           </div>
+           {{data.mentor.position}} {{data.mentor.name}} {{data.mentor.lastname}} <br>
           <span :key="member.id" v-for="member in data.teams">
-            {{member.id}}
+            {{member.id}} {{member.name}} {{member.lastname}} <br>
+          </span>
+          <span>
           </span>
           <!-- {{data.teams[0].id}}<br/>{{data.teams[1].id}} -->
         </div>
