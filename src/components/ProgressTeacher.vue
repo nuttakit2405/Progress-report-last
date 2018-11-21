@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="profile && profile.userType != 'student'">
+    <div v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
       <b-field label="ความเห็นอาจารย์ประจำวิชา">
         <b-input type="textarea"></b-input>
       </b-field>
@@ -28,6 +28,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      viewMode: 'viewMode',
       user: 'user/user',
       projectSelected: 'projects/projectSelected',
       profile: 'user/profile'

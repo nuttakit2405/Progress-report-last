@@ -30,6 +30,12 @@
                       <b-dropdown-item @click="$router.push({name: 'Calendar'})">
                         <i class="far fa-calendar-alt"></i>&nbsp;<span>Calendar</span>
                       </b-dropdown-item>
+                      <b-dropdown-item v-if="isTeacher" custom>
+                        โหมดอาจารย์: <b>{{stringMode}}</b>
+                      </b-dropdown-item>
+                      <b-dropdown-item v-if="isTeacher && profile.teacherGroup.length > 1" @click="toggleMode">
+                        <i class="fas fa-toggle-off"></i>&nbsp;<span>สลับโหมด</span>
+                      </b-dropdown-item>
                       <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'AddProject'})">
                         <i class="far fa-plus-square"></i>&nbsp;<span>Add Project</span>
                       </b-dropdown-item>
@@ -57,16 +63,23 @@
 
 <script>
 import auth from '@/auth'
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
   data () {
     return {}
   },
   methods: {
+    ...mapActions({
+      setViewMode: 'setViewMode'
+    }),
     logout () {
       auth.logout()
       this.$router.push('/')
+    },
+    toggleMode () {
+      const newMode = this.viewMode === 'subject' ? 'mentor' : 'subject'
+      this.setViewMode(newMode)
     }
   },
   computed: {
@@ -80,6 +93,13 @@ export default {
     ),
     isTeacher () {
       return this.profile && this.profile.userType === 'teacher'
+    },
+    stringMode () {
+      const mode = {
+        mentor: 'อาจารย์ที่ปรึกษา',
+        subject: 'อาจารย์ประจำวิชา'
+      }
+      return mode[this.viewMode]
     }
   }
 }
