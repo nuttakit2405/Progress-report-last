@@ -29,7 +29,7 @@
     </b-field>
 
     <div class="has-text-centered">
-      <button class="button is-info" style="font-family: 'Kanit', sans-serif" @click="Pushpro"> ยืนยัน </button>
+      <button class="button is-info" style="font-family: 'Kanit', sans-serif" @click="Pushpro" :disabled="weekData.sentTeacher"> ยืนยัน </button>
       <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="sentToTeacher"  :disabled="weekData.sentTeacher"> ส่งความคืบหน้า </button>
     </div>
   </div>

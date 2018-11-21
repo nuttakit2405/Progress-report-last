@@ -43,6 +43,22 @@
                     <p class="title is-6">คิดเป็นร้อยละ {{val.progress}}%</p>
                     <hr>
                   </div>
+                  <div v-if="val.mentorConfirm && profile && profile.userType === 'student'" style="margin-bottom: 20px;">
+                    <p class="title is-5">ข้อมูลจากอาจารย์ที่ปรึกษา</p>
+                    <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
+                      <b-input disabled type="textarea" v-model="val.mentorComment"></b-input>
+                    </b-field>
+                    <p class="title is-6">จัดทำโครงงานได้: {{val.radio == 1 ?'ตรงตามเป้าหมายที่ตั้งไว้' : 'น้อยกว่าเป้าหมาย'}}</p>
+                    <div v-if="val.radio === 2">
+                      <b-field label="เป้าหมายที่ทำให้ล่าช้า">
+                        <b-input disabled type="textarea" placeholder="เป้าหมายที่ทำให้ล่าช้า" v-model="val.lateReason"></b-input>
+                      </b-field>
+                      <b-field label="แนวทางแก้ปัญหา">
+                          <b-input disabled placeholder="แนวทางแก้ปัญหา" type="textarea" v-model="val.solutions"></b-input>
+                      </b-field>
+                    </div>
+                    <hr>
+                  </div>
                   <ProgressMentor
                     :weekData="val"
                     :projectKey="projectSelected.key"
