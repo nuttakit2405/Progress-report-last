@@ -58,7 +58,7 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
   data () {
     return {
-      activeTab: 0,
+      activeTab: 0
     }
   },
   computed: {
