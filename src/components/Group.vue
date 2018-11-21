@@ -29,7 +29,7 @@
         </header>
         <div class="card-content">
           <div class="columns" style="align-items: center">
-            <div class="column is-paddingless"><progress class="progress is-info" :value="data.progress ? data.progress : 0" max="100"></progress></div>
+            <div class="column is-paddingless"><progress class="progress is-success" :value="data.progress ? data.progress : 0" max="100"></progress></div>
             <span class="column is-paddingless" style="flex: none;width: fit-content;">&nbsp;{{data.progress ? data.progress : 0}}%</span>
           </div>
           <!-- {{data}} -->

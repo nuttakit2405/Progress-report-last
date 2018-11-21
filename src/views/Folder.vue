@@ -34,11 +34,11 @@
           <div class="content has-text-grey has-text-centered">
               <p>
                   <b-icon
-                      icon="emoticon-sad"
+                      icon="frown"
                       size="is-large">
                   </b-icon>
               </p>
-              <p>Nothing here.</p>
+              <p>ยังไม่มีใครอัพโหลดไฟล์</p>
           </div>
       </section>
   </template>
