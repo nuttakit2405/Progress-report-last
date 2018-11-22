@@ -2,6 +2,7 @@ import auth from '@/auth'
 import db from '@/database'
 
 const state = {
+  allUsers: {},
   user: null,
   profile: null,
   loading: true
@@ -9,6 +10,7 @@ const state = {
 
 const getters = {
   user: state => state.user,
+  allUsers: state => state.allUsers,
   isLogged: state => (state.user !== null),
   profile: state => state.profile,
   hasProfile: state => (state.profile !== null),
@@ -22,6 +24,9 @@ const mutations = {
   setProfile: (state, profile) => {
     state.profile = profile
     state.loading = false
+  },
+  setAllUsers: (state, users) => {
+    state.allUsers = users
   }
 }
 
@@ -31,6 +36,7 @@ const actions = {
     commit('setUser', user)
     if (user && user.uid) {
       dispatch('setProfile', user.uid)
+      dispatch('getAllUsers')
     }
   },
   setProfile: ({commit}, uid) => {
@@ -43,6 +49,14 @@ const actions = {
           viewMode = val.teacherGroup[0]
         }
         commit('setViewMode', viewMode, {root: true})
+      }
+    })
+  },
+  getAllUsers ({commit}) {
+    db.database.ref('users').on('value', snap => {
+      const users = snap.val()
+      if (users !== null) {
+        commit('setAllUsers', users)
       }
     })
   }
