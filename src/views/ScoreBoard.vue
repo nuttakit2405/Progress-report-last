@@ -121,7 +121,6 @@
 </template>
 
 <script>
-import auth from '@/auth'
 import ScalWork from '@/components/ScalWork'
 import ProgressStudent from '@/components/ProgressStudent'
 import ProgressMentor from '@/components/ProgressMentor'
