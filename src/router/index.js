@@ -8,6 +8,7 @@ const Profile = () => import('@/views/Profile')
 const AddProject = () => import('@/views/AddProject')
 const ScoreBoard = () => import('@/views/ScoreBoard')
 const Folder = () => import('@/views/Folder')
+const DocFinal = () => import('@/views/DocFinal')
 
 // admin only
 const ImportStudent = () => import('@/views/admin/ImportStudent')
@@ -79,6 +80,11 @@ export default new Router({
       name: 'ProjectFolder',
       component: Folder,
       props: true
+    },
+    {
+      path: '/docfinal',
+      name: 'Docfinal',
+      component: DocFinal
     }
   ]
 })
