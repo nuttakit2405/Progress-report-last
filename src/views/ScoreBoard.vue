@@ -21,18 +21,23 @@
                             <span v-if="val.mentorConfirm" class="icon has-text-success"><i class="fas fa-check-square"></i></span>
                         </span>
                       </div>
+                      <!-- right -->
                       <div class="level-item" style="flex: none;width: fit-content;">
-                        <span>{{calScore(val.score, weekScore) | twopoint}}/{{weekScore | twopoint}}</span>
+                        <div style="display: flex; flex-direction: row; width: 50px;">
+                          <progress class="progress is-small" :class="[val.mentorConfirm ? 'is-success' : 'is-warning']" :value="val.progress ? val.progress : 0" max="100"></progress>
+                        </div>
+                        <span>&nbsp;{{val.progress ? val.progress : 0}}%</span>
+                        <span>&nbsp;| คะแนนที่ได้ {{calScore(val.score, weekScore) | twopoint}}/{{weekScore | twopoint}}</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="card-content">
-                  <span class="title is-5" v-if="val.sentTeacher">เปอร์เซ็นความก้าวหน้า</span>
-                  <div class="columns" style="align-items: center" v-if="val.sentTeacher">
+                  <!-- <span class="title is-5" v-if="val.sentTeacher">เปอร์เซ็นความก้าวหน้า</span> -->
+                  <!-- <div class="columns" style="align-items: center" v-if="val.sentTeacher">
                     <div class="column"><progress class="progress is-medium" :class="[val.mentorConfirm ? 'is-success' : 'is-warning']" :value="val.progress ? val.progress : 0" max="100"></progress></div>
                     <span class="column" style="flex: none;width: fit-content;">&nbsp;{{val.progress ? val.progress : 0}}%</span>
-                  </div>
+                  </div> -->
                   <div v-if="val.sentTeacher && profile && profile.userType === 'teacher'" style="margin-bottom: 20px;">
                     <p class="title is-5">ข้อมูลจากนักศึกษา</p>
                     <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
