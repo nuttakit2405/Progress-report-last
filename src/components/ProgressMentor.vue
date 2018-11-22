@@ -22,14 +22,14 @@
         <button  v-if="file" class="button UploadfileButton is-success" @click="uploadfile(file)"
         style="font-family: 'Kanit', sans-serif">อัพโหลด</button>
       </b-field>
-      <b-field horizontal label="จัดทำโครงงานได้">
+      <!-- <b-field horizontal label="จัดทำโครงงานได้">
         <b-radio v-model="radio" native-value="1" :disabled="weekData.mentorConfirm" >
           ตรงตามเป้าหมายที่ตั้งไว้
         </b-radio>
         <b-radio v-model="radio" native-value="2" :disabled="weekData.mentorConfirm" >
           น้อยกว่าเป้าหมาย
         </b-radio>
-      </b-field>
+      </b-field> -->
 
       <div class="has-text-centered" v-if="weekData.sentTeacher || weekData.mentorConfirm">
         <button :disabled="weekData.mentorConfirm" class="button is-success" style="font-family: 'Kanit', sans-serif" @click="confirm">
@@ -69,8 +69,7 @@ export default {
       radio: this.weekData.radio ? this.weekData.radio : '1',
       radioWorld: {
         '1': 'ตรงตามเป้าหมายที่ตั้งไว้',
-        '2': 'น้อยกว่าเป้าหมาย',
-        '3': 'มากกว่าเป้าหมาย'
+        '2': 'น้อยกว่าเป้าหมาย'
       }
     }
   },
@@ -86,7 +85,7 @@ export default {
     async confirm () {
       const data = {
         mentorComment: this.mentorComment,
-        radio: this.radio
+        radio: 1
       }
       this.$emit('confirm', data)
     },
@@ -112,7 +111,7 @@ export default {
         await this.$emit('confirmCondition', {
           progress: value,
           mentorComment: this.mentorComment,
-          radio: this.radio
+          radio: 2
         })
       }
     },

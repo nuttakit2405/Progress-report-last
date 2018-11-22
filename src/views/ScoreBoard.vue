@@ -51,10 +51,10 @@
                     <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
                       <b-input disabled type="textarea" v-model="val.mentorComment"></b-input>
                     </b-field>
-                    <p class="title is-6">จัดทำโครงงานได้: {{val.radio == 1 ?'ตรงตามเป้าหมายที่ตั้งไว้' : 'น้อยกว่าเป้าหมาย'}}</p>
+                    <p class="title is-6">จัดทำโครงงานได้: <span class="title is-5">{{val.radio == 1 ?'ตรงตามเป้าหมายที่ตั้งไว้' : 'น้อยกว่าเป้าหมาย'}}</span></p>
                     <hr>
                   </div>
-                  <div v-if="val.subjectConfirm && profile && profile.userType === 'student' || (val.mentorConfirm && viewMode === 'mentor')" style="margin-bottom: 20px;">
+                  <div v-if="(val.subjectConfirm && profile && profile.userType === 'student') || (val.mentorConfirm && viewMode === 'mentor')" style="margin-bottom: 20px;">
                     <p class="title is-5">ข้อมูลจากอาจารย์ประจำวิชา</p>
                     <b-field label="ความเห็นอาจารย์ประจำวิชา">
                       <b-input disabled type="textarea" v-model="val.subjectComment"></b-input>
