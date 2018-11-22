@@ -202,6 +202,7 @@ export default {
         profileData['sid'] = this.sid
       } else if (this.userType === 'teacher') {
         profileData['teacherGroup'] = this.teacherGroup
+        profileData['email'] = this.user.email
       }
       await db.database.ref('users').child(this.user.uid).set(profileData)
       await this.setProfile(this.user.uid)

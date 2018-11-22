@@ -1,6 +1,4 @@
 <template>
-    <!-- template -->
-    <!-- :dateData="data" -->
     <div class="container">
       <Calendar
       :mode="mode"
@@ -50,9 +48,37 @@ export default {
   },
   computed: {
     ...mapGetters({
+      viewMode: 'viewMode',
+      allUsers: 'user/allUsers',
       user: 'user/user',
-      events: 'events/events'
-    })
+      profile: 'user/profile',
+      events: 'events/events',
+      projects: 'projects/projects'
+    }),
+    projectOption () {
+      if (this.viewMode === 'subject') {
+        return Object.keys(this.projects).filter(key => {
+          return !this.projects[key].deleted
+        }).map(key => {
+          return `<option value="${key}">${this.projects[key].thaiProjectName}</option>`
+        })
+      } else if (this.viewMode === 'mentor') {
+        return Object.keys(this.projects).filter(key => {
+          return !this.projects[key].deleted && (this.projects[key].mentor.email === this.user.email)
+        }).map(key => {
+          return `<option value="${key}">${this.projects[key].thaiProjectName}</option>`
+        })
+      }
+      return ''
+    },
+    usersWithID () {
+      return Object.keys(this.allUsers).map(key => {
+        return {
+          ...this.allUsers[key],
+          key
+        }
+      })
+    }
   },
   watch: {
     user (user) {
@@ -61,10 +87,12 @@ export default {
   },
   created () {
     this.initData(this.user)
+    this.getProjects()
   },
   methods: {
     ...mapActions({
-      getEvents: 'events/getEvents'
+      getEvents: 'events/getEvents',
+      getProjects: 'projects/getProjects'
     }),
     initData (user) {
       if (user && user.uid) {
@@ -174,6 +202,7 @@ export default {
     async addEvent (date) {
       const data = await this.eventForm(date.full)
       if (data) {
+        console.log(data)
         db.database.ref(`/allEvents/${date.year}`).push(data)
         const toast = this.$swal.mixin({
           toast: true,
@@ -204,6 +233,32 @@ export default {
       const descriptionValue = defaultData && defaultData.description ? defaultData.description : ''
       const startTimeOption = defaultData && defaultData.start ? this.createTimeOptions(defaultData.start) : this.createTimeOptions()
       const endTimeOption = defaultData && defaultData.end ? this.createTimeOptions(defaultData.end) : this.createTimeOptions()
+
+      const studentForm = `<div style="display: flex; flex-direction: row; justify-content: center;">
+          <span style="display: flex; align-items: center; margin: 0px 5px;">
+            ต้องการนัด:
+            <span class="radio" style="width: auto; margin: 0px 5px;">
+               <span class="select" style="width: auto; margin: 0px 5px;">
+                  <select id="swal-input5">
+                    <option value="mentor">อาจารย์ที่ปรึกษา</option>
+                    <option value="subject">อาจารย์ประจำวิชา</option>
+                  </select>
+                </span>
+            </span>
+        </div><br>`
+
+      const teacherForm = `<div style="display: flex; flex-direction: row; justify-content: center;">
+          <span style="display: flex; align-items: center; margin: 0px 5px;">
+            ต้องการนัดโครงงานกลุ่ม:
+            <span class="radio" style="width: auto; margin: 0px 5px;">
+               <span class="select" style="max-width: 250px; margin: 0px 5px;">
+                  <select id="swal-input5">
+                    ${this.projectOption}
+                  </select>
+                </span>
+            </span>
+        </div>`
+
       const rawHtml = `<div>
         <span>วัน${fullDate}</span>
         <input id="swal-input1" class="swal2-input" ${titileValue} placeholder="เรื่องในการนัดหมาย">
@@ -226,33 +281,8 @@ export default {
             </span>
           </span>
         </div><br>
-        
-        <div style="display: flex; flex-direction: row; justify-content: center;">
-          <span style="display: flex; align-items: center; margin: 0px 5px;">
-            ต้องการนัด:
-            <span class="radio" style="width: auto; margin: 0px 5px;">
-               <span class="select" style="width: auto; margin: 0px 5px;">
-                  <select id="swal-input5">
-                    <option value="mentor">อาจารย์ที่ปรึกษา</option>
-                    <option value="teacher">อาจารย์ประจำวิชา</option>
-                  </select>
-                </span>
-            </span>
-        </div><br>
-
-        <div style="display: flex; flex-direction: row; justify-content: center;">
-          <span style="display: flex; align-items: center; margin: 0px 5px;">
-            ต้องการนัด:
-            <span class="radio" style="width: auto; margin: 0px 5px;">
-               <span class="select" style="width: auto; margin: 0px 5px;">
-                  <select id="swal-input6">
-                    <option value="1">กลุ่ม1</option>
-                    <option value="2">กลุ่ม2</option>
-                  </select>
-                </span>
-            </span>
-        </div>
-
+        ${this.profile.userType === 'student' ? studentForm : ''}
+        ${this.profile.userType === 'teacher' ? teacherForm : ''}
       </div>`
       const {value: formValues} = await this.$swal({
         title: 'สร้างการนัดหมาย',
@@ -263,21 +293,35 @@ export default {
             document.getElementById('swal-input1').value, // ดึงค่าไปใช้ใน sweet
             document.getElementById('swal-input2').value, // ดึงค่าไปใช้ใน sweet
             document.getElementById('swal-input3').value, // ดึงค่าไปใช้ใน sweet
-            document.getElementById('swal-input4').value // ดึงค่าไปใช้ใน sweet
+            document.getElementById('swal-input4').value, // ดึงค่าไปใช้ใน sweet
+            document.getElementById('swal-input5').value // ดึงค่าไปใช้ใน sweet
           ]
         }
       })
       if (formValues) {
+        const memberSelect = formValues[4]
+        let findUser = null
+        if (memberSelect !== '') {
+          if (memberSelect === 'mentor') {
+          } else if (memberSelect === 'subject') {
+          } else {
+            const uids = this.projects[memberSelect].teams.map(member => this.usersWithID.find(user => user.sid === member.id))
+            findUser = uids.filter(member => member !== undefined)
+          }
+        }
+
         await this.$swal({
           title: `หัวข้อเรื่อง: ${formValues[0]}`,
           html: `<div style="display: flex; flex-direction: column;">
             <span>รายละเอียดการนัดหมาย: ${formValues[1]}</span>
             <span>เวลา ${formValues[2]} - ${formValues[3]}</span>
             <span>วัน${fullDate}</span>
+            ${findUser != null ? `<span>นัดหมาย ${findUser.map(member => member.fullName)}</span>` : ''}
           </div>`
         })
+
         const waitaccept = defaultData && defaultData.waitaccept !== null ? defaultData.waitaccept : true
-        const members = defaultData && defaultData.members !== null ? defaultData.members : [this.user.uid]
+        const members = defaultData && defaultData.members !== null ? defaultData.members : findUser !== null ? [this.user.uid, ...findUser.map(member => member.key)] : [this.user.uid]
         const data = {
           date: date,
           title: formValues[0],
@@ -287,13 +331,13 @@ export default {
           start: formValues[2],
           end: formValues[3]
         }
+        if (this.profile.userType === 'teacher') {
+          data.waitaccept = false
+        }
         return data
       }
       return null
     }
-  },
-  mounted () {
-    // tcTZz4y4dlTzevPyk2LVjtkG9as2
   }
 }
 </script>
