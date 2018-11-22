@@ -5,9 +5,24 @@
       <div class="columns">
         <div class="column">
             <section class="box" v-if="projectSelected !== null">
-              <div class="block" style="display:flex;justify-content: space-between;">
+              <div class="block" style="display:flex;justify-content: space-between; align-items: flex-end;">
                 <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
-                <span class="is-size-5">ความคืบหน้า {{projectSelected.progress}}% | คะแนนรวม {{totalScore | twopoint}}/{{maxScore}}</span>
+                <div style="display: flex; flex-direction: column;align-items: flex-end;">
+                  <div style="margin-bottom: 10px;" v-if="allMentorConfirm && profile && profile.userType == 'teacher'">
+                    <span class="title is-6">อนุมัติให้นักศึกษามีสิทธิ์ยื่นสอบ 100 เปอร์เซนต์</span>
+                    <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 10px;">
+                      <button class="button is-success" @click="approveSpecialProject(true)">อนุมัติ</button>
+                      <button class="button is-danger" @click="approveSpecialProject(false)">ไม่อนุมัติ</button>
+                    </div>
+                  </div>
+                  <div style="margin-bottom: 10px;" v-if="projectSelected.approveSpecialProject !== undefined && profile && profile.userType == 'student'">
+                    <span class="title is-6">{{'นักศึกษามีสิทธิ์ยื่นสอบ 100 เปอร์เซนต์'}}</span>
+                    <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 10px;">
+                      <button class="button is-primary">พิมพ์ใบขอสอบโครงงานพิเศษ</button>
+                    </div>
+                  </div>
+                  <span class="is-size-5">ความคืบหน้า {{projectSelected.progress}}% | คะแนนรวม {{totalScore | twopoint}}/{{maxScore}}</span>
+                </div>
               </div>
               <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">
                 <div slot="trigger" slot-scope="props" class="card-header">
@@ -33,11 +48,6 @@
                   </div>
                 </div>
                 <div class="card-content">
-                  <!-- <span class="title is-5" v-if="val.sentTeacher">เปอร์เซ็นความก้าวหน้า</span> -->
-                  <!-- <div class="columns" style="align-items: center" v-if="val.sentTeacher">
-                    <div class="column"><progress class="progress is-medium" :class="[val.mentorConfirm ? 'is-success' : 'is-warning']" :value="val.progress ? val.progress : 0" max="100"></progress></div>
-                    <span class="column" style="flex: none;width: fit-content;">&nbsp;{{val.progress ? val.progress : 0}}%</span>
-                  </div> -->
                   <div v-if="val.sentTeacher && profile && profile.userType === 'teacher'" style="margin-bottom: 20px;">
                     <p class="title is-5">ข้อมูลจากนักศึกษา</p>
                     <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
@@ -153,6 +163,9 @@ export default {
       projectSelected: 'projects/projectSelected',
       profile: 'user/profile'
     }),
+    allMentorConfirm () {
+      return this.projectSelected.scoreboard.every(week => week.mentorConfirm)
+    },
     showInput () {
       return this.InputProgress
     },
@@ -180,11 +193,17 @@ export default {
     ...mapActions({
       selectProject: 'projects/selectProject'
     }),
-    logOut () {
-      auth.logout()
-    },
-    deleteDropFile (index) {
-      this.dropFiles.splice(index, 1)
+    async approveSpecialProject (approve) {
+      const message = 'อนุมัติให้นักศึกษามีสิทธิ์สอบ 100 เปอร์เซนต์'
+      const swalMessage = approve ? message : 'ไม่' + message
+      const { value } = await this.$swal({
+        text: swalMessage,
+        type: approve ? 'success' : 'error',
+        confirmButtonText: 'ยืนยัน'
+      })
+      if (value) {
+        db.database.ref(`/projects/${this.projectId}`).update({approveSpecialProject: approve})
+      }
     },
     async uploadfile ({files, projectKey, week}) {
       const res = await storage.upload(files.name, files, `/${projectKey}/${week}`)
