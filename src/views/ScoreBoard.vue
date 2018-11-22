@@ -7,7 +7,7 @@
             <section class="box" v-if="projectSelected !== null">
               <div class="block" style="display:flex;justify-content: space-between;">
                 <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
-                <span class="is-size-5">ความคืบหน้า {{projectSelected.progress}}%</span>
+                <span class="is-size-5">ความคืบหน้า {{projectSelected.progress}}% | คะแนนรวม {{totalScore | twopoint}}/{{maxScore}}</span>
               </div>
               <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">
                 <div slot="trigger" slot-scope="props" class="card-header">
@@ -16,23 +16,28 @@
                       <div class="level-item" style="flex: none;width: fit-content;">
                         <span style="display:flex; align-items: center">
                             <span class="title is-5">สัปดาห์ที่ {{ind+1}} </span>
-                            <span>&nbsp;| หัวข้อที่ {{ind+1}}</span>
+                            <!-- <span>&nbsp;| หัวข้อที่ {{ind+1}}</span> -->
                             <span>&nbsp;| วันที่ {{val.startDate | format('DD-MMM-YY')}} ถึง {{val.endDate | format('DD-MMM-YY')}}</span>
                             <span v-if="val.mentorConfirm" class="icon has-text-success"><i class="fas fa-check-square"></i></span>
                         </span>
                       </div>
+                      <!-- right -->
                       <div class="level-item" style="flex: none;width: fit-content;">
-                        <span>{{calScore(val.score, weekScore) | twopoint}}/{{weekScore | twopoint}}</span>
+                        <div style="display: flex; flex-direction: row; width: 50px;">
+                          <progress class="progress is-small" :class="[val.mentorConfirm ? 'is-success' : 'is-warning']" :value="val.progress ? val.progress : 0" max="100"></progress>
+                        </div>
+                        <span>&nbsp;{{val.progress ? val.progress : 0}}%</span>
+                        <span>&nbsp;| คะแนนที่ได้ {{calScore(val.score, weekScore) | twopoint}}/{{weekScore | twopoint}}</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="card-content">
-                  <span class="title is-5" v-if="val.sentTeacher">เปอร์เซ็นความก้าวหน้า</span>
-                  <div class="columns" style="align-items: center" v-if="val.sentTeacher">
+                  <!-- <span class="title is-5" v-if="val.sentTeacher">เปอร์เซ็นความก้าวหน้า</span> -->
+                  <!-- <div class="columns" style="align-items: center" v-if="val.sentTeacher">
                     <div class="column"><progress class="progress is-medium" :class="[val.mentorConfirm ? 'is-success' : 'is-warning']" :value="val.progress ? val.progress : 0" max="100"></progress></div>
                     <span class="column" style="flex: none;width: fit-content;">&nbsp;{{val.progress ? val.progress : 0}}%</span>
-                  </div>
+                  </div> -->
                   <div v-if="val.sentTeacher && profile && profile.userType === 'teacher'" style="margin-bottom: 20px;">
                     <p class="title is-5">ข้อมูลจากนักศึกษา</p>
                     <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
@@ -137,7 +142,8 @@ export default {
       file: null,
       teams: [{
         name: ''
-      }]
+      }],
+      maxScore: 20
     }
   },
   computed: {
@@ -152,9 +158,16 @@ export default {
     },
     weekScore () {
       if (this.projectSelected) {
-        return 20 / this.projectSelected.scoreboard.length
+        return this.maxScore / this.projectSelected.scoreboard.length
       }
       return 0
+    },
+    totalScore () {
+      const score = this.projectSelected.scoreboard.reduce((prev, curr) => {
+        prev += curr.score
+        return prev
+      }, 0) / this.projectSelected.scoreboard.length
+      return score * this.maxScore / 100
     }
   },
   components: {
