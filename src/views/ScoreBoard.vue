@@ -2,24 +2,23 @@
   <div class="auth-success">
     <div v-if="user" class="container ">
       <div class="column"></div>
-      <!-- <div class="column"></div> -->
       <div class="columns">
         <div class="column">
-          <div class="column box">
-            <section  v-if="projectSelected !== null">
-              <div class="block">
+            <section class="box" v-if="projectSelected !== null">
+              <div class="block" style="display:flex;justify-content: space-between;">
                 <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
-                <!-- {{profile.teacherGroup}} -->
+                <span class="is-size-5">ความคืบหน้า {{projectSelected.progress}}%</span>
               </div>
               <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">
                 <div slot="trigger" slot-scope="props" class="card-header">
                   <div class="card-header-title">
                     <div class="level" style="width: 100%;display: flex; justify-content: space-between;">
                       <div class="level-item" style="flex: none;width: fit-content;">
-                        <span>
+                        <span style="display:flex; align-items: center">
                             <span class="title is-5">สัปดาห์ที่ {{ind+1}} </span>
-                            <span>หัวข้อที่ {{ind+1}}</span>
-                            <span>วันที่ {{val.startDate | format('DD-MMM-YY')}} ถึง {{val.endDate | format('DD-MMM-YY')}}</span>
+                            <span>&nbsp;| หัวข้อที่ {{ind+1}}</span>
+                            <span>&nbsp;| วันที่ {{val.startDate | format('DD-MMM-YY')}} ถึง {{val.endDate | format('DD-MMM-YY')}}</span>
+                            <span v-if="val.mentorConfirm" class="icon has-text-success"><i class="fas fa-check-square"></i></span>
                         </span>
                       </div>
                       <div class="level-item" style="flex: none;width: fit-content;">
@@ -29,42 +28,45 @@
                   </div>
                 </div>
                 <div class="card-content">
-                  <ProgressStudent
-                    :weekData="val"
-                    :projectKey="projectSelected.key"
-                    :week="ind"
-                    :progressTotal="projectSelected.progress ? projectSelected.progress : 0"
-                    @upload="uploadfile"/>
+                  <span class="title is-5" v-if="val.sentTeacher">เปอร์เซ็นความก้าวหน้า</span>
+                  <div class="columns" style="align-items: center" v-if="val.sentTeacher">
+                    <div class="column"><progress class="progress is-medium" :class="[val.mentorConfirm ? 'is-success' : 'is-warning']" :value="val.progress ? val.progress : 0" max="100"></progress></div>
+                    <span class="column" style="flex: none;width: fit-content;">&nbsp;{{val.progress ? val.progress : 0}}%</span>
+                  </div>
                   <div v-if="val.sentTeacher && profile && profile.userType === 'teacher'" style="margin-bottom: 20px;">
                     <p class="title is-5">ข้อมูลจากนักศึกษา</p>
                     <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
                       <b-input disabled type="textarea" v-model="val.textProgress"></b-input>
                     </b-field>
                     <b-field label="ปัญหาที่พบ">
-                      <b-input disabled type="textarea" v-model="val.Ploblem"></b-input>
+                      <b-input disabled type="textarea" v-model="val.problem"></b-input>
                     </b-field>
                     <b-field label="วิธีแก้ปัญหาที่พบ">
-                      <b-input disabled type="textarea" v-model="val.Solution"></b-input>
+                      <b-input disabled type="textarea" v-model="val.solution"></b-input>
                     </b-field>
-                    <p class="title is-6">คิดเป็นร้อยละ {{val.progress}}%</p>
                     <hr>
                   </div>
-                  <div v-if="val.mentorConfirm && profile && profile.userType === 'student'" style="margin-bottom: 20px;">
+                  <div v-if="(val.mentorConfirm && profile && profile.userType === 'student') ||  (val.mentorConfirm && viewMode === 'subject')" style="margin-bottom: 20px;">
                     <p class="title is-5">ข้อมูลจากอาจารย์ที่ปรึกษา</p>
                     <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
                       <b-input disabled type="textarea" v-model="val.mentorComment"></b-input>
                     </b-field>
                     <p class="title is-6">จัดทำโครงงานได้: {{val.radio == 1 ?'ตรงตามเป้าหมายที่ตั้งไว้' : 'น้อยกว่าเป้าหมาย'}}</p>
-                    <div v-if="val.radio === 2">
-                      <b-field label="เป้าหมายที่ทำให้ล่าช้า">
-                        <b-input disabled type="textarea" placeholder="เป้าหมายที่ทำให้ล่าช้า" v-model="val.lateReason"></b-input>
-                      </b-field>
-                      <b-field label="แนวทางแก้ปัญหา">
-                          <b-input disabled placeholder="แนวทางแก้ปัญหา" type="textarea" v-model="val.solutions"></b-input>
-                      </b-field>
-                    </div>
                     <hr>
                   </div>
+                  <div v-if="val.subjectConfirm && profile && profile.userType === 'student' || (val.mentorConfirm && viewMode === 'mentor')" style="margin-bottom: 20px;">
+                    <p class="title is-5">ข้อมูลจากอาจารย์ประจำวิชา</p>
+                    <b-field label="ความเห็นอาจารย์ประจำวิชา">
+                      <b-input disabled type="textarea" v-model="val.subjectComment"></b-input>
+                    </b-field>
+                    <hr>
+                  </div>
+                  <ProgressStudent
+                    :weekData="val"
+                    :projectKey="projectSelected.key"
+                    :week="ind"
+                    :progressTotal="projectSelected.progress ? projectSelected.progress : 0"
+                    @upload="uploadfile"/>
                   <ProgressMentor
                     :weekData="val"
                     :projectKey="projectSelected.key"
@@ -84,18 +86,15 @@
               <b-loading v-if="projectId && projectId !== ''" :active="true"></b-loading>
               <span v-else>ยังไม่ได้เลือกโครงงาน</span>
             </div>
-          </div>
         </div>
-        <div class="column" v-if="showBooks == true">
-          <div class="column box">
-            <section>
+        <div class="column is-5 " v-if="showBooks == true">
+            <section class="box">
               <b-tabs v-model="activeTab">
                   <b-tab-item :visible="showBooks" label="ขอบเขตการทำงาน">
                     <ScalWork/>
                   </b-tab-item>
               </b-tabs>
             </section>
-          </div>
         </div>
       </div>
     </div>
@@ -143,6 +142,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      viewMode: 'viewMode',
       user: 'user/user',
       projectSelected: 'projects/projectSelected',
       profile: 'user/profile'

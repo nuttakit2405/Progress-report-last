@@ -2,16 +2,37 @@
   <div>
     <div v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
       <b-field label="ความเห็นอาจารย์ประจำวิชา">
-        <b-input type="textarea"></b-input>
+        <b-input type="textarea" :disabled="weekData.subjectConfirm" v-model="subjectComment"></b-input>
       </b-field>
-      <button class="button is-success" style="font-family: 'Kanit', sans-serif">รับทราบ</button>
+      <b-taglist>
+        <b-tag >All Files:</b-tag>
+        <b-tag :key="i" v-for="(file, i) in weekData.files" type="is-info">{{file.filename}}</b-tag>
+      </b-taglist>
+      <b-field class="file" v-if="!weekData.subjectConfirm" >
+        <b-upload v-model="file">
+          <a class="button is-primary">
+            <b-icon icon="upload"></b-icon>
+            <span>เลือกไฟล์</span>
+          </a>
+        </b-upload>
+        <span class="file-name" v-if="file">
+          {{ file.name }}
+        </span>
+        <button  v-if="file" class="button UploadfileButton is-success" @click="uploadfile(file)"
+        style="font-family: 'Kanit', sans-serif">อัพโหลด</button>
+      </b-field>
+      <div class="has-text-centered" v-if="weekData.sentTeacher || weekData.subjectConfirm">
+        <button @click="commentBySubject()" :disabled="weekData.subjectConfirm" class="button is-success" style="font-family: 'Kanit', sans-serif">บันทึก</button>
+      </div>
+      <div class="has-text-centered" v-else>
+        <button class="button" disabled>รอนักศึกษาส่งข้อมูล</button>
+      </div>
     </div>
   </div>
 </template>
 <script>
-
 import {mapGetters} from 'vuex'
-
+import db from '@/database'
 export default {
   props: {
     projectKey: {
@@ -19,11 +40,15 @@ export default {
     },
     week: {
       type: Number
+    },
+    weekData: {
+      type: Object
     }
   },
   data () {
     return {
-      file: null
+      file: null,
+      subjectComment: this.weekData.subjectComment ? this.weekData.subjectComment : ''
     }
   },
   computed: {
@@ -35,29 +60,25 @@ export default {
     })
   },
   methods: {
-    async condition () {
-      const {value: percent} = await this.$swal({
-        title: 'เปอร์เซนต์การทำงานที่เหมาะสม',
-        html: `<div>
-            คิดเป็นร้อยละ <input id="swal-input1" class="swal2-input" style="width:90px"><br>
-            ความคิดเห็นอาจารย์ที่ปรึกษา
-            <textarea id="swal-input2" class="swal2-textarea"></textarea>
-            </div> `
+    async commentBySubject () {
+      const {value} = await this.$swal({
+        title: 'ยันยันการแสดงความคิดเห็น'
       })
-      if (percent) {
-        this.$swal({
-          title: 'เปอร์เซนต์การทำงานถูกเปลี่ยนแปลงแล้ว',
-          // text: 'Do you want to continue',
-          type: 'success'
-          // confirmButtonText: 'Cool'
-        })
+      if (value) {
+        const data = {
+          subjectComment: this.subjectComment,
+          subjectConfirm: true
+        }
+        console.log(data)
+        await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}`).update(data)
       }
     },
-    uploadfile (files) {
+    async uploadfile (files) {
       const data = {
         files, projectKey: this.projectKey, week: this.week
       }
-      this.$emit('upload', data)
+      await this.$emit('upload', data)
+      this.file = await null
     }
   }
 }

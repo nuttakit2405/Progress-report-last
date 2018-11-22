@@ -2,8 +2,8 @@
   <div style="margin-bottom: 20px;" v-if="profile && profile.userType != 'student' && profile.teacherGroup.some(type => type === 'mentor') && viewMode === 'mentor'">
     <div>
       <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
-      <b-input :disabled="weekData.mentorConfirm"  v-model="mentorComment" type="textarea"></b-input>
-    </b-field>
+        <b-input :disabled="weekData.mentorConfirm"  v-model="mentorComment" type="textarea"></b-input>
+      </b-field>
     <div>
       <b-taglist>
         <b-tag >All Files:</b-tag>
@@ -30,15 +30,6 @@
           น้อยกว่าเป้าหมาย
         </b-radio>
       </b-field>
-      <div v-if="radio == 2" style="margin-bottom: 20px" >
-        <!-- <div class="title is-5">ในกรณีทำได้น้อยกว่าเป้าหมาย</div>
-        <b-field label="เป้าหมายที่ทำให้ล่าช้า">
-          <b-input :disabled="weekData.mentorConfirm" type="textarea" placeholder="เป้าหมายที่ทำให้ล่าช้า" v-model="lateReason"></b-input>
-        </b-field>
-        <b-field label="แนวทางแก้ปัญหา">
-            <b-input :disabled="weekData.mentorConfirm" placeholder="แนวทางแก้ปัญหา" type="textarea" v-model="solutions"></b-input>
-        </b-field> -->
-      </div>
 
       <div class="has-text-centered" v-if="weekData.sentTeacher || weekData.mentorConfirm">
         <button :disabled="weekData.mentorConfirm" class="button is-success" style="font-family: 'Kanit', sans-serif" @click="confirm">
@@ -76,8 +67,6 @@ export default {
       file: null,
       mentorComment: this.weekData.mentorComment ? this.weekData.mentorComment : '',
       radio: this.weekData.radio ? this.weekData.radio : '1',
-      lateReason: this.weekData.lateReason ? this.weekData.lateReason : '',
-      solutions: this.weekData.solutions ? this.weekData.solutions : '',
       radioWorld: {
         '1': 'ตรงตามเป้าหมายที่ตั้งไว้',
         '2': 'น้อยกว่าเป้าหมาย',
@@ -97,8 +86,6 @@ export default {
     async confirm () {
       const data = {
         mentorComment: this.mentorComment,
-        lateReason: this.lateReason,
-        solutions: this.solutions,
         radio: this.radio
       }
       this.$emit('confirm', data)
@@ -110,13 +97,10 @@ export default {
             คิดเป็นร้อยละ <input id="swal-progress" type="number" min="0" max="100" value="${this.weekData.progress}" class="swal2-input" style="width:90px"><br>
             ความคิดเห็นอาจารย์ที่ปรึกษา
               <textarea id="swal-comment" disabled class="swal2-textarea">${this.mentorComment}</textarea>
-            
+
           </div>`,
         preConfirm: () => {
-          return [
-            document.getElementById('swal-progress').value, // ดึงค่าไปใช้ใน sweet
-            document.getElementById('swal-comment').value // ดึงค่าไปใช้ใน sweet
-          ]
+          return document.getElementById('swal-progress').value
         }
       })
       if (value) {
@@ -126,10 +110,8 @@ export default {
         })
 
         await this.$emit('confirmCondition', {
-          progress: value[0],
+          progress: value,
           mentorComment: this.mentorComment,
-          lateReason: this.lateReason,
-          solutions: this.solutions,
           radio: this.radio
         })
       }
