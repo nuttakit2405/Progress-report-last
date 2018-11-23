@@ -19,7 +19,7 @@
                   <div class="level-right">
                     <button v-if="teacherSubject !== true" class="button is-white" @click="$router.push({name: 'AddProject'})"
                       style="font-family: 'Kanit', sans-serif">
-                        <b-icon icon="plus" size="is-small"></b-icon>&nbsp;เพิ่มโครงากร</button>
+                        <b-icon icon="plus" size="is-small"></b-icon>&nbsp;เพิ่มโครงงาน</button>
                   </div>
                 </div>
                 <div class="column">

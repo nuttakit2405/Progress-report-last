@@ -40,7 +40,7 @@ const actions = {
     }
   },
   setProfile: ({commit}, uid) => {
-    db.database.ref('users').child(uid).once('value', snap => {
+    db.database.ref('users').child(uid).on('value', snap => {
       const val = snap.val()
       commit('setProfile', val)
       if (val !== null) {

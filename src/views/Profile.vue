@@ -30,9 +30,24 @@
                   <p class="title is-5">สิทธิ์ของผู้ใช้:&nbsp;</p>
                   <p class="is-size-5">{{profile.teacherGroup.map(group => roles[group]).join(", ")}}</p>
                 </div>
-                <div class="level-item has-text-centered" v-if="profile && profile.userType === 'student'">
-                  <!-- <p class="title is-5">ความก้าวหน้าของงาน:&nbsp;</p>
-                  <p class="is-size-5">55%</p> -->
+                <div class="column"></div>
+                <div class="level-item " v-if="profile && profile.userType === 'student'">
+                  <b-field label="ความก้าวหน้าของงาน" v-if="profile.myProject">
+                    <table class="table">
+                      <tr :key="project.key"  v-for="project in findProjectWithIds(profile.myProject)">
+                        <td>{{project.thaiProjectName}}</td>
+                        <td><progress class="progess is-medium" :value="project.progress ? project.progress : 0" max="100"></progress>&nbsp;{{project.progress ? project.progress : 0}}%</td>
+                      </tr>
+                    </table>
+                  </b-field>
+                  <div v-else>
+                    <b-field label="เพิ่มเป็นโครงงานของฉัน">
+                        <ul :key="project.key"  v-for="project in findMyProject(this.profile.sid)">
+                          <li>โครงงาน{{project.thaiProjectName}}</li>
+                        </ul>
+                    </b-field>
+                    <button class="button is-success" @click="addToMyProject()">เพิ่มทั้งหมด</button>
+                  </div>
                 </div>
                 <!-- <div class="column level-item has-text-centered">
                   <button class="button">ไปยังหน้าปฏิทิน</button>
@@ -132,8 +147,17 @@ export default {
       isLogged: 'user/isLogged',
       hasProfile: 'user/hasProfile',
       profile: 'user/profile',
-      loading: 'user/loading'
-    })
+      loading: 'user/loading',
+      projects: 'projects/projects'
+    }),
+    projectsWithId () {
+      return Object.keys(this.projects).map(key => {
+        return {
+          key,
+          ...this.projects[key]
+        }
+      })
+    }
   },
   watch: {
     user (user) {
@@ -142,10 +166,12 @@ export default {
   },
   created () {
     this.initProfile(this.user)
+    this.getProjects()
   },
   methods: {
     ...mapActions({
-      setProfile: 'user/setProfile'
+      setProfile: 'user/setProfile',
+      getProjects: 'projects/getProjects'
     }),
     stringUserType (type) {
       return type === 'teacher' ? 'อาจารย์' : 'นักศึกษา'
@@ -193,6 +219,19 @@ export default {
         this.fetchProfile = await false
       }
     },
+    findProjectWithIds (ids) {
+      return this.projectsWithId.filter(project => ids.findIndex(p => p === project.key) !== -1)
+    },
+    findMyProject (sid) {
+      return this.projectsWithId.filter(project => !project.deleted && project.teams.some(member => member.id === sid))
+    },
+    async addToMyProject () {
+      const myProject = this.findMyProject(this.profile.sid).map(p => p.key)
+      const {value} = await this.$swal('ยืนยันการเพิ่มเป็นโครงงานของฉัน')
+      if (value) {
+        await db.database.ref('users').child(this.user.uid).update({myProject})
+      }
+    },
     async saveProfile () {
       const profileData = {
         fullName: this.fullName,
@@ -200,6 +239,7 @@ export default {
       }
       if (this.userType === 'student') {
         profileData['sid'] = this.sid
+        profileData['myProject'] = this.findMyProject(this.sid).map(p => p.key)
       } else if (this.userType === 'teacher') {
         profileData['teacherGroup'] = this.teacherGroup
         profileData['email'] = this.user.email
