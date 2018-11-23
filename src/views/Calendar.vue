@@ -78,6 +78,14 @@ export default {
           key
         }
       })
+    },
+    projectsWithId () {
+      return Object.keys(this.projects).map(key => {
+        return {
+          key,
+          ...this.projects[key]
+        }
+      })
     }
   },
   watch: {
@@ -303,7 +311,13 @@ export default {
         let findUser = null
         if (memberSelect !== '') {
           if (memberSelect === 'mentor') {
+            const project = this.projectsWithId.filter(p => this.profile.myProject.findIndex(mp => mp === p.key) !== -1)
+            const emailMentor = project.map(p => p.mentor.email)
+            const uids = this.usersWithID.filter(user => user.userType === 'teacher' && emailMentor.findIndex(e => e === user.email) !== -1)
+            findUser = uids.filter(member => member !== undefined)
           } else if (memberSelect === 'subject') {
+            const uids = this.usersWithID.filter(user => user.userType === 'teacher' && user.teacherGroup.some(group => group === 'subject'))
+            findUser = uids.filter(member => member !== undefined)
           } else {
             const uids = this.projects[memberSelect].teams.map(member => this.usersWithID.find(user => user.sid === member.id))
             findUser = uids.filter(member => member !== undefined)
@@ -329,7 +343,8 @@ export default {
           waitaccept: waitaccept,
           members: members,
           start: formValues[2],
-          end: formValues[3]
+          end: formValues[3],
+          createdBy: this.user.uid
         }
         if (this.profile.userType === 'teacher') {
           data.waitaccept = false
