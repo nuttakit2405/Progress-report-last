@@ -37,7 +37,10 @@
                             <span class="title is-5">สัปดาห์ที่ {{ind+1}} </span>
                             <!-- <span>&nbsp;| หัวข้อที่ {{ind+1}}</span> -->
                             <span>&nbsp;| วันที่ {{val.startDate | format('DD-MMM-YY')}} ถึง {{val.endDate | format('DD-MMM-YY')}}</span>
-                            <span v-if="val.mentorConfirm" class="icon has-text-success"><i class="fas fa-check-square"></i></span>
+
+                              <span v-if="val.mentorConfirm" class="icon has-text-success" title="อาจารย์ที่ปรึกษารับทราบแล้ว"><i class="fas fa-check-square"></i></span>
+                              <span v-if="val.subjectConfirm" class="icon has-text-info" title="อาจารย์ประจำวิชารับทราบแล้ว"><i class="fas fa-check-square"></i></span>
+
                         </span>
                       </div>
                       <!-- right -->
