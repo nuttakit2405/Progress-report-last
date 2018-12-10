@@ -12,8 +12,12 @@
                     </p>
                   </div>
                 </div>
+
                 <!-- Right side -->
                 <div class="level-right">
+                   <div style="margin-right: 40px;">
+                    <b>{{stringMode}}</b>
+                   </div>
                   <div>
                     <b-dropdown v-if="isLogged">
                       <button class="button" slot="trigger">
