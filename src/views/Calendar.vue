@@ -18,14 +18,14 @@
 
           <div slot-scope="item" >
             <div class="calendar-item-date">
-              <Button :class="['button', { 'is-otherMonth': !item.isCurMonth }, {'is-primary': item.isToday}]"
+              <Button :disabled="!item.isCurMonth || today > item.date.date" :class="['button', { 'is-otherMonth': !item.isCurMonth || today > item.date.date }, {'is-primary': item.isToday}]"
                 @click="addEvent(item.date)">
                 {{item.date.date}} <!--ตัวเลขวันที่ -->
               </Button>
               <ul v-if="events[item.date.full]">
                 <li class="events" :key="key" v-for="(event, key) in events[item.date.full]">
                   <span :class="['event', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)">{{event.title}}</span>
-                  <button class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
+                  <button :disabled="!item.isCurMonth || today > item.date.date" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
                 </li> <!-- เอาหัวเรื่อง มาโชว์-->
               </ul>
             </div>
@@ -43,7 +43,8 @@ export default {
     return {
       isAddEventModalActive: false,
       mode: 'month',
-      time: new Date()
+      time: new Date(),
+      today: new Date().getDate()
     }
   },
   computed: {
