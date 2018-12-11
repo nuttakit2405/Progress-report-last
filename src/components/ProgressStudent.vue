@@ -36,9 +36,15 @@
       <b-input :disabled="weekData.sentTeacher" type="number" maxlength="3" style="width:95px" :min="progressTotal" max="100" v-model="progress"></b-input>
     </b-field>
 
+    <b-field label="สมาชิกที่ยืนยันแล้ว" v-if="weekData.membersSave">
+      <div>
+        <div :key="i" v-for="(members, i) in memberConfirm(weekData.membersSave)">{{members}}</div>
+      </div>
+    </b-field>
+
     <div class="has-text-centered">
-      <button class="button is-info" style="font-family: 'Kanit', sans-serif" @click="Pushpro" :disabled="weekData.sentTeacher"> ยืนยัน </button>
-      <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="sentToTeacher"  :disabled="weekData.sentTeacher"> ส่งความคืบหน้า </button>
+      <button class="button is-info" style="font-family: 'Kanit', sans-serif" @click="saveConfirm" :disabled="weekData.sentTeacher"> ยืนยัน<span v-if="yourConfirm">แล้ว</span> </button>
+      <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="sentToTeacher" v-if="allMembersConfirm" :disabled="weekData.sentTeacher"> ส่งความคืบหน้า </button>
     </div>
   </div>
 </template>
@@ -79,10 +85,23 @@ export default {
     ...mapGetters({
       user: 'user/user',
       projectSelected: 'projects/projectSelected',
-      profile: 'user/profile'
-    })
+      profile: 'user/profile',
+      allUsers: 'user/allUsers'
+    }),
+    allMembersConfirm () {
+      return this.weekData.membersSave && Object.keys(this.weekData.membersSave).length === this.projectSelected.teams.length
+    },
+    yourConfirm () {
+      return this.weekData.membersSave && this.weekData.membersSave[this.user.uid]
+    }
   },
   methods: {
+    memberConfirm (members) {
+      if (members) {
+        return Object.keys(members).map(uid => this.allUsers[uid].fullName)
+      }
+      return ''
+    },
     async uploadfile (files) {
       const data = {
         files, projectKey: this.projectKey, week: this.week
@@ -90,7 +109,7 @@ export default {
       await this.$emit('upload', data)
       this.file = await null
     },
-    async Pushpro () {
+    async saveConfirm () {
       const datas = {
         textProgress: this.textProgress,
         problem: this.problem,
@@ -103,8 +122,8 @@ export default {
         text: `เปอร์เซ็นที่ทำงานได้ คิดเป็น ${this.progress}%`
       })
       if (value) {
-        console.log(datas)
         await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}`).update(datas)
+        await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}/membersSave`).update({[this.user.uid]: true})
       }
     },
     async sentToTeacher () {
