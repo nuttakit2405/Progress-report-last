@@ -113,7 +113,7 @@
             <section class="box">
               <b-tabs v-model="activeTab">
                   <b-tab-item :visible="showBooks" label="ขอบเขตการทำงาน">
-                    <ScalWork/>
+                    <TodosApp/>
                   </b-tab-item>
               </b-tabs>
             </section>
@@ -124,7 +124,7 @@
 </template>
 
 <script>
-import ScalWork from '@/components/ScalWork'
+import TodosApp from '@/components/TodosApp'
 import ProgressStudent from '@/components/ProgressStudent'
 import ProgressMentor from '@/components/ProgressMentor'
 import ProgressTeacher from '@/components/ProgressTeacher'
@@ -190,7 +190,7 @@ export default {
     }
   },
   components: {
-    ScalWork,
+    TodosApp,
     ProgressStudent,
     ProgressMentor,
     ProgressTeacher

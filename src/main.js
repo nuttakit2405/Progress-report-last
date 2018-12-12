@@ -9,6 +9,14 @@ import './plugin'
 import auth from './auth'
 import database from './database'
 import storage from './storage'
+import Sortable from 'sortablejs'
+
+Vue.directive('sortable', {
+  inserted: function (el, binding) {
+    // eslint-disable-next-line no-new
+    new Sortable(el, binding.value || {})
+  }
+})
 
 Vue.config.productionTip = false
 
