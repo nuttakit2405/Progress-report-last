@@ -25,7 +25,7 @@
               <ul v-if="events[item.date.full]">
                 <li class="events" :key="key" v-for="(event, key) in events[item.date.full]">
                   <span :class="['event', 'dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
-                  <button :disabled="!item.isCurMonth || today > item.date.date" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
+                  <button v-if="!(!item.isCurMonth || today > item.date.date)" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
                 </li> <!-- เอาหัวเรื่อง มาโชว์-->
               </ul>
             </div>
@@ -176,18 +176,28 @@ export default {
         return
       }
 
+      let config = {
+        title: 'หัวข้อเรื่อง: ' + event.title,
+        text: `รายละเอียดการนัดหมาย : ${event.description}`,
+        showConfirmButton: false
+      }
+      if (this.profile.userType === 'teacher') {
+        config = {
+          title: 'หัวข้อเรื่อง: ' + event.title,
+          html: `<div>รายละเอียดการนัดหมาย : ${event.description}</div><div>ยอมรับการนัดหมายในครั้งนี้หรือไม่ ?</div>`,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          showCancelButton: true,
+          confirmButtonText: 'ยอมรับ',
+          cancelButtonText: 'ปฏิเสธ'
+        }
+      }
+
       const viewData = await this.$swal({
-        title: 'หัวข้อเรื่อง: ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description,
-        text: 'ตกลงในการนัดหมายในครั้งนี้หรือไม่ ?',
-        // type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
         showCloseButton: true,
-        confirmButtonText: 'Accept',
-        cancelButtonText: 'Decline'
+        ...config
       })
-      console.log(viewData)
+
       if (viewData.value) {
         event.waitaccept = false
         const year = this.$dayjs(date).year()
@@ -195,13 +205,24 @@ export default {
         this.$swal('นัดหมายสำเร็จ', ' ', 'success')
       }
       if (viewData.dismiss === 'cancel') {
-        db.database.ref(`/allEvents/${year}/${key}`).remove()
+        const { value } = await this.$swal({
+          title: 'ยืนยันการปฏิเสธ',
+          text: 'หากยืนยัน การนัดหมายนี้จะถูกลบออกจากปฏิทิน',
+          type: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          confirmButtonText: 'ลบ',
+          cancelButtonText: 'ยกเลิก'
+        })
+        if (value) {
+          db.database.ref(`/allEvents/${year}/${key}`).remove()
+        }
       }
     },
     async removeEvent (date, eventKey, event) {
       const year = this.$dayjs(date).year()
       const { value } = await this.$swal({
-        type: 'error',
+        type: 'question',
         title: 'ยืนยันการลบนัดหมายนี้?',
         showCancelButton: true,
         confirmButtonColor: '#d33',
