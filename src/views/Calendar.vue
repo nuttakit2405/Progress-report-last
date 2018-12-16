@@ -17,17 +17,27 @@
           </div>
 
           <div slot-scope="item" :class="{'is-not-curr-month': !item.isCurMonth}">
-            <div class="calendar-item-date">
+            <div class="calendar-item-date" style="position: relative;">
               <Button style="margin: 2px;" :disabled="!item.isCurMonth || today > item.date.date" :class="['button', 'is-small', { 'is-otherMonth': !item.isCurMonth || today > item.date.date }, {'is-primary': item.isToday}]"
                 @click="addEvent(item.date)">
                 {{item.date.date}} <!--ตัวเลขวันที่ -->
               </Button>
-              <ul v-if="events[item.date.full]">
-                <li class="events" :key="key" v-for="(event, key) in events[item.date.full]">
-                  <span :class="['event', 'dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
-                  <button v-if="!(!item.isCurMonth || today > item.date.date)" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
-                </li> <!-- เอาหัวเรื่อง มาโชว์-->
-              </ul>
+              <div v-if="events[item.date.full]">
+                <div class="columns is-marginless" :key="key" v-for="(event, key) in events[item.date.full]">
+                  <div class="column is-paddingless" style="width: 100%; position: relative;">
+                    <span style="width: 100%;" :class="['', 'dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
+                  </div>
+
+                  <div class="column is-paddingless" style="flex: none; width: fit-content;">
+                    <button v-if="!(!item.isCurMonth || today > item.date.date) && event.waitaccept"
+                  class="button is-small" @click="editEvent(item.date.year, item.date.full, key, event)"><b-icon size="is-small" icon="edit"/></button>
+                  </div>
+
+                  <div class="column is-paddingless" style="flex: none; width: fit-content;">
+                    <button v-if="!(!item.isCurMonth || today > item.date.date)" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
+                  </div>
+                </div> <!-- เอาหัวเรื่อง มาโชว์-->
+              </div>
             </div>
           </div>
         </Calendar>
@@ -147,6 +157,22 @@ export default {
         nextButton
       ])
     },
+    async editEvent (year, date, key, event) {
+      const data = await this.eventForm(date, event, true)
+      if (data) {
+        db.database.ref(`/allEvents/${year}`).child(key).set(data)
+        const toast = this.$swal.mixin({
+          toast: true,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 3000
+        })
+        await toast({
+          type: 'success',
+          title: 'successfully'
+        })
+      }
+    },
     async viewEvent (date, key, event) {
       const year = this.$dayjs(date).year()
       if (!event.waitaccept) {
@@ -154,24 +180,12 @@ export default {
           title: 'หัวข้อเรื่อง: ' + event.title,
           text: 'รายละเอียดการนัดหมาย : ' + event.description,
           confirmButtonText: 'แก้ไข <i class="fas fa-edit"></i>',
+          showConfirmButton: false,
           showCloseButton: true
         })
 
         if (value) {
-          const data = await this.eventForm(date, event)
-          if (data) {
-            db.database.ref(`/allEvents/${year}`).child(key).set(data)
-            const toast = this.$swal.mixin({
-              toast: true,
-              position: 'top',
-              showConfirmButton: false,
-              timer: 3000
-            })
-            await toast({
-              type: 'success',
-              title: 'successfully'
-            })
-          }
+          this.editEvent(year, date, key, event)
         }
         return
       }
@@ -263,7 +277,7 @@ export default {
       }
       return timeOptions
     },
-    async eventForm (date, defaultData = null) {
+    async eventForm (date, defaultData = null, editMode = false) {
       const fullDate = this.$dayjs(date).format('ddddที่ D MMMM YYYY')
       const titileValue = defaultData && defaultData.title ? `value="${defaultData.title}"` : ''
       const descriptionValue = defaultData && defaultData.description ? defaultData.description : ''
@@ -321,7 +335,7 @@ export default {
         ${this.profile.userType === 'teacher' ? teacherForm : ''}
       </div>`
       const {value: formValues} = await this.$swal({
-        title: 'สร้างการนัดหมาย',
+        title: editMode ? 'แก้ไขการนัดหมาย' : 'สร้างการนัดหมาย',
         html: rawHtml,
         focusConfirm: false,
         preConfirm: () => {
@@ -403,27 +417,27 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin: 2px 0;
+  position: relative;
+  width: 100%;
 }
 .event {
-  display: flex;
   width: 100%;
   padding: 1px 5px;
   margin: 0 3px;
   cursor: pointer;
   font-size: 14px;
 }
+.dotdotdot {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
 .accept-events {
   background-color: aquamarine;
 }
 .disable-events {
   background-color: lightgray;
-}
-.dotdotdot {
-  width: 100%;
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden !important;
-  text-overflow: ellipsis;
 }
 .is-not-curr-month {
   height: 100%;
