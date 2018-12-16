@@ -82,9 +82,10 @@ export default new Router({
       props: true
     },
     {
-      path: '/docfinal',
+      path: '/docfinal/:projectId',
       name: 'Docfinal',
-      component: DocFinal
+      component: DocFinal,
+      props: true
     }
   ]
 })
