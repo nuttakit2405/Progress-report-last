@@ -16,15 +16,15 @@
             </button>
           </div>
 
-          <div slot-scope="item" >
+          <div slot-scope="item" :class="{'is-not-curr-month': !item.isCurMonth}">
             <div class="calendar-item-date">
-              <Button :disabled="!item.isCurMonth || today > item.date.date" :class="['button', { 'is-otherMonth': !item.isCurMonth || today > item.date.date }, {'is-primary': item.isToday}]"
+              <Button style="margin: 2px;" :disabled="!item.isCurMonth || today > item.date.date" :class="['button', 'is-small', { 'is-otherMonth': !item.isCurMonth || today > item.date.date }, {'is-primary': item.isToday}]"
                 @click="addEvent(item.date)">
                 {{item.date.date}} <!--ตัวเลขวันที่ -->
               </Button>
               <ul v-if="events[item.date.full]">
                 <li class="events" :key="key" v-for="(event, key) in events[item.date.full]">
-                  <span :class="['event', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)">{{event.title}}</span>
+                  <span :class="['event', 'dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
                   <button :disabled="!item.isCurMonth || today > item.date.date" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
                 </li> <!-- เอาหัวเรื่อง มาโชว์-->
               </ul>
@@ -176,20 +176,26 @@ export default {
         return
       }
 
-      const { value } = await this.$swal({
+      const viewData = await this.$swal({
         title: 'หัวข้อเรื่อง: ' + event.title + '\n' + 'รายละเอียดการนัดหมาย : ' + event.description,
         text: 'ตกลงในการนัดหมายในครั้งนี้หรือไม่ ?',
         // type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Accept'
+        showCloseButton: true,
+        confirmButtonText: 'Accept',
+        cancelButtonText: 'Decline'
       })
-      if (value) {
+      console.log(viewData)
+      if (viewData.value) {
         event.waitaccept = false
         const year = this.$dayjs(date).year()
         db.database.ref(`/allEvents/${year}/${key}`).set(event)
         this.$swal('นัดหมายสำเร็จ', ' ', 'success')
+      }
+      if (viewData.dismiss === 'cancel') {
+        db.database.ref(`/allEvents/${year}/${key}`).remove()
       }
     },
     async removeEvent (date, eventKey, event) {
@@ -383,11 +389,29 @@ export default {
   padding: 1px 5px;
   margin: 0 3px;
   cursor: pointer;
+  font-size: 14px;
 }
 .accept-events {
   background-color: aquamarine;
 }
 .disable-events {
   background-color: lightgray;
+}
+.dotdotdot {
+  width: 100%;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
+.is-not-curr-month {
+  height: 100%;
+  background-color: #f9f9f9;
+}
+</style>
+
+<style>
+.vue-calendar-body, .vue-calendar-week-title {
+  border-right: 1px solid #e8ebee;
 }
 </style>
