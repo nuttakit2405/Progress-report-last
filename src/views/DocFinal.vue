@@ -1,6 +1,7 @@
 <template>
   <div style="display: flex; justify-content: center; ">
-    <div class="box LayoutFrame">
+    <div><button id="cmd" @click="printPDF">Generate PDF</button></div>
+    <div id="pdf" class="box LayoutFrame">
         <div class="media logoKMUTNB" >
           <figure class="image is-60x60">
             <img src="/static/img/ตรามจพ22.jpg"  alt="Image">
@@ -45,23 +46,23 @@
           <div class= "footerBorder"><br>
             <div class="CommentBorder" style="padding: 10px;">
                 <center class="font">ความคิดเห็นอาจารย์ที่ปรึกษาโครงงาน</center><br>
-                .............................................................<br>
-              .............................................................<br>
-              .............................................................<br>
-              .............................................................<br>
-              .............................................................<br>
-              .............................................................<br><br>
+.............................................................<br>
+.............................................................<br>
+.............................................................<br>
+.............................................................<br>
+.............................................................<br>
+.............................................................<br><br>
               ลงชื่อ.....................................................<br>
                 (...........................................................)<br>
             </div>
             <div class="CommentBorder" style="padding: 10px;">
               <center class="font">ความคิดเห็นหัวหน้าภาควิชา</center><br>
-              .............................................................<br>
-              .............................................................<br>
-              .............................................................<br>
-              .............................................................<br>
-              .............................................................<br>
-              .............................................................<br><br>
+.............................................................<br>
+.............................................................<br>
+.............................................................<br>
+.............................................................<br>
+.............................................................<br>
+.............................................................<br><br>
               ลงชื่อ.....................................................<br>
                 (...........................................................)<br>
             </div>
@@ -82,6 +83,25 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
+import html2canvas from 'html2canvas'
+import pdfMake from 'pdfmake/build/pdfmake'
+import pdfFonts from '../../lib/vfs_fonts.js'
+pdfMake.vfs = pdfFonts.pdfMake.vfs
+
+pdfMake.fonts = {
+  THSarabunNew: {
+    normal: 'THSarabunNew.ttf',
+    bold: 'THSarabunNew-Bold.ttf',
+    italics: 'THSarabunNew-Italic.ttf',
+    bolditalics: 'THSarabunNew-BoldItalic.ttf'
+  },
+  Roboto: {
+    normal: 'Roboto-Regular.ttf',
+    bold: 'Roboto-Medium.ttf',
+    italics: 'Roboto-Italic.ttf',
+    bolditalics: 'Roboto-MediumItalic.ttf'
+  }
+}
 
 export default {
   props: {
@@ -103,7 +123,31 @@ export default {
   methods: {
     ...mapActions({
       selectProject: 'projects/selectProject'
-    })
+    }),
+    async printPDF () {
+      // var docDefinition = {
+      //   content: [
+      //     { text: 'สวัสดีประเทศไทย reat pdf demo ', fontSize: 15 }
+      //   ],
+      //   defaultStyle: {
+      //     font: 'THSarabunNew'
+      //   }
+      // }
+      const canvas = await html2canvas(document.getElementById('pdf'), {scale: 4})
+      var data = canvas.toDataURL()
+      var docDefinition = {
+        content: [{
+          image: data,
+          width: 520,
+          marginTop: 20
+        }],
+        defaultStyle: {
+          font: 'THSarabunNew'
+        }
+      }
+      // pdfMake.createPdf(docDefinition).open()
+      pdfMake.createPdf(docDefinition).download('Score_Details.pdf')
+    }
   },
   created () {
     if (this.projectId) {
@@ -124,12 +168,13 @@ export default {
   padding: 0px;
   min-width: 870px;
 }
+
 .logoKMUTNB{
   display: flex;
   justify-content: flex-start;
   margin-left: 60px;
-  margin-top: 10px;
-
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .topBorder{
   padding: 5px;
@@ -145,7 +190,7 @@ export default {
 }
 .topTitle{
   margin-left: 120px;
-  margin-top: -150px;
+  margin-top: -175px;
 }
 .content{
   padding: 30px;
