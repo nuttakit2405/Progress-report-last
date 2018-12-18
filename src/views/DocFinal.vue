@@ -1,109 +1,107 @@
 <template>
-  <div style="display: flex; justify-content: center; ">
-    <div><button id="cmd" @click="printPDF">Generate PDF</button></div>
-    <div id="pdf" class="box LayoutFrame">
-        <div class="media logoKMUTNB" >
-          <figure class="image is-60x60">
-            <img src="/static/img/ตรามจพ22.jpg"  alt="Image">
-          </figure>
-        </div>
-        <div class= "topBorder">
-          <div class= "topTitle " >
-            <center><h2><b class="font">แบบขอเสนอสอบโครงงานพิเศษ(ปริญญานิพนธ์)</b></h2></center><br>
-            <center><h2><b class="font">ภาควิชาเทคโนโลยีสารสนเทศ</b></h2></center><br>
-            <center><h2><b class="font">คณะเทคโนโลยีและการจัดการอุตสาหกรรม</b></h2></center><br>
-          </div>
-        </div>
-        <div v-if="projectSelected">
-          <div class="content" style="font-family: 'THSarabunNew', sans-serif;">
-            <b class="font">ชื่อ-สกุลนักศึกษา</b>
-            {{projectSelected.teams[0].name}}  {{projectSelected.teams[0].lastname}}
-              <b class="font" style="margin-left:100px">รหัสประจำตัว</b>
-              {{projectSelected.teams[0].id}} <br>
-
-            <b class="font">ที่อยู่ที่สามารถติดต่อได้สะดวก</b> <b class="font" style="margin-left:150px">โทรศัพท์</b> {{projectSelected.tel}}<br>
-            {{projectSelected.address}}<br><br>
-            <b class="font">มีความประสงค์จะขอสอบโครงงานพิเศษ (ปริญญานิพนธ์) หลักสูตร เทคโนโลยีบัณฑิต</b><br>
-            <b class="font">วิชา</b> {{projectSelected.subjectRegister}} &nbsp;&nbsp;
-            <b class="font">จำนวนหน่วยกิต</b> 3 <b class="font">หน่วยกิต</b> &nbsp;&nbsp;
-            <b class="font">ปีการศึกษาที่ลงทะเบียน</b> {{projectSelected.termRegister}} <br><br>
-             &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<b class="font">ชื่อโครงงาน (ภาษาไทย)</b>    {{projectSelected.thaiProjectName}}<br>
-             &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<b class="font">(ภาษาอังกฤษ)</b>  {{projectSelected.engProjectName}}<br>
-             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">กรณีศึกษา:</b>     {{projectSelected.thaiCaseStudy}}<br>
-             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">(Case Study):</b>  {{projectSelected.engCaseStudy}}<br><br>
-            <b class="font">นักศึกษาผู้ร่วมงาน</b><br>
-            <b class="font">ชื่อ-สกุลนักศึกษา</b> {{projectSelected.teams[1].name}} {{projectSelected.teams[1].lastname}}
-            <b class="font" style="margin-left:130px">รหัสประจำตัว</b> {{projectSelected.teams[0].id}} <br><br>
-            <b class="font">ชื่ออาจารย์ที่ปรึกษา</b> {{projectSelected.mentor.position}} {{projectSelected.mentor.name}} {{projectSelected.mentor.lastname}}<br>
-            <b class="font">ชื่ออาจารย์ที่ปรึกษาร่วม</b>{{projectSelected.coOpMentor}}<br><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">จึงเรียนมาเพื่อโปรดพิจารณา</b><br><br><br>
-            <div class="font" style="display: flex; justify-content: flex-end;">
-              ลงชื่อ.................................................(ผู้ยื่นคำร้อง)<br>
-                 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;................/................/..............<br>
-            </div>
-          </div>
-
-          <div class= "footerBorder"><br>
-            <div class="CommentBorder" style="padding: 10px;">
-                <center class="font">ความคิดเห็นอาจารย์ที่ปรึกษาโครงงาน</center><br>
-.............................................................<br>
-.............................................................<br>
-.............................................................<br>
-.............................................................<br>
-.............................................................<br>
-.............................................................<br><br>
-              ลงชื่อ.....................................................<br>
-                (...........................................................)<br>
-            </div>
-            <div class="CommentBorder" style="padding: 10px;">
-              <center class="font">ความคิดเห็นหัวหน้าภาควิชา</center><br>
-.............................................................<br>
-.............................................................<br>
-.............................................................<br>
-.............................................................<br>
-.............................................................<br>
-.............................................................<br><br>
-              ลงชื่อ.....................................................<br>
-                (...........................................................)<br>
-            </div>
-            <div class="font" style="padding: 10px;">
-              <center class="font" >&nbsp;รายชื่อคณะกรรมการสอบ</center><br>
-              ประธาน ...........................................<br><br>
-              กรรมการ ..........................................<br><br>
-              กรรมการ ..........................................<br><br>
-              วันที่สอบ .........../.............../.............<br><br>
-              สถานที่จัดสอบ.................................
-            </div>
-          </div>
-        </div>
+  <div>
+    <div class="DownloadButton">
+      <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading>
+      <button class="button is-info DownloadButton" @click="printPDF">
+          <b-icon icon="file-download"></b-icon> <span>ดาวโหลดแบบขอเสนอ</span>
+      </button>
     </div>
+    <div style="display: flex; justify-content: center; ">
+      <div id="pdf" class="box LayoutFrame">
+          <div class="media logoKMUTNB" >
+            <figure class="image is-60x60">
+              <img src="/static/img/ตรามจพ22.jpg"  alt="Image">
+            </figure>
+          </div>
+          <div class= "topBorder">
+            <div class= "topTitle " >
+              <center><h2><b class="font">แบบขอเสนอสอบโครงงานพิเศษ(ปริญญานิพนธ์)</b></h2></center><br>
+              <center><h2><b class="font">ภาควิชาเทคโนโลยีสารสนเทศ</b></h2></center><br>
+              <center><h2><b class="font">คณะเทคโนโลยีและการจัดการอุตสาหกรรม</b></h2></center><br>
+            </div>
+          </div>
+          <div v-if="projectSelected">
+            <div class="content" style="font-family: 'THSarabunNew', sans-serif;">
+              <b class="font">ชื่อ-สกุลนักศึกษา</b>
+              {{projectSelected.teams[0].name}}  {{projectSelected.teams[0].lastname}}
+                <b class="font" style="margin-left:100px">รหัสประจำตัว</b>
+                {{projectSelected.teams[0].id}} <br>
 
+              <b class="font">ที่อยู่ที่สามารถติดต่อได้สะดวก</b> <b class="font" style="margin-left:150px">โทรศัพท์</b> {{projectSelected.tel}}<br>
+              {{projectSelected.address}}<br><br>
+              <b class="font">มีความประสงค์จะขอสอบโครงงานพิเศษ (ปริญญานิพนธ์) หลักสูตร เทคโนโลยีบัณฑิต</b><br>
+              <b class="font">วิชา</b> {{projectSelected.subjectRegister}} &nbsp;&nbsp;
+              <b class="font">จำนวนหน่วยกิต</b> 3 <b class="font">หน่วยกิต</b> &nbsp;&nbsp;
+              <b class="font">ปีการศึกษาที่ลงทะเบียน</b> {{projectSelected.termRegister}} <br><br>
+              &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<b class="font">ชื่อโครงงาน (ภาษาไทย)</b>    {{projectSelected.thaiProjectName}}<br>
+              &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<b class="font">(ภาษาอังกฤษ)</b>  {{projectSelected.engProjectName}}<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">กรณีศึกษา:</b>     {{projectSelected.thaiCaseStudy}}<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">(Case Study):</b>  {{projectSelected.engCaseStudy}}<br><br>
+              <div v-if="projectSelected && projectSelected.teams[1]" class="font">
+                <b class="font">นักศึกษาผู้ร่วมงาน</b><br>
+                <b class="font">ชื่อ-สกุลนักศึกษา</b> {{projectSelected.teams[1].name}} {{projectSelected.teams[1].lastname}}
+                <b class="font" style="margin-left:130px">รหัสประจำตัว</b> {{projectSelected.teams[1].id}} <br><br>
+              </div>
+              <b class="font">ชื่ออาจารย์ที่ปรึกษา</b> {{projectSelected.mentor.position}} {{projectSelected.mentor.name}} {{projectSelected.mentor.lastname}}<br><br>
+              <div v-if="projectSelected && projectSelected.coOpMentor[0]" class="font">
+              <b class="font">ชื่ออาจารย์ที่ปรึกษาร่วม</b>{{projectSelected.coOpMentor}}<br><br>
+              </div>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">จึงเรียนมาเพื่อโปรดพิจารณา</b><br><br><br>
+              <div class="font" style="display: flex; justify-content: flex-end;">
+                ลงชื่อ.................................................(ผู้ยื่นคำร้อง)<br>
+                  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;................/................/..............<br>
+              </div>
+            </div>
+
+            <div class= "footerBorder"><br>
+              <div class="CommentBorder" style="padding: 10px;">
+                  <center class="font">ความคิดเห็นอาจารย์ที่ปรึกษาโครงงาน</center><br>
+  .............................................................<br>
+  .............................................................<br>
+  .............................................................<br>
+  .............................................................<br>
+  .............................................................<br>
+  .............................................................<br><br>
+                ลงชื่อ.....................................................<br>
+                  (...........................................................)<br>
+              </div>
+              <div class="CommentBorder" style="padding: 10px;">
+                <center class="font">ความคิดเห็นหัวหน้าภาควิชา</center><br>
+  .............................................................<br>
+  .............................................................<br>
+  .............................................................<br>
+  .............................................................<br>
+  .............................................................<br>
+  .............................................................<br><br>
+                ลงชื่อ.....................................................<br>
+                  (...........................................................)<br>
+              </div>
+              <div class="font" style="padding: 10px;">
+                <center class="font" >&nbsp;รายชื่อคณะกรรมการสอบ</center><br>
+                ประธาน ...........................................<br><br>
+                กรรมการ ..........................................<br><br>
+                กรรมการ ..........................................<br><br>
+                วันที่สอบ .........../.............../.............<br><br>
+                สถานที่จัดสอบ.................................
+              </div>
+            </div>
+          </div>
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
-import html2canvas from 'html2canvas'
-import pdfMake from 'pdfmake/build/pdfmake'
-import pdfFonts from '../../lib/vfs_fonts.js'
-pdfMake.vfs = pdfFonts.pdfMake.vfs
-
-pdfMake.fonts = {
-  THSarabunNew: {
-    normal: 'THSarabunNew.ttf',
-    bold: 'THSarabunNew-Bold.ttf',
-    italics: 'THSarabunNew-Italic.ttf',
-    bolditalics: 'THSarabunNew-BoldItalic.ttf'
-  },
-  Roboto: {
-    normal: 'Roboto-Regular.ttf',
-    bold: 'Roboto-Medium.ttf',
-    italics: 'Roboto-Italic.ttf',
-    bolditalics: 'Roboto-MediumItalic.ttf'
-  }
-}
 
 export default {
+  data () {
+    return {
+      isFullPage: true,
+      isLoading: true
+    }
+  },
   props: {
     projectId: {
       type: String,
@@ -133,7 +131,14 @@ export default {
       //     font: 'THSarabunNew'
       //   }
       // }
-      const canvas = await html2canvas(document.getElementById('pdf'), {scale: 4})
+      // loading
+      const loadingComponent = this.$loading.open({
+        container: this.isFullPage ? null : this.$refs.element.$el
+      })
+      setTimeout(() => loadingComponent.close(), 3 * 1000)
+      // loading
+
+      const canvas = await this.$html2canvas(document.getElementById('pdf'), {scale: 3})
       var data = canvas.toDataURL()
       var docDefinition = {
         content: [{
@@ -146,12 +151,13 @@ export default {
         }
       }
       // pdfMake.createPdf(docDefinition).open()
-      pdfMake.createPdf(docDefinition).download('Score_Details.pdf')
+      this.$pdfMake.createPdf(docDefinition).download('แบบขอเสนอสอบโครงงานพิเศษ.pdf')
     }
   },
   created () {
     if (this.projectId) {
       this.selectProject(this.projectId)
+      this.isLoading = false
     }
   }
 }
@@ -159,7 +165,7 @@ export default {
 
 <style scoped>
 .LayoutFrame{
-  margin-top: 100px;
+  margin-top: 50px;
   width: 870px;
   display: flex;
   justify-content: center;
@@ -198,5 +204,11 @@ export default {
 }
 .font{
   font-family: 'THSarabunNew', sans-serif;
+}
+.DownloadButton{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin-right: 60px;
 }
 </style>

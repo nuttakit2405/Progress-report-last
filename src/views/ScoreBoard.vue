@@ -22,8 +22,8 @@
                   <div style="margin-bottom: 10px;" v-if="projectSelected.approveSpecialProject !== undefined && profile && profile.userType == 'student'">
                     <span class="title is-6">{{projectSelected.approveSpecialProject ? 'นักศึกษามีสิทธิ์ยื่นสอบโครงงานพิเศษ' : 'นักศึกษาไม่มีสิทธิ์ยื่นสอบโครงงานพิเศษ'}}</span>
                     <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 10px;">
-                      <button class="button" :class="[projectSelected.approveSpecialProject ? 'is-primary' : 'is-warning']">พิมพ์ใบแบบขอสอบโครงงานพิเศษ</button>
-                     <button class="button is-medium is-danger" @click="address">test</button>
+                      <button class="button" :class="[projectSelected.approveSpecialProject ? 'is-primary' : 'is-warning']" @click="address(projectSelected)">พิมพ์ใบแบบขอสอบโครงงานพิเศษ</button>
+                     <!-- <button class="button is-medium is-danger" @click="address">test</button> -->
                     </div>
                   </div>
                   <span class="is-size-5">ความคืบหน้า {{projectSelected.progress}}% | คะแนนรวม {{totalScore | twopoint}}/{{maxScore}}</span>
@@ -237,68 +237,70 @@ export default {
     calScore (score = 0, max) {
       return (max * score) / 100
     },
-    async address () {
-      const {value: text} = await this.$swal({
-        // title: 'ที่อยู่ปัจจุบันที่สามารถติดต่อได้สะดวก',
-        // input: 'textarea',
-        // inputPlaceholder: 'Type your message here...',
-        html:
-        `<div>
-            <b><div style="margin-top:20px;">กรอกข้อมูลสำหรับพิมพ์ใบแบบขอสอบโครงงานพิเศษ</div></b><br>
-
-            <div style="display: flex; justify-content: center">
-              &nbsp;&nbsp;ที่อยู่&nbsp;<textarea placeholder="กรอกที่อยู่ปัจจุบันที่สามารถติดต่อได้สะดวก" id="swal-input1" rows="5" cols="50"></textarea>
-            </div><br>
-            
-            เบอร์โทรศัพท์ 
-            <input id="swal-input2"><br> <br>
-
-            วิชาที่ลงทะเบียน
-            <select id="swal-input3">
-              <option value="" disabled selected>เลือกวิชาที่ลงทะเบียน</option>
-              <option>60213411 โครงงานพิเศษ 1</option>
-              <option>60213412 โครงงานพิเศษ 2</option>
-              <option>60213413 โครงงานพิเศษ 3</option>
-            </select><br><br>
-
-            ปีการศึกษาที่ลงทเบียน 
-            <input id="swal-input4" type="text" placeholder="เช่น 1/2561"><br><br>
-
-         </div>`,
-        showConfirmButton: 'true',
-        showCancelButton: 'true',
-        confirmButtonText: 'ตกลง',
-        cancelButtonText: 'ยกเลิก',
-        showCloseButton: 'true',
-
-        preConfirm: () => {
-          return [
-            document.getElementById('swal-input1').value, // ดึงค่าไปใช้ใน sweet
-            document.getElementById('swal-input2').value, // ดึงค่าไปใช้ใน sweet
-            document.getElementById('swal-input3').value, // ดึงค่าไปใช้ใน sweet
-            document.getElementById('swal-input4').value // ดึงค่าไปใช้ใน sweet
-          ]
-        }
-      })
-
-      if (text) {
-        const { value } = await this.$swal({
+    async address (project) {
+      console.log(project)
+      if (!project.docfinalData) {
+        const {value: text} = await this.$swal({
           html:
-          `<b>` + 'ที่อยู่:' + `</b>` + text[0] + `<br>` +
-          `<b>` + 'เบอร์โทร:' + `</b>` + text[1] + `<br>` +
-          `<b>` + 'วิชา:' + `</b>` + text[2] + `<br>` +
-          `<b>` + 'ปีการศึกษาที่ลงทเบียน:' + `</b>` + text[3] + `<br>`,
+          `<div>
+              <b><div style="margin-top:20px;">กรอกข้อมูลสำหรับพิมพ์ใบแบบขอสอบโครงงานพิเศษ</div></b><br>
+
+              <div style="display: flex; justify-content: center">
+                &nbsp;&nbsp;ที่อยู่&nbsp;<textarea placeholder="กรอกที่อยู่ปัจจุบันที่สามารถติดต่อได้สะดวก" id="swal-input1" rows="5" cols="50"></textarea>
+              </div><br>
+              
+              เบอร์โทรศัพท์ 
+              <input id="swal-input2"><br> <br>
+
+              วิชาที่ลงทะเบียน
+              <select id="swal-input3">
+                <option value="" disabled selected>เลือกวิชาที่ลงทะเบียน</option>
+                <option>60213411 โครงงานพิเศษ 1</option>
+                <option>60213412 โครงงานพิเศษ 2</option>
+                <option>60213413 โครงงานพิเศษ 3</option>
+              </select><br><br>
+
+              ปีการศึกษาที่ลงทเบียน 
+              <input id="swal-input4" type="text" placeholder="เช่น 1/2561"><br><br>
+
+          </div>`,
           showConfirmButton: 'true',
           showCancelButton: 'true',
           confirmButtonText: 'ตกลง',
           cancelButtonText: 'ยกเลิก',
-          showCloseButton: 'true'
+          showCloseButton: 'true',
+
+          preConfirm: () => {
+            return [
+              document.getElementById('swal-input1').value, // ดึงค่าไปใช้ใน sweet
+              document.getElementById('swal-input2').value, // ดึงค่าไปใช้ใน sweet
+              document.getElementById('swal-input3').value, // ดึงค่าไปใช้ใน sweet
+              document.getElementById('swal-input4').value // ดึงค่าไปใช้ใน sweet
+            ]
+          }
         })
-        console.log(value)
-        if (value) {
-          await db.database.ref(`projects/${this.projectId}`).update({address: text[0], tel: text[1], subjectRegister: text[2], termRegister: text[3]})
-          await this.$router.push({name: 'Docfinal', params: {projectId: this.projectId}})
+
+        if (text) {
+          const { value } = await this.$swal({
+            html:
+            `<b>` + 'ที่อยู่:' + `</b>` + text[0] + `<br>` +
+            `<b>` + 'เบอร์โทร:' + `</b>` + text[1] + `<br>` +
+            `<b>` + 'วิชา:' + `</b>` + text[2] + `<br>` +
+            `<b>` + 'ปีการศึกษาที่ลงทเบียน:' + `</b>` + text[3] + `<br>`,
+            showConfirmButton: 'true',
+            showCancelButton: 'true',
+            confirmButtonText: 'ตกลง',
+            cancelButtonText: 'ยกเลิก',
+            showCloseButton: 'true'
+          })
+          console.log(value)
+          if (value) {
+            await db.database.ref(`projects/${this.projectId}`).update({address: text[0], tel: text[1], subjectRegister: text[2], termRegister: text[3], docfinalData: true})
+            await this.$router.push({name: 'Docfinal', params: {projectId: this.projectId}})
+          }
         }
+      } else {
+        await this.$router.push({name: 'Docfinal', params: {projectId: this.projectId}})
       }
     }
   },
