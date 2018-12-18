@@ -8,6 +8,10 @@ import VueSweetalert2 from 'vue-sweetalert2'
 import dayjs from 'dayjs'
 import Buefy from 'buefy'
 
+import html2canvas from 'html2canvas'
+import pdfMake from 'pdfmake/build/pdfmake'
+import pdfFonts from '../lib/vfs_fonts.js'
+
 // style
 import 'buefy/dist/buefy.css'
 import 'vue2-event-calendar/default.css'
@@ -40,3 +44,23 @@ Vue.filter('removeTitle', (val) => {
 
 Vue.prototype.$dayjs = dayjs
 Vue.prototype.$firebase = firebase
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs
+
+pdfMake.fonts = {
+  THSarabunNew: {
+    normal: 'THSarabunNew.ttf',
+    bold: 'THSarabunNew-Bold.ttf',
+    italics: 'THSarabunNew-Italic.ttf',
+    bolditalics: 'THSarabunNew-BoldItalic.ttf'
+  },
+  Roboto: {
+    normal: 'Roboto-Regular.ttf',
+    bold: 'Roboto-Medium.ttf',
+    italics: 'Roboto-Italic.ttf',
+    bolditalics: 'Roboto-MediumItalic.ttf'
+  }
+}
+
+Vue.prototype.$html2canvas = html2canvas
+Vue.prototype.$pdfMake = pdfMake

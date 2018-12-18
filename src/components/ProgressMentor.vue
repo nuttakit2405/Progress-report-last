@@ -65,6 +65,7 @@ export default {
   data () {
     return {
       file: null,
+      isFullPage: true,
       mentorComment: this.weekData.mentorComment ? this.weekData.mentorComment : '',
       radio: this.weekData.radio ? this.weekData.radio : '1',
       radioWorld: {
@@ -116,6 +117,12 @@ export default {
       }
     },
     async uploadfile (files) {
+      // loading
+      const loadingComponent = this.$loading.open({
+        container: this.isFullPage ? null : this.$refs.element.$el
+      })
+      setTimeout(() => loadingComponent.close(), 3 * 1000)
+      // loading
       const data = {
         files, projectKey: this.projectKey, week: this.week
       }

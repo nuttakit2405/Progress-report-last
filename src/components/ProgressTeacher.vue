@@ -48,6 +48,7 @@ export default {
   data () {
     return {
       file: null,
+      isFullPage: true,
       subjectComment: this.weekData.subjectComment ? this.weekData.subjectComment : ''
     }
   },
@@ -74,6 +75,12 @@ export default {
       }
     },
     async uploadfile (files) {
+      // loading
+      const loadingComponent = this.$loading.open({
+        container: this.isFullPage ? null : this.$refs.element.$el
+      })
+      setTimeout(() => loadingComponent.close(), 3 * 1000)
+      // loading
       const data = {
         files, projectKey: this.projectKey, week: this.week
       }

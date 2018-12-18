@@ -78,7 +78,8 @@ export default {
       textProgress: this.weekData.textProgress ? this.weekData.textProgress : '',
       problem: this.weekData.problem ? this.weekData.problem : '',
       solution: this.weekData.solution ? this.weekData.solution : '',
-      progress: this.weekData.progress ? this.weekData.progress : this.progressTotal
+      progress: this.weekData.progress ? this.weekData.progress : this.progressTotal,
+      isFullPage: true
     }
   },
   computed: {
@@ -103,6 +104,12 @@ export default {
       return ''
     },
     async uploadfile (files) {
+      // loading
+      const loadingComponent = this.$loading.open({
+        container: this.isFullPage ? null : this.$refs.element.$el
+      })
+      setTimeout(() => loadingComponent.close(), 3 * 1000)
+      // loading
       const data = {
         files, projectKey: this.projectKey, week: this.week
       }
