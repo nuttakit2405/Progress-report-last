@@ -250,7 +250,11 @@ export default {
 
       if (value) {
         await db.database.ref(`/allEvents/${year}`).child(eventKey).remove()
-        await this.$swal('ลบเสร็จสิ้น')
+        await this.$swal(
+          'ลบเสร็จสิ้น!',
+          '',
+          'success'
+        )
       }
     },
     async addEvent (date) {
