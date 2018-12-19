@@ -197,7 +197,7 @@ export default {
       //   await this.$swal('เสร็จสิ้น')
       const result = await this.$swal({
         title: 'ยืนยันในการกรอกข้อมูลนี้หรือไม่?',
-        type: 'warning',
+        type: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
