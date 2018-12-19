@@ -11,8 +11,8 @@
                   <div style="margin-bottom: 10px;" v-if="allMentorConfirm && profile && profile.userType == 'teacher'">
                     <span class="title is-6" v-if="projectSelected.approveSpecialProject == undefined">อนุมัติให้นักศึกษามีสิทธิ์ยื่นสอบ 100 เปอร์เซนต์</span>
                     <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 10px;" v-if="projectSelected.approveSpecialProject == undefined">
-                      <button class="button is-success" @click="approveSpecialProject(true)">อนุมัติ</button>
-                      <button class="button is-danger" @click="approveSpecialProject(false)">ไม่อนุมัติ</button>
+                      <button class="button is-success" v-if="+projectSelected.progress === 100" @click="approveSpecialProject(true)">อนุมัติ</button>
+                      <button class="button is-danger" v-else @click="approveSpecialProject(false)">ไม่อนุมัติ</button>
                     </div>
                     <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 10px;" v-else>
                       <button disabled class="button is-success" v-if="projectSelected.approveSpecialProject" >อนุมัติให้นักศึกษามีสิทธิ์ยื่นสอบ 100 เปอร์เซนต์แล้ว</button>
@@ -22,8 +22,8 @@
                   <div style="margin-bottom: 10px;" v-if="projectSelected.approveSpecialProject !== undefined && profile && profile.userType == 'student'">
                     <span class="title is-6">{{projectSelected.approveSpecialProject ? 'นักศึกษามีสิทธิ์ยื่นสอบโครงงานพิเศษ' : 'นักศึกษาไม่มีสิทธิ์ยื่นสอบโครงงานพิเศษ'}}</span>
                     <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 10px;">
-                      <button class="button" :class="[projectSelected.approveSpecialProject ? 'is-primary' : 'is-warning']" @click="address(projectSelected)">พิมพ์ใบแบบขอสอบโครงงานพิเศษ</button>
-                     <!-- <button class="button is-medium is-danger" @click="address">test</button> -->
+                      <button class="button is-primary" v-if="projectSelected.approveSpecialProject" @click="address(projectSelected)">พิมพ์ใบแบบขอสอบโครงงานพิเศษ</button>
+                      <button class="button is-danger" disabled v-else>ไม่สามารถยื่นสอบได้</button>
                     </div>
                   </div>
                   <span class="is-size-5">ความคืบหน้า {{projectSelected.progress}}% | คะแนนรวม {{totalScore | twopoint}}/{{maxScore}}</span>
@@ -232,7 +232,33 @@ export default {
       const progress = data && data.progress !== undefined ? data.progress : weekData.progress
       await db.database.ref(`projects/${key}`).update({progress})
 
-      await this.$swal('เสร็จสิ้น')
+      console.log({dataUpdate, progress, index})
+      console.log(this.projectSelected)
+
+      const scoreWeek = this.projectSelected.scoreboard.length
+      console.log(scoreWeek)
+
+      if (+progress === 100) {
+        const updateOther = {
+          score: score,
+          mentorConfirm: true,
+          subjectConfirm: true,
+          progress: '100',
+          sentTeacher: true,
+          saveProgress: true,
+          earlyConfirm: true
+        }
+
+        for (let i = index + 1; i < scoreWeek; i++) {
+          console.log({updateOther})
+          await db.database.ref(`projects/${key}/scoreboard/${i}`).update(updateOther)
+        }
+      }
+
+      await this.$swal({
+        title: 'เสร็จสิ้น',
+        type: 'success'
+      })
     },
     calScore (score = 0, max) {
       return (max * score) / 100
@@ -246,22 +272,24 @@ export default {
               <b><div style="margin-top:20px;">กรอกข้อมูลสำหรับพิมพ์ใบแบบขอสอบโครงงานพิเศษ</div></b><br>
 
               <div style="display: flex; justify-content: center">
-                &nbsp;&nbsp;ที่อยู่&nbsp;<textarea placeholder="กรอกที่อยู่ปัจจุบันที่สามารถติดต่อได้สะดวก" id="swal-input1" rows="5" cols="50"></textarea>
+                &nbsp;&nbsp;ที่อยู่&nbsp;<textarea placeholder="กรอกที่อยู่ปัจจุบันที่สามารถติดต่อได้สะดวก" class="swal2-textarea" id="swal-input1" rows="5" cols="50"></textarea>
               </div><br>
-              
-              เบอร์โทรศัพท์ 
-              <input id="swal-input2"><br> <br>
+
+              เบอร์โทรศัพท์
+              <input class="swal2-input" id="swal-input2"><br> <br>
 
               วิชาที่ลงทะเบียน
+              <span class="select">
               <select id="swal-input3">
                 <option value="" disabled selected>เลือกวิชาที่ลงทะเบียน</option>
                 <option>60213411 โครงงานพิเศษ 1</option>
                 <option>60213412 โครงงานพิเศษ 2</option>
                 <option>60213413 โครงงานพิเศษ 3</option>
-              </select><br><br>
+              </select>
+              </span><br><br>
 
-              ปีการศึกษาที่ลงทเบียน 
-              <input id="swal-input4" type="text" placeholder="เช่น 1/2561"><br><br>
+              ปีการศึกษาที่ลงทเบียน
+              <input class="swal2-input" id="swal-input4" type="text" placeholder="เช่น 1/2561"><br><br>
 
           </div>`,
           showConfirmButton: 'true',
