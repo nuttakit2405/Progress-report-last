@@ -178,7 +178,7 @@ export default {
       if (!event.waitaccept) {
         const {value} = await this.$swal({
           title: 'หัวข้อเรื่อง: ' + event.title,
-          text: 'รายละเอียดการนัดหมาย : ' + event.description,
+          html: `<div>รายละเอียดการนัดหมาย : ${event.description}</div> <div>เวลาในการนัดหมาย :  ${event.start} ถึง ${event.end}</div>`,
           confirmButtonText: 'แก้ไข <i class="fas fa-edit"></i>',
           showConfirmButton: false,
           showCloseButton: true
@@ -192,13 +192,17 @@ export default {
 
       let config = {
         title: 'หัวข้อเรื่อง: ' + event.title,
-        text: `รายละเอียดการนัดหมาย : ${event.description}`,
+        html: `<div>รายละเอียดการนัดหมาย : ${event.description}</div>
+                 <div>เวลาในการนัดหมาย : ${event.start} ถึง ${event.end}</div>
+                 <div>ยอมรับการนัดหมายในครั้งนี้หรือไม่ ?</div>`,
         showConfirmButton: false
       }
       if (this.profile.userType === 'teacher') {
         config = {
           title: 'หัวข้อเรื่อง: ' + event.title,
-          html: `<div>รายละเอียดการนัดหมาย : ${event.description}</div><div>ยอมรับการนัดหมายในครั้งนี้หรือไม่ ?</div>`,
+          html: `<div>รายละเอียดการนัดหมาย : ${event.description}</div>
+                 <div>เวลาในการนัดหมาย : ${event.start} ถึง ${event.end}</div>
+                 <div>ยอมรับการนัดหมายในครั้งนี้หรือไม่ ?</div>`,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           showCancelButton: true,
