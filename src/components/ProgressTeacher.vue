@@ -22,7 +22,7 @@
         style="font-family: 'Kanit', sans-serif">อัพโหลด</button>
       </b-field>
       <div class="has-text-centered" v-if="weekData.sentTeacher || weekData.subjectConfirm">
-        <button @click="commentBySubject()" :disabled="weekData.subjectConfirm" class="button is-success" style="font-family: 'Kanit', sans-serif">บันทึก</button>
+        <button @click="commentBySubject()" :disabled="weekData.subjectConfirm" class="button is-success" style="font-family: 'Kanit', sans-serif">เห็นด้วย</button>
       </div>
       <div class="has-text-centered" v-else>
         <button class="button" disabled>รอนักศึกษาส่งข้อมูล</button>
@@ -63,7 +63,8 @@ export default {
   methods: {
     async commentBySubject () {
       const {value} = await this.$swal({
-        title: 'ยันยันการแสดงความคิดเห็น'
+        title: 'ยันยันการแสดงความคิดเห็น',
+        html: `<div>${this.subjectComment}</div>`
       })
       if (value) {
         const data = {

@@ -10,7 +10,7 @@
       <div id="pdf" class="box LayoutFrame">
           <div class="media logoKMUTNB" >
             <figure class="image is-60x60">
-              <img src="/static/img/ตรามจพ22.jpg"  alt="Image">
+              <img src="/static/img/logoKMUTNB2.JPG"  alt="Image">
             </figure>
           </div>
           <div class= "topBorder">

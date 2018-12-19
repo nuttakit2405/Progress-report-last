@@ -46,7 +46,7 @@
                           <li>โครงงาน{{project.thaiProjectName}}</li>
                         </ul>
                     </b-field>
-                    <button class="button is-success" @click="addToMyProject()">เพิ่มทั้งหมด</button>
+                    <button class="button is-success" @click="addToMyProject()">เพิ่มข้อมูลผู้ใช้ทั้งหมดเข้าโครงงาน</button>
                   </div>
                 </div>
                 <!-- <div class="column level-item has-text-centered">
