@@ -256,8 +256,16 @@ export default {
       }
 
       await this.$swal({
-        title: 'เสร็จสิ้น',
-        type: 'success'
+        // title: 'เสร็จสิ้น',
+        // type: 'success'
+        title: 'ยันยันการแสดงความคิดเห็น',
+        type: 'question',
+        html: `<div>เปอร์เซ็นต์ความคืบหน้า ${this.projectSelected.progress} % </div>`,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก'
       })
     },
     calScore (score = 0, max) {

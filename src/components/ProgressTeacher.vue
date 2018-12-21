@@ -22,7 +22,7 @@
         style="font-family: 'Kanit', sans-serif">อัพโหลด</button>
       </b-field>
       <div class="has-text-centered" v-if="weekData.sentTeacher || weekData.subjectConfirm">
-        <button @click="commentBySubject()" :disabled="weekData.subjectConfirm" class="button is-success" style="font-family: 'Kanit', sans-serif">เห็นด้วย</button>
+        <button @click="commentBySubject()" :disabled="weekData.subjectConfirm" class="button is-success" style="font-family: 'Kanit', sans-serif">รับทราบ</button>
       </div>
       <div class="has-text-centered" v-else>
         <button class="button" disabled>รอนักศึกษาส่งข้อมูล</button>
@@ -64,9 +64,21 @@ export default {
     async commentBySubject () {
       const {value} = await this.$swal({
         title: 'ยันยันการแสดงความคิดเห็น',
-        html: `<div>${this.subjectComment}</div>`
+        type: 'question',
+        html: `<div>${this.subjectComment}</div>`,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก'
       })
       if (value) {
+        this.$swal({
+          type: 'success',
+          html: `การแสดงความคิดเห็นถูกส่ง<b<div>ให้กับนักศึกษาแล้ว</div>`,
+          showConfirmButton: false,
+          timer: 1500
+        })
         const data = {
           subjectComment: this.subjectComment,
           subjectConfirm: true
