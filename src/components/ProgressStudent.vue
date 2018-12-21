@@ -158,7 +158,7 @@ export default {
             title: 'ความคืบหน้าถูกส่งให้กับอาจารย์แล้ว',
             // confirmButtonText: 'ยืนยัน'
             showConfirmButton: false,
-            timer: 2200
+            timer: 1500
           })
           await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}`).update({sentTeacher: true})
         }
