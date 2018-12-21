@@ -36,11 +36,13 @@
       <b-input :disabled="weekData.sentTeacher" type="number" maxlength="3" style="width:95px" :min="progressTotal" max="100" v-model="progress"></b-input>
     </b-field>
 
-    <b-field label="สมาชิกที่ยืนยันแล้ว" v-if="weekData.membersSave">
-      <div>
-        <div :key="i" v-for="(members, i) in memberConfirm(weekData.membersSave)">{{members}}</div>
-      </div>
-    </b-field>
+      <b-field label="สมาชิกที่ยืนยันแล้ว" v-if="weekData.membersSave">
+        <b-message type="is-info">
+        <div>
+          <div :key="i" v-for="(members, i) in memberConfirm(weekData.membersSave)">{{members}}</div>
+        </div>
+        </b-message>
+      </b-field>
 
     <div class="has-text-centered">
       <button class="button is-info" style="font-family: 'Kanit', sans-serif" @click="saveConfirm" :disabled="weekData.sentTeacher"> ยืนยัน<span v-if="yourConfirm">แล้ว</span> </button>
@@ -126,7 +128,12 @@ export default {
       }
       const {value} = await this.$swal({
         title: 'ยืนยันความคืบหน้า',
-        text: `เปอร์เซ็นที่ทำงานได้ คิดเป็น ${this.progress}%`
+        text: `เปอร์เซ็นที่ทำงานได้ คิดเป็น ${this.progress}%`,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก'
       })
       if (value) {
         await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}`).update(datas)
@@ -136,10 +143,23 @@ export default {
     async sentToTeacher () {
       if (this.weekData.saveProgress) {
         const {value} = await this.$swal({
-          title: 'ส่งความคืบหน้าให้กับอาจารย์',
-          text: `เปอร์เซ็นที่ทำงานได้ คิดเป็น ${this.progress}%`
+          title: 'ยืนยันที่จะส่งความคืบหน้าให้กับอาจารย์',
+          type: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ยืนยัน',
+          cancelButtonText: 'ยกเลิก',
+          text: `เปอร์เซ็นต์ที่ทำงานได้ คิดเป็น ${this.progress}%`
         })
         if (value) {
+          this.$swal({
+            type: 'success',
+            title: 'ความคืบหน้าถูกส่งให้กับอาจารย์แล้ว',
+            // confirmButtonText: 'ยืนยัน'
+            showConfirmButton: false,
+            timer: 1500
+          })
           await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}`).update({sentTeacher: true})
         }
       } else {

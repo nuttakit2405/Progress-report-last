@@ -34,7 +34,8 @@
                   </div>
 
                   <div class="column is-paddingless" style="flex: none; width: fit-content;">
-                    <button v-if="!(!item.isCurMonth || today > item.date.date)" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
+                    <button class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
+                    <!-- <button v-if="!(!item.isCurMonth || today > item.date.date)" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button> -->
                   </div>
                 </div> <!-- เอาหัวเรื่อง มาโชว์-->
               </div>
@@ -254,6 +255,12 @@ export default {
           'ลบเสร็จสิ้น!',
           '',
           'success'
+          // type: 'success',
+          // html: 'ลบเสร็จสิ้น!'
+          // showConfirmButton: false,
+          // timer: 2000
+          // showConfirmButton: false,
+          // timer: 2000
         )
       }
     },
