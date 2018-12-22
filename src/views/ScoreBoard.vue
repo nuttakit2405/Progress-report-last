@@ -8,7 +8,7 @@
               <div class="block" style="display:flex;justify-content: space-between; align-items: flex-end;">
                 <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
                 <div style="display: flex; flex-direction: column;align-items: flex-end;">
-                  <div style="margin-bottom: 10px;" v-if="allMentorConfirm && profile && profile.userType == 'teacher'">
+                  <div style="margin-bottom: 10px;" v-if="allMentorConfirm && profile && profile.userType == 'teacher' && viewMode === 'mentor'">
                     <span class="title is-6" v-if="projectSelected.approveSpecialProject == undefined">อนุมัติให้นักศึกษามีสิทธิ์ยื่นสอบ 100 เปอร์เซนต์</span>
                     <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 10px;" v-if="projectSelected.approveSpecialProject == undefined">
                       <button class="button is-success" v-if="+projectSelected.progress === 100" @click="approveSpecialProject(true)">อนุมัติ</button>
@@ -18,6 +18,9 @@
                       <button disabled class="button is-success" v-if="projectSelected.approveSpecialProject" >อนุมัติให้นักศึกษามีสิทธิ์ยื่นสอบ 100 เปอร์เซนต์แล้ว</button>
                       <button disabled class="button is-danger" v-else>ไม่อนุมัติให้นักศึกษามีสิทธิ์ยื่นสอบ 100 เปอร์เซนต์</button>
                     </div>
+                  </div>
+                  <div style="margin-bottom: 10px;" v-if="projectSelected.approveSpecialProject !== undefined && profile && profile.userType == 'teacher' && viewMode === 'subject'">
+                    <button class="button" disabled>{{projectSelected.approveSpecialProject ? 'นักศึกษามีสิทธิ์ยื่นสอบโครงงานพิเศษ' : 'นักศึกษาไม่มีสิทธิ์ยื่นสอบโครงงานพิเศษ'}}</button>
                   </div>
                   <div style="margin-bottom: 10px;" v-if="projectSelected.approveSpecialProject !== undefined && profile && profile.userType == 'student'">
                     <span class="title is-6">{{projectSelected.approveSpecialProject ? 'นักศึกษามีสิทธิ์ยื่นสอบโครงงานพิเศษ' : 'นักศึกษาไม่มีสิทธิ์ยื่นสอบโครงงานพิเศษ'}}</span>
