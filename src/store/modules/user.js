@@ -18,6 +18,11 @@ const getters = {
 }
 
 const mutations = {
+  signOut: (state) => {
+    state.allUsers = {}
+    state.user = null
+    state.profile = null
+  },
   setUser: (state, user) => {
     state.user = user
   },
@@ -26,11 +31,17 @@ const mutations = {
     state.loading = false
   },
   setAllUsers: (state, users) => {
+    Object.keys(users).forEach(key => {
+      users[key]['key'] = key
+    })
     state.allUsers = users
   }
 }
 
 const actions = {
+  signOut: ({commit}) => {
+    commit('signOut')
+  },
   setCurrentUser: ({ commit, dispatch }) => {
     const user = auth.user()
     commit('setUser', user)

@@ -25,7 +25,7 @@
               <div v-if="events[item.date.full]">
                 <div class="columns is-marginless" :key="key" v-for="(event, key) in events[item.date.full]">
                   <div class="column is-paddingless" style="width: 100%; position: relative;">
-                    <span style="width: 100%;" :class="['', 'dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
+                    <span style="width: 100%;" :class="['dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
                   </div>
 
                   <div class="column is-paddingless" style="flex: none; width: fit-content;">
@@ -443,6 +443,7 @@ export default {
   font-size: 14px;
 }
 .dotdotdot {
+  cursor: pointer;
   display: inline-block !important;
   white-space: nowrap !important;
   overflow: hidden !important;

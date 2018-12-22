@@ -33,6 +33,7 @@ const auth = {
   },
   logout () {
     this.firebase.auth().signOut()
+    this.context.$store.dispatch('user/signOut')
   }
 }
 

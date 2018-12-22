@@ -15,7 +15,7 @@
 
                 <!-- Right side -->
                 <div class="level-right">
-                   <div style="margin-right: 40px;">
+                   <div style="margin-right: 40px;" v-if="isLogged">
                     <b>{{stringMode}}</b>
                    </div>
                   <div>
