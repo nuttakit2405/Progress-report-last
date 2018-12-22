@@ -130,7 +130,7 @@ export default {
         title: 'ยืนยันความคืบหน้า',
         text: `เปอร์เซ็นที่ทำงานได้ คิดเป็น ${this.progress}%`,
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: 'hsl(141, 71%, 48%)',
         cancelButtonColor: '#d33',
         confirmButtonText: 'ยืนยัน',
         cancelButtonText: 'ยกเลิก'
@@ -146,21 +146,23 @@ export default {
           title: 'ยืนยันที่จะส่งความคืบหน้าให้กับอาจารย์',
           type: 'question',
           showCancelButton: true,
-          confirmButtonColor: '#3085d6',
+          confirmButtonColor: 'hsl(141, 71%, 48%)',
           cancelButtonColor: '#d33',
           confirmButtonText: 'ยืนยัน',
           cancelButtonText: 'ยกเลิก',
           text: `เปอร์เซ็นต์ที่ทำงานได้ คิดเป็น ${this.progress}%`
         })
         if (value) {
-          this.$swal({
+          await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}`).update({sentTeacher: true})
+          await this.$swal({
             type: 'success',
             title: 'ความคืบหน้าถูกส่งให้กับอาจารย์แล้ว',
             // confirmButtonText: 'ยืนยัน'
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
+            toast: true,
+            position: 'top'
           })
-          await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}`).update({sentTeacher: true})
         }
       } else {
         this.$swal({

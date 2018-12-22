@@ -260,7 +260,7 @@ export default {
           // showConfirmButton: false,
           // timer: 2000
           // showConfirmButton: false,
-          // timer: 2000
+          // timer: 1500
         )
       }
     },
