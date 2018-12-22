@@ -199,18 +199,19 @@ export default {
         title: 'ยืนยันในการกรอกข้อมูลนี้หรือไม่?',
         type: 'question',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: 'hsl(141, 71%, 48%)',
         cancelButtonColor: '#d33',
         confirmButtonText: 'ยืนยัน',
         cancelButtonText: 'ยกเลิก'
       })
 
       if (result.value) {
-        await this.$swal(
-          'การกรอกข้อมูลเสร็จสิ้น',
-          ' ',
-          'success'
-        )
+        await this.$swal({
+          title: 'การกรอกข้อมูลเสร็จสิ้น',
+          type: 'success',
+          showConfirmButton: false,
+          timer: 1500
+        })
         if (this.editMode) {
           await db.database.ref(`/projects/${this.projectId}`).update(data)
         } else {

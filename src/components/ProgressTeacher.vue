@@ -63,11 +63,11 @@ export default {
   methods: {
     async commentBySubject () {
       const {value} = await this.$swal({
-        title: 'ยันยันการแสดงความคิดเห็น',
+        title: 'ยืนยันการแสดงความคิดเห็น',
         type: 'question',
-        html: `<div>${this.subjectComment}</div>`,
+        html: `<div><p style="white-space: pre-line">${this.subjectComment}</p></div>`,
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: 'hsl(141, 71%, 48%)',
         cancelButtonColor: '#d33',
         confirmButtonText: 'ยืนยัน',
         cancelButtonText: 'ยกเลิก'
@@ -75,7 +75,7 @@ export default {
       if (value) {
         this.$swal({
           type: 'success',
-          html: `การแสดงความคิดเห็นถูกส่ง<b<div>ให้กับนักศึกษาแล้ว</div>`,
+          html: `การแสดงความคิดเห็นถูกส่งให้กับนักศึกษาแล้ว`,
           showConfirmButton: false,
           timer: 1500
         })
