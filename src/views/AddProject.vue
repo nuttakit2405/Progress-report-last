@@ -216,7 +216,27 @@ export default {
         } else {
           data['scoreboard'] = scoreboard
           data['progress'] = 0
-          await db.database.ref('/projects').push(data)
+          const { key } = await db.database.ref('/projects').push(data)
+          Object.values(this.allUsers).filter(user => user.userType === 'student')
+            .forEach(user => {
+              data.teams.forEach(member => {
+                if (member.id === user.sid) {
+                  let userUpdate = user
+                  let update = false
+                  if (user.myProject && user.myProject.length !== 0) {
+                    userUpdate.myProject.push(key)
+                    update = true
+                  } else {
+                    userUpdate.myProject = [key]
+                    update = true
+                  }
+
+                  if (update) {
+                    db.database.ref(`/users/${userUpdate.key}`).update({myProject: userUpdate.myProject})
+                  }
+                }
+              })
+            })
         }
         await this.$router.push({name: 'Home'})
       }
@@ -250,7 +270,8 @@ export default {
       {
         user: 'user/user',
         isLogged: 'user/isLogged',
-        profile: 'user/profile'
+        profile: 'user/profile',
+        allUsers: 'user/allUsers'
       }
     )
   },
