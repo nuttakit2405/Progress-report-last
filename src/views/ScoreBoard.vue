@@ -117,7 +117,7 @@
             <section class="box">
               <b-tabs v-model="activeTab">
                   <b-tab-item :visible="showBooks" label="ขอบเขตการทำงาน">
-                    <TodosApp/>
+                    <TodosApp :projectId="projectId"/>
                   </b-tab-item>
               </b-tabs>
             </section>

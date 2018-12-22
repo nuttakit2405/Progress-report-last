@@ -11,8 +11,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-
 export default {
   data () {
     return {
@@ -20,9 +18,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['addTodo']),
     addTodoAndClearNewTodo () {
-      this.addTodo(this.newTodo)
+      this.$emit('add', this.newTodo)
       this.newTodo = ''
     }
   }
