@@ -87,18 +87,26 @@ export default {
         title: 'เปอร์เซนต์การทำงานที่เหมาะสม',
         html: `<div>
             คิดเป็นร้อยละ <input id="swal-progress" type="number" min="0" max="100" value="${this.weekData.progress}" class="swal2-input" style="width:90px"><br>
-            ความคิดเห็นอาจารย์ที่ปรึกษา
-              <textarea id="swal-comment" disabled class="swal2-textarea">${this.mentorComment}</textarea>
-
-          </div>`,
+            <b>ความคิดเห็นอาจารย์ที่ปรึกษา</b>
+            <div><p style="white-space: pre-line">${this.mentorComment}</p></div><br>
+              ยืนยันการแสดงความคิดเห็น?`,
+        showCancelButton: true,
+        confirmButtonColor: 'hsl(141, 71%, 48%)',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก',
         preConfirm: () => {
           return document.getElementById('swal-progress').value
         }
       })
       if (value) {
         await this.$swal({
-          title: 'เปอร์เซนต์การทำงานถูกเปลี่ยนแปลงแล้ว',
-          type: 'success'
+          type: 'success',
+          text: 'เปอร์เซนต์การทำงานถูกเปลี่ยนแปลงแล้ว',
+          showConfirmButton: false,
+          timer: 1500,
+          toast: true,
+          position: 'top'
         })
 
         await this.$emit('confirmCondition', {

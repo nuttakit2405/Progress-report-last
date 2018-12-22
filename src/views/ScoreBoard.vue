@@ -225,48 +225,63 @@ export default {
       db.database.ref(`/projects/${projectKey}/scoreboard/${week}/files`).push(data)
     },
     async confirm (weekData, key, index, condition = false, data = {}) {
-      const score = !condition ? 100 : 75
-      const dataUpdate = {score: score, ...data, mentorConfirm: true}
-      await db.database.ref(`projects/${key}/scoreboard/${index}`).update(dataUpdate)
-
-      const progress = data && data.progress !== undefined ? data.progress : weekData.progress
-      await db.database.ref(`projects/${key}`).update({progress})
-
-      console.log({dataUpdate, progress, index})
-      console.log(this.projectSelected)
-
-      const scoreWeek = this.projectSelected.scoreboard.length
-      console.log(scoreWeek)
-
-      if (+progress === 100) {
-        const updateOther = {
-          score: score,
-          mentorConfirm: true,
-          subjectConfirm: true,
-          progress: '100',
-          sentTeacher: true,
-          saveProgress: true,
-          earlyConfirm: true
-        }
-
-        for (let i = index + 1; i < scoreWeek; i++) {
-          console.log({updateOther})
-          await db.database.ref(`projects/${key}/scoreboard/${i}`).update(updateOther)
-        }
+      let savetoDB
+      if (!condition) {
+        const { value } = await this.$swal({
+          title: 'ยืนยันการแสดงความคิดเห็น',
+          type: 'question',
+          html: `<div><p style="white-space: pre-line">${data.mentorComment}</p><div><b> เปอร์เซ็นต์ความคืบหน้า ${weekData.progress} %</b> </div>`,
+          showCancelButton: true,
+          confirmButtonColor: 'hsl(141, 71%, 48%)',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ยืนยัน',
+          cancelButtonText: 'ยกเลิก'
+        })
+        savetoDB = value
+      } else {
+        savetoDB = true
       }
 
-      await this.$swal({
-        // title: 'เสร็จสิ้น',
-        // type: 'success'
-        title: 'ยันยันการแสดงความคิดเห็น',
-        type: 'question',
-        html: `<div>เปอร์เซ็นต์ความคืบหน้า ${this.projectSelected.progress} % </div>`,
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'ยืนยัน',
-        cancelButtonText: 'ยกเลิก'
-      })
+      if (savetoDB) {
+        const score = !condition ? 100 : 75
+        const dataUpdate = {score: score, ...data, mentorConfirm: true}
+        await db.database.ref(`projects/${key}/scoreboard/${index}`).update(dataUpdate)
+        const progress = data && data.progress !== undefined ? data.progress : weekData.progress
+        await db.database.ref(`projects/${key}`).update({progress})
+
+        console.log({dataUpdate, progress, index})
+        console.log(this.projectSelected)
+
+        const scoreWeek = this.projectSelected.scoreboard.length
+        console.log(scoreWeek)
+
+        if (+progress === 100) {
+          const updateOther = {
+            score: score,
+            mentorConfirm: true,
+            subjectConfirm: true,
+            progress: '100',
+            sentTeacher: true,
+            saveProgress: true,
+            earlyConfirm: true
+          }
+
+          for (let i = index + 1; i < scoreWeek; i++) {
+            console.log({updateOther})
+            await db.database.ref(`projects/${key}/scoreboard/${i}`).update(updateOther)
+          }
+        }
+
+        await this.$swal({
+          type: 'success',
+          title: 'การแสดงความคิดเห็นถูกส่งให้กับนักศึกษาแล้ว',
+          // confirmButtonText: 'ยืนยัน'
+          showConfirmButton: false,
+          timer: 1500,
+          toast: true,
+          position: 'top'
+        })
+      }
     },
     calScore (score = 0, max) {
       return (max * score) / 100
