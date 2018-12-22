@@ -18,18 +18,15 @@
 </template>
 
 <script>
-import { store } from '@/store'
-import { mapGetters } from 'vuex'
-
 export default {
+  props: ['count', 'countActives', 'countCompleted', 'visibilityData'],
   computed: {
-    ...mapGetters(['count', 'countActives', 'countCompleted']),
     visibility: {
       get: function () {
-        return store.state.visibility
+        return this.visibilityData
       },
       set: function (newValue) {
-        store.dispatch('changeVisibility', newValue)
+        this.$emit('changeVisibility', newValue)
       }
     }
   }

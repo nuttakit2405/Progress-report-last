@@ -3,7 +3,7 @@
     <div class="columns">
       <div class="column ">
         <!-- <p class="is-pulled-left"> ขอบเขต {{count}} ข้อ</p> -->
-        <visibility-input/>
+        <visibility-input @changeVisibility="$emit('changeVisibility', $event)" :visibilityData="visibility" :count="count" :countActives="countActives" :countCompleted="countCompleted"/>
       </div>
     </div>
     <div class="columns is-centered">
@@ -19,16 +19,15 @@
 
 <script>
 import VisibilityInput from '@/components/VisibilityInput'
-import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
     VisibilityInput
   },
-  computed: {
-    ...mapGetters(['count', 'countActives', 'countCompleted'])
-  },
+  props: ['count', 'countActives', 'countCompleted', 'visibility'],
   methods: {
-    ...mapActions(['clearCompeleted'])
+    clearCompeleted () {
+      this.$emit('clear')
+    }
   }
 }
 </script>
