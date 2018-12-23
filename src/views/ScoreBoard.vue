@@ -295,26 +295,27 @@ export default {
         const {value: text} = await this.$swal({
           html:
           `<div>
-              <b><div style="margin-top:20px;">กรอกข้อมูลสำหรับพิมพ์ใบแบบขอสอบโครงงานพิเศษ</div></b><br>
+            <b><div style="margin-top:20px;">กรอกข้อมูลสำหรับพิมพ์ใบแบบขอสอบโครงงานพิเศษ</div></b><br>
+              <div style="display: flex; justify-content: flex-start;"><b>ที่อยู่ที่สามารถติดต่อได้สะดวก</b></div>
+                <div style="display: flex; justify-content: flex-end;">
+                  <textarea placeholder="กรอกที่อยู่ปัจจุบันที่สามารถติดต่อได้สะดวก" class="swal2-textarea" id="swal-input1" rows="2" cols="10"></textarea>
+                </div>
 
-              <div style="display: flex; justify-content: center">
-                &nbsp;&nbsp;ที่อยู่&nbsp;<textarea placeholder="กรอกที่อยู่ปัจจุบันที่สามารถติดต่อได้สะดวก" class="swal2-textarea" id="swal-input1" rows="5" cols="50"></textarea>
-              </div><br>
+              <div style="display: flex; justify-content: flex-start;"><b>เบอร์โทรศัพท์</b></div>
+                <input class="swal2-input" id="swal-input2"><br>
 
-              เบอร์โทรศัพท์
-              <input class="swal2-input" id="swal-input2"><br> <br>
-
-              วิชาที่ลงทะเบียน
-              <span class="select">
-              <select id="swal-input3">
-                <option value="" disabled selected>เลือกวิชาที่ลงทะเบียน</option>
-                <option>60213411 โครงงานพิเศษ 1</option>
-                <option>60213412 โครงงานพิเศษ 2</option>
-                <option>60213413 โครงงานพิเศษ 3</option>
-              </select>
-              </span><br><br>
-
-              ปีการศึกษาที่ลงทเบียน
+              <div style="display: flex; justify-content: flex-start;"><b>วิชาที่ลงทะเบียน</b></div>
+                <div align= "left";>
+                  <span class="select">
+                  <select id="swal-input3">
+                    <option value="" disabled selected>เลือกวิชาที่ลงทะเบียน</option>
+                    <option>60213411 โครงงานพิเศษ 1</option>
+                    <option>60213412 โครงงานพิเศษ 2</option>
+                    <option>60213413 โครงงานพิเศษ 3</option>
+                  </select>
+                  </span>
+                </div><br>
+              <div style="display: flex; justify-content: flex-start;"><b>ปีการศึกษาที่ลงทเบียน</b></div>
               <input class="swal2-input" id="swal-input4" type="text" placeholder="เช่น 1/2561"><br><br>
 
           </div>`,
@@ -323,6 +324,8 @@ export default {
           confirmButtonText: 'ตกลง',
           cancelButtonText: 'ยกเลิก',
           showCloseButton: 'true',
+          confirmButtonColor: 'hsl(141, 71%, 48%)',
+          cancelButtonColor: '#d33',
 
           preConfirm: () => {
             return [
