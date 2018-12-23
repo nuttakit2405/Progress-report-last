@@ -50,6 +50,11 @@ import {mapGetters, mapActions} from 'vuex'
 import db from '@/database'
 
 export default {
+  props: {
+    projectId: {
+      type: String
+    }
+  },
   data () {
     return {
       isAddEventModalActive: false,
@@ -67,22 +72,6 @@ export default {
       events: 'events/events',
       projects: 'projects/projects'
     }),
-    projectOption () {
-      if (this.viewMode === 'subject') {
-        return Object.keys(this.projects).filter(key => {
-          return !this.projects[key].deleted
-        }).map(key => {
-          return `<option value="${key}">${this.projects[key].thaiProjectName}</option>`
-        })
-      } else if (this.viewMode === 'mentor') {
-        return Object.keys(this.projects).filter(key => {
-          return !this.projects[key].deleted && (this.projects[key].mentor.email === this.user.email)
-        }).map(key => {
-          return `<option value="${key}">${this.projects[key].thaiProjectName}</option>`
-        })
-      }
-      return ''
-    },
     usersWithID () {
       return Object.keys(this.allUsers).map(key => {
         return {
@@ -159,7 +148,7 @@ export default {
       ])
     },
     async editEvent (year, date, key, event) {
-      const data = await this.eventForm(date, event, true)
+      const data = await this.eventForm(date, event, true, event.projectId)
       if (data) {
         db.database.ref(`/allEvents/${year}`).child(key).set(data)
         const toast = this.$swal.mixin({
@@ -292,7 +281,30 @@ export default {
       }
       return timeOptions
     },
-    async eventForm (date, defaultData = null, editMode = false) {
+    projectOption (projectId = '') {
+      if (this.viewMode === 'subject') {
+        return Object.keys(this.projects).filter(key => {
+          return !this.projects[key].deleted
+        }).map(key => {
+          return `<option value="${key}" ${key === projectId ? 'selected' : ''}>${this.projects[key].thaiProjectName}</option>`
+        })
+      } else if (this.viewMode === 'mentor') {
+        return Object.keys(this.projects).filter(key => {
+          return !this.projects[key].deleted && (this.projects[key].mentor.email === this.user.email)
+        }).map(key => {
+          return `<option value="${key}" ${key === projectId ? 'selected' : ''}>${this.projects[key].thaiProjectName}</option>`
+        })
+      } else if (this.viewMode === 'student') {
+        return this.profile.myProject.filter(key => {
+          return this.projects[key] && !this.projects[key].deleted
+        }).map(key => {
+          return `<option value="${key}" ${key === projectId ? 'selected' : ''}>${this.projects[key].thaiProjectName}</option>`
+        })
+      }
+      return ''
+    },
+    async eventForm (date, defaultData = null, editMode = false, projectId = '') {
+      console.log({date, defaultData, editMode, projectId})
       const fullDate = this.$dayjs(date).format('ddddที่ D MMMM YYYY')
       const titileValue = defaultData && defaultData.title ? `value="${defaultData.title}"` : ''
       const descriptionValue = defaultData && defaultData.description ? defaultData.description : ''
@@ -304,12 +316,12 @@ export default {
             ต้องการนัด:
             <span class="radio" style="width: auto; margin: 0px 5px;">
                <span class="select" style="width: auto; margin: 0px 5px;">
-                  <select id="swal-input5">
-                    <option value="mentor">อาจารย์ที่ปรึกษา</option>
-                    <option value="subject">อาจารย์ประจำวิชา</option>
-                  </select>
-                </span>
-            </span>
+                <select id="swal-input6">
+                  <option value="mentor">อาจารย์ที่ปรึกษา</option>
+                  <option value="subject">อาจารย์ประจำวิชา</option>
+                </select>
+              </span>
+          </span>
         </div><br>`
 
       const teacherForm = `<div style="display: flex; flex-direction: row; justify-content: center;">
@@ -318,7 +330,7 @@ export default {
             <span class="radio" style="width: auto; margin: 0px 5px;">
                <span class="select" style="max-width: 250px; margin: 0px 5px;">
                   <select id="swal-input5">
-                    ${this.projectOption}
+                    ${this.projectOption(editMode ? projectId : this.projectId)}
                   </select>
                 </span>
             </span>
@@ -346,7 +358,7 @@ export default {
             </span>
           </span>
         </div><br>
-        ${this.profile.userType === 'student' ? studentForm : ''}
+        ${this.profile.userType === 'student' ? teacherForm + '<br>' + studentForm : ''}
         ${this.profile.userType === 'teacher' ? teacherForm : ''}
       </div>`
       const {value: formValues} = await this.$swal({
@@ -359,26 +371,30 @@ export default {
             document.getElementById('swal-input2').value, // ดึงค่าไปใช้ใน sweet
             document.getElementById('swal-input3').value, // ดึงค่าไปใช้ใน sweet
             document.getElementById('swal-input4').value, // ดึงค่าไปใช้ใน sweet
-            document.getElementById('swal-input5').value // ดึงค่าไปใช้ใน sweet
+            document.getElementById('swal-input5').value, // ดึงค่าไปใช้ใน sweet
+            document.getElementById('swal-input6') ? document.getElementById('swal-input6').value : '' // ดึงค่าไปใช้ใน sweet
           ]
         }
       })
       if (formValues) {
-        const memberSelect = formValues[4]
+        const projectId = formValues[4]
+        const teacherSelect = formValues[5]
         let findUser = null
-        if (memberSelect !== '') {
-          if (memberSelect === 'mentor') {
-            const project = this.projectsWithId.filter(p => this.profile.myProject.findIndex(mp => mp === p.key) !== -1)
-            const emailMentor = project.map(p => p.mentor.email)
-            const uids = this.usersWithID.filter(user => user.userType === 'teacher' && emailMentor.findIndex(e => e === user.email) !== -1)
-            findUser = uids.filter(member => member !== undefined)
-          } else if (memberSelect === 'subject') {
-            const uids = this.usersWithID.filter(user => user.userType === 'teacher' && user.teacherGroup.some(group => group === 'subject'))
-            findUser = uids.filter(member => member !== undefined)
-          } else {
-            const uids = this.projects[memberSelect].teams.map(member => this.usersWithID.find(user => user.sid === member.id))
-            findUser = uids.filter(member => member !== undefined)
-          }
+        if (projectId !== '' && this.viewMode !== 'student') {
+          const uids = this.projects[projectId].teams.map(member => {
+            return this.usersWithID.find(user => user.sid === member.id)
+          })
+          findUser = uids.filter(member => member !== undefined)
+        }
+
+        if (teacherSelect === 'mentor') {
+          const project = this.projectsWithId.filter(p => p.key === projectId)
+          const emailMentor = project.map(p => p.mentor.email)
+          const uids = this.usersWithID.filter(user => user.userType === 'teacher' && emailMentor.findIndex(e => e === user.email) !== -1)
+          findUser = uids.filter(member => member !== undefined)
+        } else if (teacherSelect === 'subject') {
+          const uids = this.usersWithID.filter(user => user.userType === 'teacher' && user.teacherGroup.some(group => group === 'subject'))
+          findUser = uids.filter(member => member !== undefined)
         }
 
         await this.$swal({
@@ -401,6 +417,7 @@ export default {
           members: members,
           start: formValues[2],
           end: formValues[3],
+          projectId: projectId,
           createdBy: this.user.uid
         }
         if (this.profile.userType === 'teacher') {
