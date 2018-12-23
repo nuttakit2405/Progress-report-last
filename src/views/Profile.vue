@@ -34,7 +34,7 @@
                 <div class="level-item " v-if="profile && profile.userType === 'student'">
                   <b-field label="ความก้าวหน้าของงาน" v-if="profile.myProject">
                     <table class="table">
-                      <tr :key="project.key"  v-for="project in findProjectWithIds(profile.myProject)">
+                      <tr :key="project.key" v-if="!project.deleted"  v-for="project in findProjectWithIds(profile.myProject)">
                         <td>{{project.thaiProjectName}}</td>
                         <td><progress class="progess is-medium" :value="project.progress ? project.progress : 0" max="100"></progress>&nbsp;{{project.progress ? project.progress : 0}}%</td>
                       </tr>
