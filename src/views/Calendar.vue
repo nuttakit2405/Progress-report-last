@@ -148,7 +148,7 @@ export default {
       ])
     },
     async editEvent (year, date, key, event) {
-      const data = await this.eventForm(date, event, true, key)
+      const data = await this.eventForm(date, event, true, event.projectId)
       if (data) {
         db.database.ref(`/allEvents/${year}`).child(key).set(data)
         const toast = this.$swal.mixin({
@@ -304,6 +304,7 @@ export default {
       return ''
     },
     async eventForm (date, defaultData = null, editMode = false, projectId = '') {
+      console.log({date, defaultData, editMode, projectId})
       const fullDate = this.$dayjs(date).format('ddddที่ D MMMM YYYY')
       const titileValue = defaultData && defaultData.title ? `value="${defaultData.title}"` : ''
       const descriptionValue = defaultData && defaultData.description ? defaultData.description : ''
