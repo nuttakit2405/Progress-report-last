@@ -52,6 +52,9 @@ export default {
     },
     weekData: {
       type: Object
+    },
+    progressTotal: {
+      type: [Number, String]
     }
   },
   data () {
@@ -86,7 +89,7 @@ export default {
       const {value} = await this.$swal({
         title: 'เปอร์เซนต์การทำงานที่เหมาะสม',
         html: `<div>
-            คิดเป็นร้อยละ <input id="swal-progress" type="number" min="0" max="100" value="${this.weekData.progress}" class="swal2-input" style="width:90px"><br>
+            คิดเป็นร้อยละ <input id="swal-progress" type="number" min="${this.progressTotal}" max="100" value="${this.weekData.progress}" class="swal2-input" style="width:90px"><br>
             <b>ความคิดเห็นอาจารย์ที่ปรึกษา</b>
             <div><p style="white-space: pre-line">${this.mentorComment}</p></div><br>
               <b>ยืนยันการแสดงความคิดเห็น?</b>`,
@@ -96,10 +99,21 @@ export default {
         confirmButtonText: 'ยืนยัน',
         cancelButtonText: 'ยกเลิก',
         preConfirm: () => {
-          return document.getElementById('swal-progress').value
+          const percent = document.getElementById('swal-progress').value
+          if (percent < this.progressTotal) {
+            this.$swal.showValidationMessage(`เปอร์เซ็นห้ามน้อยกว่า ${this.progressTotal}`)
+            return false
+          }
+          return percent
         }
       })
       if (value) {
+        await this.$emit('confirmCondition', {
+          progress: value,
+          mentorComment: this.mentorComment,
+          radio: 2
+        })
+
         await this.$swal({
           type: 'success',
           text: 'เปอร์เซนต์การทำงานถูกเปลี่ยนแปลงแล้ว',
@@ -107,12 +121,6 @@ export default {
           timer: 1500,
           toast: true,
           position: 'top'
-        })
-
-        await this.$emit('confirmCondition', {
-          progress: value,
-          mentorComment: this.mentorComment,
-          radio: 2
         })
       }
     },

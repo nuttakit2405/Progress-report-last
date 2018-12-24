@@ -45,7 +45,7 @@
       </b-field>
 
     <div class="has-text-centered">
-      <button class="button is-info" style="font-family: 'Kanit', sans-serif" @click="saveConfirm" :disabled="weekData.sentTeacher"> ยืนยัน<span v-if="yourConfirm">แล้ว</span> </button>
+      <button class="button is-info"  style="font-family: 'Kanit', sans-serif" @click="saveConfirm" :disabled="+progressTotal >= +progress || weekData.sentTeacher"> ยืนยัน<span v-if="yourConfirm">แล้ว</span> </button>
       <button class="button is-success" style="font-family: 'Kanit', sans-serif" @click="sentToTeacher" v-if="allMembersConfirm" :disabled="weekData.sentTeacher"> ส่งความคืบหน้า </button>
     </div>
   </div>
