@@ -269,7 +269,7 @@ export default {
         })
         await toast({
           type: 'success',
-          title: 'successfully',
+          title: 'นัดหมายสำเร็จ',
           confirmButtonText: 'ตกลง'
         })
       }
