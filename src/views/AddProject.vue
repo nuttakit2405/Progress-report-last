@@ -126,7 +126,7 @@ export default {
       thaiCaseStudy: '',
       engCaseStudy: '',
       teams: [{
-        name: ' ',
+        name: '',
         lastname: '',
         id: ''
       },
@@ -141,8 +141,8 @@ export default {
       term: '',
       year: '',
       projectSize: '',
-      startProject: new Date(''),
-      deadlineProject: new Date(''),
+      startProject: new Date(),
+      deadlineProject: new Date(),
       statusDelteam: true,
       editMode: false,
       teacherData: null
