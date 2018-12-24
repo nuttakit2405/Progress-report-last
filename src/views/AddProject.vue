@@ -145,7 +145,8 @@ export default {
       deadlineProject: new Date(),
       statusDelteam: true,
       editMode: false,
-      teacherData: null
+      teacherData: null,
+      scoreboard: null
     }
   },
   methods: {
@@ -215,6 +216,17 @@ export default {
           position: 'top'
         })
         if (this.editMode) {
+          const editScoreBoard = scoreboard.map((data, index) => {
+            if (this.scoreboard[index]) {
+              return {
+                ...this.scoreboard[index],
+                startDate: data.startDate,
+                endDate: data.endDate
+              }
+            }
+            return data
+          })
+          data['scoreboard'] = editScoreBoard
           await db.database.ref(`/projects/${this.projectId}`).update(data)
         } else {
           data['scoreboard'] = scoreboard
@@ -258,6 +270,7 @@ export default {
       this.projectSize = val.projectSize
       this.startProject = new Date(val.startProject)
       this.deadlineProject = new Date(val.deadlineProject)
+      this.scoreboard = val.scoreboard
     },
     getTeacherData () {
       db.database.ref('teachers').once('value', snap => {
