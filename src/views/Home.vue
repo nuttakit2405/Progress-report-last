@@ -102,18 +102,37 @@ export default {
     },
     async removeProject (projectId) {
       const { value } = await this.$swal({
-        type: 'error',
-        title: 'ลบโปรเจคนี้',
-        showCancelButton: true
+        type: 'question',
+        title: 'ต้องการลบโครงงานนี้',
+        showCancelButton: true,
+        confirmButtonColor: 'hsl(141, 71%, 48%)',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก'
       })
       if (value) {
         db.database.ref(`projects/${projectId}`).update({deleted: true})
+        const toast = this.$swal.mixin({
+          toast: true,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 3000
+        })
+        await toast({
+          type: 'success',
+          title: 'ลบโครงงานเรียบร้อยแล้ว'
+        })
       }
     },
     async editProject (projectId) {
       const { value } = await this.$swal({
-        title: 'แก้ไขโปรเจค',
-        showCancelButton: true
+        title: 'ต้องการที่จะแก้ไขข้อมูลโครงงานนี้',
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'hsl(141, 71%, 48%)',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก'
       })
       if (value) {
         this.$router.push({name: 'EditProject', params: {projectId: projectId}})

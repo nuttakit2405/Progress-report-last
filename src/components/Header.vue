@@ -29,10 +29,10 @@
                         <b v-else>ยังไม่ได้กรอกข้อมูลเบื้องต้น</b>
                       </b-dropdown-item>
                       <b-dropdown-item @click="$router.push({name: 'Profile'})">
-                        <i class="far fa-user"></i>&nbsp;<span>Profile</span></b-dropdown-item>
+                        <i class="far fa-user"></i>&nbsp;<span>โปรไฟล์</span></b-dropdown-item>
                       <hr class="dropdown-divider">
                       <b-dropdown-item @click="$router.push({name: 'Calendar'})">
-                        <i class="far fa-calendar-alt"></i>&nbsp;<span>Calendar</span>
+                        <i class="far fa-calendar-alt"></i>&nbsp;<span>ปฏิทิน</span>
                       </b-dropdown-item>
                       <b-dropdown-item v-if="isTeacher" custom>
                         โหมดอาจารย์: <b>{{stringMode}}</b>
@@ -41,17 +41,17 @@
                         <i class="fas fa-toggle-off"></i>&nbsp;<span>สลับโหมด</span>
                       </b-dropdown-item>
                       <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'AddProject'})">
-                        <i class="far fa-plus-square"></i>&nbsp;<span>Add Project</span>
+                        <i class="far fa-plus-square"></i>&nbsp;<span>เพิ่มโครงงาน</span>
                       </b-dropdown-item>
                       <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'ImportStudent'})">
-                        <i class="fas fa-file-import"></i>&nbsp;<span>Import Student</span>
+                        <i class="fas fa-file-import"></i>&nbsp;<span>เพิ่มข้อมูลนักศึกษา</span>
                       </b-dropdown-item>
                       <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'ImportTeacher'})">
-                        <i class="fas fa-file-import"></i>&nbsp;<span>Import Teacher</span>
+                        <i class="fas fa-file-import"></i>&nbsp;<span>เพิ่มข้อมูลอาจารย์</span>
                       </b-dropdown-item>
                       <hr class="dropdown-divider">
                       <b-dropdown-item @click="logout">
-                        <i class="fas fa-sign-out-alt"></i>&nbsp;<span>Log out</span>
+                        <i class="fas fa-sign-out-alt"></i>&nbsp;<span>ออกจากระบบ</span>
                       </b-dropdown-item>
                     </b-dropdown>
                   </div>

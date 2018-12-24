@@ -121,28 +121,28 @@ export default {
   },
   data () {
     return {
-      thaiProjectName: 'ติดตามความก้าวหน้าโครงงานพิเศษ',
-      engProjectName: 'Progress Report System for Special Project',
+      thaiProjectName: '',
+      engProjectName: '',
       thaiCaseStudy: '',
       engCaseStudy: '',
       teams: [{
-        name: 'กัญญารัก',
-        lastname: 'เอี้ยงลักขะ',
-        id: '5806021631017'
+        name: ' ',
+        lastname: '',
+        id: ''
       },
       {
-        name: 'ณัฐกิตติ์',
-        lastname: 'จะมะนุ',
-        id: '5806021631033'
+        name: '',
+        lastname: '',
+        id: ''
       }],
       mentor: null,
       coOpMentor: '',
       department: '',
-      term: '1',
-      year: '2561',
-      projectSize: '2',
-      startProject: new Date('10-8-2018'),
-      deadlineProject: new Date('11-23-2018'),
+      term: '',
+      year: '',
+      projectSize: '',
+      startProject: new Date(''),
+      deadlineProject: new Date(''),
       statusDelteam: true,
       editMode: false,
       teacherData: null
