@@ -210,7 +210,11 @@ export default {
         event.waitaccept = false
         const year = this.$dayjs(date).year()
         db.database.ref(`/allEvents/${year}/${key}`).set(event)
-        this.$swal('นัดหมายสำเร็จ', ' ', 'success')
+        this.$swal({
+          title: 'นัดหมายสำเร็จ',
+          type: 'success',
+          confirmButtonText: 'ตกลง'
+        })
       }
       if (viewData.dismiss === 'cancel') {
         const { value } = await this.$swal({
@@ -265,7 +269,8 @@ export default {
         })
         await toast({
           type: 'success',
-          title: 'successfully'
+          title: 'นัดหมายสำเร็จ',
+          confirmButtonText: 'ตกลง'
         })
       }
     },
@@ -364,6 +369,7 @@ export default {
         title: editMode ? 'แก้ไขการนัดหมาย' : 'สร้างการนัดหมาย',
         html: rawHtml,
         focusConfirm: false,
+        confirmButtonText: 'ตกลง',
         preConfirm: () => {
           return [
             document.getElementById('swal-input1').value, // ดึงค่าไปใช้ใน sweet
