@@ -73,11 +73,18 @@ export default {
         cancelButtonText: 'ยกเลิก'
       })
       if (value) {
-        this.$swal({
+        await this.$swal({
           type: 'success',
-          html: `การแสดงความคิดเห็นถูกส่งให้กับนักศึกษาแล้ว`,
+          title: 'การแสดงความคิดเห็นถูกส่งให้กับนักศึกษาแล้ว',
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
+          toast: true,
+          position: 'top'
+        })
+      } else {
+        this.$swal({
+          type: 'error',
+          title: 'ยังไม่ได้ยืนยันความคืบหน้า'
         })
         const data = {
           subjectComment: this.subjectComment,
