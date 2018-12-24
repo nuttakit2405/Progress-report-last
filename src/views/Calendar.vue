@@ -240,17 +240,16 @@ export default {
 
       if (value) {
         await db.database.ref(`/allEvents/${year}`).child(eventKey).remove()
-        await this.$swal(
-          'ลบเสร็จสิ้น!',
-          '',
-          'success'
-          // type: 'success',
-          // html: 'ลบเสร็จสิ้น!'
-          // showConfirmButton: false,
-          // timer: 2000
-          // showConfirmButton: false,
-          // timer: 1500
-        )
+        const toast = this.$swal.mixin({
+          toast: true,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 3000
+        })
+        await toast({
+          type: 'success',
+          title: 'ลบการนัดหมายเรียบร้อยแล้ว'
+        })
       }
     },
     async addEvent (date) {

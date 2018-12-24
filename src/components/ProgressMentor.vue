@@ -89,7 +89,7 @@ export default {
             คิดเป็นร้อยละ <input id="swal-progress" type="number" min="0" max="100" value="${this.weekData.progress}" class="swal2-input" style="width:90px"><br>
             <b>ความคิดเห็นอาจารย์ที่ปรึกษา</b>
             <div><p style="white-space: pre-line">${this.mentorComment}</p></div><br>
-              ยืนยันการแสดงความคิดเห็น?`,
+              <b>ยืนยันการแสดงความคิดเห็น?</b>`,
         showCancelButton: true,
         confirmButtonColor: 'hsl(141, 71%, 48%)',
         cancelButtonColor: '#d33',
