@@ -2,6 +2,10 @@
   <div class="auth-success">
     <div v-if="user" class="container ">
       <div class="column"></div>
+      <div v-if="projectSelected" class="title">
+        {{projectSelected.thaiProjectName}}
+        <div class="has-text-weight-normal is-size-4">({{projectSelected.engProjectName}})</div>
+      </div>
       <div class="columns">
         <div class="column">
             <section class="box" v-if="projectSelected !== null">
@@ -27,6 +31,13 @@
                     <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 10px;">
                       <button class="button is-primary" v-if="projectSelected.approveSpecialProject" @click="address(projectSelected)">พิมพ์ใบแบบขอสอบโครงงานพิเศษ</button>
                       <button class="button is-danger" disabled v-else>ไม่สามารถยื่นสอบได้</button>
+                    </div>
+                  </div>
+                  <div class="decline-comment" v-if="projectSelected.declineComment && !projectSelected.approveSpecialProject">
+                    <div><b>ความคิดเห็นของอาจารย์:</b></div>
+                    <div>
+                      <div style="display: inline-block;" class="cut-text">{{projectSelected.declineComment}}</div>
+                      <a class="has-text-info" style="display: inline-block; vertical-align: top;" @click="showDeclineComment('ความคิดเห็นของอาจารย์', projectSelected.declineComment)">ดูทั้งหมด</a>
                     </div>
                   </div>
                   <span class="is-size-5">ความคืบหน้า {{projectSelected.progress}}% | คะแนนรวม {{totalScore | twopoint}}/{{maxScore}}</span>
@@ -205,23 +216,31 @@ export default {
     ...mapActions({
       selectProject: 'projects/selectProject'
     }),
+    showDeclineComment (title, text) {
+      this.$swal({
+        title,
+        text,
+        showConfirmButton: false
+      })
+    },
     async approveSpecialProject (approve) {
       const message = 'อนุมัติให้นักศึกษามีสิทธิ์สอบ 100 เปอร์เซนต์'
-      const swalMessage = approve ? message : 'ไม่' + message
+      const swalMessage = approve ? message : `ไม่${message}<br><b>ความเห็นของอาจารย์:</b>`
       let option = {}
       if (!approve) {
         option = {
-          input: 'text'
+          input: 'textarea'
         }
       }
       const { value } = await this.$swal({
-        text: swalMessage,
+        html: swalMessage,
         type: approve ? 'success' : 'error',
+        confirmButtonColor: 'hsl(141, 71%, 48%)',
         confirmButtonText: 'ยืนยัน',
         ...option
       })
       if (value) {
-        db.database.ref(`/projects/${this.projectId}`).update({approveSpecialProject: approve})
+        await db.database.ref(`/projects/${this.projectId}`).update({approveSpecialProject: approve, declineComment: value})
       }
     },
     async uploadfile ({files, projectKey, week}) {
@@ -376,6 +395,20 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.decline-comment {
+  max-width: 300px;
+}
+
+.cut-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 220px;
+  white-space: nowrap;
+}
+</style>
+
 <style>
 .percent{
     margin-right: 20px;
