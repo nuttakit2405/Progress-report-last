@@ -2,7 +2,7 @@
   <div class="auth-success">
     <div v-if="user" class="container ">
       <div class="column"></div>
-      <div class="title">
+      <div v-if="projectSelected" class="title">
         {{projectSelected.thaiProjectName}}
         <div class="has-text-weight-normal is-size-4">({{projectSelected.engProjectName}})</div>
       </div>
