@@ -207,10 +207,12 @@ export default {
 
       if (result.value) {
         await this.$swal({
-          title: 'การกรอกข้อมูลเสร็จสิ้น',
           type: 'success',
+          title: 'การกรอกข้อมูลเสร็จสิ้น',
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
+          toast: true,
+          position: 'top'
         })
         if (this.editMode) {
           await db.database.ref(`/projects/${this.projectId}`).update(data)

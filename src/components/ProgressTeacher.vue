@@ -82,10 +82,6 @@ export default {
           position: 'top'
         })
       } else {
-        this.$swal({
-          type: 'error',
-          title: 'ยังไม่ได้ยืนยันความคืบหน้า'
-        })
         const data = {
           subjectComment: this.subjectComment,
           subjectConfirm: true
