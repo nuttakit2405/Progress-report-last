@@ -96,6 +96,7 @@
                   <ProgressMentor
                     :weekData="val"
                     :projectKey="projectSelected.key"
+                    :progressTotal="projectSelected.progress ? projectSelected.progress : 0"
                     :week="ind"
                     @upload="uploadfile"
                     @confirm="confirm(val, projectSelected.key, ind, false, $event)"
@@ -207,10 +208,17 @@ export default {
     async approveSpecialProject (approve) {
       const message = 'อนุมัติให้นักศึกษามีสิทธิ์สอบ 100 เปอร์เซนต์'
       const swalMessage = approve ? message : 'ไม่' + message
+      let option = {}
+      if (!approve) {
+        option = {
+          input: 'text'
+        }
+      }
       const { value } = await this.$swal({
         text: swalMessage,
         type: approve ? 'success' : 'error',
-        confirmButtonText: 'ยืนยัน'
+        confirmButtonText: 'ยืนยัน',
+        ...option
       })
       if (value) {
         db.database.ref(`/projects/${this.projectId}`).update({approveSpecialProject: approve})

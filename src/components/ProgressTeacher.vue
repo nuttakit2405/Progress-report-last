@@ -73,6 +73,12 @@ export default {
         cancelButtonText: 'ยกเลิก'
       })
       if (value) {
+        const data = {
+          subjectComment: this.subjectComment,
+          subjectConfirm: true
+        }
+        console.log(data)
+        await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}`).update(data)
         await this.$swal({
           type: 'success',
           title: 'การแสดงความคิดเห็นถูกส่งให้กับนักศึกษาแล้ว',
@@ -81,13 +87,6 @@ export default {
           toast: true,
           position: 'top'
         })
-      } else {
-        const data = {
-          subjectComment: this.subjectComment,
-          subjectConfirm: true
-        }
-        console.log(data)
-        await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}`).update(data)
       }
     },
     async uploadfile (files) {
