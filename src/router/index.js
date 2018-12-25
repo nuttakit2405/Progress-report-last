@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {store} from '../store'
 
 const Home = () => import('@/views/Home')
 const Calendar = () => import('@/views/Calendar')
@@ -9,6 +10,7 @@ const AddProject = () => import('@/views/AddProject')
 const ScoreBoard = () => import('@/views/ScoreBoard')
 const Folder = () => import('@/views/Folder')
 const DocFinal = () => import('@/views/DocFinal')
+const UnAuth = () => import('@/views/UnAuth')
 
 // admin only
 const ImportStudent = () => import('@/views/admin/ImportStudent')
@@ -16,7 +18,7 @@ const ImportTeacher = () => import('@/views/admin/ImportTeacher')
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -38,11 +40,6 @@ export default new Router({
       props: true
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
       path: '/profile',
       name: 'Profile',
       component: Profile,
@@ -51,41 +48,80 @@ export default new Router({
     {
       path: '/addproject',
       name: 'AddProject',
-      component: AddProject
+      component: AddProject,
+      meta: { requireAuth: true }
     },
     {
       path: '/editproject/:projectId',
       name: 'EditProject',
       component: AddProject,
-      props: true
+      props: true,
+      meta: { requireAuth: true }
     },
     {
       path: '/scoreboard/:projectId',
       name: 'ProjectScoreBoard',
       component: ScoreBoard,
-      props: true
+      props: true,
+      meta: { requireAuth: true }
     },
     {
       path: '/admin/importstudent',
       name: 'ImportStudent',
-      component: ImportStudent
+      component: ImportStudent,
+      meta: { requireAuth: true }
     },
     {
       path: '/admin/importteacher',
       name: 'ImportTeacher',
-      component: ImportTeacher
+      component: ImportTeacher,
+      meta: { requireAuth: true }
     },
     {
       path: '/folder/:projectId',
       name: 'ProjectFolder',
       component: Folder,
-      props: true
+      props: true,
+      meta: { requireAuth: true }
     },
     {
       path: '/docfinal/:projectId',
       name: 'Docfinal',
       component: DocFinal,
-      props: true
+      props: true,
+      meta: { requireAuth: true }
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/unauth',
+      name: 'UnAuth',
+      component: UnAuth
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.name === 'Home') {
+    if (from.name == null) {
+      next()
+    } else if (!store.getters['user/isLogged']) {
+      router.replace({name: 'Login'})
+    } else {
+      next()
+    }
+  } else if (to.name === 'Profile' && from.name === 'UnAuth') {
+    if (!store.getters['user/isLogged']) {
+      router.replace({name: 'UnAuth'})
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
+export default router

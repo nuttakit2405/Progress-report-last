@@ -42,7 +42,7 @@ const actions = {
   signOut: ({commit}) => {
     commit('signOut')
   },
-  setCurrentUser: ({ commit, dispatch }) => {
+  setCurrentUser: async ({ commit, dispatch }) => {
     const user = auth.user()
     commit('setUser', user)
     if (user && user.uid) {

@@ -41,9 +41,9 @@
             <b>ถึง</b>
             {{$dayjs(data.deadlineProject).format('DD-MMM-YYYY')}}
           </div>
-            <b>อาจารย์ที่ปรึกษา:</b><br>
+            <b>อาจารย์ที่ปรึกษา</b><br>
            {{data.mentor.position}}{{data.mentor.name | removeTitle}} {{data.mentor.lastname}} <br>
-           <b>สมาชิก:</b><br>
+           <b>สมาชิก</b><br>
           <span :key="member.id" v-for="member in data.teams">
             {{member.id}} {{member.name}} {{member.lastname}} <br>
           </span>

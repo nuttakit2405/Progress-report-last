@@ -4,7 +4,7 @@
       <div class="column"></div>
       <div v-if="projectSelected" class="title">
         {{projectSelected.thaiProjectName}}
-        <div class="has-text-weight-normal is-size-4">({{projectSelected.engProjectName}})</div>
+        <div class="has-text-weight-normal is-size-4" v-if="projectSelected.engProjectName">({{projectSelected.engProjectName}})</div>
       </div>
       <div class="columns">
         <div class="column">
@@ -40,7 +40,7 @@
                       <a class="has-text-info" style="display: inline-block; vertical-align: top;" @click="showDeclineComment('ความคิดเห็นของอาจารย์', projectSelected.declineComment)">ดูทั้งหมด</a>
                     </div>
                   </div>
-                  <span class="is-size-5">ความคืบหน้า {{projectSelected.progress}}% | คะแนนรวม {{totalScore | twopoint}}/{{maxScore}}</span>
+                  <span class="is-size-5">ความคืบหน้า {{projectSelected.progress}}% | คะแนนรวม {{totalScore | twopoint}}/{{maxScore | twopoint}}</span>
                 </div>
               </div>
               <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">

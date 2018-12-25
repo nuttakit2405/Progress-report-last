@@ -119,7 +119,9 @@
 <script>
 import auth from '@/auth'
 import db from '@/database'
+import {checkFITMemail} from '@/utils'
 import {mapGetters, mapActions} from 'vuex'
+
 export default {
   name: 'Profile',
   data () {
@@ -182,35 +184,13 @@ export default {
     EditUser () {
       this.User = ''
     },
-    checkFITMemail (mail) {
-      const regex = /@fitm.kmutnb.ac.th$/g
-      if (regex.test(mail)) {
-        const stdReg = /^(\d{13})/g
-        const sidReg = /^(\d{13})@fitm.kmutnb.ac.th/g
-        let userType = 'teacher'
-        let sid = ''
-        if (stdReg.test(mail)) {
-          userType = 'student'
-          const data = sidReg.exec(mail)
-          sid = data[1]
-        }
-        return {
-          isFITM: true,
-          userType,
-          sid
-        }
-      }
-      return {
-        isFITM: false
-      }
-    },
     async initProfile (user) {
       if (user != null) {
         this.fetchProfile = await true
         const val = this.profile
         if (val === null) {
           this.fullName = user.displayName
-          const info = this.checkFITMemail(user.email)
+          const info = checkFITMemail(user.email)
           if (info.isFITM) {
             this.userType = info.userType
             this.sid = info.sid
