@@ -336,9 +336,9 @@ export default {
                   <span class="select">
                   <select id="swal-input3">
                     <option value="" disabled selected>เลือกวิชาที่ลงทะเบียน</option>
-                    <option>60213411 โครงงานพิเศษ 1</option>
-                    <option>60213412 โครงงานพิเศษ 2</option>
-                    <option>60213413 โครงงานพิเศษ 3</option>
+                    <option>060213411 โครงงานพิเศษ 1</option>
+                    <option>060213412 โครงงานพิเศษ 2</option>
+                    <option>060213413 โครงงานพิเศษ 3</option>
                   </select>
                   </span>
                 </div><br>

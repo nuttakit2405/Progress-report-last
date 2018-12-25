@@ -9,42 +9,50 @@
     <div style="display: flex; justify-content: center; ">
       <div id="pdf" class="box LayoutFrame">
           <div class="media logoKMUTNB" >
-            <figure class="image is-60x60">
-              <img src="/static/img/logoKMUTNB2.JPG"  alt="Image">
+            <figure>
+              <img src="/static/img/logoKMUTNB.JPG"  width="200" alt="Image">
             </figure>
           </div>
           <div class= "topBorder">
-            <div class= "topTitle " >
-              <center><h2><b class="font">แบบขอเสนอสอบโครงงานพิเศษ(ปริญญานิพนธ์)</b></h2></center><br>
-              <center><h2><b class="font">ภาควิชาเทคโนโลยีสารสนเทศ</b></h2></center><br>
-              <center><h2><b class="font">คณะเทคโนโลยีและการจัดการอุตสาหกรรม</b></h2></center><br>
+            <div class= "topTitle" >
+              <center><h2><b class="font" style="font-size: 20px;">แบบขอเสนอสอบโครงงานพิเศษ(ปริญญานิพนธ์)</b></h2></center><br>
+              <center><h2><b class="font" style="font-size: 20px;">ภาควิชาเทคโนโลยีสารสนเทศ</b></h2></center><br>
+              <center><h2><b class="font" style="font-size: 20px;">คณะเทคโนโลยีและการจัดการอุตสาหกรรม</b></h2></center><br>
             </div>
           </div>
           <div v-if="projectSelected">
-            <div class="content" style="font-family: 'THSarabunNew', sans-serif;">
+            <div class="content" style="font-family: 'Sarabun', sans-serif; font-size: 17px;">
               <b class="font">ชื่อ-สกุลนักศึกษา</b>
               {{projectSelected.teams[0].name}}  {{projectSelected.teams[0].lastname}}
                 <b class="font" style="margin-left:100px">รหัสประจำตัว</b>
-                {{projectSelected.teams[0].id}} <br>
+                {{projectSelected.teams[0].id}} <br><br>
 
-              <b class="font">ที่อยู่ที่สามารถติดต่อได้สะดวก</b> <b class="font" style="margin-left:150px">โทรศัพท์</b> {{projectSelected.tel}}<br>
+              <b class="font">ที่อยู่ที่สามารถติดต่อได้สะดวก</b> <b class="font" style="margin-left:160px">โทรศัพท์</b> {{projectSelected.tel}}<br>
               {{projectSelected.address}}<br><br>
               <b class="font">มีความประสงค์จะขอสอบโครงงานพิเศษ (ปริญญานิพนธ์) หลักสูตร เทคโนโลยีบัณฑิต</b><br>
               <b class="font">วิชา</b> {{projectSelected.subjectRegister}} &nbsp;&nbsp;
               <b class="font">จำนวนหน่วยกิต</b> 3 <b class="font">หน่วยกิต</b> &nbsp;&nbsp;
               <b class="font">ปีการศึกษาที่ลงทะเบียน</b> {{projectSelected.termRegister}} <br><br>
               &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<b class="font">ชื่อโครงงาน (ภาษาไทย)</b>    {{projectSelected.thaiProjectName}}<br>
-              &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<b class="font">(ภาษาอังกฤษ)</b>  {{projectSelected.engProjectName}}<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">กรณีศึกษา:</b>     {{projectSelected.thaiCaseStudy}}<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">(Case Study):</b>  {{projectSelected.engCaseStudy}}<br><br>
+              &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">(ภาษาอังกฤษ)</b>  {{projectSelected.engProjectName}}<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">กรณีศึกษา:</b>     {{projectSelected.thaiCaseStudy?projectSelected.thaiCaseStudy:' -'}}<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">(Case Study):</b>  {{projectSelected.engCaseStudy?projectSelected.engCaseStudy: ' -'}}<br><br>
               <div v-if="projectSelected && projectSelected.teams[1]" class="font">
                 <b class="font">นักศึกษาผู้ร่วมงาน</b><br>
                 <b class="font">ชื่อ-สกุลนักศึกษา</b> {{projectSelected.teams[1].name}} {{projectSelected.teams[1].lastname}}
                 <b class="font" style="margin-left:130px">รหัสประจำตัว</b> {{projectSelected.teams[1].id}} <br><br>
               </div>
+              <div v-else class="font">
+                <b class="font">นักศึกษาผู้ร่วมงาน</b><br>
+                <b class="font">ชื่อ-สกุลนักศึกษา</b>  -
+                <b class="font" style="margin-left:130px">รหัสประจำตัว</b> - <br><br>
+              </div>
               <b class="font">ชื่ออาจารย์ที่ปรึกษา</b> {{projectSelected.mentor.position}} {{projectSelected.mentor.name}} {{projectSelected.mentor.lastname}}<br><br>
               <div v-if="projectSelected && projectSelected.coOpMentor[0]" class="font">
               <b class="font">ชื่ออาจารย์ที่ปรึกษาร่วม</b>{{projectSelected.coOpMentor}}<br><br>
+              </div>
+              <div v-else class="font">
+              <b class="font">ชื่ออาจารย์ที่ปรึกษาร่วม</b>  -<br><br>
               </div>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">จึงเรียนมาเพื่อโปรดพิจารณา</b><br><br><br>
               <div class="font" style="display: flex; justify-content: flex-end;">
@@ -203,7 +211,7 @@ export default {
   margin-left: 50px;
 }
 .font{
-  font-family: 'THSarabunNew', sans-serif;
+  font-family: 'Sarabun', sans-serif;
 }
 .DownloadButton{
   display: flex;
