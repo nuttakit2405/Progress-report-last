@@ -129,11 +129,6 @@ export default {
         name: '',
         lastname: '',
         id: ''
-      },
-      {
-        name: '',
-        lastname: '',
-        id: ''
       }],
       mentor: null,
       coOpMentor: '',
@@ -173,8 +168,8 @@ export default {
 
       const scoreboard = new Array(amountWeeks).fill(null).map((val, i) => {
         return {
-          startDate: startWeek.add(i, 'weeks').startOf('weeks').add(1, 'days').toString(),
-          endDate: startWeek.add(i, 'weeks').endOf('weeks').add(1, 'days').toString(),
+          startDate: i === 0 ? startWeek.toString() : startWeek.add(i, 'weeks').startOf('weeks').add(1, 'days').toString(),
+          endDate: i === amountWeeks - 1 ? endWeek.toString() : startWeek.add(i, 'weeks').endOf('weeks').add(1, 'days').toString(),
           score: 0
         }
       })
@@ -207,14 +202,6 @@ export default {
       })
 
       if (result.value) {
-        await this.$swal({
-          type: 'success',
-          title: 'การกรอกข้อมูลเสร็จสิ้น',
-          showConfirmButton: false,
-          timer: 1500,
-          toast: true,
-          position: 'top'
-        })
         if (this.editMode) {
           const editScoreBoard = scoreboard.map((data, index) => {
             if (this.scoreboard[index]) {
@@ -253,6 +240,14 @@ export default {
               })
             })
         }
+        await this.$swal({
+          type: 'success',
+          title: 'การกรอกข้อมูลเสร็จสิ้น',
+          showConfirmButton: false,
+          timer: 1500,
+          toast: true,
+          position: 'top'
+        })
         await this.$router.push({name: 'Home'})
       }
     },
