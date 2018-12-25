@@ -79,7 +79,7 @@ export default {
     }),
     logout () {
       auth.logout()
-      this.$router.push('/')
+      this.$router.push({name: 'Home'})
     },
     toggleMode () {
       const newMode = this.viewMode === 'subject' ? 'mentor' : 'subject'

@@ -119,6 +119,8 @@ router.beforeEach((to, from, next) => {
     } else {
       next()
     }
+  } else if (to.name === 'UnAuth' && from.name === 'Login') {
+    router.replace({name: 'Profile'})
   } else {
     next()
   }
