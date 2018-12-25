@@ -31,7 +31,7 @@ const auth = {
 
       let requireAuth = this.context.$route.matched.some(record => record.meta.requireAuth)
 
-      if (requireAuth && !user) this.context.$router.push('login')
+      if (requireAuth && !user) this.context.$router.push({name: 'Login'})
     })
   },
   authForm (container) {
