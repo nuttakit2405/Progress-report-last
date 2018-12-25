@@ -273,17 +273,18 @@ export default {
       }
 
       if (savetoDB) {
-        const score = !condition ? 100 : 75
+        const score = !condition ? 100 : data.progress > weekData.progress ? 100 : 75
         const dataUpdate = {score: score, ...data, mentorConfirm: true}
+        // console.log({dataUpdate})
         await db.database.ref(`projects/${key}/scoreboard/${index}`).update(dataUpdate)
         const progress = data && data.progress !== undefined ? data.progress : weekData.progress
         await db.database.ref(`projects/${key}`).update({progress})
 
-        console.log({dataUpdate, progress, index})
-        console.log(this.projectSelected)
+        // console.log({dataUpdate, progress, index})
+        // console.log(this.projectSelected)
 
         const scoreWeek = this.projectSelected.scoreboard.length
-        console.log(scoreWeek)
+        // console.log(scoreWeek)
 
         if (+progress === 100) {
           const updateOther = {
@@ -297,7 +298,6 @@ export default {
           }
 
           for (let i = index + 1; i < scoreWeek; i++) {
-            console.log({updateOther})
             await db.database.ref(`projects/${key}/scoreboard/${i}`).update(updateOther)
           }
         }
@@ -305,7 +305,6 @@ export default {
         await this.$swal({
           type: 'success',
           title: 'การแสดงความคิดเห็นถูกส่งให้กับนักศึกษาแล้ว',
-          // confirmButtonText: 'ยืนยัน'
           showConfirmButton: false,
           timer: 1500,
           toast: true,

@@ -103,6 +103,12 @@ export default {
           if (percent < this.progressTotal) {
             this.$swal.showValidationMessage(`เปอร์เซ็นห้ามน้อยกว่า ${this.progressTotal}`)
             return false
+          } else if (percent > 100) {
+            this.$swal.showValidationMessage(`เปอร์เซ็นห้ามมากกว่า 100`)
+            return false
+          } else if (+percent === +this.weekData.progress) {
+            this.$swal.showValidationMessage(`เปอร์เซ็นไม่มีการเปลี่ยนแปลง`)
+            return false
           }
           return percent
         }
