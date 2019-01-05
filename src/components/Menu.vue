@@ -45,7 +45,7 @@
                       <b-dropdown-item v-if="isTeacher && profile.teacherGroup.length > 1" @click="toggleMode">
                         <i class="fas fa-toggle-off"></i>&nbsp;<span>สลับโหมด</span>
                       </b-dropdown-item>
-                      <b-dropdown-item v-if="isSubject" @click="$router.push({name: 'AddProject'})">
+                      <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'AddProject'})">
                         <i class="far fa-plus-square"></i>&nbsp;<span>เพิ่มโครงงาน</span>
                       </b-dropdown-item>
                       <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'ImportStudent'})">
@@ -66,48 +66,6 @@
                 </div>
               </nav>
             </div>
-
-            <div class="tabs is-boxed" v-if="isLogged">
-              <ul>
-                <li class="is-active">
-                  <a  @click="$router.push({name: 'ImportTeacher'})">
-                    <span class="icon is-small" ><i class="fas fa-image" aria-hidden="true" ></i></span>
-                    <span>Pictures</span>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
-                    <span>Music</span>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <span class="icon is-small"><i class="fas fa-film" aria-hidden="true"></i></span>
-                    <span>Videos</span>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                    <span>Documents</span>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                    <span>Documents</span>
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                    <span>Documents</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
         </div>
     </div>
 </template>
@@ -160,7 +118,8 @@ export default {
  .styleProgress{
   font-family: 'Staatliches', serif;
    color:black;
-   text-align: center;
+   display: flex;
+   justify-content: center;
  }
  .styleReport{
   font-family: 'Staatliches', serif;
