@@ -57,6 +57,5 @@ export const checkHaveEmail = async function (mail) {
   } else {
     have = await checkTeacherEmail(mail)
   }
-  console.log('checkHave', have)
   return have
 }
