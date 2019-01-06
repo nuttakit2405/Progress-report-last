@@ -112,14 +112,23 @@ function startWebRTC(isOfferer) {
   })
 }
 
+export function openLocalVideo () {
+  navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: true
+  }).then(stream => {
+    // Display your local video in #localVideo element
+    const localVideo = document.getElementById('localVideo')
+    localVideo.srcObject = stream
+    // Add your stream to be sent to the conneting peer
+    // stream.getTracks().forEach(track => pc.addTrack(track, stream))
+  }, onError)
+}
+
 function localDescCreated(desc) {
   pc.setLocalDescription(
     desc,
     () => sendMessage({ 'sdp': pc.localDescription }),
     onError
   )
-}
-
-export default {
-  droneOpen
 }

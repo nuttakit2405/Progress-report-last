@@ -18,11 +18,12 @@ export default {
   },
   methods: {
     sendMessage () {
-      webrtc.sendMessage('gg')
+      webrtc.sendMessage({message: 'gg'})
     }
   },
   created () {
-    webrtc.droneOpen(this.roomHash)
+    // webrtc.droneOpen(this.roomHash)
+    webrtc.openLocalVideo()
   }
 }
 </script>
