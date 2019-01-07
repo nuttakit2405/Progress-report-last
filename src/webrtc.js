@@ -11,6 +11,8 @@ const configuration = {
 let roomName
 let room
 let pc
+let localVideoSteam
+let screenSteam
 
 function onSuccess () { };
 function onError (error) {
@@ -128,18 +130,35 @@ export function openLocalVideo () {
     // Display your local video in #localVideo element
     const localVideo = document.getElementById('localVideo')
     localVideo.srcObject = stream
+    localVideoSteam = stream
     // Add your stream to be sent to the conneting peer
     // stream.getTracks().forEach(track => pc.addTrack(track, stream))
   }, onError)
 }
 
+export function closeLocalVideo () {
+  console.log('destroy')
+  if (localVideoSteam) {
+    localVideoSteam.getTracks().forEach(track => track.stop())
+  }
+  if (screenSteam) {
+    screenSteam.getTracks().forEach(track => track.stop())
+  }
+}
 
-
-export function openScreen () {
+export function openScreen (onEnded) {
   getScreenId(function (error, sourceId, screen_constraints) {
+    console.log({error, sourceId})
     navigator.mediaDevices.getUserMedia(screen_constraints).then(function (stream) {
       const localVideo = document.getElementById('screen')
       localVideo.srcObject = stream
+      screenSteam = stream
+      stream.getTracks().forEach(track => {
+        track.onended = () => {
+          onEnded()
+          screenSteam.getTracks().forEach(track => track.stop())
+        }
+      })
     }).catch(function (error) {
       console.error(error);
     });
