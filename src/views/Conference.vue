@@ -32,7 +32,7 @@ export default {
   created () {
     // webrtc.droneOpen(this.roomHash)
     webrtc.openLocalVideo()
-    webrtc.openScreen()
+    // webrtc.openScreen()
   }
 }
 </script>
