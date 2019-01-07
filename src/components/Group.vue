@@ -52,7 +52,7 @@
           <!-- {{data.teams[0].id}}<br/>{{data.teams[1].id}} -->
         </div>
         <footer class="card-footer">
-          <p class="card-footer-item" @click="$router.push({name: 'Conference', params: {projectId: projectId}})">
+          <p class="card-footer-item">
               <span class="icon fa-lg icon-hover" >
                 <i class="fa fa-video"></i>
               </span>

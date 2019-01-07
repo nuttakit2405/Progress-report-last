@@ -11,7 +11,7 @@ const ScoreBoard = () => import('@/views/ScoreBoard')
 const Folder = () => import('@/views/Folder')
 const DocFinal = () => import('@/views/DocFinal')
 const UnAuth = () => import('@/views/UnAuth')
-const Conference = () => import('@/views/Conference')
+// const Conference = () => import('@/views/Conference')
 
 // admin only
 const ImportStudent = () => import('@/views/admin/ImportStudent')
@@ -101,13 +101,14 @@ const router = new Router({
       path: '/unauth',
       name: 'UnAuth',
       component: UnAuth
-    },
-    {
-      path: '/conference/:projectId',
-      name: 'Conference',
-      component: Conference,
-      props: true
     }
+    // {
+    //   path: '/conference/:projectId',
+    //   name: 'Conference',
+    //   component: Conference,
+    //   props: true,
+    //   meta: { requireAuth: true }
+    // }
   ]
 })
 
