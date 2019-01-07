@@ -10,8 +10,6 @@ import auth from './auth'
 import database from './database'
 import storage from './storage'
 import Sortable from 'sortablejs'
-import VueParticles from 'vue-particles'
-Vue.use(VueParticles)
 
 Vue.directive('sortable', {
   inserted: function (el, binding) {
