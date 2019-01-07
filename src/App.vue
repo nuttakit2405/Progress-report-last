@@ -25,6 +25,6 @@ export default {
  font-family: 'Kanit', sans-serif;
 }
 html{
-  background-color:#F8F8FF;
+  background-color:#F8F8FF !important;
 }
 </style>
