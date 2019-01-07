@@ -20,13 +20,14 @@ import 'vue2-event-calendar/default.css'
 import 'dayjs/locale/th'
 
 const config = {
-  apiKey: 'AIzaSyDtoQsBHpBAKl1nb3pie7pph2Pegr_pe_c',
-  authDomain: 'progress-report-4973f.firebaseapp.com',
-  databaseURL: 'https://progress-report-4973f.firebaseio.com',
-  projectId: 'progress-report-4973f',
-  storageBucket: 'progress-report-4973f.appspot.com',
-  messagingSenderId: '4915050050'
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID
 }
+
 firebase.initializeApp(config)
 
 Vue.use(Buefy, { defaultIconPack: 'fas' })
