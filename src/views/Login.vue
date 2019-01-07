@@ -1,12 +1,13 @@
 <template>
-<div id="auth">
+<div id="auth" class="background">
   <div class="container">
     <div class="column">
       <div class="columns is-mobile is-centered">
         <div class="column">
-          <div class="column is-4 is-offset-4 box hero">
-            <img src="/static/img/login.png">
-            <span style="margin: 10px" class="title is-4 has-text-centered">เข้าสู่ระบบ</span>
+          <div class="column">
+            <!-- <img src="/static/img/login.png"> -->
+            <span class="Title">Progress Report System </span> <br>
+             <span class="Title">for Special Project</span>
             <div id="firebaseui-auth-container"></div>
           </div>
         </div>
@@ -27,6 +28,22 @@ export default {
 }
 </script>
 
+<style scoped>
+  .background{
+  background-image: url("/static/img/backgroundLogin.jpg");
+  width: 100%;
+  height: 100vh;
+  }
+  .Title{
+    font-family: 'Staatliches', serif;
+    font-size: 50pt;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+     color: goldenrod;
+  }
+</style>
+
 <style>
-  @import "../../node_modules/firebaseui/dist/firebaseui.css";
+ @import "../../node_modules/firebaseui/dist/firebaseui.css";
 </style>
