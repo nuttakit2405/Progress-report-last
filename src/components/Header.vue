@@ -19,29 +19,29 @@
                 </div>
 
                 <nav class="navbar" role="navigation">
-                  <div id="navbarBasicExample" class="navbar-menu">
-                    <div class="navbar-start styleNav">
-                      <a class="navbar-item styleNav">
-                        <i class="far fa-calendar-alt fa-2x" style="color:#87CEFA"></i>&nbsp;
+                  <div id="navbarBasicExample" class="navbar-menu ">
+                    <div class="navbar-start styleNav ">
+                      <a class="navbar-item styleNav " @click="$router.push({name: 'Calendar'})">
+                        <i class="far fa-calendar-alt fa-2x" style="color:#87CEFA" ></i>&nbsp;
                         ปฏิทิน
                       </a>
 
-                      <a class="navbar-item">
+                      <a class="navbar-item" v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'" @click="$router.push({name: 'AddProject'})">
                         <i class="far fa-plus-square fa-2x" style="color:#FF6347"></i>&nbsp;
                         เพิ่มโครงงาน
                       </a>
 
                       <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
+                        <a class="navbar-link" v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
                           เพิ่มข้อมูล
                         </a>
 
                         <div class="navbar-dropdown">
-                          <a class="navbar-item">
+                          <a class="navbar-item" @click="$router.push({name: 'ImportStudent'})">
                           <i class="fas fa-file-import fa-1x" style="color:#48D1CC"></i>&nbsp;
                            เพิ่มข้อมูลนักศึกษา
                           </a>
-                          <a class="navbar-item">
+                          <a class="navbar-item" @click="$router.push({name: 'ImportTeacher'})">
                           <i class="fas fa-file-import fa-1x" style="color:#48D1CC"></i>&nbsp;
                             เพิ่มข้อมูลอาจารย์
                           </a>
@@ -68,17 +68,17 @@
                       </b-dropdown-item>
                       <b-dropdown-item @click="$router.push({name: 'Profile'})">
                         <i class="far fa-user"></i>&nbsp;<span>โปรไฟล์</span></b-dropdown-item>
-                      <hr class="dropdown-divider">
-                      <b-dropdown-item @click="$router.push({name: 'Calendar'})">
+                      <hr class="dropdown-divider" v-if="isTeacher" custom>
+                      <!-- <b-dropdown-item @click="$router.push({name: 'Calendar'})">
                         <i class="far fa-calendar-alt"></i>&nbsp;<span>ปฏิทิน</span>
-                      </b-dropdown-item>
+                      </b-dropdown-item> -->
                       <b-dropdown-item v-if="isTeacher" custom>
                         โหมดอาจารย์: <b>{{stringMode}}</b>
                       </b-dropdown-item>
                       <b-dropdown-item v-if="isTeacher && profile.teacherGroup.length > 1" @click="toggleMode">
                         <i class="fas fa-toggle-off"></i>&nbsp;<span>สลับโหมด</span>
                       </b-dropdown-item>
-                      <b-dropdown-item v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'" @click="$router.push({name: 'AddProject'})">
+                      <!-- <b-dropdown-item v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'" @click="$router.push({name: 'AddProject'})">
                         <i class="far fa-plus-square"></i>&nbsp;<span>เพิ่มโครงงาน</span>
                       </b-dropdown-item>
                       <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'ImportStudent'})">
@@ -86,7 +86,7 @@
                       </b-dropdown-item>
                       <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'ImportTeacher'})">
                         <i class="fas fa-file-import"></i>&nbsp;<span>เพิ่มข้อมูลอาจารย์</span>
-                      </b-dropdown-item>
+                      </b-dropdown-item> -->
                       <hr class="dropdown-divider">
                       <b-dropdown-item @click="logout">
                         <i class="fas fa-sign-out-alt"></i>&nbsp;<span>ออกจากระบบ</span>
