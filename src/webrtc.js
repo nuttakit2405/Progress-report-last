@@ -12,12 +12,12 @@ let roomName
 let room
 let pc
 
-function onSuccess() { };
-function onError(error) {
+function onSuccess () { };
+function onError (error) {
   console.error(error)
 };
 
-export function droneOpen(roomHash) {
+export function droneOpen (roomHash) {
   roomName = 'observable-' + roomHash
   console.log(roomName)
   drone.on('open', error => {
@@ -43,14 +43,14 @@ export function droneOpen(roomHash) {
 
 
 // Send signaling data via Scaledrone
-export function sendMessage(message) {
+export function sendMessage (message) {
   drone.publish({
     room: roomName,
     message
   })
 }
 
-function startWebRTC(isOfferer) {
+function startWebRTC (isOfferer) {
   pc = new RTCPeerConnection(configuration)
 
   // 'onicecandidate' notifies us whenever an ICE agent needs to deliver a
@@ -112,6 +112,14 @@ function startWebRTC(isOfferer) {
   })
 }
 
+function localDescCreated (desc) {
+  pc.setLocalDescription(
+    desc,
+    () => sendMessage({ 'sdp': pc.localDescription }),
+    onError
+  )
+}
+
 export function openLocalVideo () {
   navigator.mediaDevices.getUserMedia({
     audio: true,
@@ -125,10 +133,15 @@ export function openLocalVideo () {
   }, onError)
 }
 
-function localDescCreated(desc) {
-  pc.setLocalDescription(
-    desc,
-    () => sendMessage({ 'sdp': pc.localDescription }),
-    onError
-  )
+
+
+export function openScreen () {
+  getScreenId(function (error, sourceId, screen_constraints) {
+    navigator.mediaDevices.getUserMedia(screen_constraints).then(function (stream) {
+      const localVideo = document.getElementById('screen')
+      localVideo.srcObject = stream
+    }).catch(function (error) {
+      console.error(error);
+    });
+  });
 }

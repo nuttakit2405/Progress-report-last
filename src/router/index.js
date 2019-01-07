@@ -103,9 +103,10 @@ const router = new Router({
       component: UnAuth
     },
     {
-      path: '/conference',
+      path: '/conference/:projectId',
       name: 'Conference',
-      component: Conference
+      component: Conference,
+      props: true
     }
   ]
 })
