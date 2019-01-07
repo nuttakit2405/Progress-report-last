@@ -18,7 +18,6 @@ const auth = {
 
     this.firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
-        console.log('logged')
         const have = await utils.checkHaveEmail(user.email)
         if (have) {
           this.context.$store.dispatch('user/setCurrentUser')
