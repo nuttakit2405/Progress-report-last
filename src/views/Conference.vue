@@ -13,9 +13,20 @@
       <div class="vid">
         <span>Local</span><br>
         <video class="video" id="localVideo" autoplay muted></video>
+        <div>
+          <button class="button" @click="toggleVideo()">
+            <span v-show="onVideo"><i class="fas fa-video"></i></span>
+            <span v-show="!onVideo"><i class="fas fa-video-slash"></i></span>
+          </button>
+          <button class="button" @click="toggleMicrophone()">
+            <span v-show="onMicrophone"><b-icon icon="microphone-alt"></b-icon></span>
+            <span v-show="!onMicrophone"><b-icon icon="microphone-alt-slash"></b-icon></span>
+          </button>
+        </div>
       </div>
     </div>
     <button class="button" @click="share">Share Screen</button>
+    <button class="button" @click="stream">Start Stream</button>
   </div>
 </template>
 
@@ -31,25 +42,41 @@ export default {
   },
   data () {
     return {
-      roomHash: 'test',
-      showScreen: false
+      showScreen: false,
+      onVideo: true,
+      onMicrophone: true
     }
   },
   methods: {
     log (e) {
       console.log(e)
     },
+    toggleVideo () {
+      this.onVideo = !this.onVideo
+      console.log('TOGGLE VIDEO', this.onVideo)
+    },
+    toggleMicrophone () {
+      this.onMicrophone = !this.onMicrophone
+      console.log('TOGGLE MICROPHONE', this.onMicrophone)
+    },
+    changeLocal () {
+      webrtc.closeLocalVideo()
+      webrtc.openLocalVideo(this.onVideo, this.onMicrophone)
+    },
     share () {
       this.showScreen = true
       webrtc.openScreen(() => {
         this.showScreen = false
       })
+    },
+    stream () {
+      webrtc.startSteamLocal()
     }
   },
-  created () {
+  async created () {
     // webrtc.droneOpen(this.roomHash)
-    webrtc.openLocalVideo()
-    // webrtc.openScreen()
+    await webrtc.openLocalVideo(this.onVideo, this.onMicrophone)
+    await webrtc.droneOpen(this.projectId)
   },
   beforeDestroy () {
     webrtc.closeLocalVideo()
