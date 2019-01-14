@@ -33,13 +33,16 @@ export function droneOpen (roomHash) {
           onError(error)
         }
       })
+
       // We're connected to the room and received an array of 'members'
       // connected to the room (including us). Signaling server is ready.
       room.on('members', members => {
         console.log('MEMBERS', members)
         // If we are the second user to connect to the room we will be creating the offer
-        const isOfferer = members.length === 2
-        startWebRTC(isOfferer)
+        // const isOfferer = members.length === 2
+        // startWebRTC(isOfferer)
+        startWebRTC(true)
+        openLocalVideo(true, true)
       })
 
       resolve(true)
@@ -49,6 +52,7 @@ export function droneOpen (roomHash) {
 
 
 export function startWebRTC (isOfferer) {
+  console.log('startWebRTC')
   pc = new RTCPeerConnection(configuration)
 
   // 'onicecandidate' notifies us whenever an ICE agent needs to deliver a
@@ -68,6 +72,7 @@ export function startWebRTC (isOfferer) {
 
   // When a remote stream arrives display it in the #remoteVideo element
   pc.ontrack = (event) => {
+    console.log(event)
     const stream = event.streams[0]
     const remoteVideo = document.getElementById('remoteVideo')
     if (!remoteVideo.srcObject || remoteVideo.srcObject.id !== stream.id) {
@@ -118,11 +123,12 @@ export function openLocalVideo (video, audio) {
     localVideoSteam = stream
 
     // Add your stream to be sent to the conneting peer
-    // stream.getTracks().forEach(track => pc.addTrack(track, stream))
+    stream.getTracks().forEach(track => pc.addTrack(track, stream))
   }, onError)
 }
 
 export function startSteamLocal () {
+  console.log('startSteam')
   return new Promise((resolve) => {
     console.log({pc, localVideoSteam})
       localVideoSteam.getTracks().forEach(track => pc.addTrack(track, localVideoSteam))
