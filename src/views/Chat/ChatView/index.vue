@@ -8,7 +8,7 @@
       </div>
     </div>
     <div>
-      <!-- <Messages/> -->
+      <Messages/>
     </div>
     <div class="pst-absolute bt-12px w-99pct pd-t-15px pd-bt-5px bg-cl-white border-type-box">
       <TypeBox ref="tye-box-component"/>

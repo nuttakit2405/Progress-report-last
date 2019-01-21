@@ -5,25 +5,12 @@
       class="messages-view"
       :settings="settingsScrollbar"
        @ps-scroll-y="moveScorllY">
-        <div v-if="isEveryMessages" class="f-left w-100pct t-al-center">
-          <div v-if="messagesView.length > 25" class="w-fit-content mg-hrzt-auto mg-t-15px pd-vtc-5px pd-hrzt-15px bd-w-1px bd-st-solid bd-rd-30px f-s-13px loaded-btn">
-            <p class="icon-text-box">
-              <i class="mdi mdi-close mdi-13px mg-r-5px"></i>
-              โหลดข้อมูลครบแล้ว
-            </p>
-          </div>
-        </div>
-        <div v-else class="loading-box">
-          <img src="/static/spinner.gif" class="mg-bt-10px">
-          <div>{{ oldestMessageTime }}</div>
-        </div>
-      <LineChat :data="messagesView" :user-image="currentUserPictureProfile" />
+      <LineChat :data="messagesView" />
     </VuePerfectScrollbar>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import LineChat from '@/components/LineChat'
 
 export default {
@@ -33,57 +20,43 @@ export default {
       oldScrollHeight: 0,
       settingsScrollbar: {
         suppressScrollX: true
-      }
+      },
+      isEveryMessages: true
     }
   },
   computed: {
-    ...mapGetters({
-      messagesView: 'Line/chat/messagesView',
-      isEveryMessages: 'Line/chat/isEveryMessages',
-      objThreads: 'Line/thread/objThreads'
-    }),
-    oldestMessageTime () {
-      if (this.messagesView && this.messagesView[0]) {
-        return this.$moment(this.messagesView[0].timestamp).format('D MMM HH:mm:ss')
-      }
-    },
-    currentThreadId () {
-      return this.$route.params.thread_id
-    },
-    currentUserPictureProfile () {
-      if (Object.keys(this.objThreads.data).length && this.currentThreadId && this.objThreads.data[this.currentThreadId]) {
-        return this.objThreads.data[this.currentThreadId].raw_profile.PictureURL
-      } else {
-        return ''
-      }
-    }
-  },
-  watch: {
-    messagesView (newVal, oldVal) {
-      const lengthNewVal = Object.keys(newVal).length
-      const lengthOldVal = Object.keys(oldVal).length
-      // if get messages first time || send new message should scroll to bottom
-      if ((lengthNewVal > 0 && lengthOldVal === 0) || lengthNewVal - 1 === lengthOldVal) {
-        this.$nextTick(() => {
-          this.$refs['ps-messages-view'].$el.scrollTop = this.$refs['ps-messages-view'].$el.scrollHeight
-          this.$refs['ps-messages-view'].update()
-        })
-      }
-    },
-    currentThreadId (val) {
-      if (val) {
-        this.callGetLastMessages()
-      } else {
-        this.clearMessagesData()
-      }
+    messagesView () {
+      return [
+        {
+          'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'timestamp': 1536916185394,
+          'msg_id': '8570670381268',
+          'msg': 'Hi',
+          'channel_id': '1524607372',
+          'raw': {
+            'Message': {
+              'id': '8570670381268',
+              'text': 'Hi',
+              'type': 'text'
+            },
+            'ReplyToken': 'c036faf5adfe46c4b13bbe886f7cdc49',
+            'Source': {
+              'Type': 'user',
+              'UserID': 'Uc0ef6468fd333657d7aa31393a2cdd92'
+            },
+            'Timestamp': 1536916185394,
+            'Type': 'message'
+          },
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'sent_by': '',
+          'type': 'text',
+          'reply_token': 'c036faf5adfe46c4b13bbe886f7cdc49'
+        }
+      ]
     }
   },
   methods: {
-    ...mapActions({
-      getLastMessages: 'Line/chat/getLastMessages',
-      clearMessagesData: 'Line/chat/clearMessagesData',
-      loadMoreMessages: 'Line/chat/loadMoreMessages'
-    }),
     async moveScorllY (e) {
       if (e.target.scrollTop <= 0 && !this.isEveryMessages && this.messagesView[0]) {
         this.oldScrollHeight = this.$refs['ps-messages-view'].$el.scrollHeight
@@ -138,6 +111,6 @@ export default {
   vertical-align: middle;
 }
 .messages-view {
-  height: calc(100vh - 51px - 96px);
+  height: 100%;
 }
 </style>

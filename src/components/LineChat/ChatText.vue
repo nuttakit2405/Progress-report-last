@@ -3,14 +3,14 @@
     <b-tooltip
       class="pd-vtc-5px pd-hrzt-10px bd-rd-15px mn-w-25px mx-w-80pct f-s-16px"
       :class="{'message-bot' :isMsgFromBot, 'message-customer' :!isMsgFromBot, 'cs-pointer': message.status === 'error'}"
-      :label="message.status === 'error' ? '' : time"
+      :label="time | format('HH:mm')"
       type="is-light"
       style="white-space:pre-wrap;"
       :position="tooltipPositoion"
       v-html="htmlGenerator(message)"
       animated>
     </b-tooltip>
-    <!-- <MessageStatus :message="message"/> -->
+    <MessageStatus :message="message"/>
   </div>
 </template>
 
@@ -23,10 +23,6 @@ export default {
     message: {
       type: Object,
       required: true
-    },
-    keyword: {
-      type: String,
-      required: false
     }
   },
   computed: {
@@ -37,7 +33,7 @@ export default {
       return this.isMsgFromBot ? 'is-left' : 'is-right'
     },
     time () {
-      return this.$moment.unix(this.message.timestamp / 1000).calendar()
+      return this.message.timestamp
     }
   },
   methods: {
