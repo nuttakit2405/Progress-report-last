@@ -61,7 +61,7 @@ export default {
     sendMsg (input) {
       if (this.disableSend) return
       const text = input.trim().slice()
-      console.log(text)
+      this.$emit('sent', text)
       this.input = ''
     },
     clearImage () {

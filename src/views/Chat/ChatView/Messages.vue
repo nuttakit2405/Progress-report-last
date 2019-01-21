@@ -2,7 +2,7 @@
   <VuePerfectScrollbar ref="ps-messages-view" class="messages-view"
     :settings="settingsScrollbar"
       @ps-scroll-y="moveScorllY">
-    <LineChat :data="messagesView" />
+    <LineChat :userId="userId" :data="messages" />
   </VuePerfectScrollbar>
 </template>
 
@@ -11,6 +11,16 @@ import LineChat from '@/components/LineChat'
 
 export default {
   name: 'Messages',
+  props: {
+    messages: {
+      type: Array,
+      default: () => []
+    },
+    userId: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       oldScrollHeight: 0,
@@ -18,180 +28,6 @@ export default {
         suppressScrollX: true
       },
       isEveryMessages: true
-    }
-  },
-  computed: {
-    messagesView () {
-      return [
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        },
-        {
-          'msg_id': '8570670381268',
-          'timestamp': 1536916185394,
-          'msg': 'Hi',
-          'recipient': '1524607372',
-          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'type': 'text'
-        }
-      ]
     }
   },
   methods: {
@@ -214,11 +50,6 @@ export default {
   },
   components: {
     LineChat
-  },
-  async mounted () {
-    if (this.$route.params.channel_id && this.$route.params.thread_id) {
-      await this.callGetLastMessages()
-    }
   }
 }
 </script>

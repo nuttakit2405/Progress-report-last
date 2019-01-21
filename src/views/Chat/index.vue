@@ -5,7 +5,7 @@
         <Threads/>
       </div>
       <div class="h-72calc pst-relative chat-view" >
-        <ChatView/>
+        <ChatView :userId="user ? user.uid : ''" :threadSelected="threadSelected" :messages="messages" @sent="sent"/>
       </div>
     </div>
   </div>
@@ -15,11 +15,47 @@
 import Threads from './Threads'
 import ChatView from './ChatView'
 
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
-  name: 'Inbox',
+  name: 'Chat',
+  props: {
+    projectId: {
+      type: String,
+      required: true
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/user',
+      messages: 'chat/messages',
+      threadSelected: 'chat/threadSelected'
+    })
+  },
   components: {
     ChatView,
     Threads
+  },
+  methods: {
+    ...mapActions({
+      getMessages: 'chat/getMessages',
+      sentMessage: 'chat/sentMessage'
+    }),
+    sent (text) {
+      this.sentMessage({
+        chatId: this.projectId,
+        message: {
+          msg: text,
+          recipient: this.projectId,
+          sender: this.user.uid,
+          timestamp: (new Date()).getTime(),
+          type: 'text'
+        }
+      })
+    }
+  },
+  created () {
+    this.getMessages(this.projectId)
   }
 }
 </script>
