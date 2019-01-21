@@ -30,6 +30,10 @@ export default {
     message: {
       type: Object,
       required: true
+    },
+    userId: {
+      type: String,
+      required: true
     }
   },
   methods: {
@@ -63,7 +67,7 @@ export default {
   },
   computed: {
     isMsgFromBot () {
-      return this.message.sender === this.message.channel_id
+      return this.message.sender === this.userId
     },
     threadSelectedID () {
       return this.$route.params.thread_id

@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import user from './modules/user'
 import events from './modules/events'
 import projects from './modules/projects'
+import chat from './modules/chat'
 
 Vue.use(Vuex)
 
@@ -90,6 +91,7 @@ export const store = new Vuex.Store({
   modules: {
     user,
     events,
-    projects
+    projects,
+    chat
   }
 })

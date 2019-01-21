@@ -111,7 +111,7 @@ const router = new Router({
       // meta: { requireAuth: true }
     },
     {
-      path: '/chat',
+      path: '/chat/:projectId',
       name: 'Chat',
       component: Chat,
       props: true

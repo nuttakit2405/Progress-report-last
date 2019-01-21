@@ -3,15 +3,15 @@
     <div class="f-left w-100pct-1 thread-info-container pd-15px pd-bt-15px">
       <div class="f-left w-100pct-1">
         <div class="f-left f-w-bold f-s-18px">
-          {{threadSeletced.name}}
+          {{threadSelected.name}}
         </div>
       </div>
     </div>
     <div class="message-box">
-      <Messages/>
+      <Messages :userId="userId" :messages="messages"/>
     </div>
     <div class="pst-absolute bt-12px w-100pct-1 pd-t-15px pd-bt-5px bg-cl-white border-type-box">
-      <TypeBox ref="tye-box-component"/>
+      <TypeBox @sent="$emit('sent', $event)" ref="tye-box-component"/>
     </div>
   </div>
 </template>
@@ -22,56 +22,28 @@ import TypeBox from './TypeBox'
 
 export default {
   name: 'ChatView',
+  props: {
+    threadSelected: {
+      type: Object,
+      required: true
+    },
+    messages: {
+      type: Array,
+      default: () => []
+    },
+    userId: {
+      type: String,
+      required: true
+    }
+  },
   components: {
     Messages,
     TypeBox
   },
   data () {
-    return {
-      isOpenSearchMessage: false,
-      isShowPlugin: false
-    }
+    return {}
   },
-  computed: {
-    threadSeletced () {
-      return {
-        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-        'channel_id': '1524607372',
-        'admin_id': ':unassign:',
-        'name': 'Ton Piromplad',
-        'name_search': 'ton piromplad',
-        'raw_profile': {
-          'DisplayName': 'Ton Piromplad',
-          'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
-          'StatusMessage': '(t)(o)(n)',
-          'UserID': 'Uc0ef6468fd333657d7aa31393a2cdd92'
-        },
-        'seen': true,
-        'last_message': 'Photo sent.',
-        'last_update': 1546855270857,
-        'tags': null,
-        'tags_search': null,
-        'auto_reply': false
-      }
-    }
-  },
-  methods: {
-    openSearchMessageBox () {
-      this.isOpenSearchMessage = true
-    },
-    closeSearchMessageBox () {
-      this.isOpenSearchMessage = false
-    },
-    async setThreadAutoReply (status) {
-      const payload = {
-        storeID: this.$route.params.store_id,
-        channelID: this.$route.params.channel_id,
-        threadID: this.$route.params.thread_id,
-        status
-      }
-      await this.updateLineThreadAutoReply(payload)
-    }
-  }
+  methods: {}
 }
 </script>
 
