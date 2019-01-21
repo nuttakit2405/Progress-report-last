@@ -1,16 +1,16 @@
 <template>
   <div class="dp-flex f-drt-column pst-relative h-72calc">
-    <div class="f-left w-100pct h-97px thread-info-container pd-20px pd-bt-15px">
-      <div class="f-left w-100pct">
+    <div class="f-left w-100pct-1 thread-info-container pd-15px pd-bt-15px">
+      <div class="f-left w-100pct-1">
         <div class="f-left f-w-bold f-s-18px">
           {{threadSeletced.name}}
         </div>
       </div>
     </div>
-    <div>
-      <!-- <Messages/> -->
+    <div class="message-box">
+      <Messages/>
     </div>
-    <div class="pst-absolute bt-12px w-99pct pd-t-15px pd-bt-5px bg-cl-white border-type-box">
+    <div class="pst-absolute bt-12px w-100pct-1 pd-t-15px pd-bt-5px bg-cl-white border-type-box">
       <TypeBox ref="tye-box-component"/>
     </div>
   </div>
@@ -87,5 +87,12 @@ export default {
   -moz-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
   -ms-transform: scaleX(-1);
+}
+.message-box {
+  position: relative;
+  max-height: calc(100% - 110px);
+}
+.w-100pct-1 {
+  width: calc(100% - 1px) !important;
 }
 </style>

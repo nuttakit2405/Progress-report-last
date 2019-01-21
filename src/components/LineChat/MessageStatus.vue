@@ -16,7 +16,7 @@
       v-if="message.status === 'success' || message.status === undefined"
       :class="{'f-right  pd-r-5px' :isMsgFromBot, 'f-left  pd-l-5px' :!isMsgFromBot}"
       class="pd-t-10px f-s-12px cl-8A899B">
-      {{ shortTime }}
+      {{ message.timestamp | format('HH:mm') }}
     </span>
   </div>
 </template>
@@ -64,9 +64,6 @@ export default {
   computed: {
     isMsgFromBot () {
       return this.message.sender === this.message.channel_id
-    },
-    shortTime () {
-      return this.$moment.unix(this.message.timestamp / 1000).format('HH:mm')
     },
     threadSelectedID () {
       return this.$route.params.thread_id

@@ -1,7 +1,7 @@
 <template>
-  <div class="container f-left w-100pct">
+  <div class="user f-left w-100pct">
     <div class="f-left w-50px t-al-center">
-      <img class="user-profile-rounded" :src="thread.raw_profile.PictureURL === undefined ? tmpUserImageUrl : thread.raw_profile.PictureURL">
+      <img class="user-profile-rounded" :src="thread.PictureURL === undefined ? tmpUserImageUrl : thread.PictureURL">
     </div>
     <div class="user-info">
       <div class="f-left w-100pct">
@@ -32,11 +32,10 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.user {
   padding: 15px 10px 11px 14px;
   border-bottom: 1px solid #f0f0f0;
   cursor: pointer;
-  min-height: 90px;
 }
 .container:hover {
   background-color: #f0f0f0;
