@@ -4,7 +4,9 @@
       <TextAreaAutoSize v-model="input" :send="sendMsg" ref="text-area-auto-size"/>
     </div>
     <div class="column mg-0px typebox-option">
-      <i class="fas fa-paper-plane"></i>
+      <div @click="sendMsg(input)">
+        <i class="fas fa-paper-plane"></i>
+      </div>
     </div>
   </div>
 </template>

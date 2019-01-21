@@ -42,6 +42,7 @@ export default {
   border: 1px solid #f0f0f0;
   border-radius: 5px;
   margin-top: 12px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .chat-view {
  min-width: 700px;
@@ -49,6 +50,8 @@ export default {
 .thread-view {
   min-width: 300px;
   border-right: 1px solid #f0f0f0;
+  position: relative;
+  max-width: 100%;
 }
 .plugin-view {
   width: 351px;

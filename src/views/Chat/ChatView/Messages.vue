@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <VuePerfectScrollbar
-      ref="ps-messages-view"
-      class="messages-view"
-      :settings="settingsScrollbar"
-       @ps-scroll-y="moveScorllY">
-      <LineChat :data="messagesView" />
-    </VuePerfectScrollbar>
-  </div>
+  <VuePerfectScrollbar ref="ps-messages-view" class="messages-view"
+    :settings="settingsScrollbar"
+      @ps-scroll-y="moveScorllY">
+    <LineChat :data="messagesView" />
+  </VuePerfectScrollbar>
 </template>
 
 <script>
@@ -28,30 +24,172 @@ export default {
     messagesView () {
       return [
         {
-          'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'timestamp': 1536916185394,
           'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
           'msg': 'Hi',
-          'channel_id': '1524607372',
-          'raw': {
-            'Message': {
-              'id': '8570670381268',
-              'text': 'Hi',
-              'type': 'text'
-            },
-            'ReplyToken': 'c036faf5adfe46c4b13bbe886f7cdc49',
-            'Source': {
-              'Type': 'user',
-              'UserID': 'Uc0ef6468fd333657d7aa31393a2cdd92'
-            },
-            'Timestamp': 1536916185394,
-            'Type': 'message'
-          },
           'recipient': '1524607372',
           'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-          'sent_by': '',
-          'type': 'text',
-          'reply_token': 'c036faf5adfe46c4b13bbe886f7cdc49'
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
+        },
+        {
+          'msg_id': '8570670381268',
+          'timestamp': 1536916185394,
+          'msg': 'Hi',
+          'recipient': '1524607372',
+          'sender': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+          'type': 'text'
         }
       ]
     }
@@ -60,13 +198,6 @@ export default {
     async moveScorllY (e) {
       if (e.target.scrollTop <= 0 && !this.isEveryMessages && this.messagesView[0]) {
         this.oldScrollHeight = this.$refs['ps-messages-view'].$el.scrollHeight
-        const payload = {
-          storeID: this.$route.params.store_id,
-          channelID: this.$route.params.channel_id,
-          threadID: this.currentThreadId,
-          timestamp: this.messagesView[0].timestamp
-        }
-        await this.loadMoreMessages(payload)
         this.$refs['ps-messages-view'].$el.scrollTop = this.$refs['ps-messages-view'].$el.scrollHeight - this.oldScrollHeight
         this.$refs['ps-messages-view'].update()
       }

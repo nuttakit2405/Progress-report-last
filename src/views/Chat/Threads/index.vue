@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <VuePerfectScrollbar @ps-scroll-y="scrollHandle" class="f-left  ft w-100pct h-102calc" :settings="settingsScrollbar" id="vue-perfect-scrollbar-threads">
-      <div :key="thread.thread_id" v-for="thread in threads" class="z-id--1">
-        <User :thread="thread"></User>
-      </div>
-    </VuePerfectScrollbar>
-  </div>
+  <VuePerfectScrollbar @ps-scroll-y="scrollHandle" class="f-left ft w-100pct h-100pct" :settings="settingsScrollbar" id="vue-perfect-scrollbar-threads">
+    <div :key="thread.thread_id" v-for="thread in threads" class="z-id--1">
+      <User :thread="thread"></User>
+    </div>
+  </VuePerfectScrollbar>
 </template>
 
 <script>
@@ -31,19 +29,190 @@ export default {
         'channel_id': '1524607372',
         'admin_id': ':unassign:',
         'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
         'name_search': 'ton piromplad',
-        'raw_profile': {
-          'DisplayName': 'Ton Piromplad',
-          'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
-          'StatusMessage': '(t)(o)(n)',
-          'UserID': 'Uc0ef6468fd333657d7aa31393a2cdd92'
-        },
-        'seen': true,
         'last_message': 'Photo sent.',
-        'last_update': 1546855270857,
-        'tags': null,
-        'tags_search': null,
-        'auto_reply': false
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
+      },
+      {
+        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
+        'channel_id': '1524607372',
+        'admin_id': ':unassign:',
+        'name': 'Ton Piromplad',
+        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
+        'name_search': 'ton piromplad',
+        'last_message': 'Photo sent.',
+        'last_update': 1546855270857
       }]
     }
   },
