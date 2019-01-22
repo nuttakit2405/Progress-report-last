@@ -2,7 +2,7 @@
   <div class="dp-flex jtf-ct-center"  >
     <div class="chat">
       <div class="h-72calc thread-view">
-        <Threads :threads="threads"/>
+        <Threads :threads="threads" @select="select" :selected="threadSelected"/>
       </div>
       <div class="h-72calc pst-relative chat-view" >
         <ChatView v-if="threadSelected" :userId="user ? user.uid : ''" :threadSelected="threadSelected" :messages="messages" @sent="sent"/>
@@ -44,6 +44,7 @@ export default {
       getThreads: 'chat/getThreads',
       sentMessage: 'chat/sentMessage',
       clearChat: 'chat/clearChat',
+      clearMessages: 'chat/clearMessages',
       selectThread: 'chat/selectThread'
     }),
     sent (text) {
@@ -57,6 +58,10 @@ export default {
           type: 'text'
         }
       })
+    },
+    select (data) {
+      this.$router.replace({path: `/chat/${data.user_id}`})
+      this.selectThread(data)
     }
   },
   async created () {
@@ -68,7 +73,7 @@ export default {
   },
   watch: {
     async projectId (newVal) {
-      await this.clearChat()
+      await this.clearMessages()
       await this.getMessages(newVal)
     },
     threads (val) {

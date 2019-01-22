@@ -35,6 +35,9 @@ const mutations = {
     state.users = []
     state.threadSelected = null
   },
+  clearMessages: (state) => {
+    state.messages = []
+  },
   selectThread: (state, data) => {
     state.threadSelected = data
   }
@@ -43,6 +46,9 @@ const mutations = {
 const actions = {
   clearChat ({commit}) {
     commit('clearChat')
+  },
+  clearMessages ({commit}) {
+    commit('clearMessages')
   },
   getMessages ({ commit }, chatId) {
     db.database.ref(`/chat/${chatId}`).orderByChild('timestamp').on('value', function (snap) {
