@@ -2,10 +2,11 @@
   <div class="dp-flex jtf-ct-center"  >
     <div class="chat">
       <div class="h-72calc thread-view">
-        <Threads/>
+        <Threads :threads="threads"/>
       </div>
       <div class="h-72calc pst-relative chat-view" >
-        <ChatView :userId="user ? user.uid : ''" :threadSelected="threadSelected" :messages="messages" @sent="sent"/>
+        <ChatView v-if="threadSelected" :userId="user ? user.uid : ''" :threadSelected="threadSelected" :messages="messages" @sent="sent"/>
+        <div class="dp-flex jtf-ct-center w-100pct mg-vtc-30px" v-else>ยังไม่ได้เลือกแชท</div>
       </div>
     </div>
   </div>
@@ -27,6 +28,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      threads: 'chat/threads',
       user: 'user/user',
       messages: 'chat/messages',
       threadSelected: 'chat/threadSelected'
@@ -39,7 +41,10 @@ export default {
   methods: {
     ...mapActions({
       getMessages: 'chat/getMessages',
-      sentMessage: 'chat/sentMessage'
+      getThreads: 'chat/getThreads',
+      sentMessage: 'chat/sentMessage',
+      clearChat: 'chat/clearChat',
+      selectThread: 'chat/selectThread'
     }),
     sent (text) {
       this.sentMessage({
@@ -54,8 +59,22 @@ export default {
       })
     }
   },
-  created () {
-    this.getMessages(this.projectId)
+  async created () {
+    await this.getThreads()
+    await this.getMessages(this.projectId)
+  },
+  beforeDestroy () {
+    this.clearChat()
+  },
+  watch: {
+    async projectId (newVal) {
+      await this.clearChat()
+      await this.getMessages(newVal)
+    },
+    threads (val) {
+      console.log('watch thread', val, val.find(thread => thread.user_id === this.projectId))
+      this.selectThread(val.find(thread => thread.user_id === this.projectId))
+    }
   }
 }
 </script>
