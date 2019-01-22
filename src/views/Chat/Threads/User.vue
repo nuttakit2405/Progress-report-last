@@ -5,7 +5,7 @@
     </div>
     <div class="user-info">
       <div class="f-left w-100pct">
-        <div class="f-left f-s-15px" :class="{ 'f-w-bold cl-black': !thread.seen }">{{ thread.name }}</div>
+        <div class="f-left f-s-15px dotdotdot" :class="{ 'f-w-bold cl-black': !thread.seen }" :title="thread.name">{{ thread.name }}</div>
         <div class="f-right f-s-12px" :class="{ 'cl-0084ff f-w-bold': !thread.seen }">{{thread.last_update | format('HH:mm')}}</div>
       </div>
       <div class="unread-msg">{{ thread.last_message }}</div>
@@ -88,6 +88,14 @@ export default {
   width: 42px;
   height: 42px;
   border-radius: 50%;
+}
+
+.dotdotdot {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    position: absolute;
+    width: calc(100% - 120px);
+    white-space: nowrap;
 }
 
 </style>

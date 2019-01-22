@@ -11,6 +11,12 @@ import User from './User'
 
 export default {
   name: 'Thread',
+  props: {
+    threads: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     return {
       settingsScrollbar: {
@@ -21,19 +27,6 @@ export default {
   },
   components: {
     User
-  },
-  computed: {
-    threads () {
-      return [{
-        'user_id': 'Uc0ef6468fd333657d7aa31393a2cdd92',
-        'channel_id': '1524607372',
-        'admin_id': ':unassign:',
-        'name': 'Ton Piromplad',
-        'PictureURL': 'https://profile.line-scdn.net/0hq9AengQjLhZ8HAPPaRNRQUBZIHsLMiheBH42IAkUIHRXLmhBRig2eQtJICdXKGtGE3lmcQ0VdnJW',
-        'last_message': 'Photo sent.',
-        'last_update': 1546855270857
-      }]
-    }
   },
   methods: {
     scrollHandle (evt) {
