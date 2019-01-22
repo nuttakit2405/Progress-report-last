@@ -1,7 +1,7 @@
 <template>
   <VuePerfectScrollbar @ps-scroll-y="scrollHandle" class="f-left ft w-100pct h-100pct" :settings="settingsScrollbar" id="vue-perfect-scrollbar-threads">
-    <div :key="thread.thread_id" v-for="thread in threads" class="z-id--1">
-      <User :thread="thread"></User>
+    <div :key="thread.thread_id" v-for="thread in threads" class="z-id--1" @click="$emit('select', thread)">
+      <User :thread="thread" :selected="selected ? selected.user_id : ''"></User>
     </div>
   </VuePerfectScrollbar>
 </template>
@@ -15,6 +15,9 @@ export default {
     threads: {
       type: Array,
       required: true
+    },
+    selected: {
+      type: Object
     }
   },
   data () {

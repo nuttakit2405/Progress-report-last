@@ -1,5 +1,5 @@
 <template>
-  <div class="user f-left w-100pct">
+  <div class="user f-left w-100pct" :class="{'selected': selected === thread.user_id}">
     <div class="f-left w-50px t-al-center">
       <img class="user-profile-rounded" :src="thread.PictureURL === undefined ? tmpUserImageUrl : thread.PictureURL">
     </div>
@@ -21,6 +21,9 @@ export default {
     thread: {
       type: Object,
       required: true
+    },
+    selected: {
+      type: String
     }
   },
   data () {
