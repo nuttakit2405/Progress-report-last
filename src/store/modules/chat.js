@@ -76,7 +76,7 @@ const actions = {
             const thread = {
               'user_id': key,
               'name': projects.thaiProjectName,
-              'PictureURL': 'http://www.decisionanalysis.net/wp-content/uploads/2015/08/icon-page-project-management.png',
+              'PictureURL': '/static/img/default-icon-project.png',
               'last_message': '',
               'last_update': 1546855270857
             }
