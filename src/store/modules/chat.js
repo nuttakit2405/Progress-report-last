@@ -1,8 +1,10 @@
+import Vue from 'vue'
 import db from '@/database'
+
 const state = {
   messages: [],
-  threads: [],
-  projectThreads: [],
+  threads: {},
+  projectThreads: {},
   users: [],
   threadSelected: null
 }
@@ -13,7 +15,21 @@ const getters = {
   },
   messages: (state) => state.messages,
   threads: (state) => {
-    return [...state.projectThreads, ...state.users]
+    const data = state.projectThreads
+    const threads = Object.keys(data)
+      .filter((key) => !data[key].deleted)
+      .map((key) => {
+        const projects = data[key]
+        const thread = {
+          'user_id': key,
+          'name': projects.thaiProjectName,
+          'PictureURL': '/static/img/default-icon-project.png',
+          'last_message': state.threads[key] ? state.threads[key].last_message : '',
+          'last_update': state.threads[key] ? state.threads[key].last_update : 0
+        }
+        return thread
+      })
+    return threads.sort((a, b) => b.last_update - a.last_update)
   }
 }
 
@@ -26,11 +42,14 @@ const mutations = {
     }).sort((a, b) => a.timestamp - b.timestamp)
   },
   setThreadProject (state, project) {
-    state.projectThreads = project
+    Vue.set(state, 'projectThreads', project)
+  },
+  setThreads (state, thread) {
+    Vue.set(state, 'threads', thread)
   },
   clearChat: (state) => {
     state.messages = []
-    state.threads = []
+    state.threads = {}
     state.projectThreads = []
     state.users = []
     state.threadSelected = null
@@ -44,10 +63,10 @@ const mutations = {
 }
 
 const actions = {
-  clearChat ({commit}) {
+  clearChat ({ commit }) {
     commit('clearChat')
   },
-  clearMessages ({commit}) {
+  clearMessages ({ commit }) {
     commit('clearMessages')
   },
   getMessages ({ commit }, chatId) {
@@ -61,33 +80,26 @@ const actions = {
   getThreads ({ commit, dispatch }) {
     db.database.ref(`/chat/threads`).orderByChild('timestamp').on('value', function (snap) {
       const data = snap.val()
-      console.log(data)
+      if (data) {
+        commit('setThreads', data)
+      }
     })
     dispatch('getProjects')
   },
-  getProjects ({commit}) {
+  getProjects ({ commit }) {
     db.database.ref(`/projects`).on('value', function (snap) {
       const data = snap.val()
       if (data) {
-        const threads = Object.keys(data)
-          .filter((key) => !data[key].deleted)
-          .map((key) => {
-            const projects = data[key]
-            const thread = {
-              'user_id': key,
-              'name': projects.thaiProjectName,
-              'PictureURL': '/static/img/default-icon-project.png',
-              'last_message': '',
-              'last_update': 1546855270857
-            }
-            return thread
-          })
-        commit('setThreadProject', threads)
+        commit('setThreadProject', data)
       }
     })
   },
-  sentMessage ({ commit }, {chatId, message}) {
+  sentMessage (_, { chatId, message }) {
     db.database.ref(`/chat/${chatId}`).push(message)
+    db.database.ref(`/chat/threads/${chatId}`).update({
+      last_update: message.timestamp,
+      last_message: message.msg
+    })
   },
   selectThread ({ commit }, threadData) {
     commit('selectThread', threadData)
