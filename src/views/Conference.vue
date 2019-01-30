@@ -3,15 +3,15 @@
     <!-- <a href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk">Install Chrome extension</a> -->
     <div style="display: flex; width: 100%; justify-content: center; ">
       <div class="vid">
-        <span>Remote</span><br>
+        <!-- <span>Remote</span><br> -->
         <video class="video remote" id="remoteVideo" autoplay></video>
       </div>
-      <div class="vid" v-if="showScreen">
+      <!-- <div class="vid" v-if="showScreen">
         <span>Screen</span><br>
         <video class="video" id="screen" autoplay muted></video>
-      </div>
+      </div> -->
       <div class="vid local">
-        <span>Local</span><br>
+        <!-- <span>Local</span><br> -->
         <div class="local">
           <video class="video" id="localVideo" autoplay muted></video>
           <!-- <div class="option">
@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <button class="button" @click="share">Share Screen</button>
+    <!-- <button class="button" @click="share">Share Screen</button> -->
     <!-- <button class="button" @click="stream">Start Stream</button> -->
   </div>
 </template>

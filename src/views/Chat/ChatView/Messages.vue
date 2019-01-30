@@ -21,6 +21,12 @@ export default {
       required: true
     }
   },
+  watch: {
+    messages () {
+      this.$refs['ps-messages-view'].$el.scrollTop = this.$refs['ps-messages-view'].$el.scrollHeight
+      this.$refs['ps-messages-view'].update()
+    }
+  },
   data () {
     return {
       oldScrollHeight: 0,
