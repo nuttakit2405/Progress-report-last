@@ -7,6 +7,7 @@ import Calendar from 'vue2-event-calendar'
 import VueSweetalert2 from 'vue-sweetalert2'
 import dayjs from 'dayjs'
 import Buefy from 'buefy'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
 import html2canvas from 'html2canvas'
 import pdfMake from 'pdfmake/build/pdfmake'
@@ -15,6 +16,7 @@ import pdfFonts from '../lib/vfs_fonts.js'
 // style
 import 'buefy/dist/buefy.css'
 import 'vue2-event-calendar/default.css'
+import 'begeta/css/begeta.min.css'
 
 // option
 import 'dayjs/locale/th'
@@ -30,6 +32,7 @@ const config = {
 
 firebase.initializeApp(config)
 
+Vue.component('VuePerfectScrollbar', VuePerfectScrollbar)
 Vue.use(Buefy, { defaultIconPack: 'fas' })
 Vue.use(VueSweetalert2)
 Vue.component('Calendar', Calendar)

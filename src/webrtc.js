@@ -11,6 +11,8 @@ const configuration = {
 let roomName
 let room
 let pc
+let localVideoSteam
+let screenSteam
 
 function onSuccess () { };
 function onError (error) {
@@ -18,39 +20,38 @@ function onError (error) {
 };
 
 export function droneOpen (roomHash) {
-  roomName = 'observable-' + roomHash
-  console.log(roomName)
-  drone.on('open', error => {
-    if (error) {
-      return console.error(error)
-    }
-    room = drone.subscribe(roomName)
-    room.on('open', error => {
+  return new Promise((resolve) => {
+    roomName = 'observable-' + roomHash
+    console.log(roomName)
+    drone.on('open', error => {
       if (error) {
-        onError(error)
+        return console.error(error)
       }
-    })
-    // We're connected to the room and received an array of 'members'
-    // connected to the room (including us). Signaling server is ready.
-    room.on('members', members => {
-      console.log('MEMBERS', members)
-      // If we are the second user to connect to the room we will be creating the offer
-      const isOfferer = members.length === 2
-      startWebRTC(isOfferer)
+      room = drone.subscribe(roomName)
+      room.on('open', error => {
+        if (error) {
+          onError(error)
+        }
+      })
+
+      // We're connected to the room and received an array of 'members'
+      // connected to the room (including us). Signaling server is ready.
+      room.on('members', members => {
+        console.log('MEMBERS', members)
+        // If we are the second user to connect to the room we will be creating the offer
+        const isOfferer = members.length === 2
+        startWebRTC(isOfferer)
+        // startWebRTC(true)
+      })
+
+      resolve(true)
     })
   })
 }
 
 
-// Send signaling data via Scaledrone
-export function sendMessage (message) {
-  drone.publish({
-    room: roomName,
-    message
-  })
-}
-
-function startWebRTC (isOfferer) {
+export function startWebRTC (isOfferer) {
+  console.log('startWebRTC')
   pc = new RTCPeerConnection(configuration)
 
   // 'onicecandidate' notifies us whenever an ICE agent needs to deliver a
@@ -69,24 +70,14 @@ function startWebRTC (isOfferer) {
   }
 
   // When a remote stream arrives display it in the #remoteVideo element
-  pc.ontrack = event => {
+  pc.ontrack = (event) => {
+    console.log(event)
     const stream = event.streams[0]
     const remoteVideo = document.getElementById('remoteVideo')
     if (!remoteVideo.srcObject || remoteVideo.srcObject.id !== stream.id) {
       remoteVideo.srcObject = stream
     }
   }
-
-  navigator.mediaDevices.getUserMedia({
-    audio: true,
-    video: true
-  }).then(stream => {
-    // Display your local video in #localVideo element
-    const localVideo = document.getElementById('localVideo')
-    localVideo.srcObject = stream
-    // Add your stream to be sent to the conneting peer
-    stream.getTracks().forEach(track => pc.addTrack(track, stream))
-  }, onError)
 
   // Listen to signaling data from Scaledrone
   room.on('data', (message, client) => {
@@ -110,6 +101,8 @@ function startWebRTC (isOfferer) {
       )
     }
   })
+
+  openLocalVideo(true, true)
 }
 
 function localDescCreated (desc) {
@@ -120,28 +113,63 @@ function localDescCreated (desc) {
   )
 }
 
-export function openLocalVideo () {
-  navigator.mediaDevices.getUserMedia({
-    audio: true,
-    video: true
+export function openLocalVideo (video, audio) {
+  return navigator.mediaDevices.getUserMedia({
+    video: video,
+    audio: audio
   }).then(stream => {
     // Display your local video in #localVideo element
     const localVideo = document.getElementById('localVideo')
     localVideo.srcObject = stream
+    localVideoSteam = stream
+
     // Add your stream to be sent to the conneting peer
-    // stream.getTracks().forEach(track => pc.addTrack(track, stream))
+    stream.getTracks().forEach(track => pc.addTrack(track, stream))
   }, onError)
 }
 
+export function startSteamLocal () {
+  console.log('startSteam')
+  return new Promise((resolve) => {
+    console.log({pc, localVideoSteam})
+      localVideoSteam.getTracks().forEach(track => pc.addTrack(track, localVideoSteam))
+    resolve(true)
+  })
+}
 
+export function closeLocalVideo () {
+  console.log('destroy')
+  if (localVideoSteam) {
+    localVideoSteam.getTracks().forEach(track => track.stop())
+  }
+  if (screenSteam) {
+    screenSteam.getTracks().forEach(track => track.stop())
+  }
+}
 
-export function openScreen () {
+export function openScreen (onEnded) {
   getScreenId(function (error, sourceId, screen_constraints) {
+    console.log({ error, sourceId })
     navigator.mediaDevices.getUserMedia(screen_constraints).then(function (stream) {
       const localVideo = document.getElementById('screen')
       localVideo.srcObject = stream
+      screenSteam = stream
+      stream.getTracks().forEach(track => {
+        track.onended = () => {
+          onEnded()
+          screenSteam.getTracks().forEach(track => track.stop())
+        }
+      })
     }).catch(function (error) {
       console.error(error);
     });
   });
+}
+
+// Send signaling data via Scaledrone
+export function sendMessage (message) {
+  drone.publish({
+    room: roomName,
+    message
+  })
 }
