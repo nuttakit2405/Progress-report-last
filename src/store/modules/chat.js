@@ -29,7 +29,22 @@ const getters = {
         }
         return thread
       })
-    return threads.sort((a, b) => b.last_update - a.last_update)
+    const users = state.users
+    const userThreads = Object.keys(users)
+      .map((key) => {
+        const user = users[key]
+        const threadId = key
+        const thread = {
+          'user_id': threadId,
+          'name': `${user.fullName} (${user.email ? user.email : user.sid})`,
+          'PictureURL': '/static/img/user.png',
+          'last_message': state.threads[threadId] ? state.threads[threadId].last_message : '',
+          'last_update': state.threads[threadId] ? state.threads[threadId].last_update : 0
+        }
+        return thread
+      })
+    const allThreads = [...threads, ...userThreads]
+    return allThreads.sort((a, b) => b.last_update - a.last_update)
   }
 }
 
@@ -43,6 +58,9 @@ const mutations = {
   },
   setThreadProject (state, project) {
     Vue.set(state, 'projectThreads', project)
+  },
+  setThreadUser (state, users) {
+    Vue.set(state, 'users', users)
   },
   setThreads (state, thread) {
     Vue.set(state, 'threads', thread)
@@ -77,7 +95,7 @@ const actions = {
       }
     })
   },
-  getThreads ({ commit, dispatch }) {
+  getThreads ({ commit, dispatch }, uid) {
     db.database.ref(`/chat/threads`).orderByChild('timestamp').on('value', function (snap) {
       const data = snap.val()
       if (data) {
@@ -85,12 +103,21 @@ const actions = {
       }
     })
     dispatch('getProjects')
+    dispatch('getUsers')
   },
   getProjects ({ commit }) {
     db.database.ref(`/projects`).on('value', function (snap) {
       const data = snap.val()
       if (data) {
         commit('setThreadProject', data)
+      }
+    })
+  },
+  getUsers ({ commit }) {
+    db.database.ref(`/users`).on('value', function (snap) {
+      const data = snap.val()
+      if (data) {
+        commit('setThreadUser', data)
       }
     })
   },

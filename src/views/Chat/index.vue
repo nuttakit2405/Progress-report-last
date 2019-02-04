@@ -77,7 +77,7 @@ export default {
       await this.getMessages(newVal)
     },
     threads (val) {
-      console.log('watch thread', val, val.find(thread => thread.user_id === this.projectId))
+      // console.log('watch thread', val, val.find(thread => thread.user_id === this.projectId))
       this.selectThread(val.find(thread => thread.user_id === this.projectId))
     }
   }
