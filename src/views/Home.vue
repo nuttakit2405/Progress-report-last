@@ -47,7 +47,7 @@
                 <!-- Tab term -->
               <div class="column">
                 <div class="columns is-multiline">
-                  <div class="column is-one-third" :key="key" v-for="(project, key) in projects" :v-if="checkMentor(project.mentor, user.email) && !project.deleted" >
+                  <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkMentor(project.mentor, user.email) && !project.deleted" >
                     <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
                   </div>
                 </div>
@@ -59,7 +59,7 @@
                 </div>
                 <div class="column">
                   <div class="columns is-multiline">
-                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" :v-if="checkOwnerProject(project) && !project.deleted" >
+                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkOwnerProject(project) && !project.deleted" >
                       <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" role="student"/>
                     </div>
                   </div>
