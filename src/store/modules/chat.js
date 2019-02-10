@@ -29,22 +29,7 @@ const getters = {
         }
         return thread
       })
-    const users = state.users
-    const userThreads = Object.keys(users)
-      .map((key) => {
-        const user = users[key]
-        const threadId = key
-        const thread = {
-          'user_id': threadId,
-          'name': `${user.fullName} (${user.email ? user.email : user.sid})`,
-          'PictureURL': '/static/img/user.png',
-          'last_message': state.threads[threadId] ? state.threads[threadId].last_message : '',
-          'last_update': state.threads[threadId] ? state.threads[threadId].last_update : 0
-        }
-        return thread
-      })
-    const allThreads = [...threads, ...userThreads]
-    return allThreads.sort((a, b) => b.last_update - a.last_update)
+    return threads.sort((a, b) => b.last_update - a.last_update)
   }
 }
 
@@ -103,7 +88,7 @@ const actions = {
       }
     })
     dispatch('getProjects')
-    dispatch('getUsers')
+    // dispatch('getUsers')
   },
   getProjects ({ commit }) {
     db.database.ref(`/projects`).on('value', function (snap) {
