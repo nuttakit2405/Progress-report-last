@@ -1,9 +1,10 @@
 <template>
     <div class= "container">
         <div class="column"></div>
+        <div class="column"></div>
         <div class="columns" v-if="checkTeacherSubject()">
             <div class="column is-8 is-offset-2">
-                <div class="column box">
+                <div class="column hero is-medium is-white">
                     <div class="column is-10 is-offset-1">
                         <section>
                             <div class="box">
@@ -66,7 +67,8 @@
                                     </b-field>
                                 </b-field>
 
-                                <div class="field" style="margin-left:105px;">
+                                <!-- <div class="field" style="margin-left:105px;"> -->
+                                  <b-field horizontal>
                                     <b-radio v-model="projectSize"
                                         native-value="1">
                                         โครงงาน 1 ภาคการศึกษา
@@ -75,7 +77,8 @@
                                         native-value="2">
                                         โครงงาน 2 ภาคการศึกษา
                                     </b-radio>
-                                </div>
+                                    </b-field>
+                                <!-- </div> -->
                                 <b-field label="วันเริ่มทำ" horizontal required>
                                   <b-datepicker
                                       v-model="startProject"

@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <div class="column">
+    <div class="">
+      <div class="column"></div>
+      <div class="column"></div>
       <div class="columns">
         <div class="column">
           <div>
@@ -11,7 +13,7 @@
                 </b-notification>
               </section>
             </div>
-            <div v-else class="column box hero">
+            <div v-else class="column hero is-medium is-white">
               <div v-if="isLogged && hasProfile">
                 <div class="level">
                   <div class="level-item has-text-centered">
@@ -23,7 +25,7 @@
                   </div>
                 </div>
                 <div class="level-item has-text-centered">
-                  <span class="title is-5">ประเภทผู้ใช้งาน:&nbsp;</span>
+                  <span class="title is-5">ประเภทผู้ใช้งาน:&nbsp; </span>
                   <span class="is-size-5">{{roles[profile.userType]}}</span>
                 </div>
                 <div class="level-item" v-if="profile && profile.userType === 'teacher'">

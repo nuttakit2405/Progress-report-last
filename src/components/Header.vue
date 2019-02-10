@@ -1,4 +1,5 @@
 <template >
+  <div>
   <div class="hero is-medium is-white styleNavbar">
     <div class="hero-head container is-fluid ">
       <div class="column">
@@ -136,6 +137,8 @@
       </div>
 
     </div>
+  </div>
+  <div class="column"></div>
   </div>
 </template>
 
