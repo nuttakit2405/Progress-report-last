@@ -2,7 +2,8 @@
   <div class="container">
     <div class="column">
       <div class="columns">
-        <div class="column">
+        <div class="column"></div><div class="column"></div>
+        <div class="">
           <div class="column box" v-if="profile">
             <section>
               <div v-if="profile.userType ==  'teacher'">
@@ -22,13 +23,35 @@
                         <b-icon icon="plus" size="is-small"></b-icon>&nbsp;เพิ่มโครงงาน</button>
                   </div>
                 </div>
-                <div class="column">
-                  <div class="columns is-multiline">
-                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkMentor(project.mentor, user.email) && !project.deleted" >
-                      <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
-                    </div>
+                <!-- Tab term -->
+                <b-tabs v-model="activeTab" type="is-boxed">
+                  <b-tab-item label="1/2561">
+                    1/2561
+                  </b-tab-item>
+                  <b-tab-item label="2/2561">
+                    2/2561
+                  </b-tab-item>
+                  <b-tab-item label="3/2561">
+                    3/2561
+                  </b-tab-item>
+                  <b-tab-item label="1/2562">
+                    1/2562
+                  </b-tab-item>
+                  <b-tab-item label="2/2562">
+                    2/2562
+                  </b-tab-item>
+                  <b-tab-item label="3/2562">
+                    3/2561
+                  </b-tab-item>
+                </b-tabs>
+                <!-- Tab term -->
+              <div class="column">
+                <div class="columns is-multiline">
+                  <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkMentor(project.mentor, user.email) && !project.deleted" >
+                    <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
                   </div>
                 </div>
+              </div>
               </div>
               <div  v-if="profile.userType == 'student'">
                 <div class="block is-capitalized">
@@ -151,5 +174,10 @@ export default {
 .iconcalendar{
   justify-content: space-between;
   display: flex;
+}
+.hero.is-white .tabs.is-boxed li.is-active a, .hero.is-white .tabs.is-boxed li.is-active a:hover, .hero.is-white .tabs.is-toggle li.is-active a, .hero.is-white .tabs.is-toggle li.is-active a:hover {
+    background-color: #ffffff;
+    border-color: #a9a8a8;
+    color: black;
 }
 </style>
