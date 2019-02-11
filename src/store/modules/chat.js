@@ -21,11 +21,13 @@ const getters = {
       .map((key) => {
         const projects = data[key]
         const thread = {
-          'user_id': key,
-          'name': projects.thaiProjectName,
-          'PictureURL': '/static/img/default-icon-project.png',
-          'last_message': state.threads[key] ? state.threads[key].last_message : '',
-          'last_update': state.threads[key] ? state.threads[key].last_update : 0
+          user_id: key,
+          name: projects.thaiProjectName,
+          PictureURL: '/static/img/default-icon-project.png',
+          last_message: state.threads[key] ? state.threads[key].last_message : '',
+          last_update: state.threads[key] ? state.threads[key].last_update : 0,
+          mentor: projects.mentor,
+          team: projects.teams
         }
         return thread
       })
