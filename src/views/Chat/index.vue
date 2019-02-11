@@ -2,7 +2,7 @@
   <div class="dp-flex jtf-ct-center"  >
     <div class="chat">
       <div class="h-72calc thread-view">
-        <Threads :threads="threads" @select="select" :selected="threadSelected"/>
+        <Threads :threads="threadFiltered" @select="select" :selected="threadSelected"/>
       </div>
       <div class="h-72calc pst-relative chat-view" >
         <ChatView v-if="threadSelected" :userId="user ? user.uid : ''" :threadSelected="threadSelected" :messages="messages" @sent="sent"/>
@@ -30,9 +30,27 @@ export default {
     ...mapGetters({
       threads: 'chat/threads',
       user: 'user/user',
+      profile: 'user/profile',
+      viewMode: 'viewMode',
       messages: 'chat/messages',
       threadSelected: 'chat/threadSelected'
-    })
+    }),
+    threadFiltered () {
+      if (this.viewMode === 'subject') {
+        return this.threads
+      } else if (this.viewMode === 'mentor') {
+        return this.threads.filter((thread) => {
+          return thread.mentor.email === this.user.email
+        })
+      } else if (this.viewMode === 'student') {
+        return this.threads.filter(thread => {
+          return thread.team.some(member => {
+            return member.id === this.profile.sid
+          })
+        })
+      }
+      return []
+    }
   },
   components: {
     ChatView,
