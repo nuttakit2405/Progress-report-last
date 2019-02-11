@@ -23,6 +23,7 @@ export default {
   },
   watch: {
     messages () {
+      console.log(this.messages)
       this.$refs['ps-messages-view'].$el.scrollTop = this.$refs['ps-messages-view'].$el.scrollHeight
       this.$refs['ps-messages-view'].update()
     }

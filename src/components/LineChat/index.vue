@@ -2,7 +2,7 @@
   <div class="f-left w-100pct pd-bt-25px pd-15px">
     <div v-for="(msg, index) in data" :key="index" class="f-left w-100pct mg-vtc-5px">
       <!-- <img v-if="isMsgFromUser(msg) && (!isSameTimeMessage(msg, index) || isPreviousMsgComeFromBot(index))" :src="userImage === undefined ? tmpUserImageUrl : userImage" class="user-profile"> -->
-      <!-- <span v-else class="w-30px h-30px mg-r-10px f-left"></span> -->
+      <span class="w-30px h-30px mg-r-10px f-left"></span>
       <ChatText :userId="userId" v-if="msg.type === 'text'" :message="msg" />
       <!-- <ChatImage v-if="msg.type === 'image'" :message="msg" /> -->
       <!-- <div v-if="data[index + 1] && (date(msg.timestamp) !== date(data[index + 1].timestamp))" class="f-left w-100pct t-al-center mg-vtc-10px">
