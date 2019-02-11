@@ -1,9 +1,10 @@
 <template>
   <div class="container">
-    <div class="column">
-      <div class="columns">
-        <div class="column"></div><div class="column"></div>
-        <div class="">
+    <div class="column mg-t-75px-mobile">
+      <!-- <div class="columns">
+        <div class="column"></div>
+        <div class="column"></div> -->
+        <div>
           <div class="column box" v-if="profile">
             <section>
               <div v-if="profile.userType ==  'teacher'">
@@ -47,19 +48,16 @@
                 <!-- Tab term -->
               <div class="column">
                 <div class="columns is-multiline">
-                  <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkMentor(project.mentor, user.email) && !project.deleted" >
+                  <div class="column is-one-third" :key="key" v-for="(project, key) in projectsTeacher">
                     <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
                   </div>
                 </div>
               </div>
               </div>
               <div  v-if="profile.userType == 'student'">
-                <div class="block is-capitalized">
-                  <!-- ประเภทผู้ใช้: {{profile.userType}} -->
-                </div>
                 <div class="column">
                   <div class="columns is-multiline">
-                    <div class="column is-one-third" :key="key" v-for="(project, key) in projects" v-if="checkOwnerProject(project) && !project.deleted" >
+                    <div class="column is-one-third" :key="key" v-for="(project, key) in projectsStudent">
                       <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" role="student"/>
                     </div>
                   </div>
@@ -69,7 +67,7 @@
           </div>
           <b-loading v-else :active="true"></b-loading>
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -91,6 +89,38 @@ export default {
       profile: 'user/profile',
       user: 'user/user'
     }),
+    projectsStudent () {
+      if (this.projects) {
+        return Object.keys(this.projects).filter((key) => {
+          const project = this.projects[key]
+          return this.checkOwnerProject(project) && !project.deleted
+        }).map(key => {
+          const project = this.projects[key]
+          project['key'] = key
+          return project
+        }).reduce((p, c) => {
+          p[c.key] = c
+          return p
+        }, {})
+      }
+      return {}
+    },
+    projectsTeacher () {
+      if (this.projects) {
+        return Object.keys(this.projects).filter((key) => {
+          const project = this.projects[key]
+          return this.checkMentor(project.mentor, this.user.email) && !project.deleted
+        }).map(key => {
+          const project = this.projects[key]
+          project['key'] = key
+          return project
+        }).reduce((p, c) => {
+          p[c.key] = c
+          return p
+        }, {})
+      }
+      return {}
+    },
     teacherSubject: {
       get () {
         return this.viewMode === 'mentor'

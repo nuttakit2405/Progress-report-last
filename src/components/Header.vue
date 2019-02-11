@@ -78,7 +78,7 @@
 
           <!-- Right side -->
           <div class="level-right">
-            <div
+            <div class="dp-none-mobile"
               style="margin-right: 40px;"
               v-if="isLogged">
               <b>{{stringMode}}</b>
