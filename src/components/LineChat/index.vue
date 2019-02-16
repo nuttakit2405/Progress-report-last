@@ -2,7 +2,8 @@
   <div class="f-left w-100pct pd-bt-25px pd-15px">
     <div v-for="(msg, index) in data" :key="index" class="f-left w-100pct mg-vtc-5px">
       <!-- <img v-if="isMsgFromUser(msg) && (!isSameTimeMessage(msg, index) || isPreviousMsgComeFromBot(index))" :src="userImage === undefined ? tmpUserImageUrl : userImage" class="user-profile"> -->
-      <span class="w-30px h-30px mg-r-10px f-left"></span>
+      <!-- <span class="w-30px h-30px mg-r-10px f-left"></span> -->
+      <span v-if="isMsgFromUser(msg)" class="cl-name" >{{users[msg.sender].fullName}}</span>
       <ChatText :userId="userId" v-if="msg.type === 'text'" :message="msg" />
       <!-- <ChatImage v-if="msg.type === 'image'" :message="msg" /> -->
       <!-- <div v-if="data[index + 1] && (date(msg.timestamp) !== date(data[index + 1].timestamp))" class="f-left w-100pct t-al-center mg-vtc-10px">
@@ -26,6 +27,9 @@ export default {
     userId: {
       type: String,
       required: true
+    },
+    users: {
+      type: Object
     }
   },
   data () {
@@ -35,7 +39,7 @@ export default {
   },
   methods: {
     isMsgFromUser (msg) {
-      return msg.sender !== msg.channel_id
+      return msg.sender !== this.userId
     },
     isSameTimeMessage (msg, index) {
       return index > 0 ? this.time(msg.timestamp) === this.time(this.data[index - 1].timestamp) : false
@@ -70,5 +74,8 @@ export default {
   background-color: #f5f6fa;
   border-radius: 30px;
   font-size: 12px;
+}
+.cl-name {
+  color: #b5b5b5;
 }
 </style>

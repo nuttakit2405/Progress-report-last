@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="message-box">
-      <Messages :userId="userId" :messages="messages"/>
+      <Messages :users="users" :userId="userId" :messages="messages"/>
     </div>
     <div class="pst-absolute bt-12px w-100pct-1 pd-t-15px pd-bt-5px bg-cl-white border-type-box">
       <TypeBox @sent="$emit('sent', $event)" ref="tye-box-component"/>
@@ -34,6 +34,9 @@ export default {
     userId: {
       type: String,
       required: true
+    },
+    users: {
+      type: Object
     }
   },
   components: {
