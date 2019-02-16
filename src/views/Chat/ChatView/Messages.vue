@@ -2,7 +2,7 @@
   <VuePerfectScrollbar ref="ps-messages-view" class="messages-view"
     :settings="settingsScrollbar"
       @ps-scroll-y="moveScorllY">
-    <LineChat :userId="userId" :data="messages" />
+    <LineChat :users="users" :userId="userId" :data="messages" />
   </VuePerfectScrollbar>
 </template>
 
@@ -19,6 +19,9 @@ export default {
     userId: {
       type: String,
       required: true
+    },
+    users: {
+      type: Object
     }
   },
   watch: {

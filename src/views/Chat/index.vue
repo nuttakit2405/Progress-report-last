@@ -5,7 +5,7 @@
         <Threads :threads="threadFiltered" @select="select" :selected="threadSelected"/>
       </div>
       <div class="h-72calc pst-relative chat-view" >
-        <ChatView v-if="threadSelected" :userId="user ? user.uid : ''" :threadSelected="threadSelected" :messages="messages" @sent="sent"/>
+        <ChatView v-if="threadSelected" :userId="user ? user.uid : ''" :threadSelected="threadSelected" :users="allUsers" :messages="messages" @sent="sent"/>
         <div class="dp-flex jtf-ct-center w-100pct mg-vtc-30px" v-else>ยังไม่ได้เลือกแชท</div>
       </div>
     </div>
@@ -30,6 +30,7 @@ export default {
     ...mapGetters({
       threads: 'chat/threads',
       user: 'user/user',
+      allUsers: 'user/allUsers',
       profile: 'user/profile',
       viewMode: 'viewMode',
       messages: 'chat/messages',

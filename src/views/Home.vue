@@ -48,7 +48,7 @@
                 <!-- Tab term -->
               <div class="column">
                 <div class="columns is-multiline">
-                  <div class="column is-one-third" :key="key" v-for="(project, key) in projectsTeacher">
+                  <div class="column is-half-tablet is-one-third-desktop" :key="key" v-for="(project, key) in projectsTeacher">
                     <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
                   </div>
                 </div>
