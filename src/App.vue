@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header v-if="$route.name != 'Login'" />
-    <router-view :style="{marginTop: $route.name == 'Login' ? '0px' :'65px'}"/>
+    <router-view :class="{'mg-t-45px-tablet mg-t-65px-mobile': $route.name !== 'Login'}"/>
   </div>
 </template>
 
