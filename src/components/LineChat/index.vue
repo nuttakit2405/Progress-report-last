@@ -1,9 +1,9 @@
 <template>
   <div class="f-left w-100pct pd-bt-25px pd-15px">
     <div v-for="(msg, index) in data" :key="index" class="f-left w-100pct mg-vtc-5px">
-      <!-- <img v-if="isMsgFromUser(msg) && (!isSameTimeMessage(msg, index) || isPreviousMsgComeFromBot(index))" :src="userImage === undefined ? tmpUserImageUrl : userImage" class="user-profile"> -->
-      <!-- <span class="w-30px h-30px mg-r-10px f-left"></span> -->
-      <span v-if="isMsgFromUser(msg)" class="cl-name" >{{users[msg.sender].fullName}}</span>
+      <!-- <img v-if="isMsgFromUser(msg)" :src="tmpUserImageUrl" class="user-profile"> -->
+      <!-- <span v-else class="w-30px h-30px mg-r-10px f-left"></span> -->
+      <span v-if="isMsgFromUser(msg) && users[msg.sender]" class="cl-name" >{{users[msg.sender].fullName}}</span>
       <ChatText :userId="userId" v-if="msg.type === 'text'" :message="msg" />
       <!-- <ChatImage v-if="msg.type === 'image'" :message="msg" /> -->
       <!-- <div v-if="data[index + 1] && (date(msg.timestamp) !== date(data[index + 1].timestamp))" class="f-left w-100pct t-al-center mg-vtc-10px">
@@ -34,7 +34,7 @@ export default {
   },
   data () {
     return {
-      tmpUserImageUrl: 'https://kooledge.com/assets/default_medium_avatar-57d58da4fc778fbd688dcbc4cbc47e14ac79839a9801187e42a796cbd6569847.png'
+      tmpUserImageUrl: '/static/img/default_avatar.png'
     }
   },
   methods: {
@@ -51,7 +51,7 @@ export default {
       return this.$moment.unix(timestamp / 1000).format('DD-MM-YYYY')
     },
     time (timestamp) {
-      return this.$moment.unix(timestamp / 1000).calendar()
+      return this.$dayjs(timestamp).day()
     }
   },
   components: {

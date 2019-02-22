@@ -16,13 +16,16 @@
       v-if="message.status === 'success' || message.status === undefined"
       :class="{'f-right  pd-r-5px' :isMsgFromBot, 'f-left  pd-l-5px' :!isMsgFromBot}"
       class="pd-t-10px f-s-12px cl-8A899B">
-      {{ message.timestamp | format('HH:mm') }}
+      {{ message.timestamp | timeFormat }}
     </span>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import dayjs from 'dayjs'
+
+const now = dayjs()
 
 export default {
   name: 'ChatText',
@@ -34,6 +37,16 @@ export default {
     userId: {
       type: String,
       required: true
+    }
+  },
+  filters: {
+    timeFormat (time) {
+      const thisTime = dayjs(time)
+      let format = 'HH:mm'
+      if (now.format('DD/MM/YYYY') !== thisTime.format('DD/MM/YYYY')) {
+        format = 'ddd ' + format
+      }
+      return thisTime.format(format)
     }
   },
   methods: {
