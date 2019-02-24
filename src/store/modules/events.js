@@ -37,6 +37,8 @@ const actions = {
             return prev
           }, {})
           commit('setEvents', filtedEvents)
+        } else {
+          commit('setEvents', {})
         }
       })
   }

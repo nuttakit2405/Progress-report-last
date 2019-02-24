@@ -36,7 +36,7 @@
                 <div class="level-item " v-if="profile && profile.userType === 'student'">
                   <b-field label="ความก้าวหน้าของงาน" v-if="profile.myProject">
                     <table class="table">
-                      <tr :key="project.key" v-if="!project.deleted"  v-for="project in findProjectWithIds(profile.myProject)">
+                      <tr :key="project.key"  v-for="project in findProjectWithIds(profile.myProject)">
                         <td>{{project.thaiProjectName}}</td>
                         <td><progress class="progess is-medium" :value="project.progress ? project.progress : 0" max="100"></progress>&nbsp;{{project.progress ? project.progress : 0}}%</td>
                       </tr>
@@ -189,8 +189,8 @@ export default {
     async initProfile (user) {
       if (user != null) {
         this.fetchProfile = await true
-        const val = this.profile
-        if (val === null) {
+        const profile = this.profile
+        if (profile === null) {
           this.fullName = user.displayName
           const info = checkFITMemail(user.email)
           if (info.isFITM) {
@@ -202,7 +202,7 @@ export default {
       }
     },
     findProjectWithIds (ids) {
-      return this.projectsWithId.filter(project => ids.findIndex(p => p === project.key) !== -1)
+      return this.projectsWithId.filter(project => ids.findIndex(p => p === project.key) !== -1 && !project.deleted)
     },
     findMyProject (sid) {
       return this.projectsWithId.filter(project => !project.deleted && project.teams.some(member => member.id === sid))
@@ -217,7 +217,8 @@ export default {
     async saveProfile () {
       const profileData = {
         fullName: this.fullName,
-        userType: this.userType
+        userType: this.userType,
+        photoURL: this.user.photoURL
       }
       if (this.userType === 'student') {
         profileData['sid'] = this.sid

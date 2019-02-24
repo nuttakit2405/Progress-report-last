@@ -3,7 +3,7 @@
     <b-tooltip
       class="pd-vtc-5px pd-hrzt-10px bd-rd-15px mn-w-25px mx-w-80pct f-s-16px"
       :class="{'message-bot' :isMsgFromBot, 'message-customer' :!isMsgFromBot, 'cs-pointer': message.status === 'error'}"
-      :label="time | format('DD/MM/YYYY HH:mm:ss')"
+      :label="time | format('ddd DD/MM/YYYY HH:mm:ss')"
       type="is-light"
       style="white-space:pre-wrap;"
       :position="tooltipPositoion"

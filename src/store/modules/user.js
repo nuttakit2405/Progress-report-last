@@ -50,7 +50,7 @@ const actions = {
       dispatch('getAllUsers')
     }
   },
-  setProfile: ({commit}, uid) => {
+  setProfile: ({commit, dispatch}, uid) => {
     db.database.ref('users').child(uid).on('value', snap => {
       const val = snap.val()
       commit('setProfile', val)
@@ -60,7 +60,14 @@ const actions = {
           viewMode = val.teacherGroup[0]
         }
         commit('setViewMode', viewMode, {root: true})
+        dispatch('updateProfile')
       }
+    })
+  },
+  updateProfile: ({commit, state}) => {
+    const user = state.user
+    db.database.ref(`users/${user.uid}`).update({
+      photoURL: user.photoURL
     })
   },
   getAllUsers ({commit}) {
