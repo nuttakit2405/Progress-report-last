@@ -44,7 +44,7 @@
                 </div>
               </div>
               <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">
-                <div slot="trigger" slot-scope="props" class="card-header">
+                <div slot="trigger" class="card-header">
                   <div class="card-header-title">
                     <div class="level" style="width: 100%;display: flex; justify-content: space-between;">
                       <div class="level-item" style="flex: none;width: fit-content;">
