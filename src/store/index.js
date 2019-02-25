@@ -109,7 +109,7 @@ export const store = new Vuex.Store({
         }
       }
       console.log(mailBody)
-      // dispatch('sentMail', mailBody)
+      dispatch('sentMail', mailBody)
     },
     async sentMail ({commit}, mailBody) {
       // mailBody = {
