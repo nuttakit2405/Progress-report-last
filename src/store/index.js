@@ -106,9 +106,9 @@ export const store = new Vuex.Store({
           body: data.content
         }
       }
-      dispatch('sendMail', mailBody)
+      dispatch('sentMail', mailBody)
     },
-    async sendMail ({commit}, mailBody) {
+    async sentMail ({commit}, mailBody) {
       // mailBody = {
       //   subject: 'Test Sent Mail',
       //   to: [
