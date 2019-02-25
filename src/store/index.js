@@ -96,6 +96,8 @@ export const store = new Vuex.Store({
           name: user.fullName,
           email: email
         }
+      }).filter((value, index, self) => {
+        return self.map(e => e.email).indexOf(value.email) === index
       })
 
       const mailBody = {
