@@ -44,7 +44,7 @@
                 </div>
               </div>
               <b-collapse class="card" :open="false" v-for="(val, ind) in projectSelected.scoreboard" :key="ind">
-                <div slot="trigger" slot-scope="props" class="card-header">
+                <div slot="trigger" class="card-header">
                   <div class="card-header-title">
                     <div class="level" style="width: 100%;display: flex; justify-content: space-between;">
                       <div class="level-item" style="flex: none;width: fit-content;">
@@ -103,6 +103,7 @@
                     :projectKey="projectSelected.key"
                     :week="ind"
                     :progressTotal="projectSelected.progress ? projectSelected.progress : 0"
+                    @sentNoti="sentNotiFromStudent"
                     @upload="uploadfile"/>
                   <ProgressMentor
                     :weekData="val"
@@ -214,7 +215,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      selectProject: 'projects/selectProject'
+      selectProject: 'projects/selectProject',
+      sentMail: 'sentMail'
     }),
     showDeclineComment (title, text) {
       this.$swal({
@@ -222,6 +224,21 @@ export default {
         text,
         showConfirmButton: false
       })
+    },
+    sentNotiFromStudent (noti) {
+      const to = [
+        {email: this.projectSelected.mentor.email},
+        ...this.projectSelected.teams.map(member => {
+          return {email: `${member.id}@fitm.kmutnb.ac.th`}
+        })
+      ]
+      noti.subject = `${this.projectSelected.thaiProjectName} ${noti.subject}`
+      noti.to = to
+      noti.content = {
+        type: 'text/html',
+        body: noti.content
+      }
+      this.sentMail(noti)
     },
     async approveSpecialProject (approve) {
       const message = 'อนุมัติให้นักศึกษามีสิทธิ์สอบ 100 เปอร์เซนต์'

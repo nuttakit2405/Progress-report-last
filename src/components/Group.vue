@@ -57,7 +57,7 @@
                 <i class="fa fa-video"></i>
               </span>
           </p>
-          <p class="card-footer-item">
+          <p class="card-footer-item" @click="$router.push({name: 'Chat', params: {projectId: projectId}})">
               <span class="icon fa-lg icon-hover" >
                 <i class="fa fa-comments"></i>
               </span>

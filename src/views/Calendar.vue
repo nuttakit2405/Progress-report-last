@@ -1,6 +1,6 @@
 <template>
-    <div class="container">
-      <Calendar
+    <div class="container pd-t-10px">
+      <Calendar v-if="profile"
       :mode="mode"
       :renderHeader="renderHeader">
           <div slot="header-left" class="ui-calendar-header__left">
@@ -42,6 +42,7 @@
             </div>
           </div>
         </Calendar>
+        <b-loading v-else :active="true"></b-loading>
     </div>
 </template>
 
@@ -101,7 +102,8 @@ export default {
   methods: {
     ...mapActions({
       getEvents: 'events/getEvents',
-      getProjects: 'projects/getProjects'
+      getProjects: 'projects/getProjects',
+      sentNoti: 'sentNoti'
     }),
     initData (user) {
       if (user && user.uid) {
@@ -261,6 +263,7 @@ export default {
       if (data) {
         console.log(data)
         db.database.ref(`/allEvents/${date.year}`).push(data)
+        this.notiEvent(data)
         const toast = this.$swal.mixin({
           toast: true,
           position: 'top',
@@ -273,6 +276,20 @@ export default {
           confirmButtonText: 'ตกลง'
         })
       }
+    },
+    notiEvent (data) {
+      const content = `
+      นัดหมายถูกสร้างขึ้น <b>วัน${this.$dayjs(data.date).format('dddที่ DD MMMM YYYY')} เวลา ${data.start} ถึง ${data.end}<b><br>
+      หัวข้อ: ${data.title}<br>
+      รายระเอียด: ${data.description}<br>
+      โดย ${this.profile.fullName}
+      `
+      const noti = {
+        to: data.members,
+        subject: `มีการนัดหมาย`,
+        content: content
+      }
+      this.sentNoti(noti)
     },
     createTimeOptions (select = null) {
       let timeOptions = ''

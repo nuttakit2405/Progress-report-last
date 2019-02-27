@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {store} from '../store'
+import { store } from '../store'
 
 const Home = () => import('@/views/Home')
 const Calendar = () => import('@/views/Calendar')
@@ -12,6 +12,7 @@ const Folder = () => import('@/views/Folder')
 const DocFinal = () => import('@/views/DocFinal')
 const UnAuth = () => import('@/views/UnAuth')
 const Conference = () => import('@/views/Conference')
+const Chat = () => import('@/views/Chat')
 
 // admin only
 const ImportStudent = () => import('@/views/admin/ImportStudent')
@@ -108,6 +109,13 @@ const router = new Router({
       component: Conference,
       props: true
       // meta: { requireAuth: true }
+    },
+    {
+      path: '/chat/:projectId',
+      name: 'Chat',
+      component: Chat,
+      props: true
+      // meta: { requireAuth: true }
     }
   ]
 })
@@ -117,18 +125,18 @@ router.beforeEach((to, from, next) => {
     if (from.name == null) {
       next()
     } else if (!store.getters['user/isLogged']) {
-      router.replace({name: 'Login'})
+      router.replace({ name: 'Login' })
     } else {
       next()
     }
   } else if (to.name === 'Profile' && from.name === 'UnAuth') {
     if (!store.getters['user/isLogged']) {
-      router.replace({name: 'UnAuth'})
+      router.replace({ name: 'UnAuth' })
     } else {
       next()
     }
   } else if (to.name === 'UnAuth' && from.name === 'Login') {
-    router.replace({name: 'Profile'})
+    router.replace({ name: 'Profile' })
   } else {
     next()
   }

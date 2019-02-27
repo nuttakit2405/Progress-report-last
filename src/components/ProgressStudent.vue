@@ -101,7 +101,7 @@ export default {
   methods: {
     memberConfirm (members) {
       if (members) {
-        return Object.keys(members).map(uid => this.allUsers[uid].fullName)
+        return Object.keys(members).map(uid => this.allUsers[uid] ? this.allUsers[uid].fullName : '')
       }
       return ''
     },
@@ -142,6 +142,19 @@ export default {
     },
     async sentToTeacher () {
       if (this.weekData.saveProgress) {
+        const attachment = this.weekData.files ? `มีการแนบไฟล์ทั้งสิ้น ${Object.keys(this.weekData.files).length} ไฟล์` : ''
+        const noti = {
+          subject: `ส่งความคืบหน้าของสัปดาห์ที่ ${this.week + 1} แล้ว`,
+          content: `
+          <b>ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว</b><br>
+          ${this.weekData.textProgress}<br><br>
+          <b>ปัญหาที่พบ</b><br>
+          ${this.weekData.problem}<br><br>
+          <b>วิธีแก้ปัญหาที่พบ</b><br>
+          ${this.weekData.solution}<br><br>
+          <b>เปอร์เซ็นต์ที่ทำงานได้ คิดเป็น ${this.weekData.progress}%</b><br>
+          ${attachment}<br>`
+        }
         const {value} = await this.$swal({
           title: 'ยืนยันที่จะส่งความคืบหน้าให้กับอาจารย์',
           type: 'question',
@@ -153,6 +166,7 @@ export default {
           text: `เปอร์เซ็นต์ที่ทำงานได้ คิดเป็น ${this.progress}%`
         })
         if (value) {
+          this.$emit('sentNoti', noti)
           await db.database.ref(`projects/${this.projectKey}/scoreboard/${this.week}`).update({sentTeacher: true})
           await this.$swal({
             type: 'success',

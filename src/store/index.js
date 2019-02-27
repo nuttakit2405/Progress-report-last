@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 import user from './modules/user'
 import events from './modules/events'
 import projects from './modules/projects'
+import chat from './modules/chat'
 
 Vue.use(Vuex)
 
@@ -85,11 +87,62 @@ export const store = new Vuex.Store({
     },
     reorder ({commit}, {oldIndex, newIndex}) {
       commit('REORDER', {oldIndex, newIndex})
+    },
+    sentNoti ({state, dispatch}, data) {
+      const to = data.to.map(key => {
+        const user = state.user.allUsers[key]
+        const email = user.sid ? `${user.sid}@fitm.kmutnb.ac.th` : user.email
+        return {
+          name: user.fullName,
+          email: email
+        }
+      }).filter((value, index, self) => {
+        return self.map(e => e.email).indexOf(value.email) === index
+      })
+
+      const mailBody = {
+        subject: data.subject,
+        to: to,
+        content: {
+          type: 'text/html',
+          body: data.content
+        }
+      }
+      dispatch('sentMail', mailBody)
+    },
+    async sentMail ({commit}, mailBody) {
+      // mailBody = {
+      //   subject: 'Test Sent Mail',
+      //   to: [
+      //     {
+      //       name: 'Chanwit',
+      //       email: 'kingkong2103@gmail.com'
+      //     },
+      //     {
+      //       name: 'Chanwit',
+      //       email: 'chanwit.piromplad@gmail.com'
+      //     }
+      //   ],
+      //   content: {
+      //     type: 'text/plain',
+      //     body: 'mail body'
+      //   }
+      // }
+
+      if (mailBody) {
+        try {
+          const res = await axios.post('https://progress-report-mailer.herokuapp.com/mail', mailBody)
+          console.log(res)
+        } catch (e) {
+          console.log(e)
+        }
+      }
     }
   },
   modules: {
     user,
     events,
-    projects
+    projects,
+    chat
   }
 })

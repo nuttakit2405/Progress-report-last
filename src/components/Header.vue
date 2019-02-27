@@ -1,4 +1,5 @@
 <template >
+  <div>
   <div class="hero is-medium is-white styleNavbar">
     <div class="hero-head container is-fluid ">
       <div class="column">
@@ -77,7 +78,7 @@
 
           <!-- Right side -->
           <div class="level-right">
-            <div
+            <div class="dp-none-mobile"
               style="margin-right: 40px;"
               v-if="isLogged">
               <b>{{stringMode}}</b>
@@ -136,6 +137,8 @@
       </div>
 
     </div>
+  </div>
+  <div class="column"></div>
   </div>
 </template>
 

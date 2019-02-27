@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <div class="column">
+    <div class="">
+      <div class="column"></div>
+      <div class="column"></div>
       <div class="columns">
         <div class="column">
           <div>
@@ -11,7 +13,7 @@
                 </b-notification>
               </section>
             </div>
-            <div v-else class="column box hero">
+            <div v-else class="column hero is-medium is-white">
               <div v-if="isLogged && hasProfile">
                 <div class="level">
                   <div class="level-item has-text-centered">
@@ -23,7 +25,7 @@
                   </div>
                 </div>
                 <div class="level-item has-text-centered">
-                  <span class="title is-5">ประเภทผู้ใช้งาน:&nbsp;</span>
+                  <span class="title is-5">ประเภทผู้ใช้งาน:&nbsp; </span>
                   <span class="is-size-5">{{roles[profile.userType]}}</span>
                 </div>
                 <div class="level-item" v-if="profile && profile.userType === 'teacher'">
@@ -34,7 +36,7 @@
                 <div class="level-item " v-if="profile && profile.userType === 'student'">
                   <b-field label="ความก้าวหน้าของงาน" v-if="profile.myProject">
                     <table class="table">
-                      <tr :key="project.key" v-if="!project.deleted"  v-for="project in findProjectWithIds(profile.myProject)">
+                      <tr :key="project.key"  v-for="project in findProjectWithIds(profile.myProject)">
                         <td>{{project.thaiProjectName}}</td>
                         <td><progress class="progess is-medium" :value="project.progress ? project.progress : 0" max="100"></progress>&nbsp;{{project.progress ? project.progress : 0}}%</td>
                       </tr>
@@ -187,8 +189,8 @@ export default {
     async initProfile (user) {
       if (user != null) {
         this.fetchProfile = await true
-        const val = this.profile
-        if (val === null) {
+        const profile = this.profile
+        if (profile === null) {
           this.fullName = user.displayName
           const info = checkFITMemail(user.email)
           if (info.isFITM) {
@@ -200,7 +202,7 @@ export default {
       }
     },
     findProjectWithIds (ids) {
-      return this.projectsWithId.filter(project => ids.findIndex(p => p === project.key) !== -1)
+      return this.projectsWithId.filter(project => ids.findIndex(p => p === project.key) !== -1 && !project.deleted)
     },
     findMyProject (sid) {
       return this.projectsWithId.filter(project => !project.deleted && project.teams.some(member => member.id === sid))
@@ -215,7 +217,8 @@ export default {
     async saveProfile () {
       const profileData = {
         fullName: this.fullName,
-        userType: this.userType
+        userType: this.userType,
+        photoURL: this.user.photoURL
       }
       if (this.userType === 'student') {
         profileData['sid'] = this.sid
