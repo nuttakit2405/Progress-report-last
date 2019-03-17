@@ -10,6 +10,7 @@
             <div class="level-item">
               <Slide>
 
+            <!-- burger -->
                 <router-link :to="{name: 'Home'}">
                   <span>
                      <i class="fas fa-home fa-1x" style="color:#FFD700"></i>
@@ -19,7 +20,7 @@
 
                 <router-link :to="{name: 'Calendar'}">
                   <span>
-                    <i class="far fa-calendar-alt fa-1x" style="color:#87CEFA"></i>
+                    <i class="far fa-calendar-alt fa-1x" style="color:#87CEFA; margin-left:4px; "></i>
                     ปฏิทิน
                 </span>
                </router-link>
@@ -28,27 +29,34 @@
                 v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'"
                 @click="$router.push({name: 'AddProject'})">
                   <span>
-                    <i class="far fa-plus-square fa-1x" style="color:#FF6347"></i>
+                    <i class="far fa-plus-square fa-1x" style="color:#FF6347; margin-left:4px;"></i>
                     เพิ่มโครงงาน
                   </span>
                </router-link>
 
-                 <!-- <router-link :to="{name: 'Home'}"> -->
-                  <span>
-                     <i  class="fas fa-file-import fa-1x"  style="color:#48D1CC; margin-left:-5px;"></i>
-                     <div style="margin-left:10px; margin-top:-5px;"> เพิ่มข้อมูล </div> <br><br>
-                      <!-- <router-link :to="{name: 'ImportStudent'}"
-                        @click="$router.push({name: 'ImportStudent'})">
-                        <div style="margin-left:20px;"/>
-                            เพิ่มข้อมูลนักศึกษา
-                      </router-link> -->
-                  </span>
-                <!-- </router-link> -->
+                <div v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
+                  <router-link :to="{name: 'ImportStudent'}">
+                    <span>
+                      <i class="fas fa-file-import fa-1x" style="color:#48D1CC; margin-left:-1px; "></i>
+                        เพิ่มข้อมูลนักศึกษา
+                    </span>
+                  </router-link>
+                </div>
+
+                <div v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
+                  <router-link :to="{name: 'ImportTeacher'}">
+                    <span>
+                      <i class="fas fa-file-import fa-1x" style="color:#5DADE2; margin-left:-1px; "></i>
+                        เพิ่มข้อมูลอาจารย์
+                    </span>
+                  </router-link>
+                </div>
 
               </Slide>
             </div>
-            <div class="level-item">
 
+            <!-- Header -->
+            <div class="level-item">
               <p class="subtitle is-3">
                 <router-link :to="{name: 'Home'}">
                   <div style="margin-right: 20px;">
@@ -61,7 +69,7 @@
             </div>
           </div>
 
-          <!-- MENU -->
+          <!-- MENU
             <div
               id="navbarBasicExample"
               class="navbar-menu ">
@@ -115,7 +123,8 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
+
           <!-- Right side -->
           <div class="level-right">
             <div class="dp-none-mobile"
