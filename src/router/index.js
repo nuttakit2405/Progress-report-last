@@ -11,7 +11,7 @@ const ScoreBoard = () => import('@/views/ScoreBoard')
 const Folder = () => import('@/views/Folder')
 const DocFinal = () => import('@/views/DocFinal')
 const UnAuth = () => import('@/views/UnAuth')
-const Conference = () => import('@/views/Conference')
+const Conference = () => import('@/views/ConferenceGroup')
 const Chat = () => import('@/views/Chat')
 
 // admin only
