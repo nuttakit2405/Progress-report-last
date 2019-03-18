@@ -1,11 +1,61 @@
 <template >
   <div>
+    <div class="column"></div>
   <div class="hero is-medium is-white styleNavbar">
     <div class="hero-head container is-fluid ">
       <div class="column">
         <nav class="level ">
           <!-- BANNER  -->
           <div class="level-left">
+            <div class="level-item">
+              <Slide>
+
+            <!-- burger -->
+                <router-link :to="{name: 'Home'}">
+                  <span>
+                     <i class="fas fa-home fa-1x" style="color:#FFD700"></i>
+                     หน้าหลัก
+                  </span>
+                </router-link>
+
+                <router-link :to="{name: 'Calendar'}">
+                  <span>
+                    <i class="far fa-calendar-alt fa-1x" style="color:#87CEFA; margin-left:4px; "></i>
+                    ปฏิทิน
+                </span>
+               </router-link>
+
+               <router-link :to="{name: 'AddProject'}"
+                v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'"
+                @click="$router.push({name: 'AddProject'})">
+                  <span>
+                    <i class="far fa-plus-square fa-1x" style="color:#FF6347; margin-left:4px;"></i>
+                    เพิ่มโครงงาน
+                  </span>
+               </router-link>
+
+                <div v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
+                  <router-link :to="{name: 'ImportStudent'}">
+                    <span>
+                      <i class="fas fa-file-import fa-1x" style="color:#48D1CC; margin-left:-1px; "></i>
+                        เพิ่มข้อมูลนักศึกษา
+                    </span>
+                  </router-link>
+                </div>
+
+                <div v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
+                  <router-link :to="{name: 'ImportTeacher'}">
+                    <span>
+                      <i class="fas fa-file-import fa-1x" style="color:#5DADE2; margin-left:-1px; "></i>
+                        เพิ่มข้อมูลอาจารย์
+                    </span>
+                  </router-link>
+                </div>
+
+              </Slide>
+            </div>
+
+            <!-- Header -->
             <div class="level-item">
               <p class="subtitle is-3">
                 <router-link :to="{name: 'Home'}">
@@ -19,7 +69,7 @@
             </div>
           </div>
 
-          <!-- MENU -->
+          <!-- MENU
             <div
               id="navbarBasicExample"
               class="navbar-menu ">
@@ -33,7 +83,6 @@
                   ></i>&nbsp;
                   ปฏิทิน
                 </a>
-
                 <a
                   class="navbar-item"
                   v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'"
@@ -74,7 +123,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
           <!-- Right side -->
           <div class="level-right">
@@ -138,6 +187,7 @@
 
     </div>
   </div>
+
   <div class="column"></div>
   </div>
 </template>
@@ -145,6 +195,7 @@
 <script>
 import auth from '@/auth'
 import { mapGetters, mapActions } from 'vuex'
+import { Slide } from 'vue-burger-menu'
 
 export default {
   data () {
@@ -180,6 +231,9 @@ export default {
       }
       return mode[this.viewMode]
     }
+  },
+  components: {
+    Slide
   }
 }
 </script>
@@ -205,4 +259,25 @@ export default {
   width: 100%;
   z-index: 1;
 }
+.bm-overlay {
+  background: #F8F8FF;
+}
+.bm-burger-button {
+  position: absolute;
+  width: 36px;
+  height: 30px;
+  left: -50px;
+  top: 30%;
+  cursor: pointer;
+}
+.bm-menu {
+      background: #F8F8FF;
+}
+ .bm-item-list span {
+      margin-left: 10px;
+      font-weight: 700;
+      color: #000000;
+      font-family: "Kanit", sans-serif;
+    }
+
 </style>
