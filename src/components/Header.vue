@@ -262,14 +262,14 @@ export default {
 .bm-overlay {
   background: #F8F8FF;
 }
-/* .bm-burger-button {
+.bm-burger-button {
   position: absolute;
   width: 36px;
   height: 30px;
   left: -50px;
   top: 30%;
   cursor: pointer;
-} */
+}
 .bm-menu {
       background: #F8F8FF;
 }
