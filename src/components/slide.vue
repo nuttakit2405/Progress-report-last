@@ -1,7 +1,7 @@
 <template>
     <div>
         <Menu v-bind="this.$attrs" @openMenu="openMenu" @closeMenu="closeMenu">
-            <slot></slot>
+          <slot></slot>
         </Menu>
     </div>
 </template>
