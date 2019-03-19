@@ -27,7 +27,7 @@
                 <!-- Tab term -->
                 <b-tabs v-model="activeTab" type="is-boxed">
                   <b-tab-item label="1/2561">
-                    1/2561
+                    1/2561..
                   </b-tab-item>
                   <b-tab-item label="2/2561">
                     2/2561
