@@ -28,7 +28,7 @@ export function pageReady () {
     navigator.mediaDevices.getUserMedia(constraints)
       .then(getUserMediaSuccess)
       .then(function () {
-        socket = io.connect('https://progress-report-services.herokuapp.com')
+        socket = io.connect(process.env.PROGRESS_REPORT_SERVICE)
         socket.on('signal', gotMessageFromServer)
 
         socket.on('connect', function () {
