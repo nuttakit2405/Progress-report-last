@@ -131,7 +131,7 @@ export const store = new Vuex.Store({
 
       if (mailBody) {
         try {
-          const res = await axios.post('https://progress-report-services.herokuapp.com/mail', mailBody)
+          const res = await axios.post(process.env.PROGRESS_REPORT_SERVICE + '/mail', mailBody)
           console.log(res)
         } catch (e) {
           console.log(e)

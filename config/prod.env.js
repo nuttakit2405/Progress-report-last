@@ -10,5 +10,6 @@ module.exports = {
   DATABASE_URL: `"${process.env.DATABASE_URL}"`,
   PROJECT_ID: `"${process.env.PROJECT_ID}"`,
   STORAGE_BUCKET: `"${process.env.STORAGE_BUCKET}"`,
-  MESSAGING_SENDER_ID: `"${process.env.MESSAGING_SENDER_ID}"`
+  MESSAGING_SENDER_ID: `"${process.env.MESSAGING_SENDER_ID}"`,
+  PROGRESS_REPORT_SERVICE: `"${process.env.PROGRESS_REPORT_SERVICE}"`
 }
