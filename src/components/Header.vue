@@ -1,194 +1,183 @@
-<template >
+<template>
   <div>
     <div class="column"></div>
-  <div class="hero is-medium is-white styleNavbar">
-    <div class="hero-head container is-fluid ">
-      <div class="column">
-        <nav class="level ">
-          <!-- BANNER  -->
-          <div class="level-left">
-            <div class="level-item">
-              <Slide>
+    <div class="hero is-medium is-white styleNavbar">
+      <div class="hero-head container is-fluid ">
+        <div class="column">
+          <nav class="level ">
+            <!-- BANNER  -->
+            <div class="level-left">
+              <div class="level-item">
+                <Slide>
 
-            <!-- burger -->
-                <router-link :to="{name: 'Home'}">
-                  <span>
-                     <i class="fas fa-home fa-1x" style="color:#FFD700"></i>
-                     หน้าหลัก
-                  </span>
-                </router-link>
-
-                <router-link :to="{name: 'Calendar'}">
-                  <span>
-                    <i class="far fa-calendar-alt fa-1x" style="color:#87CEFA; margin-left:4px; "></i>
-                    ปฏิทิน
-                </span>
-               </router-link>
-
-               <router-link :to="{name: 'AddProject'}"
-                v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'"
-                @click="$router.push({name: 'AddProject'})">
-                  <span>
-                    <i class="far fa-plus-square fa-1x" style="color:#FF6347; margin-left:4px;"></i>
-                    เพิ่มโครงงาน
-                  </span>
-               </router-link>
-
-                <div v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
-                  <router-link :to="{name: 'ImportStudent'}">
+                  <!-- burger -->
+                  <router-link :to="{name: 'Home'}">
                     <span>
-                      <i class="fas fa-file-import fa-1x" style="color:#48D1CC; margin-left:-1px; "></i>
+                      <i class="fas fa-home fa-1x" style="color:#FFD700"></i>
+                      หน้าหลัก
+                    </span>
+                  </router-link>
+
+                  <router-link :to="{name: 'Calendar'}">
+                    <span>
+                      <i class="far fa-calendar-alt fa-1x" style="color:#87CEFA; margin-left:4px; "></i>
+                      ปฏิทิน
+                    </span>
+                  </router-link>
+
+                  <router-link :to="{name: 'AddProject'}"
+                    v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'"
+                    @click="$router.push({name: 'AddProject'})">
+                    <span>
+                      <i class="far fa-plus-square fa-1x" style="color:#FF6347; margin-left:4px;"></i>
+                      เพิ่มโครงงาน
+                    </span>
+                  </router-link>
+
+                  <div v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
+                    <router-link :to="{name: 'ImportStudent'}">
+                      <span>
+                        <i class="fas fa-file-import fa-1x" style="color:#48D1CC; margin-left:-1px; "></i>
                         เพิ่มข้อมูลนักศึกษา
-                    </span>
-                  </router-link>
-                </div>
-
-                <div v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
-                  <router-link :to="{name: 'ImportTeacher'}">
-                    <span>
-                      <i class="fas fa-file-import fa-1x" style="color:#5DADE2; margin-left:-1px; "></i>
-                        เพิ่มข้อมูลอาจารย์
-                    </span>
-                  </router-link>
-                </div>
-
-              </Slide>
-            </div>
-
-            <!-- Header -->
-            <div class="level-item">
-              <p class="subtitle is-3">
-                <router-link :to="{name: 'Home'}">
-                  <div style="margin-right: 20px;">
-                    <i class="fas fa-graduation-cap fa-1x" style="color:#FFD700"></i>
-                    <span class="styleProgress ">Progress </span>
-                    <span class="styleReport">Report</span>
+                      </span>
+                    </router-link>
                   </div>
-                </router-link>
-              </p>
+
+                  <div v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
+                    <router-link :to="{name: 'ImportTeacher'}">
+                      <span>
+                        <i class="fas fa-file-import fa-1x" style="color:#5DADE2; margin-left:-1px; "></i>
+                        เพิ่มข้อมูลอาจารย์
+                      </span>
+                    </router-link>
+                  </div>
+
+                </Slide>
+              </div>
+
+              <!-- Header -->
+              <div class="level-item">
+                <p class="subtitle is-3">
+                  <router-link :to="{name: 'Home'}">
+                    <div style="margin-right: 20px;">
+                      <i class="fas fa-graduation-cap fa-1x" style="color:#FFD700"></i>
+                      <span class="styleProgress ">Progress </span>
+                      <span class="styleReport">Report</span>
+                    </div>
+                  </router-link>
+                </p>
+              </div>
             </div>
-          </div>
 
-          <!-- MENU
-            <div
-              id="navbarBasicExample"
-              class="navbar-menu ">
-              <div class="navbar-start styleNav ">
-                <a
-                  class="navbar-item styleNav "
-                  @click="$router.push({name: 'Calendar'})">
-                  <i
-                    class="far fa-calendar-alt fa-2x"
-                    style="color:#87CEFA"
-                  ></i>&nbsp;
-                  ปฏิทิน
-                </a>
-                <a
-                  class="navbar-item"
-                  v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'"
-                  @click="$router.push({name: 'AddProject'})">
-                  <i
-                    class="far fa-plus-square fa-2x"
-                    style="color:#FF6347"
-                  ></i>&nbsp;
-                  เพิ่มโครงงาน
-                </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
+            <!-- MENU
+              <div
+                id="navbarBasicExample"
+                class="navbar-menu ">
+                <div class="navbar-start styleNav ">
                   <a
-                    class="navbar-link"
-                    v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
-                    เพิ่มข้อมูล
+                    class="navbar-item styleNav "
+                    @click="$router.push({name: 'Calendar'})">
+                    <i
+                      class="far fa-calendar-alt fa-2x"
+                      style="color:#87CEFA"
+                    ></i>&nbsp;
+                    ปฏิทิน
+                  </a>
+                  <a
+                    class="navbar-item"
+                    v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'"
+                    @click="$router.push({name: 'AddProject'})">
+                    <i
+                      class="far fa-plus-square fa-2x"
+                      style="color:#FF6347"
+                    ></i>&nbsp;
+                    เพิ่มโครงงาน
                   </a>
 
-                  <div class="navbar-dropdown">
+                  <div class="navbar-item has-dropdown is-hoverable">
                     <a
-                      class="navbar-item"
-                      @click="$router.push({name: 'ImportStudent'})">
-                      <i
-                        class="fas fa-file-import fa-1x"
-                        style="color:#48D1CC"
-                      ></i>&nbsp;
-                      เพิ่มข้อมูลนักศึกษา
+                      class="navbar-link"
+                      v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
+                      เพิ่มข้อมูล
                     </a>
-                    <a
-                      class="navbar-item"
-                      @click="$router.push({name: 'ImportTeacher'})">
-                      <i
-                        class="fas fa-file-import fa-1x"
-                        style="color:#48D1CC"
-                      ></i>&nbsp;
-                      เพิ่มข้อมูลอาจารย์
-                    </a>
+
+                    <div class="navbar-dropdown">
+                      <a
+                        class="navbar-item"
+                        @click="$router.push({name: 'ImportStudent'})">
+                        <i
+                          class="fas fa-file-import fa-1x"
+                          style="color:#48D1CC"
+                        ></i>&nbsp;
+                        เพิ่มข้อมูลนักศึกษา
+                      </a>
+                      <a
+                        class="navbar-item"
+                        @click="$router.push({name: 'ImportTeacher'})">
+                        <i
+                          class="fas fa-file-import fa-1x"
+                          style="color:#48D1CC"
+                        ></i>&nbsp;
+                        เพิ่มข้อมูลอาจารย์
+                      </a>
+                    </div>
                   </div>
                 </div>
+              </div> -->
+
+            <!-- Right side -->
+            <div class="level-right">
+              <div class="dp-none-mobile" style="margin-right: 40px;" v-if="isLogged">
+                <b>{{stringMode}}</b>
               </div>
-            </div> -->
+              <div>
+                <b-dropdown v-if="isLogged">
+                  <button class="button" slot="trigger">
+                    <span>{{user.email}}</span>
+                    <b-icon icon="caret-down"></b-icon>
+                  </button>
+                  <b-dropdown-item custom>
+                    <b v-if="profile">{{profile.fullName}}</b>
+                    <b v-else>ยังไม่ได้กรอกข้อมูลเบื้องต้น</b>
+                  </b-dropdown-item>
+                  <b-dropdown-item @click="$router.push({name: 'Profile'})">
+                    <i class="far fa-user"></i>&nbsp;<span>โปรไฟล์</span></b-dropdown-item>
+                  <hr class="dropdown-divider" v-if="isTeacher" custom>
+                  <!-- <b-dropdown-item @click="$router.push({name: 'Calendar'})">
+                          <i class="far fa-calendar-alt"></i>&nbsp;<span>ปฏิทิน</span>
+                        </b-dropdown-item> -->
+                  <b-dropdown-item v-if="isTeacher" custom>
+                    โหมดอาจารย์: <b>{{stringMode}}</b>
+                  </b-dropdown-item>
+                  <b-dropdown-item v-if="isTeacher && profile.teacherGroup.length > 1" @click="toggleMode">
+                    <i class="fas fa-toggle-off"></i>&nbsp;<span>สลับโหมด</span>
+                  </b-dropdown-item>
+                  <!-- <b-dropdown-item v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'" @click="$router.push({name: 'AddProject'})">
+                          <i class="far fa-plus-square"></i>&nbsp;<span>เพิ่มโครงงาน</span>
+                        </b-dropdown-item>
+                        <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'ImportStudent'})">
+                          <i class="fas fa-file-import"></i>&nbsp;<span>เพิ่มข้อมูลนักศึกษา</span>
+                        </b-dropdown-item>
+                        <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'ImportTeacher'})">
+                          <i class="fas fa-file-import"></i>&nbsp;<span>เพิ่มข้อมูลอาจารย์</span>
+                        </b-dropdown-item> -->
+                  <hr class="dropdown-divider">
+                  <b-dropdown-item @click="logout">
+                    <i class="fas fa-sign-out-alt"></i>&nbsp;<span>ออกจากระบบ</span>
+                  </b-dropdown-item>
+                </b-dropdown>
+              </div>
+              <div>
 
-          <!-- Right side -->
-          <div class="level-right">
-            <div class="dp-none-mobile"
-              style="margin-right: 40px;"
-              v-if="isLogged">
-              <b>{{stringMode}}</b>
+              </div>
             </div>
-            <div>
-              <b-dropdown v-if="isLogged">
-                <button
-                  class="button"
-                  slot="trigger">
-                  <span>{{user.email}}</span>
-                  <b-icon icon="caret-down"></b-icon>
-                </button>
-                <b-dropdown-item custom>
-                  <b v-if="profile">{{profile.fullName}}</b>
-                  <b v-else>ยังไม่ได้กรอกข้อมูลเบื้องต้น</b>
-                </b-dropdown-item>
-                <b-dropdown-item @click="$router.push({name: 'Profile'})">
-                  <i class="far fa-user"></i>&nbsp;<span>โปรไฟล์</span></b-dropdown-item>
-                <hr
-                  class="dropdown-divider"
-                  v-if="isTeacher"
-                  custom>
-                <!-- <b-dropdown-item @click="$router.push({name: 'Calendar'})">
-                        <i class="far fa-calendar-alt"></i>&nbsp;<span>ปฏิทิน</span>
-                      </b-dropdown-item> -->
-                <b-dropdown-item
-                  v-if="isTeacher"
-                  custom>
-                  โหมดอาจารย์: <b>{{stringMode}}</b>
-                </b-dropdown-item>
-                <b-dropdown-item
-                  v-if="isTeacher && profile.teacherGroup.length > 1"
-                  @click="toggleMode">
-                  <i class="fas fa-toggle-off"></i>&nbsp;<span>สลับโหมด</span>
-                </b-dropdown-item>
-                <!-- <b-dropdown-item v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'" @click="$router.push({name: 'AddProject'})">
-                        <i class="far fa-plus-square"></i>&nbsp;<span>เพิ่มโครงงาน</span>
-                      </b-dropdown-item>
-                      <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'ImportStudent'})">
-                        <i class="fas fa-file-import"></i>&nbsp;<span>เพิ่มข้อมูลนักศึกษา</span>
-                      </b-dropdown-item>
-                      <b-dropdown-item v-if="isTeacher" @click="$router.push({name: 'ImportTeacher'})">
-                        <i class="fas fa-file-import"></i>&nbsp;<span>เพิ่มข้อมูลอาจารย์</span>
-                      </b-dropdown-item> -->
-                <hr class="dropdown-divider">
-                <b-dropdown-item @click="logout">
-                  <i class="fas fa-sign-out-alt"></i>&nbsp;<span>ออกจากระบบ</span>
-                </b-dropdown-item>
-              </b-dropdown>
-            </div>
-            <div>
+          </nav>
+        </div>
 
-            </div>
-          </div>
-        </nav>
       </div>
-
     </div>
-  </div>
 
-  <div class="column"></div>
+    <div class="column"></div>
   </div>
 </template>
 
@@ -260,24 +249,24 @@ export default {
   z-index: 1;
 }
 .bm-overlay {
-  background: #F8F8FF;
+  background: #F8F8FF !important;
 }
 .bm-burger-button {
-  position: absolute;
-  width: 36px;
-  height: 30px;
-  left: -50px;
-  top: 30%;
-  cursor: pointer;
+  position: absolute !important;
+  width: 36px !important;
+  height: 30px !important;
+  left: -50px !important;
+  top: 30% !important;
+  cursor: pointer !important;
 }
 .bm-menu {
-      background: #F8F8FF;
+  background: #F8F8FF !important;
 }
- .bm-item-list span {
-      margin-left: 10px;
-      font-weight: 700;
-      color: #000000;
-      font-family: "Kanit", sans-serif;
-    }
+.bm-item-list span {
+  margin-left: 10px !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+  font-family: "Kanit", sans-serif !important;
+}
 
 </style>
