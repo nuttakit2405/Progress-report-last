@@ -7,6 +7,7 @@ var socketId
 var socket
 var localStream
 var connections = []
+var hubId
 
 var peerConnectionConfig = {
   'iceServers': [
@@ -23,6 +24,7 @@ export function closeLocalVideo() {
 }
 
 export function pageReady(groupId) {
+  hubId = groupId
   localVideo = document.getElementById('localVideo')
   remoteVideo = document.getElementById('remoteVideo')
 
@@ -35,17 +37,18 @@ export function pageReady(groupId) {
     navigator.mediaDevices.getUserMedia(constraints)
       .then(getUserMediaSuccess)
       .then(function () {
-        socket = io.connect(process.env.PROGRESS_REPORT_SERVICE)
+        socket = io.connect(process.env.PROGRESS_REPORT_SERVICE, {query: 'groupId='+groupId})
         socket.on('signal', gotMessageFromServer)
 
         socket.on('connect', function () {
           socketId = socket.id
 
           socket.on('user-left', function (id) {
-            console.log('user-left', id)
             var video = document.querySelector('[data-socket="' + id + '"]')
-            var parentDiv = video.parentElement
-            video.parentElement.parentElement.removeChild(parentDiv)
+            if (video) {
+              var parentDiv = video.parentElement
+              video.parentElement.parentElement.removeChild(parentDiv)
+            }
           })
 
           socket.on('user-joined', function (id, count, clients) {
@@ -55,7 +58,6 @@ export function pageReady(groupId) {
                 // Wait for their ice candidate
                 connections[socketListId].onicecandidate = function () {
                   if (event.candidate != null) {
-                    console.log('SENDING ICE')
                     socket.emit('signal', socketListId, JSON.stringify({ 'ice': event.candidate, groupId }))
                   }
                 }
@@ -112,10 +114,9 @@ function gotMessageFromServer(fromId, message) {
   // Parse the incoming signal
   var signal = JSON.parse(message)
   var groupId = signal.groupId
-  console.log(signal)
 
   // Make sure it's not coming from yourself
-  if (fromId !== socketId) {
+  if (fromId !== socketId && hubId == groupId) {
     if (signal.sdp) {
       connections[fromId].setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(function () {
         if (signal.sdp.type == 'offer') {
