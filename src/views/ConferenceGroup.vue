@@ -2,7 +2,7 @@
   <div style="width: 100%; padding-top: 20px;" align="center">
     <div class="videos">
         <div>
-            <video id="localVideo" autoplay muted playsinline ></video>
+            <video class="video" id="localVideo" autoplay muted playsinline ></video>
             <!-- <div class="soundbar"><span class="currentVolume"></span></div> -->
         </div>
     </div>
@@ -23,7 +23,7 @@ export default {
   },
   async mounted () {
     // await webrtc.droneOpen(this.projectId)
-    webrtc.pageReady()
+    webrtc.pageReady(this.projectId)
   },
   beforeDestroy () {
     // webrtc.closeLocalVideo()
