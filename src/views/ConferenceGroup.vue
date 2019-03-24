@@ -26,7 +26,7 @@ export default {
     webrtc.pageReady(this.projectId)
   },
   beforeDestroy () {
-    // webrtc.closeLocalVideo()
+    webrtc.closeLocalVideo()
   }
 }
 </script>

@@ -15,6 +15,13 @@ var peerConnectionConfig = {
   ]
 }
 
+export function closeLocalVideo() {
+  socket.disconnect()
+  localStream.getTracks().forEach(stream => {
+    stream.stop()
+  })
+}
+
 export function pageReady (groupId) {
   localVideo = document.getElementById('localVideo')
   remoteVideo = document.getElementById('remoteVideo')
@@ -35,6 +42,7 @@ export function pageReady (groupId) {
           socketId = socket.id
 
           socket.on('user-left', function (id) {
+            console.log('user-left', id)
             var video = document.querySelector('[data-socket="' + id + '"]')
             var parentDiv = video.parentElement
             video.parentElement.parentElement.removeChild(parentDiv)
