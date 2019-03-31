@@ -3,6 +3,7 @@
     <div class="videos">
         <div>
             <video class="video" id="localVideo" autoplay muted playsinline ></video>
+            <button class="button" @click="shareScreen">Share Screen</button>
             <!-- <div class="soundbar"><span class="currentVolume"></span></div> -->
         </div>
     </div>
@@ -21,12 +22,18 @@ export default {
       required: true
     }
   },
+  methods: {
+    shareScreen () {
+      webrtc.openScreen()
+    }
+  },
   async mounted () {
     // await webrtc.droneOpen(this.projectId)
     webrtc.pageReady(this.projectId)
   },
   beforeDestroy () {
     webrtc.closeLocalVideo()
+    console.log('close video call')
   }
 }
 </script>

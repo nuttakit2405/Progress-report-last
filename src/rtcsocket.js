@@ -6,6 +6,7 @@ var socketCount = 0
 var socketId
 var socket
 var localStream
+var screenStream
 var connections = []
 var hubId
 
@@ -18,9 +19,17 @@ var peerConnectionConfig = {
 
 export function closeLocalVideo() {
   socket.disconnect()
-  localStream.getTracks().forEach(stream => {
-    stream.stop()
-  })
+  if (!!localStream) {
+    localStream.getTracks().forEach(stream => {
+      stream.stop()
+    })
+  }
+
+  if (!!screenStream) {
+    screenStream.getTracks().forEach(stream => {
+      stream.stop()
+    })
+  }
 }
 
 export function pageReady(groupId) {
@@ -35,7 +44,10 @@ export function pageReady(groupId) {
 
   if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia(constraints)
-      .then(getUserMediaSuccess)
+      .then((stream) => {
+        localStream = stream
+        getUserMediaSuccess(stream)
+      })
       .then(function () {
         socket = io.connect(process.env.PROGRESS_REPORT_SERVICE, {query: 'groupId='+groupId})
         socket.on('signal', gotMessageFromServer)
@@ -90,11 +102,6 @@ export function pageReady(groupId) {
   }
 }
 
-function getUserMediaSuccess(stream) {
-  localStream = stream
-  localVideo.srcObject = stream
-}
-
 function gotRemoteStream(event, id) {
   var videos = document.querySelector('.videos')
   var video = document.createElement('video')
@@ -134,4 +141,20 @@ function gotMessageFromServer(fromId, message) {
       connections[fromId].addIceCandidate(new RTCIceCandidate(signal.ice)).catch(e => console.log(e))
     }
   }
+}
+
+export function openScreen (onEnded) {
+  getScreenId(function (error, sourceId, screen_constraints) {
+    console.log({ error, sourceId, screen_constraints })
+    navigator.mediaDevices.getUserMedia(screen_constraints).then(function (stream) {
+      screenStream = stream
+      getUserMediaSuccess(stream)
+    }).catch(function (error) {
+      console.error(error);
+    });
+  });
+}
+
+function getUserMediaSuccess(stream) {
+  localVideo.srcObject = stream
 }
