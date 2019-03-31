@@ -42,8 +42,8 @@
             {{$dayjs(data.deadlineProject).format('DD-MMM-YYYY')}}
           </div>
             <b>อาจารย์ที่ปรึกษา</b><br>
-           {{data.mentor.position}}{{data.mentor.name | removeTitle}} {{data.mentor.lastname}} <br>
-           <b>สมาชิก</b><br>
+            {{data.mentor.position}}{{data.mentor.name | removeTitle}} {{data.mentor.lastname}} <br>
+            <b>สมาชิก</b><br>
           <span :key="member.id" v-for="member in data.teams">
             {{member.id}} {{member.name}} {{member.lastname}} <br>
           </span>
@@ -52,7 +52,7 @@
           <!-- {{data.teams[0].id}}<br/>{{data.teams[1].id}} -->
         </div>
         <footer class="card-footer">
-          <p class="card-footer-item" @click="$router.push({name: 'Conference', params: {projectId: projectId}})">
+          <p v-if="viewMode !== 'subject'" class="card-footer-item" @click="$router.push({name: 'Conference', params: {projectId: projectId}})">
               <span class="icon fa-lg icon-hover" >
                 <i class="fa fa-video"></i>
               </span>
@@ -101,7 +101,8 @@ export default {
       {
         user: 'user/user',
         isLogged: 'user/isLogged',
-        profile: 'user/profile'
+        profile: 'user/profile',
+        viewMode: 'viewMode'
       }
     )
   }
