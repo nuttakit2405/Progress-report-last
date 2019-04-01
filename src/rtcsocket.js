@@ -1,12 +1,11 @@
 /* eslint-disable */
 var localVideo
 var remoteVideo
-var firstPerson = false
 var socketCount = 0
 var socketId
 var socket
 var localStream
-var screenStream
+var reserveStream
 var connections = []
 var hubId
 
@@ -19,16 +18,25 @@ var peerConnectionConfig = {
 
 export function closeLocalVideo() {
   socket.disconnect()
+  stopLocalVideo()
+  stopReserveVideo()
+}
+
+function stopLocalVideo() {
   if (!!localStream) {
     localStream.getTracks().forEach(stream => {
       stream.stop()
     })
+    localStream = null
   }
+}
 
-  if (!!screenStream) {
-    screenStream.getTracks().forEach(stream => {
+function stopReserveVideo() {
+  if (!!reserveStream) {
+    reserveStream.getTracks().forEach(stream => {
       stream.stop()
     })
+    reserveStream = null
   }
 }
 
@@ -144,12 +152,23 @@ function gotMessageFromServer(fromId, message) {
 }
 
 export function openScreen (onEnded) {
-  getScreenId(function (error, sourceId, screen_constraints) {
+  console.log(connections[socketId])
+  getScreenId((error, sourceId, screen_constraints) => {
     console.log({ error, sourceId, screen_constraints })
-    navigator.mediaDevices.getUserMedia(screen_constraints).then(function (stream) {
-      screenStream = stream
+    navigator.mediaDevices.getUserMedia(screen_constraints)
+    .then((stream) => {
+      const screenTrack = stream.getVideoTracks()[0]
+      connections[socketId].replaceTrack(screenTrack)
+      reserveStream = stream
+      stream.addEventListener('inactive', e => {
+        console.log('Capture stream inactive - stop recording!');
+        // connections[socketId].removeStream(stream)
+        // connections[socketId].addStream(localStream)
+        // stopReserveVideo()
+        getUserMediaSuccess(localStream)
+      });
       getUserMediaSuccess(stream)
-    }).catch(function (error) {
+    }).catch((error) => {
       console.error(error);
     });
   });

@@ -2,7 +2,7 @@
   <div style="width: 100%; padding-top: 20px;" align="center">
     <div class="videos">
         <div>
-            <video class="video" id="localVideo" autoplay muted playsinline ></video>
+            <video class="video" id="localVideo" autoplay muted playsinline ></video><br>
             <button class="button" @click="shareScreen">Share Screen</button>
             <!-- <div class="soundbar"><span class="currentVolume"></span></div> -->
         </div>
