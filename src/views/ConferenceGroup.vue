@@ -4,7 +4,7 @@
         <div>
             <video class="video" id="localVideo" autoplay muted playsinline ></video><br>
             <button class="button" @click="shareScreen">Share Screen</button>
-            <!-- <div class="soundbar"><span class="currentVolume"></span></div> -->
+            <button class="button" @click="muteToggle">mute</button>
         </div>
     </div>
     <br />
@@ -22,9 +22,18 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      mute: false
+    }
+  },
   methods: {
     shareScreen () {
       webrtc.openScreen()
+    },
+    muteToggle () {
+      this.mute = !this.mute
+      webrtc.muteLocal(this.mute)
     }
   },
   async mounted () {

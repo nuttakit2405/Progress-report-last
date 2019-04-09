@@ -1,7 +1,7 @@
 {
   "name": "Progress Report",
   "short_name": "Progress Report",
-  "display": "browser",
+  "display": "fullscreen",
   "Scope": "/",
   "start_url": "/"
 }

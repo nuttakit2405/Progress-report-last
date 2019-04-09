@@ -16,6 +16,14 @@ var peerConnectionConfig = {
   ]
 }
 
+export function muteLocal (state) {
+  localStream.getAudioTracks().forEach(stream => {
+    stream = state
+    console.log(stream)
+  })
+  console.log(localStream)
+}
+
 export function closeLocalVideo() {
   socket.disconnect()
   stopLocalVideo()
@@ -57,8 +65,9 @@ export function pageReady(groupId) {
         getUserMediaSuccess(stream)
       })
       .then(function () {
-        socket = io.connect(process.env.PROGRESS_REPORT_SERVICE, {query: 'groupId='+groupId})
+        socket = io.connect(process.env.PROGRESS_REPORT_SERVICE, { query: 'groupId=' + groupId })
         socket.on('signal', gotMessageFromServer)
+        socket.on('switch', gotMessageSwitchFromServer)
 
         socket.on('connect', function () {
           socketId = socket.id
@@ -76,7 +85,7 @@ export function pageReady(groupId) {
               if (!connections[socketListId]) {
                 connections[socketListId] = new RTCPeerConnection(peerConnectionConfig)
                 // Wait for their ice candidate
-                connections[socketListId].onicecandidate = function () {
+                connections[socketListId].onicecandidate = function (event) {
                   if (event.candidate != null) {
                     socket.emit('signal', socketListId, JSON.stringify({ 'ice': event.candidate, groupId }))
                   }
@@ -110,6 +119,10 @@ export function pageReady(groupId) {
   }
 }
 
+function getUserMediaSuccess(stream) {
+  localVideo.srcObject = stream
+}
+
 function gotRemoteStream(event, id) {
   var videos = document.querySelector('.videos')
   var video = document.createElement('video')
@@ -118,7 +131,7 @@ function gotRemoteStream(event, id) {
   video.setAttribute('data-socket', id)
   video.srcObject = event.stream
   video.autoplay = true
-  video.muted = true
+  // video.muted = true
   video.playsinline = true
 
   div.appendChild(video)
@@ -151,29 +164,75 @@ function gotMessageFromServer(fromId, message) {
   }
 }
 
-export function openScreen (onEnded) {
+export function openScreen(onEnded) {
   console.log(connections[socketId])
   getScreenId((error, sourceId, screen_constraints) => {
     console.log({ error, sourceId, screen_constraints })
     navigator.mediaDevices.getUserMedia(screen_constraints)
-    .then((stream) => {
-      const screenTrack = stream.getVideoTracks()[0]
-      connections[socketId].replaceTrack(screenTrack)
-      reserveStream = stream
-      stream.addEventListener('inactive', e => {
-        console.log('Capture stream inactive - stop recording!');
-        // connections[socketId].removeStream(stream)
-        // connections[socketId].addStream(localStream)
-        // stopReserveVideo()
-        getUserMediaSuccess(localStream)
+      .then((stream) => {
+        reserveStream = stream
+
+        connections[socketId].removeStream(localStream);
+        connections[socketId].addStream(stream);
+        connections[socketId].createOffer().then(function (offerSDP) {
+          const data = { sdp: offerSDP, groupId: hubId }
+          console.log('switch', data)
+          socket.emit('switch', socketId, JSON.stringify(data))
+        })
+
+        stream.addEventListener('inactive', e => {
+          console.log('Capture stream inactive - stop recording!');
+          // connections[socketId].removeStream(stream)
+          // connections[socketId].addStream(localStream)
+          // stopReserveVideo()
+          getUserMediaSuccess(localStream)
+        });
+        getUserMediaSuccess(stream)
+      }).catch((error) => {
+        console.error(error);
       });
-      getUserMediaSuccess(stream)
-    }).catch((error) => {
-      console.error(error);
-    });
   });
 }
 
-function getUserMediaSuccess(stream) {
-  localVideo.srcObject = stream
+function gotRemoteSwitchStream(event, id) {
+  remoteVideo.srcObject = event.stream
+}
+
+function gotMessageSwitchFromServer(fromId, message) {
+  // Parse the incoming signal
+  var signal = JSON.parse(message)
+  var groupId = signal.groupId
+
+  console.log('answer', { fromId, signal, groupId })
+
+  // // Make sure it's not coming from yourself
+  if (fromId !== socketId && hubId == groupId) {
+    if (signal.sdp) {
+      console.log('switch sdp', signal, connections[fromId])
+      connections[fromId].onaddstream = function (event) {
+        console.log('onaddstream switch', event)
+        // gotRemoteSwitchStream(event)
+      };
+
+      connections[fromId].onicecandidate = function (event) {
+        console.log('switch onice', event)
+        // gotRemoteSwitchStream(event)
+      }
+
+      // connections[fromId].setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(function () {
+      if (signal.sdp.type == 'offer') {
+        connections[fromId].createAnswer().then(function (description) {
+          connections[fromId].setLocalDescription(description).then(function () {
+            // const ata = { sdp: connections[fromId].localDescription, groupId }
+            // socket.emit('switch', fromId, JSON.stringify(data))
+          }).catch(e => console.log(e))
+        }).catch(e => console.log(e))
+      }
+      // }).catch(e => console.log(e))
+    }
+
+    // if (signal.ice) {
+    //   connections[fromId].addIceCandidate(new RTCIceCandidate(signal.ice)).catch(e => console.log(e))
+    // }
+  }
 }
