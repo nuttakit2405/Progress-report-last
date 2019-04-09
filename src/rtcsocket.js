@@ -18,7 +18,7 @@ var peerConnectionConfig = {
 
 export function muteLocal (state) {
   localStream.getAudioTracks().forEach(stream => {
-    stream = state
+    stream.enabled = state
     console.log(stream)
   })
   console.log(localStream)
