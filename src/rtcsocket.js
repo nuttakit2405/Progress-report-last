@@ -5,6 +5,8 @@ var socketCount = 0
 var socketId
 var socket
 var localStream
+var cameraStream
+var screenStream
 var reserveStream
 var connections = []
 var hubId
@@ -62,6 +64,7 @@ export function pageReady(groupId) {
     navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         localStream = stream
+        cameraStream = stream
         getUserMediaSuccess(stream)
       })
       .then(function () {
@@ -171,14 +174,15 @@ export function openScreen(onEnded) {
     navigator.mediaDevices.getUserMedia(screen_constraints)
       .then((stream) => {
         reserveStream = stream
+        console.log(connections[socketId])
 
-        connections[socketId].removeStream(localStream);
+        if (localStream) connections[socketId].removeStream(localStream);
         connections[socketId].addStream(stream);
-        connections[socketId].createOffer().then(function (offerSDP) {
-          const data = { sdp: offerSDP, groupId: hubId }
-          console.log('switch', data)
-          socket.emit('switch', socketId, JSON.stringify(data))
-        })
+        // connections[socketId].createOffer().then(function (offerSDP) {
+        //   const data = { sdp: offerSDP, groupId: hubId }
+        //   console.log('switch', data)
+        //   socket.emit('switch', socketId, JSON.stringify(data))
+        // })
 
         stream.addEventListener('inactive', e => {
           console.log('Capture stream inactive - stop recording!');
