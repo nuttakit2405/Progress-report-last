@@ -111,19 +111,22 @@ function localDescCreated (desc) {
   )
 }
 
-export function openLocalVideo (video, audio) {
-  return navigator.mediaDevices.getUserMedia({
-    video: video,
-    audio: audio
-  }).then(stream => {
+export async function openLocalVideo (video, audio) {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: video,
+      audio: audio
+    });
     // Display your local video in #localVideo element
-    const localVideo = document.getElementById('localVideo')
-    localVideo.srcObject = stream
-    localVideoSteam = stream
-
+    const localVideo = document.getElementById('localVideo');
+    localVideo.srcObject = stream;
+    localVideoSteam = stream;
     // Add your stream to be sent to the conneting peer
-    stream.getTracks().forEach(track => pc.addTrack(track, stream))
-  }, onError)
+    stream.getTracks().forEach(track => pc.addTrack(track, stream));
+  }
+  catch (error) {
+    return onError(error);
+  }
 }
 
 export function startSteamLocal () {

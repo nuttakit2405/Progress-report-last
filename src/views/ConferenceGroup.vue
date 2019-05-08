@@ -1,10 +1,14 @@
 <template>
   <div style="width: 100%; padding-top: 20px;" align="center">
     <div class="videos">
-        <div>
-            <video class="video" id="localVideo" autoplay muted playsinline ></video><br>
-            <button class="button" @click="shareScreen">Share Screen</button>
-            <button class="button" @click="muteToggle">mute</button>
+        <div class="flex-vid">
+            <video class="video" id="localVideo" autoplay muted playsinline ></video>
+            <br>
+            <!-- <button class="button" @click="shareScreen">Share Screen</button> -->
+            <button class="button" @click="muteToggle">
+              <i class="fas fa-microphone"></i>
+              &nbsp;Mute
+            </button>
         </div>
     </div>
     <br />
@@ -47,14 +51,28 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .video {
-border-radius: 6px;
-padding: 1px;
-width: 500px;
-background-color: black;
--webkit-transform: scaleX(-1);
-transform: scaleX(-1);
+  border-radius: 6px;
+  padding: 1px;
+  width: 500px;
+  background-color: black;
+}
+.flex-vid {
+  flex-direction: row;
+  margin: 5px;
+}
+</style>
+
+<style scoped>
+.videos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+#localVideo {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 .vid {
   margin: 10px;

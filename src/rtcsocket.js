@@ -134,8 +134,11 @@ function gotRemoteStream(event, id) {
   video.setAttribute('data-socket', id)
   video.srcObject = event.stream
   video.autoplay = true
+  video.className = "video"
   // video.muted = true
   video.playsinline = true
+
+  div.className = "flex-vid"
 
   div.appendChild(video)
   videos.insertBefore(div, videos.firstChild)
