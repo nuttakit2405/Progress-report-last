@@ -119,9 +119,10 @@ const router = new Router({
       // meta: { requireAuth: true }
     },
     {
-      path: '/reportprogress',
+      path: '/reportprogress/:projectId',
       name: 'ReportProgress',
       component: ReportProgress,
+      props: true,
       meta: { requireAuth: true }
     }
   ]

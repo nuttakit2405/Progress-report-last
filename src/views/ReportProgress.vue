@@ -2,22 +2,21 @@
   <div>
 
     <div class="DownloadButton">
-      <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading>
+      <!-- <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading> -->
       <button class="button is-info DownloadButton" @click="printPDF">
           <b-icon icon="file-download"></b-icon> <span>ดาวโหลดไฟล์</span>
       </button>
     </div>
 
-    <div style="display: flex; justify-content: center; ">
-      <!-- <div id="pdf" class="box LayoutFrame"> -->
-          <!-- <div class= "topBorder"> -->
-          <!-- </div> -->
+    <div style="display: flex; justify-content: center;" :key="key" v-for="(week, key) in project.scoreboard">
+      <div id="pdf" class="box LayoutFrame">
+        {{week}}
           <div>
             <div class="content" style="font-family: 'Sarabun', sans-serif; font-size: 17px;">
-              <center><b class="font">รายงานความก้าวหน้าโครงงานพิเศษ ครั้งที่ .....</b></center>
-              <center><b class="font">วันที่ ... เดือน .......... พ.ศ. .....</b></center><br><br>
+              <center><b class="font">รายงานความก้าวหน้าโครงงานพิเศษ ครั้งที่ {{key+1}}</b></center>
+              <center><b class="font">{{thaiDate(week.endDate)}}</b></center><br><br>
 
-              <b class="font">1. เป้าหมายที่ตั้งไว้ในสัปดาห์นี้ (สัปดาห์ที่ .....)</b><br>
+              <b class="font">1. เป้าหมายที่ตั้งไว้ในสัปดาห์นี้ (สัปดาห์ที่ {{key+1}})</b><br>
               <b class="font" style="margin-left:20px">1.1 ความก้าวหน้า / ผลงานที่ดำเนินการมาแล้ว</b><br>
               <b class="font">..........................................................................................................................................................................</b><br>
               <b class="font">..........................................................................................................................................................................</b><br>
@@ -25,7 +24,7 @@
               <b class="font">..........................................................................................................................................................................</b><br>
               <b class="font">..........................................................................................................................................................................</b><br><br>
 
-              <b class="font" style="margin-left:20px">1.2 คิดเป็นร้อยละ ..... ของงานทั้งหมด</b><br>
+              <b class="font" style="margin-left:20px">1.2 คิดเป็นร้อยละ {{week.progress}} ของงานทั้งหมด</b><br>
               <b class="font" style="margin-left:50px">จัดทำโครงงานได้ ตรงตามเป้าหมาย / น้อยกกว่าเป้าหมาย</b><br><br><br>
 
               <b class="font" style="margin-left:20px">1.3 ปัญหาที่พบ</b><br>
@@ -62,46 +61,43 @@
               <b class="font" style="display: flex; justify-content: flex-end; ">......................... (อาจารย์ประจำวิชา)</b><br><br><br>
 
             </div>
-
-            <!-- <div class= "footerBorder"><br>
-              <div class="CommentBorder" style="padding: 5px;">
-                  <center class="font">ความคิดเห็นอาจารย์ที่ปรึกษาโครงงาน</center><br>
-  .............................................................<br>
-  .............................................................<br>
-  .............................................................<br>
-  .............................................................<br>
-  .............................................................<br>
-  .............................................................<br><br>
-                ลงชื่อ.....................................................<br>
-                  (...........................................................)<br>
-              </div>
-              <div class="CommentBorder" style="padding: 5px;">
-                <center class="font">ความคิดเห็นหัวหน้าภาควิชา</center><br>
-  .............................................................<br>
-  .............................................................<br>
-  .............................................................<br>
-  .............................................................<br>
-  .............................................................<br>
-  .............................................................<br><br>
-                ลงชื่อ.....................................................<br>
-                  (...........................................................)<br>
-              </div>
-              <div class="font" style="padding: 5px;">
-                <center class="font" >&nbsp;รายชื่อคณะกรรมการสอบ</center><br>
-                ประธาน ...........................................<br><br>
-                กรรมการ ..........................................<br><br>
-                กรรมการ ..........................................<br><br>
-                วันที่สอบ .........../.............../.............<br><br>
-                สถานที่จัดสอบ.................................
-              </div>
-            </div> -->
-
-          <!-- </div> -->
+          </div>
       </div>
 
     </div>
   </div>
 </template>
+
+<script>
+import db from '@/database'
+
+export default {
+  props: {
+    projectId: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      project: null
+    }
+  },
+  methods: {
+    printPDF () {},
+    thaiDate (value) {
+      const date = this.$dayjs(value)
+      return date.format(`วันที่ DD เดือน MMMM พ.ศ. `) + (date.year() + 543)
+    }
+  },
+  async created () {
+    await db.database.ref(`/projects/${this.projectId}`).once('value', snapshot => {
+      console.log(snapshot.val())
+      this.project = snapshot.val()
+    })
+  }
+}
+</script>
 
 <style scoped>
 .LayoutFrame{
@@ -110,7 +106,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  border-style: double;
+  /* border-style: double; */
   padding: 0px;
   min-width: 870px;
 }
