@@ -13,6 +13,7 @@ const DocFinal = () => import('@/views/DocFinal')
 const UnAuth = () => import('@/views/UnAuth')
 const Conference = () => import('@/views/ConferenceGroup')
 const Chat = () => import('@/views/Chat')
+const ReportProgress = () => import('@/views/ReportProgress')
 
 // admin only
 const ImportStudent = () => import('@/views/admin/ImportStudent')
@@ -116,6 +117,12 @@ const router = new Router({
       component: Chat,
       props: true
       // meta: { requireAuth: true }
+    },
+    {
+      path: '/reportprogress',
+      name: 'ReportProgress',
+      component: ReportProgress,
+      meta: { requireAuth: true }
     }
   ]
 })
