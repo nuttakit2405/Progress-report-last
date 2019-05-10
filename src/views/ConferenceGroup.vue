@@ -4,10 +4,13 @@
         <div class="flex-vid player">
             <video class="video" id="localVideo" autoplay muted playsinline ></video>
             <div class="control-vid">
-              <button class="button" @click="shareScreen">Share Screen</button>
+              <button class="button mg-r-5px" @click="shareScreen">
+                <i class="fas fa-desktop"></i>
+                <!-- &nbsp;Share -->
+              </button>
               <button class="button" @click="muteToggle">
                 <i class="fas fa-microphone"></i>
-                &nbsp;Mute
+                <!-- &nbsp;Mute -->
               </button>
             </div>
         </div>
