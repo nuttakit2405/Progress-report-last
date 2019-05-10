@@ -7,9 +7,8 @@
           <b-icon icon="file-download"></b-icon> <span>ดาวโหลดไฟล์</span>
       </button>
     </div>
-    <div id="pdf">
-      <div style="display: flex; justify-content: center;" :key="key" v-for="(week, key) in project.scoreboard">
-      <div class="box LayoutFrame">
+    <div style="display: flex; justify-content: center;" :key="key" v-for="(week, key) in project.scoreboard">
+      <div :id="'pdf'+key" class="box LayoutFrame">
         <!-- {{week}} -->
           <div>
             <div class="content" style="font-family: 'Sarabun', sans-serif; font-size: 17px;">
@@ -36,7 +35,7 @@
 
               <div :key="i" v-for="(members, i) in memberConfirm(week.membersSave)" class="font" style="display: flex; justify-content: flex-end; ">
                 <b>{{members}}</b>&nbsp;&nbsp;(ผู้จัดทำโครงการ)
-               </div><br><br>
+              </div><br><br>
 
               <div><b class="font">2. ความเห็นอาจารย์ที่ปรึกษา</b></div>
               <div class="font" style="margin-left:50px"><b>{{week.mentorComment}}</b></div><br><br><br>
@@ -49,9 +48,7 @@
             </div>
           </div>
       </div>
-
     </div>
-  </div>
   </div>
 </template>
 
@@ -102,24 +99,32 @@ export default {
       const loadingComponent = this.$loading.open({
         container: this.isFullPage ? null : this.$refs.element.$el
       })
-      setTimeout(() => loadingComponent.close(), 3 * 1000)
       // loading
 
-      const canvas = await this.$html2canvas(document.getElementById('pdf'), {scale: 2})
-      console.log(canvas)
-      var data = canvas.toDataURL()
-      var docDefinition = {
-        content: [{
-          image: data,
-          width: 520,
-          marginTop: 20
-        }],
+      const docDefinition = {
+        content: [],
         defaultStyle: {
           font: 'THSarabunNew'
         }
       }
-      // pdfMake.createPdf(docDefinition).open()
-      this.$pdfMake.createPdf(docDefinition).download('รายงานความก้าวหน้า.pdf')
+
+      for (let i = 0; i < this.project.scoreboard.length; i++) {
+        const key = i
+        const page = document.getElementById('pdf' + key)
+        console.log(page)
+
+        const canvas = await this.$html2canvas(page, {scale: 2})
+        docDefinition.content.push({
+          image: canvas.toDataURL(),
+          width: 520
+          // marginTop: 20
+        })
+      }
+
+      await loadingComponent.close()
+      await console.log(docDefinition)
+      // await this.$pdfMake.createPdf(docDefinition).open()
+      await this.$pdfMake.createPdf(docDefinition).download('รายงานความก้าวหน้า.pdf')
     },
     thaiDate (value) {
       const date = this.$dayjs(value)
