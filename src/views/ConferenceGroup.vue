@@ -1,14 +1,15 @@
 <template>
   <div style="width: 100%; padding-top: 20px;" align="center">
     <div class="videos">
-        <div class="flex-vid">
+        <div class="flex-vid player">
             <video class="video" id="localVideo" autoplay muted playsinline ></video>
-            <br>
-            <!-- <button class="button" @click="shareScreen">Share Screen</button> -->
-            <button class="button" @click="muteToggle">
-              <i class="fas fa-microphone"></i>
-              &nbsp;Mute
-            </button>
+            <div class="control-vid">
+              <button class="button" @click="shareScreen">Share Screen</button>
+              <button class="button" @click="muteToggle">
+                <i class="fas fa-microphone"></i>
+                &nbsp;Mute
+              </button>
+            </div>
         </div>
     </div>
     <br />
@@ -91,5 +92,24 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 2;
+}
+.player {
+  float: left;
+  position: relative;
+}
+
+.control-vid:hover {
+  opacity: 1;
+}
+.control-vid {
+  opacity: 0.4;
+  display: flex;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 20px;
 }
 </style>
