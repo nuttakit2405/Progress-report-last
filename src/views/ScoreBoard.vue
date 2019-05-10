@@ -10,7 +10,12 @@
         <div class="column">
             <section class="box" v-if="projectSelected !== null">
               <div class="block" style="display:flex;justify-content: space-between; align-items: flex-end;">
-                <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
+                <div style="display: flex; align-items: center;">
+                  <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
+                  <button style="margin-left: 5px;"
+                  @click="$router.push({name: 'ReportProgress', params: {projectId: projectId}})"
+                  class="button">พิมพ์รายงาน</button>
+                </div>
                 <div style="display: flex; flex-direction: column;align-items: flex-end;">
                   <div style="margin-bottom: 10px;" v-if="allMentorConfirm && profile && profile.userType == 'teacher' && viewMode === 'mentor'">
                     <span class="title is-6" v-if="projectSelected.approveSpecialProject == undefined">อนุมัติให้นักศึกษามีสิทธิ์ยื่นสอบ 100 เปอร์เซนต์</span>
