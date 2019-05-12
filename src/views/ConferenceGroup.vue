@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; padding-top: 20px;" align="center">
-    <div id="videos-container" style="margin: 20px 0;"></div>
+    <div id="videos-container" class="videos" style="margin: 20px 0;"></div>
     <button class="button" @click="open">OpenOrJoin</button>
     <button class="button" @click="shareScreen">shareScreen</button>
     <!-- <div id="videos-container" class="videos">
