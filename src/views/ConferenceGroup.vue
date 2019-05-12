@@ -1,22 +1,23 @@
 <template>
   <div style="width: 100%; padding-top: 20px;" align="center">
-    <div class="videos">
+    <div id="videos-container" style="margin: 20px 0;"></div>
+    <button class="button" @click="open">OpenOrJoin</button>
+    <button class="button" @click="shareScreen">shareScreen</button>
+    <!-- <div id="videos-container" class="videos">
         <div class="flex-vid player">
             <video class="video" id="localVideo" autoplay muted playsinline ></video>
             <div class="control-vid">
               <button class="button mg-r-5px" @click="shareScreen">
                 <i class="fas fa-desktop"></i>
-                <!-- &nbsp;Share -->
               </button>
               <button class="button" @click="muteToggle">
                 <i class="fas fa-microphone"></i>
-                <!-- &nbsp;Mute -->
               </button>
             </div>
         </div>
     </div>
     <br />
-    <div id="connections"></div>
+    <div id="connections"></div> -->
   </div>
 </template>
 
@@ -37,21 +38,24 @@ export default {
   },
   methods: {
     shareScreen () {
-      webrtc.openScreen()
+      webrtc.openScreen2()
     },
     muteToggle () {
       this.mute = !this.mute
-      webrtc.muteLocal(this.mute)
+      // webrtc.muteLocal(this.mute)
+    },
+    open () {
+      webrtc.openRoom()
     }
-  },
-  async mounted () {
-    // await webrtc.droneOpen(this.projectId)
-    webrtc.pageReady(this.projectId)
-  },
-  beforeDestroy () {
-    webrtc.closeLocalVideo()
-    console.log('close video call')
   }
+  // async mounted () {
+  //   // await webrtc.droneOpen(this.projectId)
+  //   webrtc.pageReady(this.projectId)
+  // },
+  // beforeDestroy () {
+  //   webrtc.closeLocalVideo()
+  //   console.log('close video call')
+  // }
 }
 </script>
 
