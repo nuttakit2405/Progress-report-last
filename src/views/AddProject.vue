@@ -38,7 +38,7 @@
                                   </button>
                                   </div>
                               </div>
-                              <b-field v-if="teams.length < 2"  class="buttonAddteam">
+                              <b-field v-if="teams.length < 3"  class="buttonAddteam">
                                   <button @click="Addteam" class ="button is-dark">
                                       <b-icon icon="plus" size="is-small"></b-icon>
                                   </button>
