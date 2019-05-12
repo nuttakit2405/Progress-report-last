@@ -121,10 +121,10 @@ export default {
         })
       }
 
-      await loadingComponent.close()
       await console.log(docDefinition)
       // await this.$pdfMake.createPdf(docDefinition).open()
       await this.$pdfMake.createPdf(docDefinition).download('รายงานความก้าวหน้า.pdf')
+      await loadingComponent.close()
     },
     thaiDate (value) {
       const date = this.$dayjs(value)
