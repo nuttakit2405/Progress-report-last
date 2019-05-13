@@ -17,8 +17,7 @@
 
               <b class="font">1. เป้าหมายที่ตั้งไว้ในสัปดาห์นี้ (สัปดาห์ที่ {{key+1}})</b><br>
               <div class="font" style="margin-left:20px">1.1 ความก้าวหน้า / ผลงานที่ดำเนินการมาแล้ว</div>
-              <div class="font" style="margin-left:50px"><b>{{week.textProgress}}</b></div><br><br><br><br>
-
+              <div class="cut-text" style="margin-left:50px"><b>{{week.textProgress}}</b></div><br><br><br><br>
               <div class="font" style="margin-left:20px">1.2 คิดเป็นร้อยละ <b>{{week.progress}}</b> ของงานทั้งหมด</div>
               <div class="font" style="margin-left:50px">จัดทำโครงงานได้
                 <b v-if= "week.radio === 1" class="font">ตรงตามเป้าหมาย</b>
@@ -193,5 +192,11 @@ export default {
   justify-content: flex-end;
   margin-top: 10px;
   margin-right: 60px;
+},
+.cut-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 220px;
+  white-space: nowrap;
 }
 </style>
