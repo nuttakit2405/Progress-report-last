@@ -253,26 +253,75 @@ connection.session = {
   video: true
 };
 
-var RMCMediaTrack = {}
+var RMCMediaTrack = {
+  cameraStream: null,
+  cameraTrack: null,
+  screen: null
+};
 
-export function openRoom(groupId) {
-  connection.openOrJoin(groupId)
+export function openRoom(roomid) {
   connection.videosContainer = document.getElementById('videos-container');
-  // console.log(connection.videosContainer)
+  beforeOpenOrJoin(roomid, function() {
+    connection.open(roomid, function() {
+        afterOpenOrJoin();
+    });
+  });
 }
 
-connection.onstream = function(e) {
-  event = e
+export function joinRoom(roomid) {
+  connection.videosContainer = document.getElementById('videos-container');
+  beforeOpenOrJoin(roomid, function() {
+    connection.join(roomid, function() {
+        afterOpenOrJoin();
+    });
+  });
+}
 
-  console.log(event)
+function beforeOpenOrJoin(roomid, callback) {
+  connection.socketCustomEvent = roomid;
+  callback();
+}
 
+function afterOpenOrJoin() {
+  connection.socket.on(connection.socketCustomEvent, function(message) {
+      if (message.userid === connection.userid) return; // ignore self messages
+
+      if (message.justSharedMyScreen === true) {
+          var video = document.getElementById(message.userid);
+          if (video) {
+              // video.querySelector('video').srcObject = null;
+          }
+      }
+
+      if (message.justStoppedMyScreen === true) {
+          var video = document.getElementById(message.userid);
+          if (video) {
+              video.querySelector('video').srcObject = null;
+          }
+      }
+  });
+}
+
+export function closeLocalVideo(roomid) {
+  connection.getAllParticipants().forEach(function(pid) {
+    connection.disconnectWith(pid);
+  });
+
+  // stop all local cameras
+  connection.attachStreams.forEach(function(localStream) {
+    localStream.stop();
+  });
+
+  // close socket.io connection
+  connection.closeSocket();
+}
+
+connection.onstream = function(event) {
   var existing = document.getElementById(event.streamid);
   if(existing && existing.parentNode) {
     existing.parentNode.removeChild(existing);
   }
 
-  console.log("event.type", event.type)
-  console.log("event.stream.isVideo", event.stream.isVideo)
   if(event.type === 'local' && event.stream.isVideo) {
     RMCMediaTrack.cameraStream = event.stream;
     RMCMediaTrack.cameraTrack = event.stream.getVideoTracks()[0];
@@ -283,51 +332,53 @@ connection.onstream = function(e) {
   var div = document.createElement('div')
   div.className = "flex-vid"
 
-  var video = e.mediaElement
+  var video = event.mediaElement
   video.className = "video"
+
+  try {
+    video.setAttributeNode(document.createAttribute('autoplay'));
+    video.setAttributeNode(document.createAttribute('playsinline'));
+    video.setAttributeNode(document.removeAttribute('controls'));
+  } catch (e) {
+    video.setAttribute('autoplay', true);
+    video.setAttribute('playsinline', true);
+    video.controls = false
+  }
+
+  if(event.type === 'local') {
+    video.className = video.className + " localVideo"
+    video.volume = 0;
+    try {
+      video.setAttributeNode(document.createAttribute('muted'));
+    } catch (e) {
+      video.setAttribute('muted', true);
+    }
+  }
+  video.srcObject = event.stream;
 
   div.appendChild(video)
   parentNode.insertBefore(div, parentNode.firstChild);
-  var played = e.mediaElement.play();
+  var played = event.mediaElement.play();
 
   if(event.type === 'local') {
-    RMCMediaTrack.selfVideo = e.mediaElement;
+    RMCMediaTrack.selfVideo = event.mediaElement;
   }
-  console.log("RMCMediaTrack", RMCMediaTrack)
 
   if (typeof played !== 'undefined') {
       played.catch(function() {
           /*** iOS 11 doesn't allow automatic play and rejects ***/
       }).then(function() {
           setTimeout(function() {
-              e.mediaElement.play();
+              event.mediaElement.play();
           }, 2000);
       });
       return;
   }
 
   setTimeout(function() {
-      e.mediaElement.play();
+      event.mediaElement.play();
   }, 2000);
 };
-
-function gotRemoteStream(event, id) {
-  var videos = document.querySelector('.videos')
-  var video = document.createElement('video')
-  var div = document.createElement('div')
-
-  video.setAttribute('data-socket', id)
-  video.srcObject = event.stream
-  video.autoplay = true
-  video.className = "video"
-  // video.muted = true
-  video.playsinline = true
-
-  div.className = "flex-vid"
-
-  div.appendChild(video)
-  videos.insertBefore(div, videos.firstChild)
-}
 
 
 // connection.onstream = function(event) {

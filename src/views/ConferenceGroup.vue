@@ -1,8 +1,10 @@
 <template>
   <div style="width: 100%; padding-top: 20px;" align="center">
     <div id="videos-container" class="videos" style="margin: 20px 0;"></div>
-    <button class="button" @click="open">OpenOrJoin</button>
-    <button class="button" @click="shareScreen">shareScreen</button>
+    <button class="button" @click="open">Open</button>
+    <button class="button" @click="join">Join</button>
+    <button class="button" @click="shareScreen">Share</button>
+    <button class="button" @click="stop">Stop</button>
     <!-- <div id="videos-container" class="videos">
         <div class="flex-vid player">
             <video class="video" id="localVideo" autoplay muted playsinline ></video>
@@ -45,17 +47,23 @@ export default {
       // webrtc.muteLocal(this.mute)
     },
     open () {
-      webrtc.openRoom()
+      webrtc.openRoom(this.projectId)
+    },
+    join () {
+      webrtc.joinRoom(this.projectId)
+    },
+    stop () {
+      webrtc.closeLocalVideo(this.projectId)
     }
-  }
+  },
   // async mounted () {
   //   // await webrtc.droneOpen(this.projectId)
   //   webrtc.pageReady(this.projectId)
   // },
-  // beforeDestroy () {
-  //   webrtc.closeLocalVideo()
-  //   console.log('close video call')
-  // }
+  beforeDestroy () {
+    webrtc.closeLocalVideo(this.projectId)
+    console.log('close video call')
+  }
 }
 </script>
 
@@ -70,6 +78,10 @@ export default {
   flex-direction: row;
   margin: 5px;
 }
+.localVideo {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
 </style>
 
 <style scoped>
@@ -78,10 +90,7 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
 }
-#localVideo {
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
-}
+
 .vid {
   margin: 10px;
 }
