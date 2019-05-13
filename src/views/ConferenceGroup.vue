@@ -5,6 +5,12 @@
     <button class="button" @click="join">Join</button>
     <button class="button" @click="shareScreen">Share</button>
     <button class="button" @click="stop">Stop</button>
+    <button v-show="!mute" class="button" @click="muteToggle">
+      <i class="fas fa-microphone"></i>
+    </button>
+    <button v-show="mute" class="button" @click="muteToggle">
+      <i class="fas fa-microphone-slash"></i>
+    </button>
     <!-- <div id="videos-container" class="videos">
         <div class="flex-vid player">
             <video class="video" id="localVideo" autoplay muted playsinline ></video>
@@ -44,7 +50,11 @@ export default {
     },
     muteToggle () {
       this.mute = !this.mute
-      // webrtc.muteLocal(this.mute)
+      if (this.mute) {
+        webrtc.mute()
+      } else {
+        webrtc.unmute()
+      }
     },
     open () {
       webrtc.openRoom(this.projectId)

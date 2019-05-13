@@ -316,6 +316,17 @@ export function closeLocalVideo(roomid) {
   connection.closeSocket();
 }
 
+
+export function mute() {
+  var localStream = connection.attachStreams[0];
+  localStream.mute('audio');
+}
+
+export function unmute() {
+  var localStream = connection.attachStreams[0];
+  localStream.unmute('audio');
+}
+
 connection.onstream = function(event) {
   var existing = document.getElementById(event.streamid);
   if(existing && existing.parentNode) {
