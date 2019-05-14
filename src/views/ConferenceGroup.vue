@@ -1,16 +1,31 @@
 <template>
   <div style="width: 100%; padding-top: 20px;" align="center">
     <div id="videos-container" class="videos" style="margin: 20px 0;"></div>
-    <button class="button" @click="open">Open</button>
-    <button class="button" @click="join">Join</button>
-    <button class="button" @click="shareScreen">Share</button>
-    <button class="button" @click="stop">Stop</button>
-    <button v-show="!mute" class="button" @click="muteToggle">
+    <button v-show="!roomOpen" class="button" @click="open">
+      <i class="fas fa-phone"></i>
+    </button>
+    <button v-show="roomOpen && canjoin" class="button" @click="join">
+      <i class="fas fa-phone"></i>
+    </button>
+    <button v-show="roomOpen" class="button" @click="shareScreen">
+      <i class="fas fa-desktop"></i>
+    </button>
+    <button v-show="roomOpen" class="button" @click="stop">
+      <i class="fas fa-phone-slash"></i>
+    </button>
+    <button v-show="roomOpen && !mute" class="button" @click="muteToggle">
       <i class="fas fa-microphone"></i>
     </button>
-    <button v-show="mute" class="button" @click="muteToggle">
+    <button v-show="roomOpen && mute" class="button" @click="muteToggle">
       <i class="fas fa-microphone-slash"></i>
     </button>
+
+    <div class="container" align="left">
+      Call Log
+      <div :key="i"  v-for="(log, i) in project.callLog">
+        <li>โทรเมื่อ {{log.timeStart | format("DD-MM-YYYY HH:mm:ss")}} - {{log.timeEnd | format("HH:mm:ss")}}</li>
+      </div>
+    </div>
     <!-- <div id="videos-container" class="videos">
         <div class="flex-vid player">
             <video class="video" id="localVideo" autoplay muted playsinline ></video>
@@ -31,6 +46,8 @@
 
 <script>
 import * as webrtc from '@/rtcsocket.js'
+import db from '@/database'
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -41,7 +58,25 @@ export default {
   },
   data () {
     return {
-      mute: false
+      mute: false,
+      project: {}
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/user'
+    }),
+    roomOpen () {
+      if (!this.project.callLog) {
+        return false
+      }
+      return this.project.callLog[this.project.callLog.length - 1].isRoomOpen
+    },
+    canjoin () {
+      if (!this.project.callLog) {
+        return false
+      }
+      return this.project.callLog[this.project.callLog.length - 1].callBy !== this.user.uid
     }
   },
   methods: {
@@ -56,22 +91,64 @@ export default {
         webrtc.unmute()
       }
     },
-    open () {
-      webrtc.openRoom(this.projectId)
+    async open () {
+      await webrtc.openRoom(this.projectId, (isRoomOpen) => {
+        console.log(isRoomOpen)
+      })
+      let id = 0
+      const data = {
+        timeStart: new Date(),
+        callBy: this.user.uid,
+        member: {},
+        isRoomOpen: true
+      }
+      data.member[this.user.uid] = true
+      const callLog = {}
+      if (this.project.callLog) {
+        id = this.project.callLog.length
+        callLog[id] = data
+        await db.database.ref(`projects/${this.projectId}/callLog`).update(callLog)
+      } else {
+        callLog[id] = data
+        await db.database.ref(`projects/${this.projectId}`).update({callLog: callLog})
+      }
     },
     join () {
       webrtc.joinRoom(this.projectId)
+      const id = this.project.callLog.length - 1
+      const dataUpdate = {}
+      dataUpdate[this.user.uid] = true
+      db.database.ref(`projects/${this.projectId}/callLog/${id}/member`).update(dataUpdate)
     },
-    stop () {
-      webrtc.closeLocalVideo(this.projectId)
+    async stop () {
+      await webrtc.closeLocalVideo(this.projectId)
+      const id = this.project.callLog.length - 1
+      const dataUpdate = {}
+      dataUpdate[this.user.uid] = false
+      await db.database.ref(`projects/${this.projectId}/callLog/${id}/member`).update(dataUpdate)
+      await this.checkAllOut()
+    },
+    checkAllOut () {
+      const id = this.project.callLog.length - 1
+      const allOut = Object.values(this.project.callLog[id].member).every(data => data === false)
+      if (allOut) {
+        const dataUpdate = {
+          isRoomOpen: false,
+          timeEnd: new Date()
+        }
+        db.database.ref(`projects/${this.projectId}/callLog/${id}`).update(dataUpdate)
+      }
     }
   },
-  // async mounted () {
+  async mounted () {
+    db.database.ref(`projects/${this.projectId}`).on('value', (snapshot) => {
+      this.project = snapshot.val()
+    })
   //   // await webrtc.droneOpen(this.projectId)
   //   webrtc.pageReady(this.projectId)
-  // },
+  },
   beforeDestroy () {
-    webrtc.closeLocalVideo(this.projectId)
+    this.stop()
     console.log('close video call')
   }
 }
