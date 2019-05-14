@@ -2,45 +2,30 @@
   <div style="width: 100%; padding-top: 20px;" align="center">
     <div id="videos-container" class="videos" style="margin: 20px 0;"></div>
     <button v-show="!roomOpen" class="button" @click="open">
-      <i class="fas fa-phone"></i>
+      <i class="fas fa-phone-square fa-1x"></i>&nbsp;โทรออก
     </button>
     <button v-show="roomOpen && canjoin" class="button" @click="join">
-      <i class="fas fa-phone"></i>
+      <i class="fas fa-phone-volume"></i>&nbsp;รับสาย
     </button>
     <button v-show="roomOpen" class="button" @click="shareScreen">
-      <i class="fas fa-desktop"></i>
+      <i class="fas fa-external-link-alt"></i> &nbsp;แชร์หน้าจอ
     </button>
     <button v-show="roomOpen" class="button" @click="stop">
-      <i class="fas fa-phone-slash"></i>
+      <i class="fas fa-phone-slash"></i> &nbsp;วางสาย
     </button>
     <button v-show="roomOpen && !mute" class="button" @click="muteToggle">
-      <i class="fas fa-microphone"></i>
+      <i class="fas fa-microphone"></i> &nbsp;ปิดเสียง
     </button>
     <button v-show="roomOpen && mute" class="button" @click="muteToggle">
-      <i class="fas fa-microphone-slash"></i>
+      <i class="fas fa-microphone-slash"></i> &nbsp;เปิดเสียง
     </button>
 
     <div class="container" align="left">
       Call Log
       <div :key="i"  v-for="(log, i) in project.callLog">
-        <li>โทรเมื่อ {{log.timeStart | format("DD-MM-YYYY HH:mm:ss")}} - {{log.timeEnd | format("HH:mm:ss")}}</li>
+        <li>ครั้งที่ {{i+1}} โทรเมื่อ {{log.timeStart | format("DD/MM/YYYY เวลา HH:mm:ss")}} ถึง {{log.timeEnd | format("DD/MM/YYYY เวลา HH:mm:ss")}}</li>
       </div>
     </div>
-    <!-- <div id="videos-container" class="videos">
-        <div class="flex-vid player">
-            <video class="video" id="localVideo" autoplay muted playsinline ></video>
-            <div class="control-vid">
-              <button class="button mg-r-5px" @click="shareScreen">
-                <i class="fas fa-desktop"></i>
-              </button>
-              <button class="button" @click="muteToggle">
-                <i class="fas fa-microphone"></i>
-              </button>
-            </div>
-        </div>
-    </div>
-    <br />
-    <div id="connections"></div> -->
   </div>
 </template>
 
