@@ -1,15 +1,25 @@
 <template>
   <div style="width: 100%; padding-top: 20px;" align="center">
     <div id="videos-container" class="videos" style="margin: 20px 0;"></div>
-    <button class="button" @click="open">Open</button>
-    <button class="button" @click="join">Join</button>
-    <button class="button" @click="shareScreen">Share</button>
-    <button class="button" @click="stop">Stop</button>
+    <button class="button" @click="open">
+      <i class="fas fa-phone-square fa-1x"></i>&nbsp;โทรออก
+    </button>
+
+    <button class="button" @click="join">
+       <i class="fas fa-phone-volume"></i>&nbsp;รับสาย
+    </button>
+
+    <button class="button" @click="shareScreen">
+      <i class="fas fa-external-link-alt"></i> &nbsp;ShareScreen</button>
+    <button class="button" @click="stop">
+      <i class="fas fa-phone-slash"></i> &nbsp;วางสาย
+    </button>
+
     <button v-show="!mute" class="button" @click="muteToggle">
-      <i class="fas fa-microphone"></i>
+      <i class="fas fa-microphone"></i> &nbsp;เปิดเสียง
     </button>
     <button v-show="mute" class="button" @click="muteToggle">
-      <i class="fas fa-microphone-slash"></i>
+      <i class="fas fa-microphone-slash"></i> &nbsp;ปิดเสียง
     </button>
     <!-- <div id="videos-container" class="videos">
         <div class="flex-vid player">
