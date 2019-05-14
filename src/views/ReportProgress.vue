@@ -192,11 +192,12 @@ export default {
   justify-content: flex-end;
   margin-top: 10px;
   margin-right: 60px;
-},
+}
 .cut-text {
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
   overflow: hidden;
-  max-width: 220px;
-  white-space: nowrap;
+  max-width: 520px;
+  white-space: pre;
+  font-family: 'Sarabun', sans-serif;
 }
 </style>

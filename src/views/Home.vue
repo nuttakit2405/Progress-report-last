@@ -25,7 +25,7 @@
                   </div>
                 </div>
                 <!-- Tab term -->
-                <b-tabs v-model="activeTab" type="is-boxed">
+                <!-- <b-tabs v-model="activeTab" type="is-boxed">
                   <b-tab-item label="1/2561">
                     1/2561..
                   </b-tab-item>
@@ -44,7 +44,7 @@
                   <b-tab-item label="3/2562">
                     3/2561
                   </b-tab-item>
-                </b-tabs>
+                </b-tabs> -->
                 <!-- Tab term -->
               <div class="column">
                 <div class="columns is-multiline">
