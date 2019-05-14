@@ -16,10 +16,10 @@
     </button>
 
     <button v-show="!mute" class="button" @click="muteToggle">
-      <i class="fas fa-microphone"></i> &nbsp;เปิดเสียง
+      <i class="fas fa-microphone"></i> &nbsp;ปิดเสียง
     </button>
     <button v-show="mute" class="button" @click="muteToggle">
-      <i class="fas fa-microphone-slash"></i> &nbsp;ปิดเสียง
+      <i class="fas fa-microphone-slash"></i> &nbsp;เปิดเสียง
     </button>
     <!-- <div id="videos-container" class="videos">
         <div class="flex-vid player">
