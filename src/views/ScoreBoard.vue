@@ -91,7 +91,7 @@
                   <div v-if="(val.mentorConfirm && profile && profile.userType === 'student') ||  (val.mentorConfirm && viewMode === 'subject')" style="margin-bottom: 20px;">
                     <p class="title is-5">ข้อมูลจากอาจารย์ที่ปรึกษา</p>
                     <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
-                      <b-input disabled type="textarea" v-model="val.mentorComment"></b-input>
+                      <b-input class="cut-text" disabled type="textarea" v-model="val.mentorComment"></b-input>
                     </b-field>
                     <p class="title is-6">จัดทำโครงงานได้: <span class="title is-5">{{val.radio == 1 ?'ตรงตามเป้าหมายที่ตั้งไว้' : 'น้อยกว่าเป้าหมาย'}}</span></p>
                     <hr>

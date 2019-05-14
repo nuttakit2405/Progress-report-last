@@ -152,3 +152,12 @@ export default {
    margin-left:10px
  }
 </style>
+<style>
+.cut-text {
+  /* text-overflow: ellipsis; */
+  overflow: hidden;
+  max-width: 520px;
+  white-space: pre;
+  font-family: 'Sarabun', sans-serif;
+}
+</style>
