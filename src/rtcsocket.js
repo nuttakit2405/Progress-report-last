@@ -98,7 +98,8 @@ connection.onstream = function(event) {
   var parentNode = connection.videosContainer;
 
   var div = document.createElement('div')
-  div.className = "flex-vid"
+  div.className = "flex-vid player"
+  div.id = "div-" + event.streamid
 
   var video = event.mediaElement
   video.className = "video"
@@ -124,7 +125,24 @@ connection.onstream = function(event) {
   }
   video.srcObject = event.stream;
 
+  var button = document.createElement('button')
+  button.innerHTML = `<i class="fas fa-expand"></i>`
+  button.className = "button"
+  button.onclick = function () {
+    var element = document.getElementById(event.streamid);
+    if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullScreen) {
+      element.webkitRequestFullScreen();
+    }
+  }
+
+  var innerdiv = document.createElement('div')
+  innerdiv.className = "control-vid"
+  innerdiv.appendChild(button)
+
   div.appendChild(video)
+  div.appendChild(innerdiv)
   parentNode.insertBefore(div, parentNode.firstChild);
   var played = event.mediaElement.play();
 
@@ -211,7 +229,7 @@ connection.onstream = function(event) {
 // };
 
 connection.onstreamended = function(event) {
-  var mediaElement = document.getElementById(event.streamid);
+  var mediaElement = document.getElementById("div-" + event.streamid);
   if (mediaElement) {
       mediaElement.parentNode.removeChild(mediaElement);
   }

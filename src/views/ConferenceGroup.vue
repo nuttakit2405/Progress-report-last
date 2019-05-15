@@ -195,6 +195,25 @@ export default {
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
 }
+.player {
+  float: left;
+  position: relative;
+}
+.control-vid:hover {
+  opacity: 1;
+}
+.control-vid {
+  opacity: 0.4;
+  display: flex;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-bottom: 20px;
+  padding-right: 20px;
+}
 </style>
 
 <style scoped>
@@ -221,24 +240,5 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 2;
-}
-.player {
-  float: left;
-  position: relative;
-}
-
-.control-vid:hover {
-  opacity: 1;
-}
-.control-vid {
-  opacity: 0.4;
-  display: flex;
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 20px;
 }
 </style>
