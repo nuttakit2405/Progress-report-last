@@ -289,6 +289,7 @@ export default {
         subject: `มีการนัดหมาย`,
         content: content
       }
+      console.log(noti)
       this.sentNoti(noti)
     },
     createTimeOptions (select = null) {
@@ -460,6 +461,12 @@ export default {
 .vue-calendar-body-row {
   height: 6em;
 }
+.vue-calendar-body, .vue-calendar-week-title {
+  border-right: 1px solid #e8ebee;
+}
+.vue-calendar-body {
+  display: block;
+}
 </style>
 
 <style scoped>
@@ -497,11 +504,5 @@ export default {
 .is-not-curr-month {
   height: 100%;
   background-color: #f9f9f9;
-}
-</style>
-
-<style>
-.vue-calendar-body, .vue-calendar-week-title {
-  border-right: 1px solid #e8ebee;
 }
 </style>

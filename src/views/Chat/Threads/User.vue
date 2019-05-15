@@ -6,7 +6,7 @@
     <div class="user-info">
       <div class="f-left w-100pct">
         <div class="f-left f-s-15px dotdotdot" :class="{ 'f-w-bold cl-black': !thread.seen }" :title="thread.name">{{ thread.name }}</div>
-        <div class="f-right f-s-12px" :class="{ 'cl-0084ff f-w-bold': !thread.seen }">{{thread.last_update | format('HH:mm')}}</div>
+        <div v-if="thread.last_update" class="f-right f-s-12px" :class="{ 'cl-0084ff f-w-bold': !thread.seen }">{{thread.last_update | format('HH:mm')}}</div>
       </div>
       <div class="unread-msg">{{ thread.last_message }}</div>
     </div>

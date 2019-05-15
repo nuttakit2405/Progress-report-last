@@ -10,7 +10,12 @@
         <div class="column">
             <section class="box" v-if="projectSelected !== null">
               <div class="block" style="display:flex;justify-content: space-between; align-items: flex-end;">
-                <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
+                <div style="display: flex; align-items: center;">
+                  <b-switch v-model="showBooks"> ดูขอบเขต </b-switch>
+                  <button style="margin-left: 5px;"
+                  @click="$router.push({name: 'ReportProgress', params: {projectId: projectId}})"
+                  class="button">พิมพ์รายงาน</button>
+                </div>
                 <div style="display: flex; flex-direction: column;align-items: flex-end;">
                   <div style="margin-bottom: 10px;" v-if="allMentorConfirm && profile && profile.userType == 'teacher' && viewMode === 'mentor'">
                     <span class="title is-6" v-if="projectSelected.approveSpecialProject == undefined">อนุมัติให้นักศึกษามีสิทธิ์ยื่นสอบ 100 เปอร์เซนต์</span>
@@ -36,7 +41,7 @@
                   <div class="decline-comment" v-if="projectSelected.declineComment && !projectSelected.approveSpecialProject">
                     <div><b>ความคิดเห็นของอาจารย์:</b></div>
                     <div>
-                      <div style="display: inline-block;" class="cut-text">{{projectSelected.declineComment}}</div>
+                      <div style="display: inline-block;">{{projectSelected.declineComment}}</div>
                       <a class="has-text-info" style="display: inline-block; vertical-align: top;" @click="showDeclineComment('ความคิดเห็นของอาจารย์', projectSelected.declineComment)">ดูทั้งหมด</a>
                     </div>
                   </div>
@@ -86,7 +91,7 @@
                   <div v-if="(val.mentorConfirm && profile && profile.userType === 'student') ||  (val.mentorConfirm && viewMode === 'subject')" style="margin-bottom: 20px;">
                     <p class="title is-5">ข้อมูลจากอาจารย์ที่ปรึกษา</p>
                     <b-field label="ความเห็นอาจารย์ที่ปรึกษา">
-                      <b-input disabled type="textarea" v-model="val.mentorComment"></b-input>
+                      <b-input class="cut-text" disabled type="textarea" v-model="val.mentorComment"></b-input>
                     </b-field>
                     <p class="title is-6">จัดทำโครงงานได้: <span class="title is-5">{{val.radio == 1 ?'ตรงตามเป้าหมายที่ตั้งไว้' : 'น้อยกว่าเป้าหมาย'}}</span></p>
                     <hr>

@@ -86,11 +86,11 @@
               </div>
               <div class="font" style="padding: 5px;">
                 <center class="font" >&nbsp;รายชื่อคณะกรรมการสอบ</center><br>
-                ประธาน ...........................................<br><br>
-                กรรมการ ..........................................<br><br>
-                กรรมการ ..........................................<br><br>
-                วันที่สอบ .........../.............../.............<br><br>
-                สถานที่จัดสอบ.................................
+                ประธาน ......................................................<br><br>
+                กรรมการ ....................................................<br><br>
+                กรรมการ ....................................................<br><br>
+                วันที่สอบ ............./......................./.............<br><br>
+                สถานที่จัดสอบ............................................
               </div>
             </div>
           </div>
@@ -147,6 +147,7 @@ export default {
       // loading
 
       const canvas = await this.$html2canvas(document.getElementById('pdf'), {scale: 3})
+      console.log(canvas)
       var data = canvas.toDataURL()
       var docDefinition = {
         content: [{
@@ -174,7 +175,7 @@ export default {
 <style scoped>
 .LayoutFrame{
   margin-top: 50px;
-  width: 870px;
+  width: 920px;
   display: flex;
   justify-content: center;
   flex-direction: column;
