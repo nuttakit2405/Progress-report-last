@@ -289,6 +289,7 @@ export default {
         subject: `มีการนัดหมาย`,
         content: content
       }
+      console.log(noti)
       this.sentNoti(noti)
     },
     createTimeOptions (select = null) {

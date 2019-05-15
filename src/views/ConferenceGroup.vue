@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; padding-top: 20px;" align="center">
+  <div v-if="user" style="width: 100%; padding-top: 20px;" align="center">
     <div id="videos-container" class="videos" style="margin: 20px 0;"></div>
     <button v-show="!roomOpen" class="button" @click="open">
       <i class="fas fa-phone-square fa-1x"></i>&nbsp;โทรออก
@@ -32,7 +32,7 @@
 <script>
 import * as webrtc from '@/rtcsocket.js'
 import db from '@/database'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   props: {
@@ -49,8 +49,18 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'user/user'
+      user: 'user/user',
+      profile: 'user/profile',
+      allUsers: 'user/allUsers'
     }),
+    usersWithID () {
+      return Object.keys(this.allUsers).map(key => {
+        return {
+          ...this.allUsers[key],
+          key
+        }
+      })
+    },
     roomOpen () {
       if (!this.project.callLog) {
         return false
@@ -65,6 +75,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      sentNoti: 'sentNoti'
+    }),
     shareScreen () {
       webrtc.openScreen2()
     },
@@ -78,7 +91,9 @@ export default {
     },
     async open () {
       await webrtc.openRoom(this.projectId, (isRoomOpen) => {
-        console.log(isRoomOpen)
+        if (isRoomOpen) {
+          this.notiEvent()
+        }
       })
       let id = 0
       const data = {
@@ -123,6 +138,32 @@ export default {
         }
         db.database.ref(`projects/${this.projectId}/callLog/${id}`).update(dataUpdate)
       }
+    },
+    notiEvent () {
+      const location = window.location + ''
+      let findUser = []
+      const emailMentor = this.project.mentor.email
+      let uids = this.project.teams.map(member => {
+        return this.usersWithID.find(user => user.sid === member.id)
+      })
+      const mentor = this.usersWithID.filter(user => user.userType === 'teacher' && emailMentor === user.email)
+      uids = [...uids, ...mentor]
+      findUser = uids.filter(member => member !== undefined)
+      const data = {
+        members: findUser.map(member => member.key)
+      }
+
+      const content = `
+      การประชุมของกลุ่ม ${this.project.thaiProjectName} ถูกสร้างขึ้น
+      โดย ${this.profile.fullName}<br>
+      <a href="${location}">กดลิ้งเพื่อเข้าร่วมการประชุม</a>
+      `
+      const noti = {
+        to: data.members,
+        subject: `มีการประชุม`,
+        content: content
+      }
+      this.sentNoti(noti)
     }
   },
   async mounted () {

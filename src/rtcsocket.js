@@ -16,8 +16,10 @@ var RMCMediaTrack = {
 export function openRoom(roomid, callback) {
   connection.videosContainer = document.getElementById('videos-container');
   beforeOpenOrJoin(roomid, function() {
-    connection.open(roomid, function(isRoomOpened, id) {
-        callback(isRoomOpened, id)
+    connection.open(roomid, function(isRoomOpen) {
+        if (callback) {
+          callback(isRoomOpen)
+        }
         afterOpenOrJoin();
     });
   });
