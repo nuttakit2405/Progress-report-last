@@ -41,7 +41,7 @@
                   <div class="decline-comment" v-if="projectSelected.declineComment && !projectSelected.approveSpecialProject">
                     <div><b>ความคิดเห็นของอาจารย์:</b></div>
                     <div>
-                      <div style="display: inline-block;" class="cut-text">{{projectSelected.declineComment}}</div>
+                      <div style="display: inline-block;">{{projectSelected.declineComment}}</div>
                       <a class="has-text-info" style="display: inline-block; vertical-align: top;" @click="showDeclineComment('ความคิดเห็นของอาจารย์', projectSelected.declineComment)">ดูทั้งหมด</a>
                     </div>
                   </div>
