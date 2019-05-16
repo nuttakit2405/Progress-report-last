@@ -46,13 +46,13 @@
 
             <b-table-column field="log.timeStart" label="เวลาเริ่ม">
                 <template>
-                    {{ props.row.log.timeStart | format("HH:mm:ss") }}
+                  {{ props.row.log.timeStart | format("HH:mm:ss") }}
                 </template>
             </b-table-column>
 
-            <b-table-column field="log.timeStart" label="เวลา">
+            <b-table-column field="log.timeStart" label="เวลาสิ้นสุด">
                 <template>
-                    {{ callTime(props.row.log.timeStart, props.row.log.timeEnd) }}
+                  {{ props.row.log.timeEnd | format("HH:mm:ss") }}
                 </template>
             </b-table-column>
         </template>
