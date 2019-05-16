@@ -20,12 +20,69 @@
       <i class="fas fa-microphone-slash"></i> &nbsp;เปิดเสียง
     </button>
 
-    <div class="container" align="left">
+    <div class="container mg-t-20px" align="left">
+    <div class="pd-5px"><b>ประวัติการโทร</b></div>
+    <b-table
+        :data="callLog"
+        ref="table"
+        paginated
+        per-page="5"
+        detail-key="id"
+        aria-next-label="Next page"
+        aria-previous-label="Previous page"
+        aria-page-label="Page"
+        aria-current-label="Current page">
+
+        <template slot-scope="props">
+            <b-table-column field="id" label="ครั้งที่" width="70" numeric>
+                {{ props.row.id }}
+            </b-table-column>
+
+            <b-table-column field="log.timeStart" label="วันที่" sortable>
+                <template>
+                    {{ props.row.log.timeStart | format("DD/MM/YYYY") }}
+                </template>
+            </b-table-column>
+
+            <b-table-column field="log.timeStart" label="เวลาเริ่ม">
+                <template>
+                    {{ props.row.log.timeStart | format("HH:mm:ss") }}
+                </template>
+            </b-table-column>
+
+            <b-table-column field="log.timeStart" label="เวลา">
+                <template>
+                    {{ callTime(props.row.log.timeStart, props.row.log.timeEnd) }}
+                </template>
+            </b-table-column>
+        </template>
+
+        <!-- <template slot="detail" slot-scope="props">
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong>{{ props.row.user.first_name }} {{ props.row.user.last_name }}</strong>
+                            <small>@{{ props.row.user.first_name }}</small>
+                            <small>31m</small>
+                            <br>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Proin ornare magna eros, eu pellentesque tortor vestibulum ut.
+                            Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </template> -->
+    </b-table>
+    </div>
+
+    <!-- <div class="container" align="left">
       Call Log
       <div :key="i"  v-for="(log, i) in project.callLog">
         <li>ครั้งที่ {{i+1}} โทรเมื่อ {{log.timeStart | format("DD/MM/YYYY เวลา HH:mm:ss")}} ถึง {{log.timeEnd | format("DD/MM/YYYY เวลา HH:mm:ss")}}</li>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -44,7 +101,8 @@ export default {
   data () {
     return {
       mute: false,
-      project: {}
+      project: {},
+      defaultOpenedDetails: []
     }
   },
   computed: {
@@ -53,6 +111,17 @@ export default {
       profile: 'user/profile',
       allUsers: 'user/allUsers'
     }),
+    callLog () {
+      if (this.project.callLog) {
+        return this.project.callLog.map((log, i) => {
+          return {
+            id: i + 1,
+            log: log
+          }
+        }).reverse()
+      }
+      return []
+    },
     usersWithID () {
       return Object.keys(this.allUsers).map(key => {
         return {
@@ -78,6 +147,11 @@ export default {
     ...mapActions({
       sentNoti: 'sentNoti'
     }),
+    callTime (start, end) {
+      const diffMin = this.$dayjs(end).diff(this.$dayjs(start), 'minute') + ''
+      const diffSec = this.$dayjs(end).diff(this.$dayjs(start), 'second')
+      return `${diffMin.padStart(2, '0')}:${((diffSec % 60) + '').padStart(2, '0')}`
+    },
     shareScreen () {
       webrtc.openScreen2()
     },
@@ -195,6 +269,25 @@ export default {
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
 }
+.player {
+  float: left;
+  position: relative;
+}
+.control-vid:hover {
+  opacity: 1;
+}
+.control-vid {
+  opacity: 0.4;
+  display: flex;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-bottom: 20px;
+  padding-right: 20px;
+}
 </style>
 
 <style scoped>
@@ -221,24 +314,5 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 2;
-}
-.player {
-  float: left;
-  position: relative;
-}
-
-.control-vid:hover {
-  opacity: 1;
-}
-.control-vid {
-  opacity: 0.4;
-  display: flex;
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 20px;
 }
 </style>
