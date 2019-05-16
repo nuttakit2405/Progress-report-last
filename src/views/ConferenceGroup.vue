@@ -284,9 +284,10 @@ export default {
   height: 100%;
   width: 100%;
   justify-content: flex-end;
-  align-items: flex-end;
-  padding-bottom: 20px;
-  padding-right: 20px;
+  /* align-items: flex-end; */
+  /* padding-bottom: 20px; */
+  padding-right: 10px;
+  padding-top: 10px;
 }
 </style>
 
