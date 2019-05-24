@@ -25,7 +25,7 @@
                   </div>
                 </div>
                 <!-- Tab term -->
-                <b-tabs type="is-boxed">
+                <b-tabs v-model="activeTab" type="is-boxed">
                   <b-tab-item :key="term.key" :label="term.key" v-for="term in terms">
                     <div class="column">
                       <div class="columns is-multiline">
