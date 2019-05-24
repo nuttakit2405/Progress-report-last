@@ -11,8 +11,8 @@
                 <div class="block level " >
                   <div class="level-left" v-if="profile && profile.teacherGroup.length > 1">
                     อ.ประจำวิชา &nbsp;
-                     <b-switch v-model="teacherSubject">
-                     </b-switch>
+                      <b-switch v-model="teacherSubject">
+                      </b-switch>
                     อ.ที่ปรึกษา
                   </div>
                   <div class="block is-capitalized">
@@ -25,34 +25,25 @@
                   </div>
                 </div>
                 <!-- Tab term -->
-                <!-- <b-tabs v-model="activeTab" type="is-boxed">
-                  <b-tab-item label="1/2561">
-                    1/2561..
+                <b-tabs type="is-boxed">
+                  <b-tab-item :key="term" :label="term" v-for="term in Object.keys(terms)">
+                    <div class="column">
+                      <div class="columns is-multiline">
+                        <div class="column is-half-tablet is-one-third-desktop" :key="key" v-for="(project, key) in terms[term]">
+                          <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
+                        </div>
+                      </div>
+                    </div>
                   </b-tab-item>
-                  <b-tab-item label="2/2561">
-                    2/2561
-                  </b-tab-item>
-                  <b-tab-item label="3/2561">
-                    3/2561
-                  </b-tab-item>
-                  <b-tab-item label="1/2562">
-                    1/2562
-                  </b-tab-item>
-                  <b-tab-item label="2/2562">
-                    2/2562
-                  </b-tab-item>
-                  <b-tab-item label="3/2562">
-                    3/2561
-                  </b-tab-item>
-                </b-tabs> -->
+                </b-tabs>
                 <!-- Tab term -->
-              <div class="column">
+              <!-- <div class="column">
                 <div class="columns is-multiline">
                   <div class="column is-half-tablet is-one-third-desktop" :key="key" v-for="(project, key) in projectsTeacher">
                     <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
                   </div>
                 </div>
-              </div>
+              </div> -->
               </div>
               <div  v-if="profile.userType == 'student'">
                 <div class="column">
@@ -116,6 +107,19 @@ export default {
           return project
         }).reduce((p, c) => {
           p[c.key] = c
+          return p
+        }, {})
+      }
+      return {}
+    },
+    terms () {
+      if (this.projects) {
+        return Object.keys(this.projectsTeacher).reduce((p, c) => {
+          const project = this.projectsTeacher[c]
+          if (!p[`${project.term}/${project.year}`]) {
+            p[`${project.term}/${project.year}`] = {}
+          }
+          p[`${project.term}/${project.year}`][c] = project
           return p
         }, {})
       }
