@@ -26,10 +26,10 @@
                 </div>
                 <!-- Tab term -->
                 <b-tabs v-model="activeTab" type="is-boxed">
-                  <b-tab-item :key="term.key" :label="term.key" v-for="term in terms">
-                    <div class="column">
+                  <b-tab-item :key="term.label" :label="term.label" :visible="term.visible" v-for="term in termsLabelShow">
+                    <div class="column" v-if="terms[term.label]">
                       <div class="columns is-multiline">
-                        <div class="column is-half-tablet is-one-third-desktop" :key="key" v-for="(project, key) in term.data">
+                        <div class="column is-half-tablet is-one-third-desktop" :key="key" v-for="(project, key) in terms[term.label]">
                           <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
                         </div>
                       </div>
@@ -112,6 +112,40 @@ export default {
       }
       return {}
     },
+    termsLabel () {
+      if (this.projects) {
+        const terms = Object.keys(this.projects).reduce((p, c) => {
+          const project = this.projects[c]
+          if (project.term && project.year) {
+            if (!p[`${project.term}/${project.year}`]) {
+              p[`${project.term}/${project.year}`] = {}
+            }
+            p[`${project.term}/${project.year}`][c] = project
+          }
+          return p
+        }, {})
+        return Object.keys(terms).map(t => {
+          return {
+            label: t,
+            visible: false
+          }
+        })
+      }
+      return []
+    },
+    termsLabelShow () {
+      if (this.projects) {
+        return this.termsLabel.map(t => {
+          if (this.terms[t.label]) {
+            t.visible = true
+            return t
+          }
+          t.visible = false
+          return t
+        })
+      }
+      return []
+    },
     terms () {
       if (this.projects) {
         const terms = Object.keys(this.projectsTeacher).reduce((p, c) => {
@@ -122,14 +156,9 @@ export default {
           p[`${project.term}/${project.year}`][c] = project
           return p
         }, {})
-        return Object.keys(terms).sort().map(k => {
-          return {
-            key: k,
-            data: terms[k]
-          }
-        })
+        return terms
       }
-      return []
+      return {}
     },
     teacherSubject: {
       get () {
