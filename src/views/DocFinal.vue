@@ -34,9 +34,16 @@
               <b class="font">จำนวนหน่วยกิต</b> 3 <b class="font">หน่วยกิต</b> &nbsp;&nbsp;
               <b class="font">ปีการศึกษาที่ลงทะเบียน</b> {{projectSelected.termRegister}} <br><br>
               &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<b class="font">ชื่อโครงงาน (ภาษาไทย)</b>    {{projectSelected.thaiProjectName}}<br>
-              &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">(ภาษาอังกฤษ)</b>  {{projectSelected.engProjectName}}<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">กรณีศึกษา:</b>     {{projectSelected.thaiCaseStudy?projectSelected.thaiCaseStudy:' -'}}<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="font">(Case Study):</b>  {{projectSelected.engCaseStudy?projectSelected.engCaseStudy: ' -'}}<br><br>
+
+              &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <b class="font">(ภาษาอังกฤษ)</b>  {{projectSelected.engProjectName}}<br>
+
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <b class="font">กรณีศึกษา:</b>     {{projectSelected.thaiCaseStudy?projectSelected.thaiCaseStudy:' -'}}<br>
+
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <b class="font">(Case Study):</b>  {{projectSelected.engCaseStudy?projectSelected.engCaseStudy: ' -'}}<br><br>
+
               <div v-if="projectSelected && projectSelected.teams[1]" class="font">
                 <b class="font">นักศึกษาผู้ร่วมงาน</b><br>
                 <b class="font">ชื่อ-สกุลนักศึกษา</b> {{projectSelected.teams[1].name}} {{projectSelected.teams[1].lastname}}
