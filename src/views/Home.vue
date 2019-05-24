@@ -26,10 +26,10 @@
                 </div>
                 <!-- Tab term -->
                 <b-tabs type="is-boxed">
-                  <b-tab-item :key="term" :label="term" v-for="term in Object.keys(terms)">
+                  <b-tab-item :key="term.key" :label="term.key" v-for="term in terms">
                     <div class="column">
                       <div class="columns is-multiline">
-                        <div class="column is-half-tablet is-one-third-desktop" :key="key" v-for="(project, key) in terms[term]">
+                        <div class="column is-half-tablet is-one-third-desktop" :key="key" v-for="(project, key) in term.data">
                           <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
                         </div>
                       </div>
@@ -114,7 +114,7 @@ export default {
     },
     terms () {
       if (this.projects) {
-        return Object.keys(this.projectsTeacher).reduce((p, c) => {
+        const terms = Object.keys(this.projectsTeacher).reduce((p, c) => {
           const project = this.projectsTeacher[c]
           if (!p[`${project.term}/${project.year}`]) {
             p[`${project.term}/${project.year}`] = {}
@@ -122,8 +122,14 @@ export default {
           p[`${project.term}/${project.year}`][c] = project
           return p
         }, {})
+        return Object.keys(terms).sort().map(k => {
+          return {
+            key: k,
+            data: terms[k]
+          }
+        })
       }
-      return {}
+      return []
     },
     teacherSubject: {
       get () {
