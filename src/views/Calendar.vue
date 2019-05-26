@@ -465,7 +465,7 @@ export default {
   border-right: 1px solid #e8ebee;
 }
 .vue-calendar-body {
-  display: block;
+  display: block !important;
 }
 </style>
 
