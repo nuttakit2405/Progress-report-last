@@ -1,22 +1,50 @@
 <template>
+<div>
+  <div style=" margin-right:20px;">
+        <!-- <button class="button block" @click="isActive = true" :disabled="isActive">สายที่ไม่ได้รับ</button>
+        <b-notification
+            auto-close type="is-warning"
+            :active.sync="isActive"
+            aria-close-label="Close notification" style="display: flex; justify-content: flex-end;">
+            สายที่ไม่ได้รับ 0 สาย
+        </b-notification> -->
+         <b-message title="           " type="is-danger">
+           สายที่ไม่ได้รับ <b>0</b> สาย จากกลุ่มนี้
+        </b-message>
+          <br>
+
+  </div>
+
+  <div style="display: flex; justify-content: center; margin-top:10px;">
+    <b-message title="           " type="is-success">
+            มีสายโทรเข้า กลุ่ม <b>ระบบติดตามความก้าวหน้าโครงงานพิเศษ</b>
+        </b-message>
+  </div>
+
   <div v-if="user" style="width: 100%; padding-top: 20px;" align="center">
     <div id="videos-container" class="videos" style="margin: 20px 0;"></div>
-    <button v-show="!roomOpen" class="button" @click="open">
+
+    <button class="button is-info" v-show="!roomOpen"  @click="open">
       <i class="fas fa-phone-square fa-1x"></i>&nbsp;โทรออก
     </button>
-    <button v-show="roomOpen && canjoin" class="button" @click="join">
+
+    <button class="button is-success" v-show="roomOpen && canjoin" @click="join">
       <i class="fas fa-phone-volume"></i>&nbsp;รับสาย
     </button>
-    <button v-show="roomOpen" class="button" @click="shareScreen">
+
+    <button class="button is-primary" v-show="roomOpen" @click="shareScreen">
       <i class="fas fa-external-link-alt"></i> &nbsp;แชร์หน้าจอ
     </button>
-    <button v-show="roomOpen" class="button" @click="stop">
+
+    <button class="button is-danger" v-show="roomOpen" @click="stop">
       <i class="fas fa-phone-slash"></i> &nbsp;วางสาย
     </button>
-    <button v-show="roomOpen && !mute" class="button" @click="muteToggle">
+
+    <button class="button is-black" v-show="roomOpen && !mute" @click="muteToggle">
       <i class="fas fa-microphone"></i> &nbsp;ปิดเสียง
     </button>
-    <button v-show="roomOpen && mute" class="button" @click="muteToggle">
+
+    <button class="button is-black" v-show="roomOpen && mute" @click="muteToggle">
       <i class="fas fa-microphone-slash"></i> &nbsp;เปิดเสียง
     </button>
 
@@ -84,6 +112,7 @@
       </div>
     </div> -->
   </div>
+</div>
 </template>
 
 <script>
@@ -102,7 +131,8 @@ export default {
     return {
       mute: false,
       project: {},
-      defaultOpenedDetails: []
+      defaultOpenedDetails: [],
+      isActive: false
     }
   },
   computed: {
