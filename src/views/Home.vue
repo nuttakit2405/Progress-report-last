@@ -117,10 +117,11 @@ export default {
         const terms = Object.keys(this.projects).reduce((p, c) => {
           const project = this.projects[c]
           if (project.term && project.year) {
-            if (!p[`${project.term}/${project.year}`]) {
-              p[`${project.term}/${project.year}`] = {}
+            const label = `${project.term}/${project.year}`
+            if (!p[label]) {
+              p[label] = {}
             }
-            p[`${project.term}/${project.year}`][c] = project
+            p[label][c] = project
           }
           return p
         }, {})
@@ -129,6 +130,10 @@ export default {
             label: t,
             visible: false
           }
+        }).sort((a, b) => {
+          const aa = +a.label.split('/').reverse().join('')
+          const bb = +b.label.split('/').reverse().join('')
+          return aa - bb
         })
       }
       return []
@@ -150,10 +155,11 @@ export default {
       if (this.projects) {
         const terms = Object.keys(this.projectsTeacher).reduce((p, c) => {
           const project = this.projectsTeacher[c]
-          if (!p[`${project.term}/${project.year}`]) {
-            p[`${project.term}/${project.year}`] = {}
+          const label = `${project.term}/${project.year}`
+          if (!p[label]) {
+            p[label] = {}
           }
-          p[`${project.term}/${project.year}`][c] = project
+          p[label][c] = project
           return p
         }, {})
         return terms
