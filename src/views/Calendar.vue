@@ -398,7 +398,12 @@ export default {
 
           const actions = this.$swal.getActions()
           const $actions = actions.querySelector.bind(actions)
-          $actions('.swal2-confirm').disabled = true
+
+          const value1 = input1.value
+          const value2 = input1.value
+          if (!value1.trim() && !value2.trim()) {
+            $actions('.swal2-confirm').disabled = true
+          }
 
           function update1 (e) {
             updateValue(e.srcElement.value, 1)
