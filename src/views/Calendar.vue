@@ -388,6 +388,51 @@ export default {
         html: rawHtml,
         focusConfirm: false,
         confirmButtonText: 'ตกลง',
+        onBeforeOpen: () => {
+          const content = this.$swal.getContent()
+          const $content = content.querySelector.bind(content)
+          const input1 = $content('#swal-input1')
+          const input2 = $content('#swal-input2')
+          var flag1 = false
+          var flag2 = false
+
+          const actions = this.$swal.getActions()
+          const $actions = actions.querySelector.bind(actions)
+          $actions('.swal2-confirm').disabled = true
+
+          function update1 (e) {
+            updateValue(e.srcElement.value, 1)
+          }
+          function update2 (e) {
+            updateValue(e.srcElement.value, 2)
+          }
+          function updateValue (value, input) {
+            if (value.trim() !== '') {
+              if (input === 1) {
+                flag1 = true
+              }
+              if (input === 2) {
+                flag2 = true
+              }
+            } else {
+              if (input === 1) {
+                flag1 = false
+              }
+              if (input === 2) {
+                flag2 = false
+              }
+            }
+
+            if (flag1 && flag2) {
+              $actions('.swal2-confirm').disabled = false
+            } else {
+              $actions('.swal2-confirm').disabled = true
+            }
+          }
+
+          input1.addEventListener('input', update1)
+          input2.addEventListener('input', update2)
+        },
         preConfirm: () => {
           return [
             document.getElementById('swal-input1').value, // ดึงค่าไปใช้ใน sweet
