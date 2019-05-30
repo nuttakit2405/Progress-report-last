@@ -27,29 +27,62 @@
                   {{item.date.date}} <!--ตัวเลขวันที่ -->
                 </Button>
               </div>
+              <!-- event -->
               <div class="pd-hrzt-3px" v-if="events[item.date.full]">
-                <div class="columns is-marginless mg-bt-2px" :key="key" v-for="(event, key) in events[item.date.full]">
-                  <div class="column is-paddingless" style="width: 100%; position: relative;">
-                    <span style="width: 100%; padding: 0 2px" :class="['dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
-                  </div>
+                <div :key="k" v-for="(ee, k) in eventToArr(events[item.date.full])">
+                  <div class="columns is-marginless mg-bt-2px" :key="event.key" v-for="event in ee.part1">
+                    <div class="column is-paddingless" style="width: 100%; position: relative;">
+                      <span style="width: 100%; padding: 0 2px" :class="['dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
+                    </div>
 
-                  <div class="column is-paddingless" style="flex: none; width: fit-content;">
-                    <button
-                      v-if="!(!item.isCurMonth || today > item.date.date) && event.waitaccept"
-                      class="button action-btn is-small"
-                      @click="editEvent(item.date.year, item.date.full, key, event)"
-                    >
-                      <b-icon size="is-small" icon="edit"/>
-                    </button>
-                  </div>
+                    <div class="column is-paddingless" style="flex: none; width: fit-content;">
+                      <button
+                        v-if="!(!item.isCurMonth || today > item.date.date) && event.waitaccept"
+                        class="button action-btn is-small"
+                        @click="editEvent(item.date.year, item.date.full, event.key, event)"
+                      >
+                        <b-icon size="is-small" icon="edit"/>
+                      </button>
+                    </div>
 
-                  <div class="column is-paddingless" style="flex: none; width: fit-content;">
-                    <button class="button action-btn is-small" @click="removeEvent(item.date.full, key, event)">
-                      <b-icon size="is-small" icon="times"/>
-                    </button>
-                    <!-- <button v-if="!(!item.isCurMonth || today > item.date.date)" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button> -->
+                    <div class="column is-paddingless" style="flex: none; width: fit-content;">
+                      <button class="button action-btn is-small" @click="removeEvent(item.date.full, event.key, event)">
+                        <b-icon size="is-small" icon="times"/>
+                      </button>
+                      <!-- <button v-if="!(!item.isCurMonth || today > item.date.date)" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button> -->
+                    </div>
                   </div>
-                </div> <!-- เอาหัวเรื่อง มาโชว์-->
+                  <b-dropdown hoverable aria-role="list" v-if="ee.part2">
+                      <button class="button is-small" slot="trigger">
+                          <span>{{ee.part2.length}} more</span>
+                      </button>
+
+                      <b-dropdown-item aria-role="menu-item" custom class="pd-hrzt-4px pd-vtc-0px">
+                        <div class="columns is-marginless mg-bt-2px" :key="event.key" v-for="event in ee.part2">
+                          <div class="column is-paddingless" style="width: 100%; position: relative;">
+                            <span style="width: 100%; padding: 0 2px" :class="['dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
+                          </div>
+
+                          <div class="column is-paddingless" style="flex: none; width: fit-content;">
+                            <button
+                              v-if="!(!item.isCurMonth || today > item.date.date) && event.waitaccept"
+                              class="button action-btn is-small"
+                              @click="editEvent(item.date.year, item.date.full, event.key, event)"
+                            >
+                              <b-icon size="is-small" icon="edit"/>
+                            </button>
+                          </div>
+
+                          <div class="column is-paddingless" style="flex: none; width: fit-content;">
+                            <button class="button action-btn is-small" @click="removeEvent(item.date.full, event.key, event)">
+                              <b-icon size="is-small" icon="times"/>
+                            </button>
+                            <!-- <button v-if="!(!item.isCurMonth || today > item.date.date)" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button> -->
+                          </div>
+                        </div>
+                      </b-dropdown-item>
+                  </b-dropdown>
+                </div>
               </div>
             </div>
           </div>
@@ -124,6 +157,21 @@ export default {
         const uid = user.uid
         this.getEvents({year, uid})
       }
+    },
+    eventToArr (events) {
+      const newEvent = Object.keys(events).map(e => {
+        events[e].key = e
+        return events[e]
+      })
+
+      if (newEvent.length <= 2) {
+        return [{ part1: newEvent }]
+      }
+
+      return [{
+        part1: newEvent.splice(0, 1),
+        part2: newEvent
+      }]
     },
     disabledDateBtn (item) {
       const year = this.now.year()
@@ -553,6 +601,9 @@ export default {
 .vue-calendar-body {
   display: block !important;
 }
+.vue-calendar-day-item {
+  overflow: visible !important;
+}
 </style>
 
 <style scoped>
@@ -597,7 +648,7 @@ export default {
   width: 23px;
   height: 23px;
   padding: 2px;
-  border-radius: 50%;
+  border-radius: 50% !important;
   border: 0px;
 }
 .date-btn:disabled {
