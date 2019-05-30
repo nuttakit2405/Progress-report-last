@@ -18,7 +18,7 @@
 
           <div slot-scope="item" :class="{'is-not-curr-month': !item.isCurMonth}">
             <div class="calendar-item-date" style="position: relative;">
-              <Button style="margin: 2px;" :disabled="!item.isCurMonth || today > item.date.date" :class="['button', 'is-small', { 'is-otherMonth': !item.isCurMonth || today > item.date.date }, {'is-primary': item.isToday}]"
+              <Button style="margin: 2px;" :disabled="disabledDateBtn(item)" :class="['button', 'is-small', { 'is-otherMonth': disabledDateBtn(item) }, {'is-primary': item.isToday}]"
                 @click="addEvent(item.date)">
                 {{item.date.date}} <!--ตัวเลขวันที่ -->
               </Button>
@@ -61,7 +61,8 @@ export default {
       isAddEventModalActive: false,
       mode: 'month',
       time: new Date(),
-      today: new Date().getDate()
+      today: new Date().getDate(),
+      now: this.$dayjs()
     }
   },
   computed: {
@@ -111,6 +112,29 @@ export default {
         const uid = user.uid
         this.getEvents({year, uid})
       }
+    },
+    disabledDateBtn (item) {
+      const year = this.now.year()
+      const iyear = item.date.year
+      if (iyear < year) {
+        return true
+      }
+
+      const month = this.now.month() + 1
+      const imonth = item.date.month
+      if (imonth < month) {
+        return true
+      } else if (imonth > month) {
+        return false
+      }
+
+      const day = this.now.date()
+      const iday = item.date.date
+      if (iday < day) {
+        return true
+      }
+
+      return false
     },
     renderHeader ({ prev, next, selectedDate }) {
       const h = this.$createElement
@@ -185,16 +209,16 @@ export default {
       let config = {
         title: 'หัวข้อเรื่อง: ' + event.title,
         html: `<div>รายละเอียดการนัดหมาย : ${event.description}</div>
-                 <div>เวลาในการนัดหมาย : ${event.start} ถึง ${event.end}</div>
-                 <div>ยอมรับการนัดหมายในครั้งนี้หรือไม่ ?</div>`,
+                <div>เวลาในการนัดหมาย : ${event.start} ถึง ${event.end}</div>
+                <div>ยอมรับการนัดหมายในครั้งนี้หรือไม่ ?</div>`,
         showConfirmButton: false
       }
       if (this.profile.userType === 'teacher') {
         config = {
           title: 'หัวข้อเรื่อง: ' + event.title,
           html: `<div>รายละเอียดการนัดหมาย : ${event.description}</div>
-                 <div>เวลาในการนัดหมาย : ${event.start} ถึง ${event.end}</div>
-                 <div>ยอมรับการนัดหมายในครั้งนี้หรือไม่ ?</div>`,
+                <div>เวลาในการนัดหมาย : ${event.start} ถึง ${event.end}</div>
+                <div>ยอมรับการนัดหมายในครั้งนี้หรือไม่ ?</div>`,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           showCancelButton: true,
@@ -337,7 +361,7 @@ export default {
           <span style="display: flex; align-items: center; margin: 0px 5px;">
             ต้องการนัด:
             <span class="radio" style="width: auto; margin: 0px 5px;">
-               <span class="select" style="width: auto; margin: 0px 5px;">
+              <span class="select" style="width: auto; margin: 0px 5px;">
                 <select id="swal-input6">
                   <option value="mentor">อาจารย์ที่ปรึกษา</option>
                   <option value="subject">อาจารย์ประจำวิชา</option>
@@ -350,7 +374,7 @@ export default {
           <span style="display: flex; align-items: center; margin: 0px 5px;">
             ต้องการนัดโครงงานกลุ่ม:
             <span class="radio" style="width: auto; margin: 0px 5px;">
-               <span class="select" style="max-width: 250px; margin: 0px 5px;">
+              <span class="select" style="max-width: 250px; margin: 0px 5px;">
                   <select id="swal-input5">
                     ${this.projectOption(editMode ? projectId : this.projectId)}
                   </select>
