@@ -542,13 +542,13 @@ export default {
 
 <style>
 .vue-calendar-week-title-item {
-  text-align: center;
+  text-align: center !important;
 }
 .vue-calendar-body-row {
-  height: 6em;
+  height: 6em !important;
 }
 .vue-calendar-body, .vue-calendar-week-title {
-  border-right: 1px solid #e8ebee;
+  border-right: 1px solid #e8ebee !important;
 }
 .vue-calendar-body {
   display: block !important;
