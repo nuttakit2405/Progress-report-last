@@ -53,7 +53,7 @@
                     </div>
                   </div>
                   <b-dropdown hoverable aria-role="list" v-if="ee.part2">
-                      <button class="button is-small" slot="trigger">
+                      <button class="button is-small more-btn" slot="trigger">
                           <span>{{ee.part2.length}} more</span>
                       </button>
 
@@ -663,5 +663,9 @@ export default {
   height: 24px;
   padding: 3px;
   margin-left: 1px;
+}
+.more-btn {
+  border: 0px;
+  background: #e8ebee;
 }
 </style>
