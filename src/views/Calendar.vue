@@ -18,23 +18,35 @@
 
           <div slot-scope="item" :class="{'is-not-curr-month': !item.isCurMonth}">
             <div class="calendar-item-date" style="position: relative;">
-              <Button style="margin: 2px;" :disabled="disabledDateBtn(item)" :class="['button', 'is-small', { 'is-otherMonth': disabledDateBtn(item) }, {'is-primary': item.isToday}]"
-                @click="addEvent(item.date)">
-                {{item.date.date}} <!--ตัวเลขวันที่ -->
-              </Button>
-              <div v-if="events[item.date.full]">
+              <div class="w-100pct dp-flex jtf-ct-center">
+                <Button
+                  :disabled="disabledDateBtn(item)"
+                  :class="['button', 'is-small', 'date-btn', { 'is-otherMonth': disabledDateBtn(item) }, {'is-primary': item.isToday}]"
+                  @click="addEvent(item.date)"
+                >
+                  {{item.date.date}} <!--ตัวเลขวันที่ -->
+                </Button>
+              </div>
+              <div class="pd-hrzt-3px" v-if="events[item.date.full]">
                 <div class="columns is-marginless" :key="key" v-for="(event, key) in events[item.date.full]">
                   <div class="column is-paddingless" style="width: 100%; position: relative;">
-                    <span style="width: 100%;" :class="['dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
+                    <span style="width: 100%; padding: 0 2px" :class="['dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
                   </div>
 
                   <div class="column is-paddingless" style="flex: none; width: fit-content;">
-                    <button v-if="!(!item.isCurMonth || today > item.date.date) && event.waitaccept"
-                  class="button is-small" @click="editEvent(item.date.year, item.date.full, key, event)"><b-icon size="is-small" icon="edit"/></button>
+                    <button
+                      v-if="!(!item.isCurMonth || today > item.date.date) && event.waitaccept"
+                      class="button action-btn is-small"
+                      @click="editEvent(item.date.year, item.date.full, key, event)"
+                    >
+                      <b-icon size="is-small" icon="edit"/>
+                    </button>
                   </div>
 
                   <div class="column is-paddingless" style="flex: none; width: fit-content;">
-                    <button class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button>
+                    <button class="button action-btn is-small" @click="removeEvent(item.date.full, key, event)">
+                      <b-icon size="is-small" icon="times"/>
+                    </button>
                     <!-- <button v-if="!(!item.isCurMonth || today > item.date.date)" class="button is-small" @click="removeEvent(item.date.full, key, event)"><b-icon size="is-small" icon="times"/></button> -->
                   </div>
                 </div> <!-- เอาหัวเรื่อง มาโชว์-->
@@ -578,5 +590,27 @@ export default {
 .is-not-curr-month {
   height: 100%;
   background-color: #f9f9f9;
+}
+
+.date-btn {
+  margin: 3px;
+  width: 23px;
+  height: 23px;
+  padding: 2px;
+  border-radius: 50%;
+  border: 0px;
+}
+.date-btn:disabled {
+  color: black;
+}
+.date-btn:hover {
+  background: #e8ebee;
+  color: black;
+}
+.action-btn {
+  width: 25px;
+  height: 25px;
+  padding: 3px;
+  margin-left: 1px;
 }
 </style>
