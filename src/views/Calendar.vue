@@ -28,7 +28,7 @@
                 </Button>
               </div>
               <div class="pd-hrzt-3px" v-if="events[item.date.full]">
-                <div class="columns is-marginless" :key="key" v-for="(event, key) in events[item.date.full]">
+                <div class="columns is-marginless mg-bt-2px" :key="key" v-for="(event, key) in events[item.date.full]">
                   <div class="column is-paddingless" style="width: 100%; position: relative;">
                     <span style="width: 100%; padding: 0 2px" :class="['dotdotdot', event.waitaccept ? 'disable-events': 'accept-events' ]" @click="viewEvent(item.date.full, key, event)" :title="event.title">{{event.title}}</span>
                   </div>
@@ -609,7 +609,7 @@ export default {
 }
 .action-btn {
   width: 25px;
-  height: 25px;
+  height: 24px;
   padding: 3px;
   margin-left: 1px;
 }
