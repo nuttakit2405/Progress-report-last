@@ -216,7 +216,7 @@ export default {
       const readData = {}
       readData[this.user.uid] = true
       console.log(`/allEvents/${year}/${key}`)
-      db.database.ref(`/allEvents/${year}/${key}`).update({read: readData})
+      db.database.ref(`/allEvents/${year}/${key}/read`).update(readData)
       if (!event.waitaccept) {
         const {value} = await this.$swal({
           title: 'หัวข้อเรื่อง: ' + event.title,
