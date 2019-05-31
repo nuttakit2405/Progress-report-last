@@ -213,6 +213,10 @@ export default {
     },
     async viewEvent (date, key, event) {
       const year = this.$dayjs(date).year()
+      const readData = {}
+      readData[this.user.uid] = true
+      console.log(`/allEvents/${year}/${key}`)
+      db.database.ref(`/allEvents/${year}/${key}`).update({read: readData})
       if (!event.waitaccept) {
         const {value} = await this.$swal({
           title: 'หัวข้อเรื่อง: ' + event.title,
