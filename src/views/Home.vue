@@ -138,18 +138,23 @@ export default {
       }
       return []
     },
-    termsLabelShow () {
-      if (this.projects) {
-        return this.termsLabel.map(t => {
-          if (this.terms[t.label]) {
-            t.visible = true
+    termsLabelShow: {
+      get () {
+        if (this.projects) {
+          return this.termsLabel.map(t => {
+            if (this.terms[t.label]) {
+              t.visible = true
+              return t
+            }
+            t.visible = false
             return t
-          }
-          t.visible = false
-          return t
-        })
+          })
+        }
+        return []
+      },
+      set () {
+        this.activeTab = 0
       }
-      return []
     },
     terms () {
       if (this.projects) {

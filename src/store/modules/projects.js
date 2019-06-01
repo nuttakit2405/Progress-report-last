@@ -11,7 +11,16 @@ const getters = {
 
 const mutations = {
   setProjects: (state, projects) => {
-    state.projects = projects
+    state.projects = Object.keys(projects).map(k => {
+      const p = projects[k]
+      p.key = k
+      return p
+    }).filter(k => {
+      return !k.deleted
+    }).reduce((p, c) => {
+      p[c.key] = c
+      return p
+    }, {})
   },
   setSelectProject: (state, val) => {
     state.projectSelected = val
