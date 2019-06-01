@@ -145,6 +145,7 @@ export default {
       deadlineProject: new Date(),
       statusDelteam: true,
       editMode: false,
+      copyMode: false,
       teacherData: null,
       scoreboard: null
     }
@@ -266,12 +267,21 @@ export default {
       this.mentor = val.mentor ? val.mentor.initials : null
       this.coOpMentor = val.coOpMentor
       this.department = val.department
+      this.projectSize = val.projectSize
       this.term = val.term
       this.year = val.year
-      this.projectSize = val.projectSize
-      this.startProject = new Date(val.startProject)
-      this.deadlineProject = new Date(val.deadlineProject)
-      this.scoreboard = val.scoreboard
+      if (this.copyMode) {
+        this.term = +val.term + 1
+        if (this.term === 4) {
+          this.term = 1
+          this.year = +val.year + 1
+        }
+      }
+      if (!this.copyMode) {
+        this.scoreboard = val.scoreboard
+        this.deadlineProject = new Date(val.deadlineProject)
+        this.startProject = new Date(val.startProject)
+      }
     },
     getTeacherData () {
       db.database.ref('teachers').once('value', snap => {
@@ -296,6 +306,14 @@ export default {
     this.getTeacherData()
     if (this.$route.name === 'EditProject') {
       this.editMode = true
+      db.database.ref(`projects/${this.projectId}`).once('value', snap => {
+        const data = snap.val()
+        if (data) {
+          this.initDataFormDB(data)
+        }
+      })
+    } else if (this.$route.name === 'CopyProject') {
+      this.copyMode = true
       db.database.ref(`projects/${this.projectId}`).once('value', snap => {
         const data = snap.val()
         if (data) {
