@@ -20,11 +20,18 @@
               <button class="button" slot="trigger">
                   <i class="fas fa-ellipsis-v"></i>
               </button>
-              <b-dropdown-item v-if="data.approveSpecialProject !== true"  @click="$emit('edit', projectId)">
-                <i class="fas fa-edit"></i>&nbsp;<span>แก้ไขโปรเจค</span>
+              <b-dropdown-item v-if="data.approveSpecialProject == undefined"  @click="$emit('edit', projectId)">
+                <i class="fas fa-edit"></i>&nbsp;<span>แก้ไขโครงงาน</span>
+              </b-dropdown-item>
+              <b-dropdown-item v-if="data.approveSpecialProject === true || data.approveSpecialProject === false"  @click="$emit('copy', projectId)">
+                <span class="cl-info">
+                  <i class="fas fa-chevron-circle-right"></i>&nbsp;<span>เพิ่มโครงงานสำหรับการศึกษาถัดไป</span>
+                </span>
               </b-dropdown-item>
               <b-dropdown-item @click="$emit('remove', projectId)">
-                <i class="fas fa-trash-alt"></i>&nbsp;<span>ลบโปรเจค</span>
+                <span class="cl-red">
+                  <i class="fas fa-trash-alt"></i>&nbsp;<span>ลบโครงงาน</span>
+                </span>
               </b-dropdown-item>
             </b-dropdown>
           </div>

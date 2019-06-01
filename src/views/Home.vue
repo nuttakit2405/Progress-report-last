@@ -30,7 +30,7 @@
                     <div class="column" v-if="terms[term.label]">
                       <div class="columns is-multiline">
                         <div class="column is-half-tablet is-one-third-desktop" :key="key" v-for="(project, key) in terms[term.label]">
-                          <group @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
+                          <group @copy="copyProject" @remove="removeProject" @edit="editProject" :data="project" :projectId="key" :role="teacherSubject ? 'mentor' : 'subject'"/>
                         </div>
                       </div>
                     </div>
@@ -235,6 +235,20 @@ export default {
       if (value) {
         this.$router.push({name: 'EditProject', params: {projectId: projectId}})
       }
+    },
+    async copyProject (projectId) {
+      const { value } = await this.$swal({
+        title: 'ต้องการที่จะเพิ่มโครงงานสำหรับการศึกษาถัดไป',
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'hsl(141, 71%, 48%)',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก'
+      })
+      if (value) {
+        this.$router.push({name: 'CopyProject', params: {projectId: projectId}})
+      }
     }
   },
   created () {
@@ -254,5 +268,8 @@ export default {
     background-color: #ffffff;
     border-color: #a9a8a8;
     color: black;
+}
+.b-tabs .tab-content {
+  overflow: visible !important;
 }
 </style>

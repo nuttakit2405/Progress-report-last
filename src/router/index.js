@@ -62,6 +62,13 @@ const router = new Router({
       meta: { requireAuth: true }
     },
     {
+      path: '/copyproject/:projectId',
+      name: 'CopyProject',
+      component: AddProject,
+      props: true,
+      meta: { requireAuth: true }
+    },
+    {
       path: '/scoreboard/:projectId',
       name: 'ProjectScoreBoard',
       component: ScoreBoard,
