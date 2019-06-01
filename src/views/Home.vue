@@ -133,7 +133,7 @@ export default {
         }).sort((a, b) => {
           const aa = +a.label.split('/').reverse().join('')
           const bb = +b.label.split('/').reverse().join('')
-          return aa - bb
+          return bb - aa
         })
       }
       return []
