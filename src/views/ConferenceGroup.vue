@@ -8,18 +8,17 @@
             aria-close-label="Close notification" style="display: flex; justify-content: flex-end;">
             สายที่ไม่ได้รับ 0 สาย
         </b-notification> -->
-         <b-message title="           " type="is-danger">
+         <!-- <b-message title="           " type="is-danger">
            สายที่ไม่ได้รับ <b>0</b> สาย จากกลุ่มนี้
         </b-message>
-          <br>
-
+          <br> -->
   </div>
 
-  <div style="display: flex; justify-content: center; margin-top:10px;">
+  <!-- <div style="display: flex; justify-content: center; margin-top:10px;">
     <b-message title="           " type="is-success">
             มีสายโทรเข้า กลุ่ม <b>ระบบติดตามความก้าวหน้าโครงงานพิเศษ</b>
         </b-message>
-  </div>
+  </div> -->
 
   <div v-if="user" style="width: 100%; padding-top: 20px;" align="center">
     <div id="videos-container" class="videos" style="margin: 20px 0;"></div>
