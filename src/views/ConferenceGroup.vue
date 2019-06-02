@@ -62,26 +62,27 @@
 
         <template slot-scope="props">
             <b-table-column field="id" label="ครั้งที่" width="70" numeric>
-                {{ props.row.id }}
+                <span :class="{'cl-red': props.row.missCall }">{{ props.row.id }}</span>
             </b-table-column>
 
             <b-table-column field="log.timeStart" label="วันที่" sortable>
                 <template>
-                    {{ props.row.log.timeStart | format("DD/MM/YYYY") }}
+                    <span :class="{'cl-red': props.row.missCall }">{{ props.row.log.timeStart | format("DD/MM/YYYY") }}</span>
                 </template>
             </b-table-column>
 
             <b-table-column field="log.timeStart" label="เวลาเริ่ม">
                 <template>
-                  {{ props.row.log.timeStart | format("HH:mm:ss") }}
+                  <span :class="{'cl-red': props.row.missCall }">{{ props.row.log.timeStart | format("HH:mm:ss") }}</span>
                 </template>
             </b-table-column>
 
             <b-table-column field="log.timeStart" label="เวลาสิ้นสุด">
                 <template>
-                  {{ props.row.log.timeEnd | format("HH:mm:ss") }}
+                  <span :class="{'cl-red': props.row.missCall }">{{ props.row.log.timeEnd | format("HH:mm:ss") }}</span>
                 </template>
             </b-table-column>
+
         </template>
 
         <!-- <template slot="detail" slot-scope="props">
@@ -143,10 +144,17 @@ export default {
     callLog () {
       if (this.project.callLog) {
         return this.project.callLog.map((log, i) => {
-          return {
-            id: i + 1,
-            log: log
+          var missCall = false
+          const members = Object.keys(log.member)
+          if (members.length === 1 && members[0] === log.callBy) {
+            missCall = true
           }
+          const data = {
+            id: i + 1,
+            log: log,
+            missCall: missCall
+          }
+          return data
         }).reverse()
       }
       return []
@@ -240,7 +248,7 @@ export default {
     checkAllOut () {
       const id = this.project.callLog.length - 1
       const allOut = Object.values(this.project.callLog[id].member).every(data => data === false)
-      if (allOut) {
+      if (allOut && this.project.callLog[id].isRoomOpen === true) {
         const dataUpdate = {
           isRoomOpen: false,
           timeEnd: new Date()
