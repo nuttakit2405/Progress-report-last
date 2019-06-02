@@ -12,11 +12,11 @@
 
       <div class="NameProject">ทก.02</div>
 
-       <div class="media logoKMUTNB" style="margin-top:50px;">
-            <figure>
-              <img src="/static/img/logoKMUTNB.JPG"  width="200" alt="Image">
-            </figure>
-       </div>
+      <div class="media logoKMUTNB" style="margin-top:50px;">
+        <figure>
+          <img src="/static/img/logoKMUTNB.JPG" width="200" alt="Image">
+        </figure>
+      </div>
 
           <div class= "topTitle" >
             <center><h2><b class="font" style="font-size: 25px;">แบบรายงานความก้าวหน้าของโครงงานพิเศษ (ปริญญานิพนธ์)</b></h2></center><br>
@@ -34,16 +34,16 @@
             <div class="font" style="margin-left:40px;"><b class="font">(ภาษาอังกฤษ)</b> {{projectSelected.engCaseStudy?projectSelected.engCaseStudy:' -'}}</div> <br><br><br>
 
           <b class="font">ชื่อนักศึกษาผู้ทำโครงงาน</b><br>
-           <div class="font" style="margin-left:40px;" :key="keyy" v-for="(member, keyy) in projectSelected.teams">
-             {{keyy+1}}. {{member.name}} {{member.lastname}}&nbsp;&nbsp;<b class="font">รหัสนักศึกษา</b> {{member.id}} <br>
+          <div class="font" style="margin-left:40px;" :key="keyy" v-for="(member, keyy) in projectSelected.teams">
+            {{keyy+1}}. {{member.name}} {{member.lastname}}&nbsp;&nbsp;<b class="font">รหัสนักศึกษา</b> {{member.id}} <br>
           </div><br><br><br>
 
           <b class="font">ชื่ออาจารย์ที่ปรึกษา / อาจารย์ที่ปรึกษาร่วม</b><br>
-           <div class="font" style="margin-left:40px;"> <b class="font"> อาจารย์ที่ปรึกษา</b>
-           {{project.mentor.position}}{{project.mentor.name}} {{project.mentor.lastname}}
+            <div class="font" style="margin-left:40px;"> <b class="font"> อาจารย์ที่ปรึกษา</b>
+              {{project.mentor.position}}{{project.mentor.name}} {{project.mentor.lastname}}
           </div>
-           <div class="font" style="margin-left:40px;"> <b class="font"> อาจารย์ที่ปรึกษาร่วม</b>
-           {{projectSelected.coOpMentor?projectSelected.coOpMentor:' -'}}<br><br>
+            <div class="font" style="margin-left:40px;"> <b class="font"> อาจารย์ที่ปรึกษาร่วม</b>
+              {{projectSelected.coOpMentor?projectSelected.coOpMentor:' -'}}<br><br>
           </div><br><br>
 
         </div>
@@ -84,8 +84,8 @@
               <div class="cut-text" style="margin-left:50px">
                 <b><div class="font">{{week.solution}}</div></b>
               </div><br><br>
-              <div :key="i" v-for="(members, i) in memberConfirm(week.membersSave)" class="font" style="display: flex; justify-content: flex-end; ">
-                <b class="font">{{members}}</b><br>
+              <div class="font" style="display: flex; justify-content: flex-end; ">
+                <b class="font">{{memberConfirm(week.membersSave)}}</b><br>
               </div>
               <div class="font" style="display: flex; justify-content: flex-end;">(ผู้จัดทำโครงการ)</div>
               <br><br>
@@ -174,32 +174,33 @@ export default {
           font: 'THSarabunNew'
         }
       }
-      const page = document.getElementById('frontBook')
-      console.log(page)
 
-      const canvas = await this.$html2canvas(page, {scale: 2})
-      docDefinition.content.push({
-        image: canvas.toDataURL(),
-        width: 520
-        // marginTop: 20
-      })
-      for (let i = 0; i < this.project.scoreboard.length; i++) {
-        const key = i
-        const page = document.getElementById('pdf' + key)
-        console.log(page)
-
-        const canvas = await this.$html2canvas(page, {scale: 2})
-        docDefinition.content.push({
-          image: canvas.toDataURL(),
-          width: 520
-          // marginTop: 20
+      const pdftoimg = (e) => {
+        return new Promise((resolve, reject) => {
+          this.$html2canvas(e, {scale: 2, logging: false}).then((canvas) => {
+            resolve({
+              image: canvas.toDataURL(),
+              width: 520
+            })
+          })
         })
       }
 
-      await console.log(docDefinition)
-      // await this.$pdfMake.createPdf(docDefinition).open()
-      await this.$pdfMake.createPdf(docDefinition).download('รายงานความก้าวหน้า.pdf')
-      await loadingComponent.close()
+      const data = []
+      const page = document.getElementById('frontBook')
+      data.push(pdftoimg(page))
+      for (let i = 0; i < this.project.scoreboard.length; i++) {
+        const page = document.getElementById('pdf' + i)
+        data.push(pdftoimg(page))
+      }
+
+      docDefinition.content = await Promise.all(data)
+      // await this.$pdfMake.createPdf(docDefinition).open().then(() => {
+      //   loadingComponent.close()
+      // })
+      this.$pdfMake.createPdf(docDefinition).download('รายงานความก้าวหน้า.pdf').then(() => {
+        loadingComponent.close()
+      })
     },
     thaiDate (value) {
       const date = this.$dayjs(value)
@@ -207,7 +208,7 @@ export default {
     },
     memberConfirm (members) {
       if (members) {
-        return Object.keys(members).map(uid => this.allUsers[uid] ? this.allUsers[uid].fullName : '')
+        return Object.keys(members).map(uid => this.allUsers[uid] ? this.allUsers[uid].fullName : '').join(', ')
       }
       return ''
     }
