@@ -2,7 +2,7 @@
   <div>
     <div class="DownloadButton">
       <!-- <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading> -->
-      <button class="button is-info DownloadButton" @click="printPDF">
+      <button class="button is-info DownloadButton" @click="printPDF(projectSelected.thaiProjectName)">
           <b-icon icon="file-download"></b-icon> <span>ดาวโหลดไฟล์</span>
       </button>
     </div>
@@ -153,7 +153,7 @@ export default {
     }
   },
   methods: {
-    async printPDF () {
+    async printPDF (name) {
       // var docDefinition = {
       //   content: [
       //     { text: 'สวัสดีประเทศไทย reat pdf demo ', fontSize: 15 }
@@ -195,10 +195,7 @@ export default {
       }
 
       docDefinition.content = await Promise.all(data)
-      // await this.$pdfMake.createPdf(docDefinition).open().then(() => {
-      //   loadingComponent.close()
-      // })
-      this.$pdfMake.createPdf(docDefinition).download('รายงานความก้าวหน้า.pdf').then(() => {
+      this.$pdfMake.createPdf(docDefinition).download(`รายงานความก้าวหน้าโครงงาน${name}.pdf`).then(() => {
         loadingComponent.close()
       })
     },
