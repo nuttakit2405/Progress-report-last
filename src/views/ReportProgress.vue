@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="projectSelected">
     <div class="DownloadButton">
       <!-- <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading> -->
       <button class="button is-info DownloadButton" @click="printPDF(projectSelected.thaiProjectName)">
@@ -121,7 +121,7 @@
 
 <script>
 import db from '@/database'
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
   props: {
@@ -153,21 +153,17 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      selectProject: 'projects/selectProject'
+    }),
     async printPDF (name) {
-      // var docDefinition = {
-      //   content: [
-      //     { text: 'สวัสดีประเทศไทย reat pdf demo ', fontSize: 15 }
-      //   ],
-      //   defaultStyle: {
-      //     font: 'THSarabunNew'
-      //   }
-      // }
-      // loading
-      const loadingComponent = this.$loading.open({
+      const loadingComponent = await this.$loading.open({
         container: this.isFullPage ? null : this.$refs.element.$el
       })
       // loading
-
+      this.gennerate(name, loadingComponent)
+    },
+    async gennerate (name, loadingComponent) {
       const docDefinition = {
         content: [],
         defaultStyle: {
@@ -177,7 +173,7 @@ export default {
 
       const pdftoimg = (e) => {
         return new Promise((resolve, reject) => {
-          this.$html2canvas(e, {scale: 2, logging: false}).then((canvas) => {
+          this.$html2canvas(e, {logging: false}).then((canvas) => {
             resolve({
               image: canvas.toDataURL(),
               width: 520
@@ -195,7 +191,7 @@ export default {
       }
 
       docDefinition.content = await Promise.all(data)
-      this.$pdfMake.createPdf(docDefinition).download(`รายงานความก้าวหน้าโครงงาน${name}.pdf`).then(() => {
+      this.$pdfMake.createPdf(docDefinition).download(`รายงานความก้าวหน้าโครงงาน${name}.pdf`, () => {
         loadingComponent.close()
       })
     },
@@ -211,10 +207,14 @@ export default {
     }
   },
   async created () {
+    if (this.projectId) {
+      this.selectProject(this.projectId)
+    }
     await db.database.ref(`/projects/${this.projectId}`).once('value', snapshot => {
       console.log(snapshot.val())
       this.project = snapshot.val()
     })
+    console.log(window.devicePixelRatio)
   }
 }
 </script>
