@@ -14,11 +14,11 @@
           <br> -->
   </div>
 
-  <!-- <div style="display: flex; justify-content: center; margin-top:10px;">
-    <b-message title="           " type="is-success">
-            มีสายโทรเข้า กลุ่ม <b>ระบบติดตามความก้าวหน้าโครงงานพิเศษ</b>
+  <div v-if="roomOpen && canjoin" style="display: flex; justify-content: center; margin-top:10px;">
+    <b-message title="" type="is-success">
+            มีสายโทรเข้า กลุ่ม <b>{{project.thaiProjectName}}</b>
         </b-message>
-  </div> -->
+  </div>
 
   <div v-if="user" style="width: 100%; padding-top: 20px;" align="center">
     <div id="videos-container" class="videos" style="margin: 20px 0;"></div>
@@ -79,7 +79,10 @@
 
             <b-table-column field="log.timeStart" label="เวลาสิ้นสุด">
                 <template>
-                  <span :class="{'cl-red': props.row.missCall }">{{ props.row.log.timeEnd | format("HH:mm:ss") }}</span>
+                  <span :class="{'cl-red': props.row.missCall }">
+                    <span v-if="props.row.missCall">การโทรไม่สมบูรณ์</span>
+                    <span v-else>{{ props.row.log.timeEnd | format("HH:mm:ss") }}</span>
+                  </span>
                 </template>
             </b-table-column>
 
@@ -240,15 +243,20 @@ export default {
     async stop () {
       await webrtc.closeLocalVideo(this.projectId)
       const id = this.project.callLog.length - 1
-      const dataUpdate = {}
-      dataUpdate[this.user.uid] = false
-      await db.database.ref(`projects/${this.projectId}/callLog/${id}/member`).update(dataUpdate)
-      await this.checkAllOut()
+      if (this.project.callLog[id] && this.project.callLog[id].member[this.user.uid]) {
+        const dataUpdate = {}
+        dataUpdate[this.user.uid] = false
+        await db.database.ref(`projects/${this.projectId}/callLog/${id}/member`).update(dataUpdate)
+        if (this.project.callLog[id].isRoomOpen === true) {
+          console.log('update room open')
+          await this.checkAllOut()
+        }
+      }
     },
     checkAllOut () {
       const id = this.project.callLog.length - 1
       const allOut = Object.values(this.project.callLog[id].member).every(data => data === false)
-      if (allOut && this.project.callLog[id].isRoomOpen === true) {
+      if (allOut) {
         const dataUpdate = {
           isRoomOpen: false,
           timeEnd: new Date()
