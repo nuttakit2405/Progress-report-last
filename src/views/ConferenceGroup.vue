@@ -15,7 +15,7 @@
   </div>
 
   <div v-if="roomOpen && canjoin" style="display: flex; justify-content: center; margin-top:10px;">
-    <b-message title="" type="is-success">
+    <b-message type="is-success">
             มีสายโทรเข้า กลุ่ม <b>{{project.thaiProjectName}}</b>
         </b-message>
   </div>
@@ -146,7 +146,7 @@ export default {
     }),
     callLog () {
       if (this.project.callLog) {
-        return this.project.callLog.map((log, i) => {
+        return this.project.callLog.filter(log => !log.isRoomOpen).map((log, i) => {
           var missCall = false
           const members = Object.keys(log.member)
           if (members.length === 1 && members[0] === log.callBy) {
