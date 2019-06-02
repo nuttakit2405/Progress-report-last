@@ -31,20 +31,20 @@
       <i class="fas fa-phone-volume"></i>&nbsp;รับสาย
     </button>
 
-    <button class="button is-primary" v-show="roomOpen" @click="shareScreen">
-      <i class="fas fa-external-link-alt"></i> &nbsp;แชร์หน้าจอ
-    </button>
-
-    <button class="button is-danger" v-show="roomOpen" @click="stop">
+    <button class="button is-danger" v-show="roomOpen && joined" @click="stop">
       <i class="fas fa-phone-slash"></i> &nbsp;วางสาย
     </button>
 
-    <button class="button is-black" v-show="roomOpen && !mute" @click="muteToggle">
-      <i class="fas fa-microphone"></i> &nbsp;ปิดเสียง
+    <button class="button is-primary" v-show="roomOpen && joined" @click="shareScreen">
+      <i class="fas fa-external-link-alt"></i> &nbsp;แชร์หน้าจอ
     </button>
 
-    <button class="button is-black" v-show="roomOpen && mute" @click="muteToggle">
-      <i class="fas fa-microphone-slash"></i> &nbsp;เปิดเสียง
+    <button class="button is-black" v-show="roomOpen && joined && !mute" @click="muteToggle">
+      <i class="fas fa-microphone-slash"></i> &nbsp;ปิดเสียง
+    </button>
+
+    <button class="button is-black" v-show="roomOpen && joined && mute" @click="muteToggle">
+      <i class="fas fa-microphone"></i> &nbsp;เปิดเสียง
     </button>
 
     <div class="container mg-t-20px" align="left">
@@ -165,8 +165,14 @@ export default {
       }
       return this.project.callLog[this.project.callLog.length - 1].isRoomOpen
     },
+    joined () {
+      return this.project.callLog && this.project.callLog[this.project.callLog.length - 1].member[this.user.uid]
+    },
     canjoin () {
       if (!this.project.callLog) {
+        return false
+      }
+      if (this.project.callLog && this.project.callLog[this.project.callLog.length - 1].member[this.user.uid]) {
         return false
       }
       return this.project.callLog[this.project.callLog.length - 1].callBy !== this.user.uid
