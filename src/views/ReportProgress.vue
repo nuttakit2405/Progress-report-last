@@ -173,7 +173,7 @@ export default {
 
       const pdftoimg = (e) => {
         return new Promise((resolve, reject) => {
-          this.$html2canvas(e, {logging: false}).then((canvas) => {
+          this.$html2canvas(e, {scale: 2, logging: false}).then((canvas) => {
             resolve({
               image: canvas.toDataURL(),
               width: 520
@@ -214,14 +214,13 @@ export default {
       console.log(snapshot.val())
       this.project = snapshot.val()
     })
-    console.log(window.devicePixelRatio)
   }
 }
 </script>
 
 <style scoped>
 .LayoutFrame{
-  margin-top: 50px;
+  margin-top: 25px;
   width: 870px;
   display: flex;
   justify-content: center;
