@@ -21,7 +21,6 @@ Vue.directive('sortable', {
 Vue.directive('limitrow', {
   inserted: function (el, binding) {
     var textarea = el.children[0]
-    console.log(binding.value, textarea)
     textarea.onkeypress = function (event) {
       var textarea = this
       var text = textarea.value
