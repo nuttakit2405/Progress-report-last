@@ -62,14 +62,12 @@
                 <center><b class="font">{{thaiDate(week.startDate)}}</b></center>
                 <br>
 
-
                 <b class="font">1. เป้าหมายที่ตั้งไว้ในสัปดาห์นี้ (สัปดาห์ที่ {{key+1}})</b><br>
                 <div class="font" style="margin-left:20px">1.1 ความก้าวหน้า / ผลงานที่ดำเนินการมาแล้ว</div>
                 <div class="cut-text" style="margin-left:50px">
                   <b><div class="font">{{week.textProgress}}</div></b>
                 </div>
                 <br>
-
 
                 <div class="font" style="margin-left:20px">1.2 คิดเป็นร้อยละ &nbsp;<b class="font">{{week.progress?week.progress:'&nbsp;&nbsp;&nbsp;&nbsp;'}}</b> &nbsp;ของงานทั้งหมด</div>
                 <div class="font" style="margin-left:50px">จัดทำโครงงานได้
@@ -80,20 +78,17 @@
                   <!-- ตรงตามเป้าหมาย / น้อยกกว่าเป้าหมาย -->
                 <br>
 
-
                 <div class="font" style="margin-left:20px">1.3 ปัญหาที่พบ</div>
                 <div class="cut-text" style="margin-left:50px">
                   <b><div class="font">{{week.problem}}</div></b>
                 </div>
                 <br>
 
-
                 <div class="font" style="margin-left:20px">1.4 วิธีแก้ปัญหาที่พบ</div>
                 <div class="cut-text" style="margin-left:50px">
                   <b><div class="font">{{week.solution}}</div></b>
                 </div>
                 <br>
-
 
                 <div class="font" style="display: flex; justify-content: flex-end; ">
                   <b class="font">{{memberConfirm(week.membersSave)}}</b><br>
