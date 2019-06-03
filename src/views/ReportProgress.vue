@@ -230,6 +230,7 @@ export default {
   min-height: 1000px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   padding: 0px;
   min-width: 870px;
 }
