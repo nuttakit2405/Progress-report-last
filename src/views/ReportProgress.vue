@@ -7,7 +7,7 @@
     </div>
 
     <div style="display: flex; justify-content: center;">
-      <div class="box bg-cl-white pd-40px mg-t-25px">
+      <div class="box bg-cl-white pd-40px mg-bt-25px">
         <div id="frontBook" class="LayoutFrame">
 
           <div class="NameProject">ทก.02</div>
@@ -52,7 +52,7 @@
     </div>
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
     <div style="display: flex; justify-content: center;" :key="key" v-for="(week, key) in project.scoreboard">
-      <div class="box bg-cl-white pd-40px mg-t-25px">
+      <div class="box bg-cl-white pd-40px mg-bt-25px">
         <div :id="'pdf'+key" class="LayoutFrame">
           <div class="NameProject">{{projectSelected.thaiProjectName}} &nbsp;&nbsp;หน้า {{key+1}}</div>
           <!-- {{week.radio}} -->
@@ -227,10 +227,9 @@ export default {
 <style scoped>
 .LayoutFrame{
   width: 870px;
+  min-height: 1000px;
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  /* border-style: double; */
   padding: 0px;
   min-width: 870px;
 }
