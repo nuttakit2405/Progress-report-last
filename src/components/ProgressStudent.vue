@@ -1,15 +1,15 @@
 <template>
   <div v-if="profile && profile.userType == 'student'">
     <b-field label="ความก้าวหน้า / ผลงานที่ดำเนินงานมาแล้ว">
-      <b-input :disabled="weekData.sentTeacher" type="textarea" v-model="textProgress"></b-input>
+      <b-input :disabled="weekData.sentTeacher" v-limitrow="5" type="textarea" v-model="textProgress"></b-input>
     </b-field>
 
     <b-field label="ปัญหาที่พบ">
-      <b-input :disabled="weekData.sentTeacher" type="textarea" v-model="problem"></b-input>
+      <b-input :disabled="weekData.sentTeacher" v-limitrow="5" type="textarea" v-model="problem"></b-input>
     </b-field>
 
     <b-field label="วิธีแก้ปัญหาที่พบ">
-      <b-input :disabled="weekData.sentTeacher" type="textarea" v-model="solution"></b-input>
+      <b-input :disabled="weekData.sentTeacher" v-limitrow="5" type="textarea" v-model="solution"></b-input>
     </b-field>
 
     <!-- upload section -->

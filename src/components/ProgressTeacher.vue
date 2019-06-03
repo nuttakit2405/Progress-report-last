@@ -2,7 +2,7 @@
   <div>
     <div v-if="profile && profile.userType === 'teacher' && viewMode === 'subject'">
       <b-field label="ความเห็นอาจารย์ประจำวิชา">
-        <b-input type="textarea" :disabled="weekData.subjectConfirm" v-model="subjectComment"></b-input>
+        <b-input v-limitrow="5" rows="5" type="textarea" :disabled="weekData.subjectConfirm" v-model="subjectComment"></b-input>
       </b-field>
       <b-taglist>
         <b-tag >All Files:</b-tag>

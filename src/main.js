@@ -18,6 +18,23 @@ Vue.directive('sortable', {
   }
 })
 
+Vue.directive('limitrow', {
+  inserted: function (el, binding) {
+    var textarea = el.children[0]
+    console.log(binding.value, textarea)
+    textarea.onkeypress = function (event) {
+      var textarea = this
+      var text = textarea.value
+      var numberOfLines = (text.match(/\n/g) || []).length + 1
+      var maxRows = parseInt(binding.value)
+
+      if (event.which === 13 && numberOfLines === maxRows) {
+        return false
+      }
+    }
+  }
+})
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
