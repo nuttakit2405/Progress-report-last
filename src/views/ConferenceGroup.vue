@@ -14,10 +14,12 @@
           <br> -->
   </div>
 
-  <div v-if="roomOpen && canjoin" style="display: flex; justify-content: center; margin-top:10px;">
-    <b-message type="is-success">
-            มีสายโทรเข้า กลุ่ม <b>{{project.thaiProjectName}}</b>
-        </b-message>
+  <div v-if="roomOpen && canjoin" style="display: flex; justify-content: center;">
+    <p class="bell"><b>มีสายเรียกเข้าจากกลุ่มนี้</b></p>
+  </div>
+
+  <div v-if="roomOpen && canjoin" style="display: flex; justify-content: center;">
+    <img src="/static/img/animat-bell-color.gif" alt="" style="width:25%; height:25%;">
   </div>
 
   <div v-if="user" style="width: 100%; padding-top: 20px;" align="center">
@@ -366,5 +368,8 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 2;
+}
+.bell {
+  font-size: 30pt;
 }
 </style>
