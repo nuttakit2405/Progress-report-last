@@ -1,10 +1,21 @@
 <template>
   <div>
     <div class="column"></div>
+
+    <center>
+        <p style="color: #FF0000; font-size: 20pt;"> <b>**หมายเหตุ**  </b></p>
+        <p>1. เพื่อประสิทธิภาพในการใช้งาน ระบบนี้รองรับไฟล์ Excel นามสกุล .xlsx, .xls และ .csv เท่านั้น</p>
+        <p>2. เพื่อประสิทธิภาพในการใช้งาน การเพิ่มไฟล์ข้อมูลนักศึกษา ควรใช้ไฟล์ต้นแบบของระบบนี้เท่านั้น</p><br>
+
+        <I><U> <a href="/static/file_import/ตัวอย่างไฟล์เพิ่มข้อมูลนักศึกษา.xlsx" target="_blank">ดาวน์โหลดไฟล์ต้นแบบได้ที่นี่</a></U></I>
+    </center><br>
+
     <div class="columns column is-centered">
       <b-field class="file">
         <b-upload v-model="file" :accept="fileAccept.join(',')" @input="parse(file)">
+
           <a class="button is-primary">
+
             <b-icon icon="upload"></b-icon>
             <span>เลือกไฟล์</span>
           </a>
@@ -14,35 +25,45 @@
         </span>
       </b-field>
     </div>
+
     <!-- <button class="button" @click="parse(file)">view data</button> -->
     <!-- <b-table v-if="student" :data="student" :columns="columns"></b-table> -->
+
+    <center>
     <table class="table" style="overflow: scroll" v-if="student">
+      <div style="color: #FF3333;">**เลือกรายชื่อที่ต้องการ</div><br>
       <tr>
         <td>
           <div>
             <b-checkbox @input="selectAll(checkAll)" v-model="checkAll">เลือกทั้งหมด</b-checkbox>
           </div>
         </td>
+
         <td :key="ic" v-for="(column, ic) in maxColumn">
           <b-field>
-            <b-select v-model="columnSelected[ic]" @input="selectedField($event, ic)" placeholder="Select a field">
+            {{columnName[columnSelected[ic]]}}
+            <!-- <b-select v-model="columnSelected[ic]" @input="selectedField($event, ic)" placeholder="Select a field">
               <option
                   v-for="(option, key) in selectOptions"
                   :value="option.value"
                   :key="key"
-                  :disabled="option.seletcted && option.seletcted !== ic"
+                  :disabled="option.seletcted !== null && option.seletcted !== ic"
                   :class="{'is-disabled': option.seletcted && option.seletcted !== ic}">
                   {{ option.title }}
               </option>
-            </b-select>
+            </b-select> -->
           </b-field>
+
         </td>
+
       </tr>
       <tr :key="ir" v-for="(row, ir) in student">
         <td class="has-text-centered"><b-checkbox :native-value="ir" v-model="rowSelected"></b-checkbox></td>
         <td :key="ic" v-for="(column, ic) in row">{{column}}</td>
       </tr>
     </table>
+    </center><br>
+
     <div v-if="student" class="columns column is-centered">
       <button class="button" @click="saveToDB">บันทึกข้อมูล</button>
     </div>
@@ -65,15 +86,21 @@ export default {
       student: null,
       columns: null,
       maxColumn: 0,
-      selectOptions: [
-        {title: '(ยังไม่ได้เลือก)', value: 'disabled', seletcted: null},
-        {title: 'รหัสนักศึกษา', value: 'id', seletcted: null},
-        {title: 'ชื่อ', value: 'name', seletcted: null},
-        {title: 'นามสกุล', value: 'lastname', seletcted: null},
-        {title: 'สาขา', value: 'branch', seletcted: null}
-      ],
+      // selectOptions: [
+      //   {title: '(ยังไม่ได้เลือก)', value: 'disabled', seletcted: null},
+      //   {title: 'รหัสนักศึกษา', value: 'id', seletcted: 0},
+      //   {title: 'ชื่อ', value: 'name', seletcted: 1},
+      //   {title: 'นามสกุล', value: 'lastname', seletcted: 2},
+      //   {title: 'สาขา', value: 'branch', seletcted: 3}
+      // ],
       rowSelected: [],
-      columnSelected: [],
+      columnName: {
+        id: 'รหัสนักศึกษา',
+        name: 'ชื่อ',
+        lastname: 'นามสกุล',
+        branch: 'สาขา'
+      },
+      columnSelected: ['id', 'name', 'lastname', 'branch'],
       checkAll: false
     }
   },
@@ -120,7 +147,7 @@ export default {
         }, {})
         return inner
       })
-      this.columnSelected = new Array(max).fill(0).map((v) => 'disabled')
+      // this.columnSelected = new Array(max).fill(0).map((v) => 'disabled')
     },
     loadBinaryFile (file) {
       return new Promise(function (resolve, reject) {
@@ -147,8 +174,18 @@ export default {
         prev[curr.id] = curr
         return prev
       }, {})
-      const res = await db.database.ref('students').update(data)
-      console.log(res)
+      await db.database.ref('students').update(data)
+      await this.$swal({type: 'success', text: 'เพิ่มข้อมูลเสร็จสิ้น'}).then(() => {
+        this.resetData()
+      })
+    },
+    resetData () {
+      this.file = null
+      this.student = null
+      this.columns = null
+      this.maxColumn = 0
+      this.rowSelected = []
+      this.checkAll = false
     }
   }
 }
