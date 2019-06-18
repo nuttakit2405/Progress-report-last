@@ -1,6 +1,15 @@
 <template>
   <div>
     <div class="column"></div>
+
+     <center>
+        <p style="color: #FF0000; font-size: 20pt;"> <b>**หมายเหตุ**  </b></p>
+        <p>1. เพื่อประสิทธิภาพในการใช้งาน ระบบนี้รองรับไฟล์ Excel นามสกุล .xlsx, .xls และ .csv เท่านั้น</p>
+        <p>2. เพื่อประสิทธิภาพในการใช้งาน การเพิ่มไฟล์ข้อมูลอาจารย์ ควรใช้ไฟล์ต้นแบบของระบบนี้เท่านั้น</p><br>
+
+        <I><U> <a href="/static/file_import/ตัวอย่างไฟล์เพิ่มข้อมูลอาจารย์.xlsx" target="_blank">ดาวน์โหลดไฟล์ต้นแบบได้ที่นี่</a></U></I>
+    </center><br>
+
     <div class="columns column is-centered">
       <b-field class="file">
         <b-upload v-model="file" :accept="fileAccept.join(',')" @input="parse(file)">
@@ -16,6 +25,7 @@
     </div>
     <!-- <button class="button" @click="parse(file)">view data</button> -->
     <!-- <b-table v-if="student" :data="student" :columns="columns"></b-table> -->
+    <center>
     <table class="table" v-if="teacher">
       <tr>
         <td>
@@ -25,7 +35,8 @@
         </td>
         <td :key="ic" v-for="(column, ic) in maxColumn">
           <b-field>
-            <b-select v-model="columnSelected[ic]" @input="selectedField($event, ic)" placeholder="Select a field">
+            {{columnName[columnSelected[ic]]}}
+            <!-- <b-select v-model="columnSelected[ic]" @input="selectedField($event, ic)" placeholder="Select a field">
               <option
                   v-for="(option, key) in selectOptions"
                   :value="option.value"
@@ -34,7 +45,7 @@
                   :class="{'is-disabled': option.seletcted && option.seletcted !== ic}">
                   {{ option.title }}
               </option>
-            </b-select>
+            </b-select> -->
           </b-field>
         </td>
       </tr>
@@ -43,6 +54,8 @@
         <td :key="ic" v-for="(column, ic) in row">{{column}}</td>
       </tr>
     </table>
+    </center><br>
+
     <div v-if="teacher" class="columns column is-centered">
       <button class="button" @click="saveToDB">บันทึกข้อมูล</button>
     </div>
@@ -74,7 +87,14 @@ export default {
         {title: 'ชื่อย่อ', value: 'initials', seletcted: null}
       ],
       rowSelected: [],
-      columnSelected: [],
+      columnName: {
+        name: 'ชื่อ',
+        lastname: 'นามสกุล',
+        position: 'ตำแหน่ง',
+        email: 'อีเมล',
+        initials: 'ชื่อย่อ'
+      },
+      columnSelected: ['name', 'lastname', 'position', 'email', 'initials'],
       checkAll: false
     }
   },
@@ -121,7 +141,7 @@ export default {
         }, {})
         return inner
       })
-      this.columnSelected = new Array(max).fill(0).map((v) => 'disabled')
+      // this.columnSelected = new Array(max).fill(0).map((v) => 'disabled')
     },
     loadBinaryFile (file) {
       return new Promise(function (resolve, reject) {
@@ -151,8 +171,18 @@ export default {
         prev[curr.initials] = curr
         return prev
       }, {})
-      const res = await db.database.ref('teachers').update(data)
-      console.log(res)
+      await db.database.ref('teachers').update(data)
+      await this.$swal({type: 'success', text: 'เพิ่มข้อมูลเสร็จสิ้น'}).then(() => {
+        this.resetData()
+      })
+    },
+    resetData () {
+      this.file = null
+      this.teacher = null
+      this.columns = null
+      this.maxColumn = 0
+      this.rowSelected = []
+      this.checkAll = false
     }
   }
 }
